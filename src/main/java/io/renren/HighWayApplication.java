@@ -11,14 +11,14 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @Import({DynamicDataSourceConfig.class})
-public class RenrenApplication extends SpringBootServletInitializer {
+public class HighWayApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RenrenApplication.class, args);
+		SpringApplication.run(HighWayApplication.class, args);
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(RenrenApplication.class);
+		return application.sources(HighWayApplication.class);
 	}
 }
