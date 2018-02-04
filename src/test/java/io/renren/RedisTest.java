@@ -1,7 +1,7 @@
-package io.renren;
+package com.chris;
 
-import io.renren.common.utils.RedisUtils;
-import io.renren.modules.sys.entity.SysUserEntity;
+import com.chris.common.utils.RedisUtils;
+import com.chris.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;

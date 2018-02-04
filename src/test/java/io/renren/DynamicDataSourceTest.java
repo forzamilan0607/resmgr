@@ -1,8 +1,8 @@
-package io.renren;
+package com.chris;
 
 
-import io.renren.datasources.DataSourceTestService;
-import io.renren.modules.app.entity.UserEntity;
+import com.chris.datasources.DataSourceTestService;
+import com.chris.modules.app.entity.UserEntity;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
