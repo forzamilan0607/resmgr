@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -148,14 +149,57 @@ public class CodeGenerator {
         System.out.println(beanName + ".java 生成成功");
         System.out.println(beanName + "Mapper.java 生成成功");
         System.out.println(beanName + "Mapper.xml 生成成功");
+        changeDir(PROJECT_PATH + RESOURCES_PATH + "/mapper", beanName);
+        modifyFileContent(PROJECT_PATH + JAVA_PATH + "/com/chris/modules/" + MODULE_NAME + "/dao/" + beanName + "Mapper.java");
     }
 
-    private static String getMapperPackage() {
-        return MAPPER_PACKAGE.replace("{module}", MODULE_NAME);
+    private static void changeDir(String dir, String beanName) {
+        String mapperFileName = dir + "/" + beanName + "Mapper.xml";
+        File mapperFile = new File(mapperFileName);
+        File tempDir = new File(dir);
+        String tgtDir = dir + "/" + MODULE_NAME;
+        File tgtFile = new File(tgtDir);
+        if (!tgtFile.exists()) {
+            tgtFile.mkdir();
+        }
+        if (mapperFile.renameTo(new File(tgtDir + "/" + mapperFile.getName()))) {
+            System.out.println("重命名文件成功！");
+            mapperFile.delete();
+        } else {
+            System.out.println("重命名文件失败！");
+        }
     }
 
-    private static String getModelPackage() {
-        return MODEL_PACKAGE.replace("{module}", MODULE_NAME);
+    private static void modifyFileContent(String fileName) {
+        modifyFileContent(fileName, "import com.chris.common.core.Mapper", "import com.chris.modules.sys.dao.BaseDao");
+        modifyFileContent(fileName, "extends Mapper", "extends BaseDao");
+    }
+
+    private static boolean modifyFileContent(String fileName, String oldStr, String newStr) {
+        RandomAccessFile raf = null;
+        try {
+            raf = new RandomAccessFile(fileName, "rw");
+            String line = null;
+            long lastPoint = 0; //记住上一次的偏移量
+            while ((line = raf.readLine()) != null) {
+                final long ponit = raf.getFilePointer();
+                if(line.contains(oldStr)){
+                    String str=line.replace(oldStr, newStr);
+                    raf.seek(lastPoint);
+                    raf.writeBytes(str);
+                }
+                lastPoint = ponit;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                raf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
     }
 
     public static void genService(String tableName, String beanName) {
@@ -188,10 +232,6 @@ public class CodeGenerator {
         } catch (Exception e) {
             throw new RuntimeException("生成Service失败", e);
         }
-    }
-
-    private static String getBasePackage() {
-        return BASE_PACKAGE.replace("{module}", MODULE_NAME);
     }
 
     public static void genController(String tableName, String beanName) {
@@ -260,5 +300,17 @@ public class CodeGenerator {
 
     private static String getServicePackage() {
         return SERVICE_PACKAGE.replace("{module}", MODULE_NAME);
+    }
+
+    private static String getMapperPackage() {
+        return MAPPER_PACKAGE.replace("{module}", MODULE_NAME);
+    }
+
+    private static String getModelPackage() {
+        return MODEL_PACKAGE.replace("{module}", MODULE_NAME);
+    }
+
+    private static String getBasePackage() {
+        return BASE_PACKAGE.replace("{module}", MODULE_NAME);
     }
 }

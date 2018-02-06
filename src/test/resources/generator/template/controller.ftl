@@ -29,13 +29,13 @@ public class ${modelNameUpperCamel}Controller {
     public R list(@RequestParam Map<String, Object> param){
         Query query = new Query(param);
         List<${modelNameUpperCamel}> jobList = ${modelNameLowerCamel}Service.queryList(query);
-        int total = scheduleJobService.queryTotal(query);
+        int total = ${modelNameLowerCamel}Service.queryTotal(query);
         PageUtils pageUtil = new PageUtils(jobList, total, query.getLimit(), query.getPage());
         return R.ok().put("page", pageUtil);
     }
 
     @PostMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
+    public R info(@PathVariable("id") Integer id){
         ${modelNameUpperCamel} obj = ${modelNameLowerCamel}Service.queryObjectById(id);
 
         return R.ok().put("obj", obj);

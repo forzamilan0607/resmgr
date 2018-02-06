@@ -3,8 +3,6 @@ package ${basePackage}.service.impl;
 import ${basePackage}.dao.${modelNameUpperCamel}Mapper;
 import ${basePackage}.entity.${modelNameUpperCamel};
 import ${basePackage}.service.${modelNameUpperCamel}Service;
-import ${basePackage}.core.AbstractService;
-import ${basePackage}.entity.${modelNameUpperCamel};
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
