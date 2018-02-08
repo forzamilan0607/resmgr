@@ -7,10 +7,7 @@ import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -47,7 +44,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         //输入表名和bean名称
-        genCode(new String[]{"test"}, new String[]{"Test"});
+        genCode(new String[]{"t_player"}, new String[]{"Player"});
     }
 
     private static String convertDate() {
@@ -171,11 +168,41 @@ public class CodeGenerator {
     }
 
     private static void modifyFileContent(String fileName) {
-        modifyFileContent(fileName, "import com.chris.common.core.Mapper", "import com.chris.modules.sys.dao.BaseDao");
-        modifyFileContent(fileName, "extends Mapper", "extends BaseDao");
+//        modifyFileContent(fileName, "com.chris.common.core.Mapper", "com.chris.modules.sys.dao.BaseDao");
+//        modifyFileContent(fileName, "extends Mapper", "extends BaseDao");
+        modifyFileContent(fileName, new String[]{"com.chris.common.core.Mapper", "extends Mapper"}, new String[]{"com.chris.modules.sys.dao.BaseDao", "extends BaseDao"});
     }
 
-    private static boolean modifyFileContent(String fileName, String oldStr, String newStr) {
+    private static void modifyFileContent(String filePath, String [] oldStrs, String [] newStrs) {
+        File file = new File(filePath);
+        Long fileLength = file.length();
+        byte[] fileContext = new byte[fileLength.intValue()];
+        try {
+            FileInputStream in = new FileInputStream(filePath);
+            in.read(fileContext);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String str = new String(fileContext);
+        for (int i = 0; i < oldStrs.length; i++) {
+            if (str.indexOf(oldStrs[i]) >= 0) {
+                str = str.replace(oldStrs[i], newStrs[i]);
+            }
+        }
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(file);
+            out.write(str.toCharArray());
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Deprecated
+    private static boolean modifyFileContent2(String fileName, String oldStr, String newStr) {
         RandomAccessFile raf = null;
         try {
             raf = new RandomAccessFile(fileName, "rw");
@@ -184,7 +211,7 @@ public class CodeGenerator {
             while ((line = raf.readLine()) != null) {
                 final long ponit = raf.getFilePointer();
                 if(line.contains(oldStr)){
-                    String str=line.replace(oldStr, newStr);
+                    String str = line.replace(oldStr, newStr);
                     raf.seek(lastPoint);
                     raf.writeBytes(str);
                 }
