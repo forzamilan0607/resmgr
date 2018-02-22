@@ -15,9 +15,14 @@
             padding: 0px;
         }
         .my-link {
+            clear: both;
             margin-right: 0.75rem;
             text-decoration: underline;
             font-size: 13px;
+        }
+        .weui-agree {
+            display: inline;
+            padding-right: 0px;
         }
     </style>
 </head>
@@ -115,27 +120,30 @@
         </div>
     </div>
 </div>
-<label for="weuiAgree" class="weui-agree">
-    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
-    <span class="weui-agree__text">
-            阅读并同意<a href="javascript:;" class="my-link" data-target="#terms">《相关条款》</a>
-          </span>
-</label>
+<div>
+    <label for="weuiAgree" class="weui-agree">
+        <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+        <span class="weui-agree__text">
+            阅读并同意
+        </span>
+    </label>
+    <a href="javascript:;" id="terms" class="my-link open-popup" data-target="#div_terms">《相关条款》</a>
+</div>
 
 <div class="weui-btn-area">
     <a class="weui-btn weui-btn_primary" href="javascript:" id="btn_submit">确定</a>
 </div>
 
 <!-- terms -->
-<div id="terms" class='weui-popup__container'>
+<div id="div_terms" class='weui-popup__container'>
     <div class="weui-popup__overlay"></div>
     <div class="weui-popup__modal">
         <header class='demos-header'>
-            <h2 class="demos-second-title">关于 jQuery WeUI</h2>
-            <p class="demos-sub-title">By 言川 @2016/03/30</p>
+            <h2 class="demos-second-title">注册协议</h2>
+            <p class="demos-sub-title">请您仔细阅读</p>
         </header>
         <article class="weui-article">
-            <h1>大标题</h1>
+            <h1>用户须知</h1>
             <section>
                 <h2 class="title">一、【目的意义】</h2>
                 <section>
@@ -156,6 +164,47 @@
                     </p>
                 </section>
             </section>
+            <section>
+                <h2 class="title">三、【服务内容】</h2>
+                <section>
+                    <p>
+                        注册用户能够访问互联网政务服务门户网站、检索静态信息、进行在线咨询、申办政务服务事项，可在专属用户空间查询所办事项的过程信息和历史信息，储存信息资料，并自行维护用户空间信息。
+                    </p>
+                </section>
+            </section>
+            <section>
+                <h2 class="title">四、【用户承诺与授权】</h2>
+                <section>
+                    <p>
+<pre>
+用户在政务服务门户进行注册和使用本政务服务平台时承诺和确认：
+（1）提供及时、详尽及准确的个人资料；
+（2）运用本人手机号码、社保帐号、银行卡帐号、公积金帐号、驾照号码等个人信息进行实名验证；
+（3）及时更新注册资料；
+（4）同意接收来自政务服务机构推送的信息；
+（5）在提请政务服务事项办理过程中，按服务内容要求提供真实、准确的要件材料，并及时对上传本平台的要件材料做好更新维护；
+（6）自愿选择物流快递、网上支付等第三方服务时，及时提供真实姓名、联系地址、联系方式、账户等相关个人信息；
+（7）不存放与政务服务申办无关的信息内容。
+</pre>
+                    </p>
+                </section>
+            </section>
+            <section>
+                <h2 class="title">五、【用户信息保障】</h2>
+                <section>
+                    <p>
+                        政务服务机构依法保护个人隐私，不违法违规向与政务服务无关的第三方提供用户注册资料。
+                    </p>
+                </section>
+            </section>
+            <section>
+                <h2 class="title">六、【用户的密码和安全性】</h2>
+                <section>
+                    <p>
+                        考虑到注册用户是特定的行政相对人，以其帐号操作的行为由注册用户承担相应法律责任。因此，注册用户应妥善保管密码，不得将帐号、密码提供给他人使用。建议定期修改密码，以确保帐号安全。
+                    </p>
+                </section>
+            </section>
         </article>
         <a href="javascript:;" class="weui-btn weui-btn_primary close-popup">关闭</a>
     </div>
@@ -173,13 +222,12 @@
 
 
 <script>
-    $(document).on("open", ".my-link", function() {
-        console.log("open popup");
-    }).on("close", ".my-link", function() {
-        console.log("close popup");
-    });
     $(function () {
-
+        $(document).on("open", "#terms", function() {
+            console.log("open popup");
+        }).on("close", "#terms", function() {
+            console.log("close popup");
+        });
         $("#txt_address").cityPicker({
             title: "请选择联系地址",
             onChange: function (picker, values, displayValues) {
