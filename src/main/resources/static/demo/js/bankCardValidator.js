@@ -1,5 +1,6 @@
 //test url : https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?cardNo=6222005865412565805&cardBinCheck=true
 //cardType:DC->储蓄卡,CC->信用卡
+//usage: $bankCardValidator.validateCardNo("6223687310850653807");
 var $bankCardValidator = function(){
     return {
         bankList : [{
