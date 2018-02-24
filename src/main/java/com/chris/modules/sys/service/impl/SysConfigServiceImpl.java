@@ -1,7 +1,7 @@
 package com.chris.modules.sys.service.impl;
 
 import com.google.gson.Gson;
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import com.chris.modules.sys.dao.SysConfigDao;
 import com.chris.modules.sys.entity.SysConfigEntity;
 import com.chris.modules.sys.redis.SysConfigRedis;
@@ -89,7 +89,7 @@ public class SysConfigServiceImpl implements SysConfigService {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			throw new RRException("获取参数失败");
+			throw new CommonException("获取参数失败");
 		}
 	}
 }

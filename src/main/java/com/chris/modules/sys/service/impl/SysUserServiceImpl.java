@@ -1,6 +1,6 @@
 package com.chris.modules.sys.service.impl;
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import com.chris.common.utils.Constant;
 import com.chris.modules.sys.dao.SysUserDao;
 import com.chris.modules.sys.entity.SysUserEntity;
@@ -134,7 +134,7 @@ public class SysUserServiceImpl implements SysUserService {
 
 		//判断是否越权
 		if(!roleIdList.containsAll(user.getRoleIdList())){
-			throw new RRException("新增用户所选角色，不是本人创建");
+			throw new CommonException("新增用户所选角色，不是本人创建");
 		}
 	}
 }

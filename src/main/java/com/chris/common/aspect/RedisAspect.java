@@ -1,6 +1,6 @@
 package com.chris.common.aspect;
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -32,7 +32,7 @@ public class RedisAspect {
                 result = point.proceed();
             }catch (Exception e){
                 logger.error("redis error", e);
-                throw new RRException("Redis服务异常");
+                throw new CommonException("Redis服务异常");
             }
         }
         return result;

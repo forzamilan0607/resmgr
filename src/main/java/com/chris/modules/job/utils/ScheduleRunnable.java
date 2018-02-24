@@ -1,6 +1,6 @@
 package com.chris.modules.job.utils;
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import com.chris.common.utils.SpringContextUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ReflectionUtils;
@@ -40,7 +40,7 @@ public class ScheduleRunnable implements Runnable {
 				method.invoke(target);
 			}
 		}catch (Exception e) {
-			throw new RRException("执行定时任务失败", e);
+			throw new CommonException("执行定时任务失败", e);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.chris.modules.sys.oauth2;
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 
 import java.security.MessageDigest;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class TokenGenerator {
             byte[] messageDigest = algorithm.digest();
             return toHexString(messageDigest);
         } catch (Exception e) {
-            throw new RRException("生成Token失败", e);
+            throw new CommonException("生成Token失败", e);
         }
     }
 }

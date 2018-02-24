@@ -1,6 +1,6 @@
 package com.chris.common.validator;
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -13,13 +13,13 @@ public abstract class Assert {
 
     public static void isBlank(String str, String message) {
         if (StringUtils.isBlank(str)) {
-            throw new RRException(message);
+            throw new CommonException(message);
         }
     }
 
     public static void isNull(Object object, String message) {
         if (object == null) {
-            throw new RRException(message);
+            throw new CommonException(message);
         }
     }
 }

@@ -237,10 +237,8 @@ public class IdCardValidator extends StringUtils {
                     int iSum17 = getPowerSum(iCard);
                     // 获取校验位
                     String val = getCheckCode18(iSum17);
-                    if (val.length() > 0) {
-                        if (val.equalsIgnoreCase(code18)) {
-                            bTrue = true;
-                        }
+                    if (val.length() > 0 && val.equalsIgnoreCase(code18)) {
+                        bTrue = true;
                     }
                 }
             }

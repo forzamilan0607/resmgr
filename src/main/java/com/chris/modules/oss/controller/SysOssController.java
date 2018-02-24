@@ -1,7 +1,7 @@
 package com.chris.modules.oss.controller;
 
 import com.google.gson.Gson;
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import com.chris.common.utils.*;
 import com.chris.common.validator.ValidatorUtils;
 import com.chris.common.validator.group.AliyunGroup;
@@ -105,7 +105,7 @@ public class SysOssController {
 	@RequiresPermissions("sys:oss:all")
 	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
-			throw new RRException("上传文件不能为空");
+			throw new CommonException("上传文件不能为空");
 		}
 
 		//上传文件

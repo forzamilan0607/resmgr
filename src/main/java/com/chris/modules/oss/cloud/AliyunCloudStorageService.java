@@ -1,7 +1,7 @@
 package com.chris.modules.oss.cloud;
 
 import com.aliyun.oss.OSSClient;
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ public class AliyunCloudStorageService extends CloudStorageService {
         try {
             client.putObject(config.getAliyunBucketName(), path, inputStream);
         } catch (Exception e){
-            throw new RRException("上传文件失败，请检查配置信息", e);
+            throw new CommonException("上传文件失败，请检查配置信息", e);
         }
 
         return config.getAliyunDomain() + "/" + path;

@@ -7,29 +7,29 @@ package com.chris.common.exception;
  * @email 258321511@qq.com
  * @date 2016年10月27日 下午10:11:27
  */
-public class RRException extends RuntimeException {
+public class CommonException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
     private String msg;
     private int code = 500;
     
-    public RRException(String msg) {
+    public CommonException(String msg) {
 		super(msg);
 		this.msg = msg;
 	}
 	
-	public RRException(String msg, Throwable e) {
+	public CommonException(String msg, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
 	}
 	
-	public RRException(String msg, int code) {
+	public CommonException(String msg, int code) {
 		super(msg);
 		this.msg = msg;
 		this.code = code;
 	}
 	
-	public RRException(String msg, int code, Throwable e) {
+	public CommonException(String msg, int code, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
 		this.code = code;

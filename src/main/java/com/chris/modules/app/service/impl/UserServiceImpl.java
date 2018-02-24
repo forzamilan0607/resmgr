@@ -1,7 +1,7 @@
 package com.chris.modules.app.service.impl;
 
 
-import com.chris.common.exception.RRException;
+import com.chris.common.exception.CommonException;
 import com.chris.common.validator.Assert;
 import com.chris.modules.app.dao.UserDao;
 import com.chris.modules.app.entity.UserEntity;
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
 		//密码错误
 		if(!user.getPassword().equals(DigestUtils.sha256Hex(password))){
-			throw new RRException("手机号或密码错误");
+			throw new CommonException("手机号或密码错误");
 		}
 
 		return user.getUserId();
