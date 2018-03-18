@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户登录</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="just do it">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../lib/weui.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="css/demos.css">
+    <style>
+        .my-link {
+            margin-right: 0.75rem;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">用 户 登 录</h1>
+</header>
+<!--<div class="weui-cells__title">表单</div>-->
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">用户名</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input id="txt_userName" class="weui-input" type="text" placeholder="请输入用户名/手机号">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">密&nbsp;&nbsp;&nbsp;码</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input id="txt_pwd" class="weui-input" type="password" placeholder="请输入密码">
+        </div>
+    </div>
+</div>
+<div class="weui-row">
+    <div class="weui-col-50">
+        <label for="weuiAgree" class="weui-agree">
+            <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+            <span class="weui-agree__text">
+                记住我
+            </span>
+        </label>
+    </div>
+    <div class="weui-col-50" style="text-align: right">
+        <a href="#" class="my-link">忘记密码</a>
+    </div>
+
+</div>
+
+<!--<div class="weui-cells__title">表单报错</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_warn">
+        <div class="weui-cell__hd"><label for="" class="weui-label">卡号</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error" placeholder="请输入卡号">
+        </div>
+        <div class="weui-cell__ft">
+            <i class="weui-icon-warn"></i>
+        </div>
+    </div>
+</div>-->
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>
+
+<script src="../lib/jquery-2.1.4.js"></script>
+<script src="../lib/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="../js/jquery-weui.js"></script>
+
+
+<script>
+    $("#showTooltips").click(function() {
+        var userName = $('#txt_userName').val();
+        var pwd = $('#txt_pwd').val();
+        if (!userName) {
+            $.toptip('请输入用户名或手机号码');
+        } else if (!pwd) {
+            $.toptip('请输入密码');
+        } else {
+            $.toptip('提交成功', 'success');
+        }
+    });
+</script>
+</body>
+</html>

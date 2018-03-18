@@ -4,11 +4,11 @@ spring:
         driverClassName: com.mysql.jdbc.Driver
         druid:
             first:
-                url: jdbc:mysql://localhost:3306/highway-db?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                url: jdbc:mysql://localhost:3306/resmgr?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: admin
                 password: 123456
             second:
-                url: jdbc:mysql://localhost:3306/highway-db?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                url: jdbc:mysql://localhost:3306/resmgr?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: admin
                 password: 123456
             initial-size: 10

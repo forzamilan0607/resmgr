@@ -1,7 +1,5 @@
 package com.chris.common.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,7 +21,7 @@ import java.util.Map;
  * @author chen.jh
  * @version 1.0, 2018-01-04
  */
-public class IdCardValidator extends StringUtils {
+public class IdCardValidator {
 
     /** 中国公民身份证号码最小长度。 */
     public static final int CHINA_ID_MIN_LENGTH = 15;

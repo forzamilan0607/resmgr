@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>个人中心</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="just do it">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../lib/weui.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="css/demos.css">
+    <style>
+        .my-link {
+            margin-right: 0.75rem;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+        .weui-row h4 {
+            font-family: "微软雅黑", Arial;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <div class="weui-row">
+        <div class="weui-col-20"></div>
+        <div class="weui-col-60 pull-center" >
+            <img src="images/easyicon/501958.png" />
+        </div>
+        <div class="weui-col-20"></div>
+    </div>
+</header>
+<!--<div class="weui-cells__title">表单</div>-->
+    <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><img src="images/easyicon/payment2.png"></div>
+            <div class="weui-cell__bd">
+                <p>账户信息</p>
+            </div>
+            <div class="weui-cell__ft"></div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><img src="images/easyicon/profiles2.png"></div>
+            <div class="weui-cell__bd">
+                <p>资料修改</p>
+            </div>
+            <div class="weui-cell__ft"></div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><img src="images/easyicon/password.png"></div>
+            <div class="weui-cell__bd">
+                <p>密码修改</p>
+            </div>
+            <div class="weui-cell__ft"></div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__hd"><img src="images/easyicon/mobile.png"></div>
+            <div class="weui-cell__bd">
+                <p>手机号更换</p>
+            </div>
+            <div class="weui-cell__ft"></div>
+        </a>
+    </div>
+
+    <div class="weui-footer">
+        <p class="weui-footer__text" style="padding-top: .5rem;">Copyright © 2018-2022 chris.zone</p>
+    </div>
+
+<script src="../lib/jquery-2.1.4.js"></script>
+<script src="../lib/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="../js/jquery-weui.js"></script>
+
+
+<script>
+    $("#showTooltips").click(function() {
+        var userName = $('#txt_userName').val();
+        var pwd = $('#txt_pwd').val();
+        if (!userName) {
+            $.toptip('请输入用户名或手机号码');
+        } else if (!pwd) {
+            $.toptip('请输入密码');
+        } else {
+            $.toptip('提交成功', 'success');
+        }
+    });
+</script>
+</body>
+</html>
