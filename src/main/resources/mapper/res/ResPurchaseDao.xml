@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.ResPurchaseDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.ResPurchaseEntity" id="resPurchaseMap">
+        <result property="purchaseId" column="purchase_id"/>
+        <result property="resId" column="res_id"/>
+        <result property="contractCompany" column="contract_company"/>
+        <result property="contractNo" column="contract_no"/>
+        <result property="contractAttach" column="contract_attach"/>
+        <result property="contractDesc" column="contract_desc"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="isSync" column="is_sync"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResPurchaseEntity">
+		select * from t_res_purchase where purchase_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResPurchaseEntity">
+		select * from t_res_purchase
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by purchase_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_res_purchase 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResPurchaseEntity" useGeneratedKeys="true" keyProperty="purchaseId">
+		insert into t_res_purchase
+		(
+			`res_id`, 
+			`contract_company`, 
+			`contract_no`, 
+			`contract_attach`, 
+			`contract_desc`, 
+			`purchase_price`, 
+			`purchase_date`, 
+			`is_sync`
+		)
+		values
+		(
+			#{resId}, 
+			#{contractCompany}, 
+			#{contractNo}, 
+			#{contractAttach}, 
+			#{contractDesc}, 
+			#{purchasePrice}, 
+			#{purchaseDate}, 
+			#{isSync}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.res.entity.ResPurchaseEntity">
+		update t_res_purchase 
+		<set>
+			<if test="resId != null">`res_id` = #{resId}, </if>
+			<if test="contractCompany != null">`contract_company` = #{contractCompany}, </if>
+			<if test="contractNo != null">`contract_no` = #{contractNo}, </if>
+			<if test="contractAttach != null">`contract_attach` = #{contractAttach}, </if>
+			<if test="contractDesc != null">`contract_desc` = #{contractDesc}, </if>
+			<if test="purchasePrice != null">`purchase_price` = #{purchasePrice}, </if>
+			<if test="purchaseDate != null">`purchase_date` = #{purchaseDate}, </if>
+			<if test="isSync != null">`is_sync` = #{isSync}</if>
+		</set>
+		where purchase_id = #{purchaseId}
+	</update>
+	
+	<delete id="delete">
+		delete from t_res_purchase where purchase_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_res_purchase where purchase_id in 
+		<foreach item="purchaseId" collection="array" open="(" separator="," close=")">
+			#{purchaseId}
+		</foreach>
+	</delete>
+
+</mapper>

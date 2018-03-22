@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.ResBaseInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.ResBaseInfoEntity" id="resBaseInfoMap">
+        <result property="resId" column="res_id"/>
+        <result property="resType" column="res_type"/>
+        <result property="brand" column="brand"/>
+        <result property="series" column="series"/>
+        <result property="model" column="model"/>
+        <result property="factoryTime" column="factory_time"/>
+        <result property="serialNo" column="serial_no"/>
+        <result property="componentInfo" column="component_info"/>
+        <result property="resNameplate" column="res_nameplate"/>
+        <result property="positionDesc" column="position_desc"/>
+        <result property="positionCoordinate" column="position_coordinate"/>
+        <result property="objId" column="obj_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="personResponsible" column="person_responsible"/>
+        <result property="isSync" column="is_sync"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResBaseInfoEntity">
+		select * from t_res_base_info where res_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResBaseInfoEntity">
+		select * from t_res_base_info
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by res_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_res_base_info 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResBaseInfoEntity" useGeneratedKeys="true" keyProperty="resId">
+		insert into t_res_base_info
+		(
+			`res_type`, 
+			`brand`, 
+			`series`, 
+			`model`, 
+			`factory_time`, 
+			`serial_no`, 
+			`component_info`, 
+			`res_nameplate`, 
+			`position_desc`, 
+			`position_coordinate`, 
+			`obj_id`, 
+			`create_time`, 
+			`create_user_id`, 
+			`modify_time`, 
+			`modify_user_id`, 
+			`dept_id`, 
+			`person_responsible`, 
+			`is_sync`
+		)
+		values
+		(
+			#{resType}, 
+			#{brand}, 
+			#{series}, 
+			#{model}, 
+			#{factoryTime}, 
+			#{serialNo}, 
+			#{componentInfo}, 
+			#{resNameplate}, 
+			#{positionDesc}, 
+			#{positionCoordinate}, 
+			#{objId}, 
+			#{createTime}, 
+			#{createUserId}, 
+			#{modifyTime}, 
+			#{modifyUserId}, 
+			#{deptId}, 
+			#{personResponsible}, 
+			#{isSync}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.res.entity.ResBaseInfoEntity">
+		update t_res_base_info 
+		<set>
+			<if test="resType != null">`res_type` = #{resType}, </if>
+			<if test="brand != null">`brand` = #{brand}, </if>
+			<if test="series != null">`series` = #{series}, </if>
+			<if test="model != null">`model` = #{model}, </if>
+			<if test="factoryTime != null">`factory_time` = #{factoryTime}, </if>
+			<if test="serialNo != null">`serial_no` = #{serialNo}, </if>
+			<if test="componentInfo != null">`component_info` = #{componentInfo}, </if>
+			<if test="resNameplate != null">`res_nameplate` = #{resNameplate}, </if>
+			<if test="positionDesc != null">`position_desc` = #{positionDesc}, </if>
+			<if test="positionCoordinate != null">`position_coordinate` = #{positionCoordinate}, </if>
+			<if test="objId != null">`obj_id` = #{objId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="modifyTime != null">`modify_time` = #{modifyTime}, </if>
+			<if test="modifyUserId != null">`modify_user_id` = #{modifyUserId}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="personResponsible != null">`person_responsible` = #{personResponsible}, </if>
+			<if test="isSync != null">`is_sync` = #{isSync}</if>
+		</set>
+		where res_id = #{resId}
+	</update>
+	
+	<delete id="delete">
+		delete from t_res_base_info where res_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_res_base_info where res_id in 
+		<foreach item="resId" collection="array" open="(" separator="," close=")">
+			#{resId}
+		</foreach>
+	</delete>
+
+</mapper>

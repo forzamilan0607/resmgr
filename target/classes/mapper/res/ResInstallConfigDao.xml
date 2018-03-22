@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.ResInstallConfigDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.ResInstallConfigEntity" id="resInstallConfigMap">
+        <result property="configId" column="config_id"/>
+        <result property="resId" column="res_id"/>
+        <result property="drawing" column="drawing"/>
+        <result property="operationSpecificationText" column="operation_specification_text"/>
+        <result property="operationSpecificationAttach" column="operation_specification_attach"/>
+        <result property="isSync" column="is_sync"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
+		select * from t_res_install_config where config_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
+		select * from t_res_install_config
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by config_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_res_install_config 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity" useGeneratedKeys="true" keyProperty="configId">
+		insert into t_res_install_config
+		(
+			`res_id`, 
+			`drawing`, 
+			`operation_specification_text`, 
+			`operation_specification_attach`, 
+			`is_sync`
+		)
+		values
+		(
+			#{resId}, 
+			#{drawing}, 
+			#{operationSpecificationText}, 
+			#{operationSpecificationAttach}, 
+			#{isSync}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity">
+		update t_res_install_config 
+		<set>
+			<if test="resId != null">`res_id` = #{resId}, </if>
+			<if test="drawing != null">`drawing` = #{drawing}, </if>
+			<if test="operationSpecificationText != null">`operation_specification_text` = #{operationSpecificationText}, </if>
+			<if test="operationSpecificationAttach != null">`operation_specification_attach` = #{operationSpecificationAttach}, </if>
+			<if test="isSync != null">`is_sync` = #{isSync}</if>
+		</set>
+		where config_id = #{configId}
+	</update>
+	
+	<delete id="delete">
+		delete from t_res_install_config where config_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_res_install_config where config_id in 
+		<foreach item="configId" collection="array" open="(" separator="," close=")">
+			#{configId}
+		</foreach>
+	</delete>
+
+</mapper>

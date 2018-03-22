@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.ResAttachmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.ResAttachmentEntity" id="resAttachmentMap">
+        <result property="attachId" column="attach_id"/>
+        <result property="attachName" column="attach_name"/>
+        <result property="resId" column="res_id"/>
+        <result property="attachSize" column="attach_size"/>
+        <result property="attachType" column="attach_type"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="isSync" column="is_sync"/>
+        <result property="order" column="order"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResAttachmentEntity">
+		select * from t_res_attachment where attach_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResAttachmentEntity">
+		select * from t_res_attachment
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by attach_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_res_attachment 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResAttachmentEntity" useGeneratedKeys="true" keyProperty="attachId">
+		insert into t_res_attachment
+		(
+			`attach_name`, 
+			`res_id`, 
+			`attach_size`, 
+			`attach_type`, 
+			`upload_time`, 
+			`is_sync`, 
+			`order`
+		)
+		values
+		(
+			#{attachName}, 
+			#{resId}, 
+			#{attachSize}, 
+			#{attachType}, 
+			#{uploadTime}, 
+			#{isSync}, 
+			#{order}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.res.entity.ResAttachmentEntity">
+		update t_res_attachment 
+		<set>
+			<if test="attachName != null">`attach_name` = #{attachName}, </if>
+			<if test="resId != null">`res_id` = #{resId}, </if>
+			<if test="attachSize != null">`attach_size` = #{attachSize}, </if>
+			<if test="attachType != null">`attach_type` = #{attachType}, </if>
+			<if test="uploadTime != null">`upload_time` = #{uploadTime}, </if>
+			<if test="isSync != null">`is_sync` = #{isSync}, </if>
+			<if test="order != null">`order` = #{order}</if>
+		</set>
+		where attach_id = #{attachId}
+	</update>
+	
+	<delete id="delete">
+		delete from t_res_attachment where attach_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_res_attachment where attach_id in 
+		<foreach item="attachId" collection="array" open="(" separator="," close=")">
+			#{attachId}
+		</foreach>
+	</delete>
+
+</mapper>
