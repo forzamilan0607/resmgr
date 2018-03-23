@@ -6,10 +6,10 @@ $(function () {
 			{ label: 'dictId', name: 'dictId', index: 'dict_id', width: 50, key: true },
 			{ label: '字典名称', name: 'dictName', index: 'dict_name', width: 80 }, 			
 			{ label: '字典描述', name: 'dictDesc', index: 'dict_desc', width: 80 }, 			
-			{ label: '父级字典ID', name: 'parentDictId', index: 'parent_dict_id', width: 80 }, 			
-			{ label: '状态，1、有效，0、无效', name: 'status', index: 'status', width: 80 }, 			
+			{ label: '父级字典', name: 'parentDictId', index: 'parent_dict_id', width: 80 },
+			{ label: '状态', name: 'status', index: 'status', width: 80 },
 			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }, 			
-			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
+			{ label: '是否同步', name: 'isSync', index: 'is_sync', width: 80 }
         ],
 		viewrecords: true,
         height: 385,
@@ -39,11 +39,12 @@ $(function () {
 });
 
 var vm = new Vue({
-	el:'#rrapp',
+	el:'#sysDictApp',
 	data:{
 		showList: true,
 		title: null,
-		sysDict: {}
+		sysDict: {},
+		sysDictitem: {}
 	},
 	methods: {
 		query: function () {
@@ -117,6 +118,23 @@ var vm = new Vue({
 			$("#jqGrid").jqGrid('setGridParam',{ 
                 page:page
             }).trigger("reloadGrid");
-		}
+		},
+        showParentDict: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择菜单",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#parentDicLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    alert(JSON.stringify(vm.sysDictItem));
+                    //layer.close(index);
+                }
+            });
+        }
 	}
 });

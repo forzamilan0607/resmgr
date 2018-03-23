@@ -2,6 +2,7 @@ package com.chris.modules.sys.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -22,12 +23,16 @@ public class SysDictEntity implements Serializable {
 	private String dictDesc;
 	//父级字典ID
 	private Integer parentDictId;
+	//父级字典名称
+	private String parentDicName;
 	//状态，1、有效，0、无效
 	private String status;
 	//创建时间
 	private Date createTime;
 	//是否同步，1、是，0、否
 	private String isSync;
+
+	private List<SysDictItemEntity> dictItems;
 
 	/**
 	 * 设置：字典ID
@@ -112,5 +117,21 @@ public class SysDictEntity implements Serializable {
 	 */
 	public String getIsSync() {
 		return isSync;
+	}
+
+	public String getParentDicName() {
+		return parentDicName;
+	}
+
+	public void setParentDicName(String parentDicName) {
+		this.parentDicName = parentDicName;
+	}
+
+	public List<SysDictItemEntity> getDictItems() {
+		return dictItems;
+	}
+
+	public void setDictItems(List<SysDictItemEntity> dictItems) {
+		this.dictItems = dictItems;
 	}
 }
