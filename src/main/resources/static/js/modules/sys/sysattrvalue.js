@@ -6,7 +6,7 @@ $(function () {
 			{ label: 'attrValueId', name: 'attrValueId', index: 'attr_value_id', width: 50, key: true },
 			{ label: '属性ID', name: 'attrId', index: 'attr_id', width: 80 }, 			
 			{ label: '属性值', name: 'attrValue', index: 'attr_value', width: 80 }, 			
-			{ label: '顺序', name: 'order', index: 'order', width: 80 }, 			
+			{ label: '顺序', name: 'sortOrder', index: 'sort_order', width: 80 },
 			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
         ],
 		viewrecords: true,
@@ -27,7 +27,7 @@ $(function () {
         prmNames : {
             page:"page", 
             rows:"limit", 
-            order: "order"
+            order: "sortOrder"
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条

@@ -10,7 +10,7 @@
         <result property="dictItemValue" column="dict_item_value"/>
         <result property="extValue1" column="ext_value1"/>
         <result property="extValue2" column="ext_value2"/>
-        <result property="order" column="order"/>
+        <result property="sortOrder" column="sort_order"/>
         <result property="isSync" column="is_sync"/>
     </resultMap>
 
@@ -25,7 +25,7 @@
 				AND dictId = ${dictId}
 			</if>
 		</where>
-			order by 'order'
+			order by sort_order
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -42,7 +42,7 @@
 			`dict_item_value`,
 			`ext_value1`,
 			`ext_value2`,
-			`order`,
+			`sort_order`,
 			`is_sync`
 		)
 		VALUES
@@ -52,7 +52,7 @@
 			#{item.dictItemValue,jdbcType=VARCHAR},
 			#{item.extValue1,jdbcType=VARCHAR},
 			#{item.extValue2,jdbcType=VARCHAR},
-			#{item.order,jdbcType=INTEGER}
+			#{item.sortOrder,jdbcType=INTEGER}
 		)
 		</foreach>
 	</insert>
@@ -63,7 +63,7 @@
 			`dict_item_value`, 
 			`ext_value1`, 
 			`ext_value2`, 
-			`order`, 
+			`sort_order`,
 			`is_sync`
 		)
 		values
@@ -72,7 +72,7 @@
 			#{dictItemValue}, 
 			#{extValue1}, 
 			#{extValue2}, 
-			#{order}, 
+			#{sortOrder},
 			#{isSync}
 		)
 	</insert>
@@ -84,7 +84,7 @@
 			<if test="dictItemValue != null">`dict_item_value` = #{dictItemValue}, </if>
 			<if test="extValue1 != null">`ext_value1` = #{extValue1}, </if>
 			<if test="extValue2 != null">`ext_value2` = #{extValue2}, </if>
-			<if test="order != null">`order` = #{order}, </if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
 			<if test="isSync != null">`is_sync` = #{isSync}</if>
 		</set>
 		where dict_item_id = #{dictItemId}

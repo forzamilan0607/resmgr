@@ -21,68 +21,47 @@ public class SysAttrValueEntity implements Serializable {
 	//属性值
 	private String attrValue;
 	//顺序
-	private Integer order;
+	private Integer sortOrder;
 	//是否同步，1、是，0、否
 	private String isSync;
 
-	/**
-	 * 设置：属性值ID
-	 */
-	public void setAttrValueId(Integer attrValueId) {
-		this.attrValueId = attrValueId;
-	}
-	/**
-	 * 获取：属性值ID
-	 */
 	public Integer getAttrValueId() {
 		return attrValueId;
 	}
-	/**
-	 * 设置：属性ID
-	 */
-	public void setAttrId(Integer attrId) {
-		this.attrId = attrId;
+
+	public void setAttrValueId(Integer attrValueId) {
+		this.attrValueId = attrValueId;
 	}
-	/**
-	 * 获取：属性ID
-	 */
+
 	public Integer getAttrId() {
 		return attrId;
 	}
-	/**
-	 * 设置：属性值
-	 */
-	public void setAttrValue(String attrValue) {
-		this.attrValue = attrValue;
+
+	public void setAttrId(Integer attrId) {
+		this.attrId = attrId;
 	}
-	/**
-	 * 获取：属性值
-	 */
+
 	public String getAttrValue() {
 		return attrValue;
 	}
-	/**
-	 * 设置：顺序
-	 */
-	public void setOrder(Integer order) {
-		this.order = order;
+
+	public void setAttrValue(String attrValue) {
+		this.attrValue = attrValue;
 	}
-	/**
-	 * 获取：顺序
-	 */
-	public Integer getOrder() {
-		return order;
+
+	public Integer getSortOrder() {
+		return sortOrder;
 	}
-	/**
-	 * 设置：是否同步，1、是，0、否
-	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
-	/**
-	 * 获取：是否同步，1、是，0、否
-	 */
+
 	public String getIsSync() {
 		return isSync;
+	}
+
+	public void setIsSync(String isSync) {
+		this.isSync = isSync;
 	}
 }

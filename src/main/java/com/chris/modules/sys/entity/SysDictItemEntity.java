@@ -25,7 +25,7 @@ public class SysDictItemEntity implements Serializable {
 	//扩展值2
 	private String extValue2;
 	//排序
-	private Integer order;
+	private Integer sortOrder;
 	//是否同步，1、是，0、否
 	private String isSync;
 
@@ -89,18 +89,15 @@ public class SysDictItemEntity implements Serializable {
 	public String getExtValue2() {
 		return extValue2;
 	}
-	/**
-	 * 设置：排序
-	 */
-	public void setOrder(Integer order) {
-		this.order = order;
+
+	public Integer getSortOrder() {
+		return sortOrder;
 	}
-	/**
-	 * 获取：排序
-	 */
-	public Integer getOrder() {
-		return order;
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
+
 	/**
 	 * 设置：是否同步，1、是，0、否
 	 */

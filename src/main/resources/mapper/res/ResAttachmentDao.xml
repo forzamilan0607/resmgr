@@ -12,7 +12,7 @@
         <result property="attachType" column="attach_type"/>
         <result property="uploadTime" column="upload_time"/>
         <result property="isSync" column="is_sync"/>
-        <result property="order" column="order"/>
+        <result property="sortOrder" column="sort_order"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.res.entity.ResAttachmentEntity">
@@ -23,7 +23,7 @@
 		select * from t_res_attachment
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
+                order by ${sidx}
             </when>
 			<otherwise>
                 order by attach_id desc
@@ -47,7 +47,7 @@
 			`attach_type`, 
 			`upload_time`, 
 			`is_sync`, 
-			`order`
+			`sort_order`
 		)
 		values
 		(
@@ -57,7 +57,7 @@
 			#{attachType}, 
 			#{uploadTime}, 
 			#{isSync}, 
-			#{order}
+			#{sortOrder}
 		)
 	</insert>
 	 
@@ -70,7 +70,7 @@
 			<if test="attachType != null">`attach_type` = #{attachType}, </if>
 			<if test="uploadTime != null">`upload_time` = #{uploadTime}, </if>
 			<if test="isSync != null">`is_sync` = #{isSync}, </if>
-			<if test="order != null">`order` = #{order}</if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder}</if>
 		</set>
 		where attach_id = #{attachId}
 	</update>

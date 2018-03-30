@@ -29,7 +29,7 @@ public class ResAttachmentEntity implements Serializable {
 	//是否同步，1、是，0、否
 	private String isSync;
 	//顺序
-	private Integer order;
+	private Integer sortOrder;
 
 	/**
 	 * 设置：附件ID
@@ -115,16 +115,12 @@ public class ResAttachmentEntity implements Serializable {
 	public String getIsSync() {
 		return isSync;
 	}
-	/**
-	 * 设置：顺序
-	 */
-	public void setOrder(Integer order) {
-		this.order = order;
+
+	public Integer getSortOrder() {
+		return sortOrder;
 	}
-	/**
-	 * 获取：顺序
-	 */
-	public Integer getOrder() {
-		return order;
+
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 }

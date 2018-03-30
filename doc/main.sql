@@ -30,7 +30,7 @@ CREATE TABLE `sys_attr_value` (
   `attr_value_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '属性值ID',
   `attr_id` int(10) NOT NULL COMMENT '属性ID',
   `attr_value` varchar(50) NOT NULL COMMENT '属性值',
-  `order` tinyint(3) DEFAULT 1 COMMENT '顺序',
+  `sort_order` tinyint(3) DEFAULT 1 COMMENT '顺序',
 	`is_sync` char(1) DEFAULT 0 COMMENT '是否同步，1、是，0、否',
   PRIMARY KEY (`attr_value_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='属性值表';
@@ -53,7 +53,7 @@ CREATE TABLE `sys_dict_item` (
   `dict_item_value` varchar(500) COMMENT '字典项值',
   `ext_value1` varchar(100) COMMENT '扩展值1',
   `ext_value2` varchar(100) COMMENT '扩展值2',
-  `order` tinyint(1) NOT NULL COMMENT '排序',
+  `sort_order` tinyint(1) NOT NULL COMMENT '排序',
 	`is_sync` char(1) DEFAULT 0 COMMENT '是否同步，1、是，0、否',
   PRIMARY KEY (`dict_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
@@ -105,7 +105,7 @@ CREATE TABLE `t_res_attachment` (
   `attach_type` int(10) COMMENT '附件类型，如：jpg、png、pdf、xls、word、mp4等',
 	`upload_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
 	`is_sync` char(1) DEFAULT 0 COMMENT '是否同步，1、是，0、否',
-	`order` tinyint(3) DEFAULT 0 COMMENT '顺序',
+	`sort_order` tinyint(3) DEFAULT 0 COMMENT '顺序',
   PRIMARY KEY (`attach_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源附件';
 
