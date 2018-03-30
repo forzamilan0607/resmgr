@@ -21,6 +21,8 @@ public interface SysDictItemService {
 	int queryTotal(Map<String, Object> map);
 	
 	void save(SysDictItemEntity sysDictItem);
+
+	void saveBatch(List<SysDictItemEntity> list);
 	
 	void update(SysDictItemEntity sysDictItem);
 	

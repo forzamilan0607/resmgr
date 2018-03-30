@@ -36,7 +36,12 @@ public class SysDictItemServiceImpl implements SysDictItemService {
 	public void save(SysDictItemEntity sysDictItem){
 		sysDictItemDao.save(sysDictItem);
 	}
-	
+
+	@Override
+	public void saveBatch(List<SysDictItemEntity> list) {
+		this.sysDictItemDao.saveBatch(list);
+	}
+
 	@Override
 	public void update(SysDictItemEntity sysDictItem){
 		sysDictItemDao.update(sysDictItem);

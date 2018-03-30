@@ -3,6 +3,7 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.chris.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ import com.chris.common.utils.R;
 public class SysDictController {
 	@Autowired
 	private SysDictService sysDictService;
-	
+
 	/**
 	 * 列表
 	 */
@@ -58,7 +59,7 @@ public class SysDictController {
 	@RequiresPermissions("sys:sysdict:info")
 	public R info(@PathVariable("dictId") Integer dictId){
 		SysDictEntity sysDict = sysDictService.queryObject(dictId);
-		
+
 		return R.ok().put("sysDict", sysDict);
 	}
 	
@@ -69,7 +70,6 @@ public class SysDictController {
 	@RequiresPermissions("sys:sysdict:save")
 	public R save(@RequestBody SysDictEntity sysDict){
 		sysDictService.save(sysDict);
-		
 		return R.ok();
 	}
 	

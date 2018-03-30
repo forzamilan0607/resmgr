@@ -20,14 +20,12 @@
 
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictItemEntity">
 		select * from sys_dict_item
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
-			<otherwise>
-                order by dict_item_id desc
-			</otherwise>
-        </choose>
+		<where>
+			<if test="dictId != null and dictId != 0 ">
+				AND dictId = ${dictId}
+			</if>
+		</where>
+			order by 'order'
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -37,6 +35,27 @@
 		select count(*) from sys_dict_item 
 	</select>
 	 
+	<insert id="saveBatch" parameterType="java.util.List" >
+		insert into sys_dict_item
+		(
+			`dict_id`,
+			`dict_item_value`,
+			`ext_value1`,
+			`ext_value2`,
+			`order`,
+			`is_sync`
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.dictId,jdbcType=INTEGER},
+			#{item.dictItemValue,jdbcType=VARCHAR},
+			#{item.extValue1,jdbcType=VARCHAR},
+			#{item.extValue2,jdbcType=VARCHAR},
+			#{item.order,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
 	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictItemEntity" useGeneratedKeys="true" keyProperty="dictItemId">
 		insert into sys_dict_item
 		(
