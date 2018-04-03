@@ -146,3 +146,15 @@ var $myMsg = function(){
         }
     }
 }();
+var $util = function () {
+    return {
+        isValueInArray: function (k, v, array) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i][k] == v) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+}();

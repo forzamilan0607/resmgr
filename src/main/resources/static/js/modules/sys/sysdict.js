@@ -1,3 +1,176 @@
+var vm = new Vue({
+    el:'#sysDictApp',
+    data:{
+        showList: true,
+        title: null,
+        sysDict: {
+            status: "-1",
+            dictItems: [
+                {
+                    dictItemName: "admin",
+                    dictItemValue: "1",
+                    extValue1: "abc",
+                    extValue2: "extend value 2"
+                }
+            ]
+        },
+        sysDictItem: {
+
+        }
+    },
+    created: function (){
+        console.log(JSON.stringify(this.sysDict));
+    },
+    methods: {
+        query: function () {
+            vm.reload();
+        },
+        validate: function () {
+            if (!_validate4AddDict.form()) {
+                return false;
+            }
+            if (!this.sysDict.status || this.sysDict.status == "-1") {
+                alert("请选择状态");
+                return false;
+            }
+            if (!$.isArray(this.sysDict.dictItems) || this.sysDict.dictItems.length) {
+                alert("请添加字典值");
+                return false;
+            }
+            return true;
+        },
+        add: function(){
+            vm.showList = false;
+            vm.title = "新增";
+        },
+        update: function (event) {
+            var dictId = getSelectedRow();
+            if(dictId == null){
+                return ;
+            }
+            vm.showList = false;
+            vm.title = "修改";
+
+            vm.getInfo(dictId)
+        },
+        saveOrUpdate: function (event) {
+            if (!this.validate()) {
+                return;
+            }
+            var url = vm.sysDict.dictId == null ? "sys/sysdict/save" : "sys/sysdict/update";
+            //校验
+            $.ajax({
+                type: "POST",
+                url: baseURL + url,
+                contentType: "application/json",
+                data: JSON.stringify(vm.sysDict),
+                success: function(r){
+                    if(r.code === 0){
+                        alert('操作成功', function(index){
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
+        },
+        del: function (event) {
+            var dictIds = getSelectedRows();
+            if(dictIds == null){
+                return ;
+            }
+            confirm('确定要删除选中的记录？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "sys/sysdict/delete",
+                    contentType: "application/json",
+                    data: JSON.stringify(dictIds),
+                    success: function(r){
+                        if(r.code == 0){
+                            alert('操作成功', function(index){
+                                $("#jqGrid").trigger("reloadGrid");
+                            });
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
+        },
+        getInfo: function(dictId){
+            $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
+                vm.sysDict = r.sysDict;
+            });
+        },
+        reload: function (event) {
+            vm.showList = true;
+            var page = $("#jqGrid").jqGrid('getGridParam','page');
+            $("#jqGrid").jqGrid('setGridParam',{
+                page:page
+            }).trigger("reloadGrid");
+        },
+        addDictItem: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "添加字典项",
+                area: ['450px', '330px'],
+                // shade: 0,
+                // shadeClose: false,
+                content: jQuery("#dictItemsLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    if (isBlank(vm.sysDictItem.dictItemName)) {
+                        alert("字典项名称不能为空！");
+                        return;
+                    }
+                    //判断名称是否已经存在
+                    if ($util.isValueInArray("dictItemName", vm.sysDictItem.dictItemName, vm.sysDict.dictItems)) {
+                        alert("字典项名称已存在，请重新输入！");
+                        return;
+                    }
+                    if (isBlank(vm.sysDictItem.dictItemValue)) {
+                        alert("字典项值不能为空！");
+                        return;
+                    }
+                    //判断值是否已经存在
+                    if ($util.isValueInArray("dictItemValue", vm.sysDictItem.dictItemValue, vm.sysDict.dictItems)) {
+                        alert("字典项值已存在，请重新输入！");
+                        return;
+                    }
+                    vm.sysDict.dictItems = vm.sysDict.dictItems || [];
+                    vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
+                    //关闭layer之前清空字典项
+                    clearObjValue(vm.sysDictItem);
+                    layer.close(index);
+                }
+            });
+        },
+        delDictItem: function(index){
+            this.sysDict.dictItems.splice(index, 1);
+        },
+        showParentDict: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择菜单",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#parentDicLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    alert(JSON.stringify(vm.sysDictItem));
+                    //layer.close(index);
+                }
+            });
+        }
+    }
+});
+
 var _validate4AddDict;
 function validate4AddDict() {
     return $("#register-form").validate({
@@ -88,162 +261,5 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
-
     _validate4AddDict = validate4AddDict();
-});
-var vm = new Vue({
-    el:'#sysDictApp',
-    data:{
-        showList: true,
-        title: null,
-        sysDict: {},
-        sysDictItem: {}
-    },
-    created: function (){
-        this.sysDict.status = "-1";
-        alert(JSON.stringify(this.sysDict));
-        /*this.sysDict = {
-            status: 1,
-            dictItems: [
-                {
-                    dictItemValue: "admin",
-                    extValue1: "abc",
-                    extValue2: "extend value 2"
-                }
-            ]
-        };
-        this._validate4AddDict = validate4AddDict();*/
-    },
-    methods: {
-        query: function () {
-            vm.reload();
-        },
-        validate: function () {
-            if (!_validate4AddDict.form()) {
-                return false;
-            }
-            if (!this.sysDict.status || this.sysDict.status == "-1") {
-                alert("请选择状态");
-                return false;
-            }
-            if (!$.isArray(this.sysDict.dictItems) || this.sysDict.dictItems.length) {
-                alert("请添加字典值");
-                return false;
-            }
-            return true;
-        },
-        add: function(){
-            vm.showList = false;
-            vm.title = "新增";
-            vm.sysDict = {};
-        },
-        update: function (event) {
-            var dictId = getSelectedRow();
-            if(dictId == null){
-                return ;
-            }
-            vm.showList = false;
-            vm.title = "修改";
-
-            vm.getInfo(dictId)
-        },
-        saveOrUpdate: function (event) {
-            if (!this.validate()) {
-                return;
-            }
-            var url = vm.sysDict.dictId == null ? "sys/sysdict/save" : "sys/sysdict/update";
-            //校验
-            $.ajax({
-                type: "POST",
-                url: baseURL + url,
-                contentType: "application/json",
-                data: JSON.stringify(vm.sysDict),
-                success: function(r){
-                    if(r.code === 0){
-                        alert('操作成功', function(index){
-                            vm.reload();
-                        });
-                    }else{
-                        alert(r.msg);
-                    }
-                }
-            });
-        },
-        del: function (event) {
-            var dictIds = getSelectedRows();
-            if(dictIds == null){
-                return ;
-            }
-            confirm('确定要删除选中的记录？', function(){
-                $.ajax({
-                    type: "POST",
-                    url: baseURL + "sys/sysdict/delete",
-                    contentType: "application/json",
-                    data: JSON.stringify(dictIds),
-                    success: function(r){
-                        if(r.code == 0){
-                            alert('操作成功', function(index){
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        }else{
-                            alert(r.msg);
-                        }
-                    }
-                });
-            });
-        },
-        getInfo: function(dictId){
-            $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
-                vm.sysDict = r.sysDict;
-            });
-        },
-        reload: function (event) {
-            vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam','page');
-            $("#jqGrid").jqGrid('setGridParam',{
-                page:page
-            }).trigger("reloadGrid");
-        },
-        addDictItem: function(){
-            layer.open({
-                type: 1,
-                offset: '50px',
-                skin: 'layui-layer-molv',
-                title: "添加字典项",
-                area: ['450px', '285px'],
-                // shade: 0,
-                // shadeClose: false,
-                content: jQuery("#dictItemsLayer"),
-                btn: ['保存', '取消'],
-                btn1: function (index) {
-                    if (isBlank(vm.sysDictItem.dictItemValue)) {
-                        alert("字典项值不能为空！");
-                        return;
-                    }
-                    vm.sysDict.dictItems = vm.sysDict.dictItems || [];
-                    vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
-                    //关闭layer之前清空字典项
-                    clearObjValue(vm.sysDictItem);
-                    layer.close(index);
-                }
-            });
-        },
-        showParentDict: function(){
-            layer.open({
-                type: 1,
-                offset: '50px',
-                skin: 'layui-layer-molv',
-                title: "选择菜单",
-                area: ['300px', '450px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#parentDicLayer"),
-                btn: ['保存', '取消'],
-                btn1: function (index) {
-                    alert(JSON.stringify(vm.sysDictItem));
-                    //layer.close(index);
-                }
-            });
-        }
-    }
 });

@@ -50,7 +50,8 @@ CREATE TABLE `sys_dict` (
 CREATE TABLE `sys_dict_item` (
   `dict_item_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '字典项ID',
   `dict_id` int(10) NOT NULL COMMENT '字典ID',
-  `dict_item_value` varchar(500) COMMENT '字典项值',
+  `dict_item_name` varchar(50) COMMENT '字典项值',
+  `dict_item_value` varchar(200) COMMENT '字典项值',
   `ext_value1` varchar(100) COMMENT '扩展值1',
   `ext_value2` varchar(100) COMMENT '扩展值2',
   `sort_order` tinyint(1) NOT NULL COMMENT '排序',

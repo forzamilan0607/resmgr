@@ -18,6 +18,8 @@ public class SysDictItemEntity implements Serializable {
 	private Integer dictItemId;
 	//字典ID
 	private Integer dictId;
+	//字典项名称
+	private String dictItemName;
 	//字典项值
 	private String dictItemValue;
 	//扩展值1
@@ -109,5 +111,13 @@ public class SysDictItemEntity implements Serializable {
 	 */
 	public String getIsSync() {
 		return isSync;
+	}
+
+	public String getDictItemName() {
+		return dictItemName;
+	}
+
+	public void setDictItemName(String dictItemName) {
+		this.dictItemName = dictItemName;
 	}
 }

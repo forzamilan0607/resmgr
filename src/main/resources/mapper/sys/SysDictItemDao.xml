@@ -7,6 +7,7 @@
     <resultMap type="com.chris.modules.sys.entity.SysDictItemEntity" id="sysDictItemMap">
         <result property="dictItemId" column="dict_item_id"/>
         <result property="dictId" column="dict_id"/>
+        <result property="dictItemName" column="dict_item_name"/>
         <result property="dictItemValue" column="dict_item_value"/>
         <result property="extValue1" column="ext_value1"/>
         <result property="extValue2" column="ext_value2"/>
@@ -39,6 +40,7 @@
 		insert into sys_dict_item
 		(
 			`dict_id`,
+			`dict_item_name`,
 			`dict_item_value`,
 			`ext_value1`,
 			`ext_value2`,
@@ -49,6 +51,7 @@
 		<foreach collection="list" item="item" index="index" separator=",">
 		(
 			#{item.dictId,jdbcType=INTEGER},
+			#{item.dictItemName,jdbcType=VARCHAR},
 			#{item.dictItemValue,jdbcType=VARCHAR},
 			#{item.extValue1,jdbcType=VARCHAR},
 			#{item.extValue2,jdbcType=VARCHAR},
@@ -60,8 +63,9 @@
 		insert into sys_dict_item
 		(
 			`dict_id`, 
-			`dict_item_value`, 
-			`ext_value1`, 
+			`dict_item_name`,
+			`dict_item_value`,
+			`ext_value1`,
 			`ext_value2`, 
 			`sort_order`,
 			`is_sync`
@@ -69,8 +73,9 @@
 		values
 		(
 			#{dictId}, 
-			#{dictItemValue}, 
-			#{extValue1}, 
+			#{dictItemName},
+			#{dictItemValue},
+			#{extValue1},
 			#{extValue2}, 
 			#{sortOrder},
 			#{isSync}
@@ -81,6 +86,7 @@
 		update sys_dict_item 
 		<set>
 			<if test="dictId != null">`dict_id` = #{dictId}, </if>
+			<if test="dictItemName != null">`dict_item_value` = #{dictItemName}, </if>
 			<if test="dictItemValue != null">`dict_item_value` = #{dictItemValue}, </if>
 			<if test="extValue1 != null">`ext_value1` = #{extValue1}, </if>
 			<if test="extValue2 != null">`ext_value2` = #{extValue2}, </if>

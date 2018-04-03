@@ -13,7 +13,6 @@ import com.chris.modules.sys.dao.SysDictDao;
 import com.chris.modules.sys.entity.SysDictEntity;
 import com.chris.modules.sys.service.SysDictService;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 
@@ -46,15 +45,15 @@ public class SysDictServiceImpl implements SysDictService {
 	@Transactional
 	public void save(SysDictEntity sysDict){
 		this.sysDictDao.save(sysDict);
-		this.plusDictIdAndSort(sysDict);
+		this.setDictIdAndSort(sysDict);
 		this.sysDictItemService.saveBatch(sysDict.getDictItems());
 	}
 
-	private void plusDictIdAndSort(SysDictEntity sysDict) {
+	private void setDictIdAndSort(SysDictEntity sysDict) {
 		for (int i = 0; i < sysDict.getDictItems().size(); i++) {
 			SysDictItemEntity dictItem = sysDict.getDictItems().get(i);
 			dictItem.setDictId(sysDict.getDictId());
-			dictItem.setOrder(++i);
+			dictItem.setSortOrder(++i);
 		}
 	}
 
