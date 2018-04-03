@@ -44,8 +44,7 @@
 			`dict_item_value`,
 			`ext_value1`,
 			`ext_value2`,
-			`sort_order`,
-			`is_sync`
+			`sort_order`
 		)
 		VALUES
 		<foreach collection="list" item="item" index="index" separator=",">

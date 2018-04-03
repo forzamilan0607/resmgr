@@ -5,14 +5,7 @@ var vm = new Vue({
         title: null,
         sysDict: {
             status: "-1",
-            dictItems: [
-                {
-                    dictItemName: "admin",
-                    dictItemValue: "1",
-                    extValue1: "abc",
-                    extValue2: "extend value 2"
-                }
-            ]
+            dictItems: []
         },
         sysDictItem: {
 
@@ -33,7 +26,7 @@ var vm = new Vue({
                 alert("请选择状态");
                 return false;
             }
-            if (!$.isArray(this.sysDict.dictItems) || this.sysDict.dictItems.length) {
+            if (!$.isArray(this.sysDict.dictItems) || !this.sysDict.dictItems.length) {
                 alert("请添加字典值");
                 return false;
             }
@@ -140,7 +133,6 @@ var vm = new Vue({
                         alert("字典项值已存在，请重新输入！");
                         return;
                     }
-                    vm.sysDict.dictItems = vm.sysDict.dictItems || [];
                     vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
                     //关闭layer之前清空字典项
                     clearObjValue(vm.sysDictItem);
