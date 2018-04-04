@@ -39,6 +39,7 @@ CREATE TABLE `sys_attr_value` (
 CREATE TABLE `sys_dict` (
   `dict_id` int(10) NOT NULL AUTO_INCREMENT COMMENT '字典ID',
   `dict_name` varchar(32) NOT NULL COMMENT '字典名称',
+  `dict_key` varchar(50) NOT NULL COMMENT '字典键',
   `dict_desc` varchar(50) NOT NULL COMMENT '字典描述',
   `parent_dict_id` int(10) COMMENT '父级字典ID',
   `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',

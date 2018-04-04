@@ -7,6 +7,7 @@
     <resultMap type="com.chris.modules.sys.entity.SysDictEntity" id="sysDictMap">
         <result property="dictId" column="dict_id"/>
         <result property="dictName" column="dict_name"/>
+        <result property="dictKey" column="dict_key"/>
         <result property="dictDesc" column="dict_desc"/>
         <result property="parentDictId" column="parent_dict_id"/>
         <result property="status" column="status"/>
@@ -18,6 +19,17 @@
 		select * from sys_dict where dict_id = #{value}
 	</select>
 
+	<select id="querySysDictListByCondition" resultType="com.chris.modules.sys.entity.SysDictEntity" parameterType="com.chris.modules.sys.entity.SysDictEntity">
+		select * from sys_dict t
+		<where>
+			<if test="dictName != null and dictName != '' ">
+				AND t.dict_name = #{dictName}
+			</if>
+			<if test="dictKey != null and dictKey != '' ">
+				AND t.dict_key = #{dictKey}
+			</if>
+		</where>
+	</select>
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictEntity">
 		select * from sys_dict
         <choose>
@@ -34,14 +46,15 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from sys_dict 
+		select count(1) from sys_dict
 	</select>
 	 
 	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="dictId">
 		insert into sys_dict
 		(
 			`dict_name`, 
-			`dict_desc`, 
+			`dict_key`,
+			`dict_desc`,
 			`parent_dict_id`, 
 			`status`, 
 			`create_time`, 
@@ -50,10 +63,11 @@
 		values
 		(
 			#{dictName}, 
-			#{dictDesc}, 
+			#{dictKey},
+			#{dictDesc},
 			#{parentDictId}, 
 			#{status}, 
-			#{createTime}, 
+			now(),
 			#{isSync}
 		)
 	</insert>

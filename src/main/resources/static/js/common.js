@@ -5,7 +5,11 @@ $.jgrid.defaults.styleUI = 'Bootstrap';
 
 //工具集合Tools
 window.T = {};
-
+$(document).bind("ajaxSend", function () {
+    $("body").mLoading();
+}).bind("ajaxComplete", function () {
+    $("body").mLoading("hide");
+});
 // 获取请求参数
 // 使用示例
 // location.href = http://localhost/index.html?id=123
@@ -128,8 +132,9 @@ var $myMsg = function(){
     var tempMsgs = {
         requiredMsg : "请输入{name}",
         required4SelMsg : "请选择{name}",
-        minLength : "{name}不能小于{length}长度",
-        maxLength : "{name}不能大于{length}长度"
+        minLength : "{name}不能小于{length}位长度",
+        maxLength : "{name}不能大于{length}位长度",
+        rangelength : "{name}长度必须在{start}-{end}之间"
     };
     return {
         required : function(name) {
@@ -137,6 +142,9 @@ var $myMsg = function(){
         },
         required4Sel : function(name) {
             return tempMsgs.required4SelMsg.replace("{name}", name);
+        },
+        rangelength: function(name, start, end) {
+            return tempMsgs.rangelength.replace("{name}", name).replace("{start}", start).replace("{end}", end);
         },
         minLength: function(name, length) {
             return tempMsgs.minLength.replace("{name}", name).replace("{length}", length);

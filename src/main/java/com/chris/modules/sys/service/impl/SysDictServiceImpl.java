@@ -53,7 +53,7 @@ public class SysDictServiceImpl implements SysDictService {
 		for (int i = 0; i < sysDict.getDictItems().size(); i++) {
 			SysDictItemEntity dictItem = sysDict.getDictItems().get(i);
 			dictItem.setDictId(sysDict.getDictId());
-			dictItem.setSortOrder(++i);
+			dictItem.setSortOrder(i + 1);
 		}
 	}
 
@@ -71,5 +71,9 @@ public class SysDictServiceImpl implements SysDictService {
 	public void deleteBatch(Integer[] dictIds){
 		this.sysDictDao.deleteBatch(dictIds);
 	}
-	
+
+	@Override
+	public List<SysDictEntity> querySysDictListByCondition(SysDictEntity param) {
+		return this.sysDictDao.querySysDictListByCondition(param);
+	}
 }

@@ -61,6 +61,8 @@ var vm = new Vue({
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
+                            vm.sysDict = {};
+                            _validate4AddDict.reset();
                         });
                     }else{
                         alert(r.msg);
@@ -165,6 +167,10 @@ var vm = new Vue({
 
 var _validate4AddDict;
 function validate4AddDict() {
+    //自定义正则表达示验证方法
+    $.validator.addMethod("checkDictKey",function(value,element,params){
+        return this.optional(element)||(/^([A-Z]{2,15}_[A-Z]{2,15}|[A-Z]{2,20})$/g.test(value));
+    },"*请输入正确的QQ号码！");
     return $("#register-form").validate({
         rules: {
             status: {
@@ -172,8 +178,19 @@ function validate4AddDict() {
             },
             dictName: {
                 required: true,
-                minlength: 2,
-                maxlength: 32
+                rangelength: [2, 32]
+            },
+            dictKey: {
+                required: true,
+                rangelength: [2, 32],
+                checkDictKey: true,
+                remote:{
+                    type: "POST",
+                    url: baseURL + 'sys/sysdict/checkDictKey', //请求地址
+                    data:{
+                        dictKey:function(){ return $("#dictKey").val(); }
+                    }
+                }
             },
             dictDesc: {
                 maxlength: 50
@@ -182,14 +199,20 @@ function validate4AddDict() {
         messages: {
             dictName: {
                 required: $myMsg.required("字典名称"),
-                minlength: $myMsg.minLength("字典名称", 2),
-                maxlength: $myMsg.maxLength("字典名称", 32)
+                rangelength: $myMsg.rangelength("字典名称", 2, 32)
+            },
+            dictKey: {
+                required: $myMsg.required("字典KEY"),
+                rangelength: $myMsg.rangelength("字典key", 2, 32),
+                checkDictKey: "字典KEY只能是大写字母，请参考：CUSTLEVEL或CUST_LEVEL",
+                remote: "该字典KEY已存在"
             },
             status: $myMsg.required4Sel("状态"),
             dictDesc: {
                 maxlength: $myMsg.maxLength("字典名称", 50)
             }
         },
+        onkeyup:false,
         errorElement : 'span',
         errorClass : 'help-block',
         errorPlacement : function(error, element) {
@@ -220,13 +243,13 @@ $(function () {
         url: baseURL + 'sys/sysdict/list',
         datatype: "json",
         colModel: [			
-			{ label: 'dictId', name: 'dictId', index: 'dict_id', width: 50, key: true },
+			{ label: '字典ID', name: 'dictId', index: 'dict_id', width: 50, key: true },
 			{ label: '字典名称', name: 'dictName', index: 'dict_name', width: 80 }, 			
-			{ label: '字典描述', name: 'dictDesc', index: 'dict_desc', width: 80 }, 			
+			{ label: '字典KEY', name: 'dictName', index: 'dict_key', width: 80 },
+			{ label: '字典描述', name: 'dictDesc', index: 'dict_desc', width: 80 },
 			{ label: '父级字典', name: 'parentDictId', index: 'parent_dict_id', width: 80 },
 			{ label: '状态', name: 'status', index: 'status', width: 80 },
-			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }, 			
-			{ label: '是否同步', name: 'isSync', index: 'is_sync', width: 80 }
+			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }
         ],
 		viewrecords: true,
         height: 385,

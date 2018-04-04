@@ -6,11 +6,8 @@ import java.util.Map;
 import com.chris.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
 import com.chris.modules.sys.entity.SysDictEntity;
 import com.chris.modules.sys.service.SysDictService;
@@ -61,6 +58,16 @@ public class SysDictController {
 		SysDictEntity sysDict = sysDictService.queryObject(dictId);
 
 		return R.ok().put("sysDict", sysDict);
+	}
+
+	/**
+	 * 验证字典KEY是否存在
+	 */
+	@RequestMapping("/checkDictKey")
+	@ResponseBody
+	public boolean checkDictKey(String dictKey){
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByDictKey(dictKey));
+		return CollectionUtils.isEmpty(sysDictList);
 	}
 	
 	/**

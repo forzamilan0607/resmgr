@@ -4,6 +4,8 @@ import com.chris.modules.sys.entity.SysDictEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 字典表
  * 
@@ -13,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDictDao extends BaseDao<SysDictEntity> {
-	
+	List<SysDictEntity> querySysDictListByCondition(SysDictEntity param);
 }
