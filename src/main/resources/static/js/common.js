@@ -5,11 +5,7 @@ $.jgrid.defaults.styleUI = 'Bootstrap';
 
 //工具集合Tools
 window.T = {};
-$(document).bind("ajaxSend", function () {
-    $("body").mLoading();
-}).bind("ajaxComplete", function () {
-    $("body").mLoading("hide");
-});
+
 // 获取请求参数
 // 使用示例
 // location.href = http://localhost/index.html?id=123
