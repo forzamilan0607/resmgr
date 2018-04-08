@@ -1,6 +1,8 @@
 package com.chris.modules.app.controller;
 
 
+import com.chris.common.utils.CommonUtils;
+import com.chris.common.utils.DateUtils;
 import com.chris.common.utils.R;
 import com.chris.common.validator.Assert;
 import com.chris.modules.app.service.UserService;
@@ -40,16 +42,15 @@ public class FileTransferController {
     private static final Logger log = LoggerFactory.getLogger(FileTransferController.class);
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public R upload(@RequestParam("file" ) MultipartFile file, HttpServletRequest request , HttpServletResponse response ) throws Exception {
-        String innerCode = request.getParameter("innerCode" );
-        log.info("开始接收机器innerCode-{}的文件" , innerCode);
+    public R upload(@RequestParam("file" ) MultipartFile file) throws Exception {
+        log.info("开始上传文件");
 
         if(file .isEmpty()) {
             return R.error("文件为空！");
         }
 
         String fileName = file.getOriginalFilename();
-        String path = "E://";
+        String path = "E:/files/" + DateUtils.currentDate("yyyyMMdd") + "/";
         log.info("接收文件保存路径-{}，文件大小为-{}" , path , file .getSize());
         File localFile = new File(path);
 
@@ -57,16 +58,15 @@ public class FileTransferController {
             localFile.mkdirs();
         }
         try {
-
-            file.transferTo(new File(path+fileName));
+            String url = path + fileName;
+            file.transferTo(new File(url));
             //downloadUrl为包的下载目录
             log.info("文件{}上传成功");
-            return R.ok("上传文件成功");
+            return R.ok("上传文件成功").put("url", url);
         } catch (Exception e ) {
             log.error("上传文件发生异常，异常信息:" , e );
+            return R.error(e.getMessage());
         }
-//        writeJSON( json, response );
-        return R.ok();
     }
 
     @RequestMapping(value = "/upload2", method = RequestMethod.POST)

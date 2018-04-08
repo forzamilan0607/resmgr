@@ -1,5 +1,7 @@
 package com.chris.common.utils;
 
+import org.springframework.util.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,5 +28,9 @@ public class DateUtils {
             return df.format(date);
         }
         return null;
+    }
+
+    public static String currentDate(String pattern) {
+	    return format(new Date(), StringUtils.isEmpty(pattern) ? DATE_PATTERN : pattern);
     }
 }

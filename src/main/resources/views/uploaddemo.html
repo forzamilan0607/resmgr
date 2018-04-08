@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Resources Management</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.ico">
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../static/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../static/css/all-skins.min.css">
+  <link rel="stylesheet" href="../static/css/jquery.mloading.css">
+  <link rel="stylesheet" href="../static/css/main.css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="../static/https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="../static/https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+    <link rel="stylesheet" href="../static/plugins/jqfileupload/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/plugins/jqfileupload/css/jquery.fileupload-ui.css">
+    <noscript><link rel="stylesheet" href="../static/plugins/jqfileupload/css/jquery.fileupload-noscript.css"></noscript>
+    <noscript><link rel="stylesheet" href="../static/plugins/jqfileupload/css/jquery.fileupload-ui-noscript.css"></noscript>
+</head>
+<!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
+<body class="hold-transition skin-blue sidebar-mini">
+    <form id="fileupload" method="POST" enctype="multipart/form-data">
+        <!-- Redirect browsers with JavaScript disabled to the origin page -->
+        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Add files...</span>
+                        <input type="file" name="files[]" multiple>
+                    </span>
+                <!-- The global file processing state -->
+                <span class="fileupload-process"></span>
+            </div>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table role="presentation" class="table table-striped">
+            <tbody class="files"></tbody>
+        </table>
+    </form>
+    <div class="row">
+        <div class="col-md-7 pull-center">
+            <img src="../static/img/image2.png">
+            <a href="#">图片1</a>
+        </div>
+        <div class="col-md-5 pull-right">
+            <button class="btn btn-primary start">
+                <i class="glyphicon glyphicon-upload"></i>
+                <span>预览</span>
+            </button>
+            <button class="btn btn-warning cancel">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>删除</span>
+            </button>
+        </div>
+    </div>
+    <table role="presentation" class="table table-striped">
+        <tbody class="files"><tr class="template-upload fade in">
+            <td>
+                <div>
+                    <img src="../static/img/image2.png">
+                </div>
+                <div class="pull-center">
+                    <a href="#">图片1</a>
+                </div>
+            </td>
+            <td>
+                33.5 KB
+            </td>
+            <td>
+                <button class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>预览</span>
+                </button>
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>删除</span>
+                </button>
+
+            </td>
+        </tr></tbody>
+    </table>
+<script src="../static/libs/jquery.min.js"></script>
+<script src="../static/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="../static/libs/vue.min.js"></script>
+<script src="../static/libs/router.js"></script>
+<script src="../static/libs/bootstrap.min.js"></script>
+<script src="../static/libs/app.js"></script>
+<script src="../static/plugins/layer/layer.js"></script>
+<script src="../static/libs/jquery.mloading.js"></script>
+<script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+<script src="https://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+<script src="../static/plugins/jqfileupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="../static/plugins/jqfileupload/js/jquery.iframe-transport.js"></script>
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-process.js"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-image.js"></script>
+<!-- The File Upload audio preview plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-audio.js"></script>
+<!-- The File Upload video preview plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-video.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-validate.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="../static/plugins/jqfileupload/js/jquery.fileupload-ui.js"></script>
+<script>
+    $(function () {
+        'use strict';
+
+        /*$('#fileupload').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                $.getJSON('/example/url', function (result) {
+                    data.formData = result; // e.g. {id: 123}
+                    data.submit();
+                });
+            }
+        });*/
+
+        $('#fileupload').fileupload({
+            filesContainer: $('#fileupload .files'),
+            uploadTemplateId: null,
+            downloadTemplateId: null,
+            uploadTemplate: function (o) {
+                var rows = $();
+                $.each(o.files, function (index, file) {
+                    var row = $('<tr class="template-upload fade">' +
+                        '<td><span class="preview"></span></td>' +
+                        '<td><p class="name"></p>' +
+                        '<div class="error"></div>' +
+                        '</td>' +
+                        '<td><p class="size"></p>' +
+                        '<div class="progress"></div>' +
+                        '</td>' +
+                        '<td>' +
+                        (!index && !o.options.autoUpload ?
+                            '<button class="start" disabled>Start</button>' : '') +
+                        (!index ? '<button class="cancel">Cancel</button>' : '') +
+                        '</td>' +
+                        '</tr>');
+                    row.find('.name').text(file.name);
+                    row.find('.size').text(o.formatFileSize(file.size));
+                    if (file.error) {
+                        row.find('.error').text(file.error);
+                    }
+                    rows = rows.add(row);
+                });
+                return rows;
+            },
+            downloadTemplate: function (o) {
+                var rows = $();
+                $.each(o.files, function (index, file) {
+                    var row = $('<tr class="template-download fade">' +
+                        '<td><span class="preview"></span></td>' +
+                        '<td><p class="name"></p>' +
+                        (file.error ? '<div class="error"></div>' : '') +
+                        '</td>' +
+                        '<td><span class="size"></span></td>' +
+                        '<td><button class="delete">Delete</button></td>' +
+                        '</tr>');
+                    row.find('.size').text(o.formatFileSize(file.size));
+                    if (file.error) {
+                        row.find('.name').text(file.name);
+                        row.find('.error').text(file.error);
+                    } else {
+                        row.find('.name').append($('<a></a>').text(file.name));
+                        if (file.thumbnailUrl) {
+                            row.find('.preview').append(
+                                $('<a></a>').append(
+                                    $('<img>').prop('src', file.thumbnailUrl)
+                                )
+                            );
+                        }
+                        row.find('a')
+                            .attr('data-gallery', '')
+                            .prop('href', file.url);
+                        row.find('button.delete')
+                            .attr('data-type', file.delete_type)
+                            .attr('data-url', file.delete_url);
+                    }
+                    rows = rows.add(row);
+                });
+                return rows;
+            }
+        });
+
+        // Initialize the jQuery File Upload widget:
+        /*$('#fileupload').fileupload({
+            // Uncomment the following to send cross-domain cookies:
+            //xhrFields: {withCredentials: true},
+            url: 'server/php/'
+        });
+
+        // Enable iframe cross-domain access via redirect option:
+        $('#fileupload').fileupload(
+            'option',
+            'redirect',
+            window.location.href.replace(
+                /\/[^\/]*$/,
+                '/cors/result.html?%s'
+            )
+        );
+
+        if (window.location.hostname === 'blueimp.github.io') {
+            // Demo settings:
+            $('#fileupload').fileupload('option', {
+                url: '//jquery-file-upload.appspot.com/',
+                // Enable image resizing, except for Android and Opera,
+                // which actually support image resizing, but fail to
+                // send Blob objects via XHR requests:
+                disableImageResize: /Android(?!.*Chrome)|Opera/
+                    .test(window.navigator.userAgent),
+                maxFileSize: 999000,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+            });
+            // Upload server status check for browsers with CORS support:
+            if ($.support.cors) {
+                $.ajax({
+                    url: '//jquery-file-upload.appspot.com/',
+                    type: 'HEAD'
+                }).fail(function () {
+                    $('<div class="alert alert-danger"/>')
+                        .text('Upload server currently unavailable - ' +
+                            new Date())
+                        .appendTo('#fileupload');
+                });
+            }
+        } else {
+            // Load existing files:
+            $('#fileupload').addClass('fileupload-processing');
+            $.ajax({
+                // Uncomment the following to send cross-domain cookies:
+                //xhrFields: {withCredentials: true},
+                url: $('#fileupload').fileupload('option', 'url'),
+                dataType: 'json',
+                context: $('#fileupload')[0]
+            }).always(function () {
+                $(this).removeClass('fileupload-processing');
+            }).done(function (result) {
+                $(this).fileupload('option', 'done')
+                    .call(this, $.Event('done'), {result: result});
+            });
+        }*/
+
+    });
+
+</script>
+</body>
+</html>
