@@ -14,6 +14,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../static/css/all-skins.min.css">
   <link rel="stylesheet" href="../static/css/jquery.mloading.css">
+  <link rel="stylesheet" href="../static/plugins/lightbox/css/lightbox.min.css">
   <link rel="stylesheet" href="../static/css/main.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,11 +29,16 @@
 </head>
 <!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
 <body class="hold-transition skin-blue sidebar-mini">
-    <a href="../static/plugins/pdfjs/web/viewer.html?file=/resmgr/views/files/test.pdf" target="_blank">SHOW PDF</a>
-    <a href="../static/plugins/pdfjs/web/viewer.html?file=http://localhost:63342/resmgr/views/files/test.pdf" target="_blank">SHOW PDF2</a>
-    <form action="../static/plugins/pdfjs/web/viewer.html" method="get">
+    <a class="media" href="/resmgr/views/files/clear.avi">My Quicktime Movie</a>
+    <button id="btn_showWord" class="btn btn-soundcloud" >WORD文件预览</button>
+    <div ><a id="link_word" href="/resmgr/views/files/JavaProxy.doc" style="display:none;"></a></div>
+    <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-1.jpg" data-lightbox="example-1"><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-1.jpg" alt="image-1" /></a><br/>
+    <a href="../static/plugins/pdfjs/web/viewer.html?file=/resmgr/views/files/test.pdf" target="_blank">SHOW PDF</a><br/>
+    <a href="../static/plugins/pdfjs/web/viewer.html?file=http://localhost:63342/resmgr/views/files/test.pdf" target="_blank">SHOW PDF2</a><br/>
+    <a href="/resmgr/views/files/test.pdf">SHOW WORD</a>
+    <!--<form action="../static/plugins/pdfjs/web/viewer.html" method="get">
         PDF路径： <input type="text" name="file" value="/resmgr/views/files/test.pdf" /><input type="submit" value="提交" />
-    </form>
+    </form>-->
     <form id="fileupload" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
         <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
@@ -69,10 +75,13 @@
             <a href="#">图片1</a>
         </div>
         <div class="col-md-5 pull-right">
-            <button class="btn btn-primary start">
+           <!-- <button class="btn btn-primary start">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>预览</span>
-            </button>
+            </button>-->
+            <a href="http://lokeshdhakar.com/projects/lightbox2/images/image-1.jpg" data-lightbox="example-1"  class="btn btn-primary" >
+                <i class="glyphicon glyphicon-upload"></i>&nbsp;预览
+            </a>
             <button class="btn btn-warning cancel">
                 <i class="glyphicon glyphicon-ban-circle"></i>
                 <span>删除</span>
@@ -142,6 +151,7 @@
 <script src="../static/libs/bootstrap.min.js"></script>
 <script src="../static/libs/app.js"></script>
 <script src="../static/plugins/layer/layer.js"></script>
+<script src="../static/plugins/lightbox/js/lightbox-plus-jquery.min.js"></script>
 <script src="../static/libs/jquery.mloading.js"></script>
 <script src="../static/libs/jquery.media.js"></script>
 <script src="https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
@@ -162,6 +172,7 @@
 <!-- The File Upload user interface plugin -->
 <script src="../static/plugins/jqfileupload/js/jquery.fileupload-ui.js"></script>
 <script>
+
     $(function () {
         'use strict';
 
@@ -174,8 +185,14 @@
                 });
             }
         });*/
-
         $('a.media').media();
+
+
+        $("#link_word").media({width:450, height:350});
+
+        $('#btn_showWord').bind("click", function(){
+           $("#link_word").show();
+        });
 
         $('#fileupload').fileupload({
             filesContainer: $('#fileupload .files'),
@@ -243,64 +260,6 @@
                 return rows;
             }
         });
-
-        // Initialize the jQuery File Upload widget:
-        /*$('#fileupload').fileupload({
-            // Uncomment the following to send cross-domain cookies:
-            //xhrFields: {withCredentials: true},
-            url: 'server/php/'
-        });
-
-        // Enable iframe cross-domain access via redirect option:
-        $('#fileupload').fileupload(
-            'option',
-            'redirect',
-            window.location.href.replace(
-                /\/[^\/]*$/,
-                '/cors/result.html?%s'
-            )
-        );
-
-        if (window.location.hostname === 'blueimp.github.io') {
-            // Demo settings:
-            $('#fileupload').fileupload('option', {
-                url: '//jquery-file-upload.appspot.com/',
-                // Enable image resizing, except for Android and Opera,
-                // which actually support image resizing, but fail to
-                // send Blob objects via XHR requests:
-                disableImageResize: /Android(?!.*Chrome)|Opera/
-                    .test(window.navigator.userAgent),
-                maxFileSize: 999000,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
-            });
-            // Upload server status check for browsers with CORS support:
-            if ($.support.cors) {
-                $.ajax({
-                    url: '//jquery-file-upload.appspot.com/',
-                    type: 'HEAD'
-                }).fail(function () {
-                    $('<div class="alert alert-danger"/>')
-                        .text('Upload server currently unavailable - ' +
-                            new Date())
-                        .appendTo('#fileupload');
-                });
-            }
-        } else {
-            // Load existing files:
-            $('#fileupload').addClass('fileupload-processing');
-            $.ajax({
-                // Uncomment the following to send cross-domain cookies:
-                //xhrFields: {withCredentials: true},
-                url: $('#fileupload').fileupload('option', 'url'),
-                dataType: 'json',
-                context: $('#fileupload')[0]
-            }).always(function () {
-                $(this).removeClass('fileupload-processing');
-            }).done(function (result) {
-                $(this).fileupload('option', 'done')
-                    .call(this, $.Event('done'), {result: result});
-            });
-        }*/
 
     });
 
