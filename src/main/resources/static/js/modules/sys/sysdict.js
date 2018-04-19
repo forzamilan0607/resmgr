@@ -172,7 +172,9 @@ var vm = new Vue({
                         alert("字典项值已存在，请重新输入！");
                         return;
                     }
-                    vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
+                    if (!vm.isUpdateAction()) {
+                        vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
+                    }
                     //关闭layer之前清空字典项
                     clearObjValue(vm.sysDictItem);
                     layer.close(index);
@@ -186,7 +188,7 @@ var vm = new Vue({
                     type: "POST",
                     url: baseURL + "sys/sysdict/isCanDelDictItem",
                     contentType: "application/json",
-                    data: JSON.stringify(this.sysDict.dictItems[i].dictItemId),
+                    data: JSON.stringify(vm.sysDict.dictItems[index].dictItemId),
                     success: function(r){
                         if(r.isCanDel){
                             this.sysDict.dictItems.splice(index, 1);
