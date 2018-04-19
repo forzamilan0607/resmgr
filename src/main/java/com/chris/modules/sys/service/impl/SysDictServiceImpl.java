@@ -60,6 +60,10 @@ public class SysDictServiceImpl implements SysDictService {
 	@Override
 	public void update(SysDictEntity sysDict){
 		this.sysDictDao.update(sysDict);
+		if (sysDict.isChangedDictItems()) {
+			this.sysDictItemService.deleteByDictId(sysDict.getDictId());
+			this.sysDictItemService.saveBatch(sysDict.getDictItems());
+		}
 	}
 	
 	@Override

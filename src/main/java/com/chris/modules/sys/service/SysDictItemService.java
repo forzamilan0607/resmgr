@@ -29,4 +29,12 @@ public interface SysDictItemService {
 	void delete(Integer dictItemId);
 	
 	void deleteBatch(Integer[] dictItemIds);
+
+	/**
+	 * 根据字典ID删除对应的字典项
+	 * @param dictId
+	 */
+    void deleteByDictId(Integer dictId);
+
+    boolean isCanDelDictItem(Integer dictItemId);
 }

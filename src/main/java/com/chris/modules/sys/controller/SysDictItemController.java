@@ -94,5 +94,16 @@ public class SysDictItemController {
 		
 		return R.ok();
 	}
-	
+
+
+	/**
+	 * 是否可以删除字典项值
+	 */
+	@RequestMapping("/isCanDelDictItem")
+	@RequiresPermissions("sys:sysdictitem:delete")
+	public R isCanDelDictItem(Integer dictItemId){
+		boolean isCanDel = sysDictItemService.isCanDelDictItem(dictItemId);
+		return R.ok().put("isCanDel", isCanDel);
+	}
+
 }

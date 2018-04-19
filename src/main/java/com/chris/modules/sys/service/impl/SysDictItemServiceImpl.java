@@ -56,5 +56,15 @@ public class SysDictItemServiceImpl implements SysDictItemService {
 	public void deleteBatch(Integer[] dictItemIds){
 		sysDictItemDao.deleteBatch(dictItemIds);
 	}
-	
+
+	@Override
+	public void deleteByDictId(Integer dictId) {
+		this.sysDictItemDao.deleteByDictId(dictId);
+	}
+
+	@Override
+	public boolean isCanDelDictItem(Integer dictItemId) {
+		//TODO 暂时写死，默认都可以删除，以后需要关联表查询
+		return this.sysDictItemDao.queryDictItemRefNums(dictItemId) == 0;
+	}
 }

@@ -13,5 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDictItemDao extends BaseDao<SysDictItemEntity> {
-	
+
+    void deleteByDictId(Integer dictId);
+
+    int queryDictItemRefNums(Integer dictItemId);
 }

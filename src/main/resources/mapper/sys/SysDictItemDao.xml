@@ -23,7 +23,7 @@
 		select * from sys_dict_item
 		<where>
 			<if test="dictId != null and dictId != 0 ">
-				AND dictId = ${dictId}
+				AND dict_id = ${dictId}
 			</if>
 		</where>
 			order by sort_order
@@ -98,6 +98,10 @@
 	<delete id="delete">
 		delete from sys_dict_item where dict_item_id = #{value}
 	</delete>
+
+	<delete id="deleteByDictId" parameterType="java.lang.Integer">
+		delete from sys_dict_item where dict_id = #{dictId}
+	</delete>
 	
 	<delete id="deleteBatch">
 		delete from sys_dict_item where dict_item_id in 
@@ -105,5 +109,14 @@
 			#{dictItemId}
 		</foreach>
 	</delete>
+
+	<select id="queryDictItemRefNums" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT SUM(t.nums) AS nums FROM
+		(
+			SELECT COUNT(1) AS nums FROM t_res_base_info t WHERE t.res_type = #{dictItemId} OR t.brand = #{dictItemId} OR t.series = #{dictItemId}
+			UNION ALL
+			SELECT COUNT(1) AS nums FROM t_res_maintenance t WHERE t.res_status = #{dictItemId}
+		) t
+	</select>
 
 </mapper>

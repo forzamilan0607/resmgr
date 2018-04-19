@@ -80,7 +80,7 @@
 							<th scope="col">扩展值1</th>
 							<th scope="col">扩展值2</th>
 							<th scope="col">
-								<a class="btn btn-primary" @click="addDictItem"><i class="fa fa-plus"></i>&nbsp;添加</a>
+								<a class="btn btn-primary" @click="addOrUpdateDictItem(-1)"><i class="fa fa-plus"></i>&nbsp;添加</a>
 							</th>
 						</tr>
 						</thead>
@@ -91,6 +91,7 @@
 								<td>{{ dictItem.extValue1 }}</td>
 								<td>{{ dictItem.extValue2 }}</td>
 								<td>
+									<a class="btn btn-primary" @click="addOrUpdateDictItem(index)"><i class="fa fa-trash-o"></i>&nbsp;修改</a>
 									<a class="btn btn-danger" @click="delDictItem(index)"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 								</td>
 							</tr>

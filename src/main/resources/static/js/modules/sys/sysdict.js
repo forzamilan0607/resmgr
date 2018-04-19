@@ -9,10 +9,11 @@ var vm = new Vue({
         },
         sysDictItem: {
 
-        }
+        },
+        srcDictItems: null
     },
     created: function (){
-        console.log(JSON.stringify(this.sysDict));
+        //console.log(JSON.stringify(this.sysDict));
     },
     methods: {
         query: function () {
@@ -46,11 +47,41 @@ var vm = new Vue({
 
             vm.getInfo(dictId)
         },
+        isUpdateAction: function () {
+          return vm.sysDict.dictId != null;
+        },
+        getIsDictItemsChangedValue: function () {
+            if (vm.srcDictItems.length != vm.sysDict.dictItems.length) {
+                return true;
+            }
+            var tempDictItems = $.grep(vm.sysDict.dictItems, function (item, index) {
+                return item.dictItemId != null && item.dictItemId != undefined;
+            });
+            if (vm.srcDictItems.length != tempDictItems.length) {
+                return true;
+            }
+            var attrList = ["dictItemName", "dictItemValue", "extValue1", "extValue2"];
+            for (var i = 0; i < vm.srcDictItems.length; i++) {
+                var srcDictItem = vm.srcDictItems[i];
+                for (var j = 0; j < vm.sysDict.dictItems.length; j++) {
+                    var dictItem = vm.sysDict.dictItems[j];
+                    if (srcDictItem.dictItemId == item.dictItemId) {
+                        if (!$util.isObjAttrEquals(srcDictItem, dictItem, attrList)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        },
         saveOrUpdate: function (event) {
             if (!this.validate()) {
                 return;
             }
-            var url = vm.sysDict.dictId == null ? "sys/sysdict/save" : "sys/sysdict/update";
+            var url = vm.isUpdateAction() ? "sys/sysdict/update" : "sys/sysdict/save";
+            if (vm.isUpdateAction()) {
+                vm.sysDict.isChangedDictItems = vm.getIsDictItemsChangedValue();
+            }
             //校验
             $.ajax({
                 type: "POST",
@@ -61,8 +92,6 @@ var vm = new Vue({
                     if(r.code === 0){
                         alert('操作成功', function(index){
                             vm.reload();
-                            vm.sysDict = {};
-                            _validate4AddDict.reset();
                         });
                     }else{
                         alert(r.msg);
@@ -96,6 +125,7 @@ var vm = new Vue({
         getInfo: function(dictId){
             $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
                 vm.sysDict = r.sysDict;
+                vm.srcDictItems = $.extend([], vm.sysDict.dictItems);
             });
         },
         reload: function (event) {
@@ -104,13 +134,19 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam',{
                 page:page
             }).trigger("reloadGrid");
+            vm.sysDict = {};
+            _validate4AddDict.reset();
         },
-        addDictItem: function(){
+        addOrUpdateDictItem: function(index){
+            var isUpdateAction = index != -1;
+            if (isUpdateAction) {
+                vm.sysDictItem = this.sysDict.dictItems[index];
+            }
             layer.open({
                 type: 1,
                 offset: '50px',
                 skin: 'layui-layer-molv',
-                title: "添加字典项",
+                title: isUpdateAction ? "修改字典项" : "添加字典项",
                 area: ['450px', '330px'],
                 // shade: 0,
                 // shadeClose: false,
@@ -121,8 +157,9 @@ var vm = new Vue({
                         alert("字典项名称不能为空！");
                         return;
                     }
+                    var data = vm.isUpdateAction() ? $.grep(vm.sysDict.dictItems, function(item, i){return i != index;}) : vm.sysDict.dictItems;
                     //判断名称是否已经存在
-                    if ($util.isValueInArray("dictItemName", vm.sysDictItem.dictItemName, vm.sysDict.dictItems)) {
+                    if ($util.isValueInArray("dictItemName", vm.sysDictItem.dictItemName, data)) {
                         alert("字典项名称已存在，请重新输入！");
                         return;
                     }
@@ -131,7 +168,7 @@ var vm = new Vue({
                         return;
                     }
                     //判断值是否已经存在
-                    if ($util.isValueInArray("dictItemValue", vm.sysDictItem.dictItemValue, vm.sysDict.dictItems)) {
+                    if ($util.isValueInArray("dictItemValue", vm.sysDictItem.dictItemValue, data)) {
                         alert("字典项值已存在，请重新输入！");
                         return;
                     }
@@ -143,7 +180,24 @@ var vm = new Vue({
             });
         },
         delDictItem: function(index){
-            this.sysDict.dictItems.splice(index, 1);
+            if (vm.isUpdateAction()) {
+                //修改字典操作时，删除字典项值需要调用后台接口查询字典项是否有引用，否则不允许删除
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "sys/sysdict/isCanDelDictItem",
+                    contentType: "application/json",
+                    data: JSON.stringify(this.sysDict.dictItems[i].dictItemId),
+                    success: function(r){
+                        if(r.isCanDel){
+                            this.sysDict.dictItems.splice(index, 1);
+                        } else{
+                           alert("当前字典项值存在引用，不能删除！");
+                        }
+                    }
+                });
+            } else {
+                this.sysDict.dictItems.splice(index, 1);
+            }
         },
         showParentDict: function(){
             layer.open({

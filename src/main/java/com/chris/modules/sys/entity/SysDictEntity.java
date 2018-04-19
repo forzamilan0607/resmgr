@@ -36,6 +36,8 @@ public class SysDictEntity implements Serializable {
 
 	private List<SysDictItemEntity> dictItems;
 
+	private boolean isChangedDictItems;
+
 	/**
 	 * 设置：字典ID
 	 */
@@ -152,5 +154,13 @@ public class SysDictEntity implements Serializable {
 		SysDictEntity sysDictEntity = new SysDictEntity();
 		sysDictEntity.setDictKey(dictKey);
 		return sysDictEntity;
+	}
+
+	public boolean isChangedDictItems() {
+		return isChangedDictItems;
+	}
+
+	public void setChangedDictItems(boolean changedDictItems) {
+		isChangedDictItems = changedDictItems;
 	}
 }

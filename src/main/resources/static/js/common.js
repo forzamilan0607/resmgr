@@ -159,6 +159,15 @@ var $util = function () {
                 }
             }
             return false;
+        },
+        isObjAttrEquals: function (objA, objB, attrList) {
+            for (var i = 0; i < attrList.length; i++) {
+                var attr = attrList[i];
+                if (objA[attr] != objB[attr]) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }();
