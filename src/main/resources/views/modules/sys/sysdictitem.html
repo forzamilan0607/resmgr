@@ -21,11 +21,25 @@
 </head>
 <body>
 <div id="infTestApp" v-cloak>
-	<div class="grid-btn">
-		<input v-model="param.beginDate" placeholder="开始时间" /><br/>
-		<input v-model="param.endDate" placeholder="结束时间" /><br/>
-		<a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;接口测试</a>
-	</div>
+	<form role="form" class="form-horizontal full-width" method="post" >
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="beginDate">开始时间：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="beginDate" v-model="param.beginDate" placeholder="开始时间" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="endDate">结束时间：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="endDate" v-model="param.endDate" placeholder="结束时间" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-5 pull-center">
+				<input type="button" class="btn btn-primary" @click="query" value="接口测试"/>
+			</div>
+		</div>
+	</form>
 </div>
 
 <script src="../../js/modules/sys/sysdictitem.js"></script>
