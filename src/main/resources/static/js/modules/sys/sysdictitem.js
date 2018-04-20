@@ -1,78 +1,21 @@
-$(function () {
-    $("#jqGrid").jqGrid({
-        url: baseURL + 'sys/sysdictitem/list',
-        datatype: "json",
-        colModel: [			
-			{ label: 'dictItemId', name: 'dictItemId', index: 'dict_item_id', width: 50, key: true },
-			{ label: '字典ID', name: 'dictId', index: 'dict_id', width: 80 }, 			
-			{ label: '字典项值', name: 'dictItemValue', index: 'dict_item_value', width: 80 }, 			
-			{ label: '扩展值1', name: 'extValue1', index: 'ext_value1', width: 80 }, 			
-			{ label: '扩展值2', name: 'extValue2', index: 'ext_value2', width: 80 }, 			
-			{ label: '排序', name: 'order', index: 'order', width: 80 }, 			
-			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
-        ],
-		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
-        multiselect: true,
-        pager: "#jqGridPager",
-        jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
-        },
-        prmNames : {
-            page:"page", 
-            rows:"limit", 
-            order: "order"
-        },
-        gridComplete:function(){
-        	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
-        }
-    });
-});
-
 var vm = new Vue({
-	el:'#rrapp',
+	el:'#infTestApp',
 	data:{
-		showList: true,
 		title: null,
-		sysDictItem: {}
+		param: {
+			beginDate: "2018-04-01",
+			endDate: "2018-04-20"
+		}
 	},
 	methods: {
-		query: function () {
-			vm.reload();
-		},
-		add: function(){
-			vm.showList = false;
-			vm.title = "新增";
-			vm.sysDictItem = {};
-		},
-		update: function (event) {
-			var dictItemId = getSelectedRow();
-			if(dictItemId == null){
-				return ;
-			}
-			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(dictItemId)
-		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysDictItem.dictItemId == null ? "sys/sysdictitem/save" : "sys/sysdictitem/update";
 			$.ajax({
 				type: "POST",
-			    url: baseURL + url,
+			    url: baseURL + "inf/test/query",
                 contentType: "application/json",
-			    data: JSON.stringify(vm.sysDictItem),
+			    data: JSON.stringify(vm.param),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code === 200){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
