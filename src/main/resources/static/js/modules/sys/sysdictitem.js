@@ -6,6 +6,9 @@ var vm = new Vue({
 			beginDate: "2018-04-01",
 			endDate: "2018-04-20",
             type: 1
+		},
+		jsonObj: {
+			data: "{\"stationNo\":\"100\",\"channel\":1}"
 		}
 	},
 	methods: {
@@ -14,13 +17,9 @@ var vm = new Vue({
 				type: "POST",
 			    url: baseURL + "inf/test/query",
                 contentType: "application/json",
-			    data: JSON.stringify(vm.param),
+			    data: JSON.stringify(vm.jsonObj),
 			    success: function(r){
-			    	if(r.code === 200){
-						alert('操作成功');
-					}else{
-						alert(r.msg);
-					}
+			    	alert(JSON.stringify(r));
 				}
 			});
 		}

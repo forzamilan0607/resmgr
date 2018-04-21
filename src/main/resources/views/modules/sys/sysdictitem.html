@@ -35,6 +35,13 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-sm-2 control-label" for="jsonObj">JSON串：</label>
+			<div class="col-sm-5">
+				<textarea class="form-control" id="jsonObj" v-model="jsonObj.data" placeholder="请求体" >
+				</textarea>
+			</div>
+		</div>
+		<div class="form-group">
 			<div class="col-md-offset-2 col-md-5 pull-center">
 				<input type="button" class="btn btn-primary" @click="query" value="接口测试"/>
 			</div>
