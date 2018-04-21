@@ -111,12 +111,6 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
-
-//判断是否为空
-function isBlank(value) {
-    return !value || !/\S/.test(value)
-}
-
 function clearObjValue(obj) {
     if (obj && typeof obj === "object") {
         for (var attr in obj) {
@@ -152,6 +146,18 @@ var $myMsg = function(){
 }();
 var $util = function () {
     return {
+        copyProps: function (src, target, attrList) {
+            if (attrList) {
+                for (var i = 0; i < attrList.length; i++) {
+                    var attr = attrList[i];
+                    target[attr] = src[attr];
+                }
+            } else {
+                for (var attr in src) {
+                    target[attr] = src[attr];
+                }
+            }
+        },
         isValueInArray: function (k, v, array) {
             for (var i = 0; i < array.length; i++) {
                 if (array[i][k] == v) {

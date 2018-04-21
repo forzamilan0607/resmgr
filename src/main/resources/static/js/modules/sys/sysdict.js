@@ -4,7 +4,7 @@ var vm = new Vue({
         showList: true,
         title: null,
         sysDict: {
-            status: "-1",
+            status: "1",
             dictItems: []
         },
         sysDictItem: {
@@ -65,7 +65,7 @@ var vm = new Vue({
                 var srcDictItem = vm.srcDictItems[i];
                 for (var j = 0; j < vm.sysDict.dictItems.length; j++) {
                     var dictItem = vm.sysDict.dictItems[j];
-                    if (srcDictItem.dictItemId == item.dictItemId) {
+                    if (srcDictItem.dictItemId == dictItem.dictItemId) {
                         if (!$util.isObjAttrEquals(srcDictItem, dictItem, attrList)) {
                             return true;
                         }
@@ -125,7 +125,7 @@ var vm = new Vue({
         getInfo: function(dictId){
             $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
                 vm.sysDict = r.sysDict;
-                vm.srcDictItems = $.extend([], vm.sysDict.dictItems);
+                vm.srcDictItems = [].concat(vm.sysDict.dictItems);
             });
         },
         reload: function (event) {
@@ -135,13 +135,13 @@ var vm = new Vue({
                 page:page
             }).trigger("reloadGrid");
             vm.sysDict = {};
-            _validate4AddDict.reset();
+            $("span.glyphicon-remove,span.glyphicon-ok").remove();
+            $(".has-success").removeClass(".has-success");
+            $(".has-error").removeClass(".has-error");
         },
-        addOrUpdateDictItem: function(index){
-            var isUpdateAction = index != -1;
-            if (isUpdateAction) {
-                vm.sysDictItem = this.sysDict.dictItems[index];
-            }
+        addOrUpdateDictItem: function(itemIndex){
+            var isUpdateAction = itemIndex != -1;
+            vm.sysDictItem = isUpdateAction ? $.extend({}, vm.sysDict.dictItems[itemIndex]) : {};
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -153,18 +153,22 @@ var vm = new Vue({
                 content: jQuery("#dictItemsLayer"),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
-                    if (isBlank(vm.sysDictItem.dictItemName)) {
+                    if ($validator.isBlank(vm.sysDictItem.dictItemName)) {
                         alert("字典项名称不能为空！");
                         return;
                     }
-                    var data = vm.isUpdateAction() ? $.grep(vm.sysDict.dictItems, function(item, i){return i != index;}) : vm.sysDict.dictItems;
+                    var data = $.grep(vm.sysDict.dictItems, function(item, i){return i != itemIndex;});
                     //判断名称是否已经存在
                     if ($util.isValueInArray("dictItemName", vm.sysDictItem.dictItemName, data)) {
                         alert("字典项名称已存在，请重新输入！");
                         return;
                     }
-                    if (isBlank(vm.sysDictItem.dictItemValue)) {
+                    if ($validator.isBlank(vm.sysDictItem.dictItemValue)) {
                         alert("字典项值不能为空！");
+                        return;
+                    }
+                    if (!$validator.checkKey(vm.sysDictItem.dictItemValue)) {
+                        alert("字典项值只能输入数字或字母");
                         return;
                     }
                     //判断值是否已经存在
@@ -172,8 +176,10 @@ var vm = new Vue({
                         alert("字典项值已存在，请重新输入！");
                         return;
                     }
-                    if (!vm.isUpdateAction()) {
+                    if (!vm.isUpdateAction() && itemIndex == -1) {
                         vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
+                    } else {
+                        $util.copyProps(vm.sysDictItem, vm.sysDict.dictItems[itemIndex]);
                     }
                     //关闭layer之前清空字典项
                     clearObjValue(vm.sysDictItem);
@@ -189,8 +195,8 @@ var vm = new Vue({
                     url: baseURL + "sys/sysdict/isCanDelDictItem",
                     contentType: "application/json",
                     data: JSON.stringify(vm.sysDict.dictItems[index].dictItemId),
-                    success: function(r){
-                        if(r.isCanDel){
+                    success: function(result){
+                        if(result){
                             this.sysDict.dictItems.splice(index, 1);
                         } else{
                            alert("当前字典项值存在引用，不能删除！");
@@ -223,10 +229,10 @@ var vm = new Vue({
 
 var _validate4AddDict;
 function validate4AddDict() {
-    //自定义正则表达示验证方法
-    $.validator.addMethod("checkDictKey",function(value,element,params){
+    /*//自定义正则表达示验证方法
+    $.validator.addMethod("checkDictName",function(value,element,params){
         return this.optional(element)||(/^([A-Z]{2,15}_[A-Z]{2,15}|[A-Z]{2,20})$/g.test(value));
-    },"*请输入正确的QQ号码！");
+    },"*请输入正确的字典名称！");*/
     return $("#register-form").validate({
         rules: {
             status: {
@@ -234,17 +240,13 @@ function validate4AddDict() {
             },
             dictName: {
                 required: true,
-                rangelength: [2, 32]
-            },
-            dictKey: {
-                required: true,
                 rangelength: [2, 32],
-                checkDictKey: true,
+                // checkDictName: true,
                 remote:{
                     type: "POST",
-                    url: baseURL + 'sys/sysdict/checkDictKey', //请求地址
+                    url: baseURL + 'sys/sysdict/checkDictName', //请求地址
                     data:{
-                        dictKey:function(){ return $("#dictKey").val(); }
+                        dictName: function(){ return $("#dictName").val(); }
                     }
                 }
             },
@@ -255,14 +257,15 @@ function validate4AddDict() {
         messages: {
             dictName: {
                 required: $myMsg.required("字典名称"),
-                rangelength: $myMsg.rangelength("字典名称", 2, 32)
+                rangelength: $myMsg.rangelength("字典名称", 2, 32),
+                remote: "该字典名称已存在"
             },
-            dictKey: {
+            /*dictKey: {
                 required: $myMsg.required("字典KEY"),
                 rangelength: $myMsg.rangelength("字典key", 2, 32),
                 checkDictKey: "字典KEY只能是大写字母，请参考：CUSTLEVEL或CUST_LEVEL",
                 remote: "该字典KEY已存在"
-            },
+            },*/
             status: $myMsg.required4Sel("状态"),
             dictDesc: {
                 maxlength: $myMsg.maxLength("字典名称", 50)
@@ -301,7 +304,6 @@ $(function () {
         colModel: [			
 			{ label: '字典ID', name: 'dictId', index: 'dict_id', width: 50, key: true },
 			{ label: '字典名称', name: 'dictName', index: 'dict_name', width: 80 }, 			
-			{ label: '字典KEY', name: 'dictName', index: 'dict_key', width: 80 },
 			{ label: '字典描述', name: 'dictDesc', index: 'dict_desc', width: 80 },
 			{ label: '父级字典', name: 'parentDictId', index: 'parent_dict_id', width: 80 },
 			{ label: '状态', name: 'status', index: 'status', width: 80 },

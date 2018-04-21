@@ -19,8 +19,6 @@ public class SysDictEntity implements Serializable {
 	private Integer dictId;
 	//字典名称
 	private String dictName;
-	//字典KEY
-	private String dictKey;
 	//字典描述
 	private String dictDesc;
 	//父级字典ID
@@ -139,20 +137,12 @@ public class SysDictEntity implements Serializable {
 		this.dictItems = dictItems;
 	}
 
-	public String getDictKey() {
-		return dictKey;
-	}
-
-	public void setDictKey(String dictKey) {
-		this.dictKey = dictKey;
-	}
-
 	public SysDictEntity() {
 	}
 
-	public static SysDictEntity buildByDictKey(String dictKey) {
+	public static SysDictEntity buildByDictName(String dictName) {
 		SysDictEntity sysDictEntity = new SysDictEntity();
-		sysDictEntity.setDictKey(dictKey);
+		sysDictEntity.setDictName(dictName);
 		return sysDictEntity;
 	}
 

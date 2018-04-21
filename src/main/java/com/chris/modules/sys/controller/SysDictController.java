@@ -3,10 +3,10 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.chris.common.utils.ValidateUtils;
 import com.chris.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.chris.modules.sys.entity.SysDictEntity;
@@ -30,6 +30,9 @@ import com.chris.common.utils.R;
 public class SysDictController {
 	@Autowired
 	private SysDictService sysDictService;
+
+	@Autowired
+	private SysDictItemService sysDictItemService;
 
 	/**
 	 * 列表
@@ -63,11 +66,11 @@ public class SysDictController {
 	/**
 	 * 验证字典KEY是否存在
 	 */
-	@RequestMapping("/checkDictKey")
+	@RequestMapping("/checkDictName")
 	@ResponseBody
-	public boolean checkDictKey(String dictKey){
-		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByDictKey(dictKey));
-		return CollectionUtils.isEmpty(sysDictList);
+	public boolean checkDictName(String dictName){
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByDictName(dictName));
+		return ValidateUtils.isEmptyCollection(sysDictList);
 	}
 	
 	/**
@@ -100,6 +103,15 @@ public class SysDictController {
 		sysDictService.deleteBatch(dictIds);
 		
 		return R.ok();
+	}
+
+	/**
+	 * 验证是否可删除字典项
+	 */
+	@RequestMapping("/isCanDelDictItem")
+	@RequiresPermissions("sys:sysdict:delete")
+	public boolean isCanDelDictItem(@RequestBody Integer dictItemId){
+		return this.sysDictItemService.isCanDelDictItem(dictItemId);
 	}
 	
 }

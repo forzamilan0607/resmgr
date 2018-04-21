@@ -1,5 +1,6 @@
 package com.chris.modules.sys.service.impl;
 
+import com.chris.common.utils.CommonResponse;
 import com.chris.common.utils.CommonUtils;
 import com.chris.modules.sys.entity.SysDictItemEntity;
 import com.chris.modules.sys.service.SysDictItemService;
@@ -72,9 +73,18 @@ public class SysDictServiceImpl implements SysDictService {
 	}
 	
 	@Override
+	@Transactional
 	public void deleteBatch(Integer[] dictIds){
+		//删除字典前需要校验字典是否有引用
 		this.sysDictDao.deleteBatch(dictIds);
+		for (int i = 0; i < dictIds.length; i++) {
+			this.sysDictItemService.deleteByDictId(dictIds[i]);
+		}
 	}
+
+	/*public CommonResponse isCanDelete(Integer [] dictIds) {
+
+	}*/
 
 	@Override
 	public List<SysDictEntity> querySysDictListByCondition(SysDictEntity param) {

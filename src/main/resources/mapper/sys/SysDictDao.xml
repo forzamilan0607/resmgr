@@ -7,7 +7,6 @@
     <resultMap type="com.chris.modules.sys.entity.SysDictEntity" id="sysDictMap">
         <result property="dictId" column="dict_id"/>
         <result property="dictName" column="dict_name"/>
-        <result property="dictKey" column="dict_key"/>
         <result property="dictDesc" column="dict_desc"/>
         <result property="parentDictId" column="parent_dict_id"/>
         <result property="status" column="status"/>
@@ -24,9 +23,6 @@
 		<where>
 			<if test="dictName != null and dictName != '' ">
 				AND t.dict_name = #{dictName}
-			</if>
-			<if test="dictKey != null and dictKey != '' ">
-				AND t.dict_key = #{dictKey}
 			</if>
 		</where>
 	</select>
@@ -53,7 +49,6 @@
 		insert into sys_dict
 		(
 			`dict_name`, 
-			`dict_key`,
 			`dict_desc`,
 			`parent_dict_id`, 
 			`status`, 
@@ -63,7 +58,6 @@
 		values
 		(
 			#{dictName}, 
-			#{dictKey},
 			#{dictDesc},
 			#{parentDictId}, 
 			#{status}, 
