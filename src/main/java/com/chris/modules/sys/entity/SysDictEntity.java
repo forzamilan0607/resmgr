@@ -36,6 +36,8 @@ public class SysDictEntity implements Serializable {
 
 	private boolean isChangedDictItems;
 
+	private Integer notEqualDictId;
+
 	/**
 	 * 设置：字典ID
 	 */
@@ -140,17 +142,19 @@ public class SysDictEntity implements Serializable {
 	public SysDictEntity() {
 	}
 
-	public static SysDictEntity buildByDictName(String dictName) {
-		SysDictEntity sysDictEntity = new SysDictEntity();
-		sysDictEntity.setDictName(dictName);
-		return sysDictEntity;
-	}
-
 	public boolean isChangedDictItems() {
 		return isChangedDictItems;
 	}
 
 	public void setChangedDictItems(boolean changedDictItems) {
 		isChangedDictItems = changedDictItems;
+	}
+
+	public Integer getNotEqualDictId() {
+		return notEqualDictId;
+	}
+
+	public void setNotEqualDictId(Integer notEqualDictId) {
+		this.notEqualDictId = notEqualDictId;
 	}
 }

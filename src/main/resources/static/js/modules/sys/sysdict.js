@@ -10,7 +10,8 @@ var vm = new Vue({
         sysDictItem: {
 
         },
-        srcDictItems: null
+        srcSysDict: null,
+        isChangedDictItems: false
     },
     created: function (){
         //console.log(JSON.stringify(this.sysDict));
@@ -20,8 +21,8 @@ var vm = new Vue({
             vm.reload();
         },
         validate: function () {
-            if (!_validate4AddDict.form()) {
-                return false;
+            if (test) {
+
             }
             if (!this.sysDict.status || this.sysDict.status == "-1") {
                 alert("请选择状态");
@@ -50,37 +51,17 @@ var vm = new Vue({
         isUpdateAction: function () {
           return vm.sysDict.dictId != null;
         },
-        getIsDictItemsChangedValue: function () {
-            if (vm.srcDictItems.length != vm.sysDict.dictItems.length) {
-                return true;
-            }
-            var tempDictItems = $.grep(vm.sysDict.dictItems, function (item, index) {
-                return item.dictItemId != null && item.dictItemId != undefined;
-            });
-            if (vm.srcDictItems.length != tempDictItems.length) {
-                return true;
-            }
-            var attrList = ["dictItemName", "dictItemValue", "extValue1", "extValue2"];
-            for (var i = 0; i < vm.srcDictItems.length; i++) {
-                var srcDictItem = vm.srcDictItems[i];
-                for (var j = 0; j < vm.sysDict.dictItems.length; j++) {
-                    var dictItem = vm.sysDict.dictItems[j];
-                    if (srcDictItem.dictItemId == dictItem.dictItemId) {
-                        if (!$util.isObjAttrEquals(srcDictItem, dictItem, attrList)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        },
         saveOrUpdate: function (event) {
-            if (!this.validate()) {
-                return;
-            }
             var url = vm.isUpdateAction() ? "sys/sysdict/update" : "sys/sysdict/save";
             if (vm.isUpdateAction()) {
-                vm.sysDict.isChangedDictItems = vm.getIsDictItemsChangedValue();
+                vm.sysDict.isChangedDictItems = vm.isChangedDictItems;
+                if (!vm.isChangedDictItems && $util.isObjAttrEquals(vm.srcSysDict, vm.sysDict, ["dictName", "status", "dictDesc"])) {
+                    alert("当前未做任何修改！");
+                    return;
+                }
+            }
+            if (!this.validate()) {
+                return;
             }
             //校验
             $.ajax({
@@ -125,7 +106,7 @@ var vm = new Vue({
         getInfo: function(dictId){
             $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
                 vm.sysDict = r.sysDict;
-                vm.srcDictItems = [].concat(vm.sysDict.dictItems);
+                vm.srcSysDict = $.extend({}, vm.sysDict);
             });
         },
         reload: function (event) {
@@ -136,8 +117,8 @@ var vm = new Vue({
             }).trigger("reloadGrid");
             vm.sysDict = {};
             $("span.glyphicon-remove,span.glyphicon-ok").remove();
-            $(".has-success").removeClass(".has-success");
-            $(".has-error").removeClass(".has-error");
+            $(".has-success").removeClass("has-success");
+            $(".has-error").removeClass("has-error");
         },
         addOrUpdateDictItem: function(itemIndex){
             var isUpdateAction = itemIndex != -1;
@@ -153,6 +134,7 @@ var vm = new Vue({
                 content: jQuery("#dictItemsLayer"),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
+                    vm.isChangedDictItems = false;
                     if ($validator.isBlank(vm.sysDictItem.dictItemName)) {
                         alert("字典项名称不能为空！");
                         return;
@@ -176,9 +158,13 @@ var vm = new Vue({
                         alert("字典项值已存在，请重新输入！");
                         return;
                     }
-                    if (!vm.isUpdateAction() && itemIndex == -1) {
+                    if (itemIndex == -1) {
                         vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
+                        vm.isChangedDictItems = true;
                     } else {
+                        if (!$util.isObjAttrEquals(vm.sysDictItem, vm.sysDict.dictItems[itemIndex], ["dictItemName", "dictItemValue", "extValue1", "extValue2"])) {
+                            vm.isChangedDictItems = true;
+                        }
                         $util.copyProps(vm.sysDictItem, vm.sysDict.dictItems[itemIndex]);
                     }
                     //关闭layer之前清空字典项
@@ -189,6 +175,9 @@ var vm = new Vue({
         },
         delDictItem: function(index){
             if (vm.isUpdateAction()) {
+                if (vm.sysDict.dictItems[index].dictItemId) {
+                    vm.isChangedDictItems = true;
+                }
                 //修改字典操作时，删除字典项值需要调用后台接口查询字典项是否有引用，否则不允许删除
                 $.ajax({
                     type: "POST",
@@ -246,7 +235,10 @@ function validate4AddDict() {
                     type: "POST",
                     url: baseURL + 'sys/sysdict/checkDictName', //请求地址
                     data:{
-                        dictName: function(){ return $("#dictName").val(); }
+                        dictName: function(){
+                            var v = $("#dictId").val() || "";
+                            return $("#dictName").val() + ";" + v;
+                        }
                     }
                 }
             },

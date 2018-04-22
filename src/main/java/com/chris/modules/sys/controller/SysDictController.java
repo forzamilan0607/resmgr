@@ -63,13 +63,9 @@ public class SysDictController {
 		return R.ok().put("sysDict", sysDict);
 	}
 
-	/**
-	 * 验证字典KEY是否存在
-	 */
 	@RequestMapping("/checkDictName")
-	@ResponseBody
-	public boolean checkDictName(String dictName){
-		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByDictName(dictName));
+	public boolean checkDictName(@RequestBody SysDictEntity sysDict){
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(sysDict);
 		return ValidateUtils.isEmptyCollection(sysDictList);
 	}
 	
@@ -90,7 +86,6 @@ public class SysDictController {
 	@RequiresPermissions("sys:sysdict:update")
 	public R update(@RequestBody SysDictEntity sysDict){
 		sysDictService.update(sysDict);
-		
 		return R.ok();
 	}
 	

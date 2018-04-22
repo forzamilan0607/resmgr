@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" href="../../css/main.css">
 <script src="../../libs/jquery.min.js"></script>
-<script src="../../libs/jquery.validate.min.js"></script>
 <script src="../../libs/jquery.mloading.js"></script>
 <script src="../../plugins/layer/layer.js"></script>
 <script src="../../libs/bootstrap.min.js"></script>
@@ -44,6 +43,7 @@
 				<label class="col-sm-2 control-label" for="dictName">字典名称：</label>
 				<div class="col-sm-5">
 					<input class="form-control" id="dictName" name="dictName" v-model="sysDict.dictName" placeholder="字典名称" />
+                    <input type="hidden" id="dictId"  v-model="sysDict.dictId"/>
 				</div>
 			</div>
 			<div class="form-group">

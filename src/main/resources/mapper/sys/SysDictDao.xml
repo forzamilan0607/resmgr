@@ -24,6 +24,9 @@
 			<if test="dictName != null and dictName != '' ">
 				AND t.dict_name = #{dictName}
 			</if>
+			<if test="notEqualDictId != null and notEqualDictId != 0 ">
+				AND t.dict_id != #{notEqualDictId}
+			</if>
 		</where>
 	</select>
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictEntity">
