@@ -177,3 +177,10 @@ var $util = function () {
         }
     }
 }();
+$(function () {
+    $(document).bind("ajaxSend", function () {
+        $("body").mLoading();
+    }).bind("ajaxComplete", function () {
+        $("body").mLoading("hide");
+    });
+});

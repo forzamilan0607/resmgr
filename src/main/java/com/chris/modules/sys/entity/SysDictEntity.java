@@ -142,6 +142,13 @@ public class SysDictEntity implements Serializable {
 	public SysDictEntity() {
 	}
 
+	public static SysDictEntity buildByNotEqualIdAndDictName(Integer notEqualDictId, String dictName) {
+		SysDictEntity sysDictEntity = new SysDictEntity();
+		sysDictEntity.setDictName(dictName);
+		sysDictEntity.setNotEqualDictId(notEqualDictId);
+		return sysDictEntity;
+	}
+
 	public boolean isChangedDictItems() {
 		return isChangedDictItems;
 	}

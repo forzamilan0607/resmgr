@@ -4,6 +4,7 @@ import com.chris.common.utils.CommonResponse;
 import com.chris.common.utils.CommonUtils;
 import com.chris.modules.sys.entity.SysDictItemEntity;
 import com.chris.modules.sys.service.SysDictItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 
 @Service("sysDictService")
+@Slf4j
 public class SysDictServiceImpl implements SysDictService {
 	@Autowired
 	private SysDictDao sysDictDao;
@@ -46,6 +48,10 @@ public class SysDictServiceImpl implements SysDictService {
 	@Transactional
 	public void save(SysDictEntity sysDict){
 		this.sysDictDao.save(sysDict);
+		this.addDictItems(sysDict);
+	}
+
+	private void addDictItems(SysDictEntity sysDict) {
 		this.setDictIdAndSort(sysDict);
 		this.sysDictItemService.saveBatch(sysDict.getDictItems());
 	}
@@ -63,7 +69,7 @@ public class SysDictServiceImpl implements SysDictService {
 		this.sysDictDao.update(sysDict);
 		if (sysDict.isChangedDictItems()) {
 			this.sysDictItemService.deleteByDictId(sysDict.getDictId());
-			this.sysDictItemService.saveBatch(sysDict.getDictItems());
+			this.addDictItems(sysDict);
 		}
 	}
 	

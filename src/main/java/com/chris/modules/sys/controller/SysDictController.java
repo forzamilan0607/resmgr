@@ -65,7 +65,7 @@ public class SysDictController {
 
 	@RequestMapping("/checkDictName")
 	public boolean checkDictName(@RequestBody SysDictEntity sysDict){
-		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(sysDict);
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByNotEqualIdAndDictName(sysDict.getDictId(), sysDict.getDictName()));
 		return ValidateUtils.isEmptyCollection(sysDictList);
 	}
 	

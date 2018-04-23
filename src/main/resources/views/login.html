@@ -97,7 +97,6 @@
                 this.src = "captcha.jpg?t=" + $.now();
             },
             login: function () {
-                $("body").mLoading();
                 $.ajax({
                     type: "POST",
                     url: baseURL + "sys/login",
@@ -105,7 +104,6 @@
                     contentType: "application/json",
                     data: JSON.stringify(vm.form),
                     success: function(r){
-                        $("body").mLoading("hide");
                         if(r.code == 0){//登录成功
                             localStorage.setItem("token", r.token);
                             parent.location.href ='index.html';

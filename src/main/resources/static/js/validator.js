@@ -156,15 +156,33 @@ var $validator = function(){
                         return result;
                     },
                     remote: function (validateItem) {
+                        var param = {};
+                        if ($.isArray(validateItem.value)) {
+                            $.each(validateItem.value, function (index, item) {
+                                param[item] = $("#" + item).val();
+                            })
+                        } else {
+                            param = validateItem.value;
+                        }
                         $.ajax({
                             type: "POST",
                             url: validateItem.url,
                             contentType: "application/json",
-                            data: JSON.stringify(validateItem.value),
-                            success: validateItem.callback
+                            data: JSON.stringify(param),
+                            success: function(r) {
+                                validateItem.callback && validateItem.callback(r);
+                                if ((r && r.code == 0) || r) {//validate ok
+                                    validateOK(validateItem);
+                                    _validateObj.remoteResult = true;
+                                } else {
+                                    validateFail(validateItem);
+                                    _validateObj.remoteResult = false;
+                                }
+                            }
                         });
+                        return true;
                     }
-                }
+                };
                 for (var eventName in eventMap) {
                     if (events[eventName]) {
                         eventMap[eventName] = events[eventName];
@@ -196,7 +214,8 @@ var $validator = function(){
             var _validateObj = {
                 config: validateObj,
                 events: getEvents(validateObj.items),
-                validateResult: true
+                validateResult: true,
+                remoteResult: true
             };
             //初始化绑定blur事件
             $.each(_validateObj.config.items, function (index, item) {
@@ -211,13 +230,17 @@ var $validator = function(){
                             return false;
                         }
                         for (var eventName in item.validateMethod) {
+                            //不需要在提交时再触发的事件
+                            if (item.noTriggerEvents && $.inArray(eventName, item.noTriggerEvents) >= 0) {
+                                continue;
+                            }
                             if (!doValidate(item, eventName)) {
                                 _validateObj.validateResult = false;
                                 break;
                             }
                         }
                     });
-                    return _validateObj.validateResult;
+                    return _validateObj.validateResult && _validateObj.remoteResult;
                 },
                 reset: function () {                    
                     var jqIds = $.map(_validateObj.config.items, function (item, index) {

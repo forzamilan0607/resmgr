@@ -20,7 +20,7 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
-        validate: function () {
+        /*validate: function () {
             if (test) {
 
             }
@@ -33,7 +33,7 @@ var vm = new Vue({
                 return false;
             }
             return true;
-        },
+        },*/
         add: function(){
             vm.showList = false;
             vm.title = "新增";
@@ -54,13 +54,13 @@ var vm = new Vue({
         saveOrUpdate: function (event) {
             var url = vm.isUpdateAction() ? "sys/sysdict/update" : "sys/sysdict/save";
             if (vm.isUpdateAction()) {
-                vm.sysDict.isChangedDictItems = vm.isChangedDictItems;
+                vm.sysDict.changedDictItems = vm.isChangedDictItems;
                 if (!vm.isChangedDictItems && $util.isObjAttrEquals(vm.srcSysDict, vm.sysDict, ["dictName", "status", "dictDesc"])) {
                     alert("当前未做任何修改！");
                     return;
                 }
             }
-            if (!this.validate()) {
+            if (!_validate4AddDict.validate()) {
                 return;
             }
             //校验
@@ -161,6 +161,7 @@ var vm = new Vue({
                     if (itemIndex == -1) {
                         vm.sysDict.dictItems.push($.extend({}, vm.sysDictItem));
                         vm.isChangedDictItems = true;
+                        _validate4AddDict.resetById("table_dictItems");
                     } else {
                         if (!$util.isObjAttrEquals(vm.sysDictItem, vm.sysDict.dictItems[itemIndex], ["dictItemName", "dictItemValue", "extValue1", "extValue2"])) {
                             vm.isChangedDictItems = true;
@@ -217,79 +218,65 @@ var vm = new Vue({
 });
 
 var _validate4AddDict;
-function validate4AddDict() {
-    /*//自定义正则表达示验证方法
-    $.validator.addMethod("checkDictName",function(value,element,params){
-        return this.optional(element)||(/^([A-Z]{2,15}_[A-Z]{2,15}|[A-Z]{2,20})$/g.test(value));
-    },"*请输入正确的字典名称！");*/
-    return $("#register-form").validate({
-        rules: {
-            status: {
-                required: true
-            },
-            dictName: {
-                required: true,
-                rangelength: [2, 32],
-                // checkDictName: true,
-                remote:{
-                    type: "POST",
-                    url: baseURL + 'sys/sysdict/checkDictName', //请求地址
-                    data:{
-                        dictName: function(){
-                            var v = $("#dictId").val() || "";
-                            return $("#dictName").val() + ";" + v;
-                        }
+function initValidator() {
+    return $validator.build({
+        allPassRequired: false,
+        items:[
+            {
+                id: "dictName",
+                blurs: ["required", "range", "remote"],
+                noTriggerEvents: ["remote"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入字典名称"
+                    },
+                    range: {
+                        value: [2, 32],
+                        msg: "字典名称长度范围只能是2-32位之间"
+                    },
+                    remote: {
+                        url : baseURL + 'sys/sysdict/checkDictName',
+                        value: ["dictName", "dictId"],
+                        msg: "该字典名称已存在！",
+                        callback: null
                     }
                 }
             },
-            dictDesc: {
-                maxlength: 50
-            }
-        },
-        messages: {
-            dictName: {
-                required: $myMsg.required("字典名称"),
-                rangelength: $myMsg.rangelength("字典名称", 2, 32),
-                remote: "该字典名称已存在"
+            {
+                id: "status",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    notEqualsTo: {
+                        value: "-1",
+                        msg: "请选择状态"
+                    }
+                }
             },
-            /*dictKey: {
-                required: $myMsg.required("字典KEY"),
-                rangelength: $myMsg.rangelength("字典key", 2, 32),
-                checkDictKey: "字典KEY只能是大写字母，请参考：CUSTLEVEL或CUST_LEVEL",
-                remote: "该字典KEY已存在"
-            },*/
-            status: $myMsg.required4Sel("状态"),
-            dictDesc: {
-                maxlength: $myMsg.maxLength("字典名称", 50)
+            {
+                id: "table_dictItems",
+                validateMethod: {
+                    minLength: {
+                        childSelector: "#tbody_dictItems tr",
+                        value: 1,
+                        msg: "请至少添加一个字典项值"
+                    }
+                }
+            },
+            {
+                id: "dictDesc",
+                validateMethod: {
+                    maxLength: {
+                        value: 50,
+                        msg: $myMsg.maxLength("字典名称", 50)
+                    }
+                }
             }
-        },
-        onkeyup:false,
-        errorElement : 'span',
-        errorClass : 'help-block',
-        errorPlacement : function(error, element) {
-            element.next().remove();
-            element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
-            element.closest('.form-group').append(error);
-        },
-        highlight : function(element) {
-            $(element).closest('.form-group').addClass('has-error has-feedback');
-        },
-        success : function(label) {
-            var elem = label.closest('.form-group').find("input");
-            if (elem.length == 0) {
-                elem = label.closest('.form-group').find("textarea");
-            }
-            elem.next().remove();
-            elem.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
-            label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
-            label.remove();
-        },
-        submitHandler: function(form) {
-            console.log(JSON.stringify(form));
-        }
+        ]
     });
-}
+};
 $(function () {
+    _validate4AddDict = initValidator();
     $("#jqGrid").jqGrid({
         url: baseURL + 'sys/sysdict/list',
         datatype: "json",
@@ -326,5 +313,4 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
-    _validate4AddDict = validate4AddDict();
 });

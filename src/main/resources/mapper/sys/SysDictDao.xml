@@ -65,7 +65,7 @@
 			#{parentDictId}, 
 			#{status}, 
 			now(),
-			#{isSync}
+			0
 		)
 	</insert>
 	 
