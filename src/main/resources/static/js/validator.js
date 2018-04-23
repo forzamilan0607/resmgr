@@ -170,14 +170,14 @@ var $validator = function(){
                             contentType: "application/json",
                             data: JSON.stringify(param),
                             success: function(r) {
-                                validateItem.callback && validateItem.callback(r);
-                                if ((r && r.code == 0) || r) {//validate ok
+                                if ((r && r.code == 200) || r) {//validate ok
                                     validateOK(validateItem);
-                                    _validateObj.remoteResult = true;
+                                    _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: true}
                                 } else {
                                     validateFail(validateItem);
-                                    _validateObj.remoteResult = false;
+                                    _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: false, msg: validateItem.msg};
                                 }
+                                validateItem.callback && validateItem.callback(r);
                             }
                         });
                         return true;
@@ -198,7 +198,6 @@ var $validator = function(){
                 } else { // 校验成功
                     return validateOK(validateItem);
                 }
-                return _validateObj.validateResult;
             };
             function dynamicBindEvent(item, triggerEventNames, eventName) {
                 if (item[triggerEventNames] && item[triggerEventNames].length) {
@@ -215,7 +214,7 @@ var $validator = function(){
                 config: validateObj,
                 events: getEvents(validateObj.items),
                 validateResult: true,
-                remoteResult: true
+                remoteResult: {}
             };
             //初始化绑定blur事件
             $.each(_validateObj.config.items, function (index, item) {
@@ -240,7 +239,19 @@ var $validator = function(){
                             }
                         }
                     });
-                    return _validateObj.validateResult && _validateObj.remoteResult;
+                    //如果存在remote服务错误
+                    //首先校验remote方法是否有错误
+                    if (_validateObj.remoteResult) {
+                        for (var id in _validateObj.remoteResult) {
+                            if (!_validateObj.remoteResult[id].result) {
+                                _validateObj.validateResult = validateFail({
+                                    jqObj: $("#" + id),
+                                    msg: _validateObj.remoteResult[id].msg
+                                })
+                            }
+                        }
+                    }
+                    return _validateObj.validateResult;
                 },
                 reset: function () {                    
                     var jqIds = $.map(_validateObj.config.items, function (item, index) {

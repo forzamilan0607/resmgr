@@ -73,7 +73,7 @@ var vm = new Vue({
                         contentType: "application/json",
                         data: JSON.stringify(vm.form),
 					    success: function(r){
-							if(r.code == 0){
+							if(r.code == $util.HTTP_STATUS.SC_OK){
 								layer.close(index);
 								layer.alert('修改成功', function(){
 									location.reload();

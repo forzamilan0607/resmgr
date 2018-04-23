@@ -1,3 +1,39 @@
+var $sysDictTree = function () {
+    return {
+        treeObj: null,
+        config: {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "dictId",
+                    pIdKey: "parentDictId",
+                    rootPId: -1
+                },
+                key: {
+                    url:"nourl"
+                }
+            }
+        },
+        init: function () {
+            $.ajax({
+                type: "POST",
+                url: baseURL + "sys/sysdict/querySysDictListByCondition",
+                contentType: "application/json",
+                data: JSON.stringify({}),
+                success: function(r){
+                    if(r.code == $util.HTTP_STATUS.SC_OK){
+                        $sysDictTree.treeObj = $.fn.zTree.init($("#parentDicTree"), $sysDictTree.config, r.data);
+                    }else{
+                        alert(r.msg);
+                    }
+                    // var node = ztree.getNodeByParam("dictId", parentId).getNodeByParam("dictId", parentId);
+                    // this.treeObj.selectNode(node);
+                }
+            });
+            // vm.menu.parentName = node.name;
+        }
+    }
+}();
 var vm = new Vue({
     el:'#sysDictApp',
     data:{
@@ -15,25 +51,12 @@ var vm = new Vue({
     },
     created: function (){
         //console.log(JSON.stringify(this.sysDict));
+        $sysDictTree.init();
     },
     methods: {
         query: function () {
             vm.reload();
         },
-        /*validate: function () {
-            if (test) {
-
-            }
-            if (!this.sysDict.status || this.sysDict.status == "-1") {
-                alert("请选择状态");
-                return false;
-            }
-            if (!$.isArray(this.sysDict.dictItems) || !this.sysDict.dictItems.length) {
-                alert("请添加字典值");
-                return false;
-            }
-            return true;
-        },*/
         add: function(){
             vm.showList = false;
             vm.title = "新增";
@@ -70,7 +93,7 @@ var vm = new Vue({
                 contentType: "application/json",
                 data: JSON.stringify(vm.sysDict),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code == $util.HTTP_STATUS.SC_OK){
                         alert('操作成功', function(index){
                             vm.reload();
                         });
@@ -92,7 +115,7 @@ var vm = new Vue({
                     contentType: "application/json",
                     data: JSON.stringify(dictIds),
                     success: function(r){
-                        if(r.code == 0){
+                        if(r.code == $util.HTTP_STATUS.SC_OK){
                             alert('操作成功', function(index){
                                 $("#jqGrid").trigger("reloadGrid");
                             });
@@ -198,6 +221,7 @@ var vm = new Vue({
             }
         },
         showParentDict: function(){
+            alert("come");
             layer.open({
                 type: 1,
                 offset: '50px',

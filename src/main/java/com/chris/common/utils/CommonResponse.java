@@ -1,6 +1,7 @@
 package com.chris.common.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpStatus;
 
 import java.io.Serializable;
 
@@ -13,16 +14,16 @@ public class CommonResponse<T> implements Serializable {
     private String msg;
     private T data;
 
-    public static CommonResponse getSuccessResponseModel() {
-        return (new CommonResponse()).setCode("200").setMsg("success");
+    public static CommonResponse getSuccessResponse() {
+        return (new CommonResponse()).setCode(HttpStatus.SC_OK + "").setMsg("success");
     }
 
-    public static CommonResponse getFailedResponseModel() {
-        return (new CommonResponse()).setCode("500").setMsg("error");
+    public static CommonResponse getFailedResponse() {
+        return (new CommonResponse()).setCode(HttpStatus.SC_INTERNAL_SERVER_ERROR + "").setMsg("error");
     }
 
-    public static CommonResponse getLoginErrorResponseModel() {
-        return (new CommonResponse()).setCode("401").setMsg("auth_error");
+    public static CommonResponse getLoginErrorResponse() {
+        return (new CommonResponse()).setCode(HttpStatus.SC_UNAUTHORIZED + "").setMsg("auth_error");
     }
 
     public CommonResponse() {

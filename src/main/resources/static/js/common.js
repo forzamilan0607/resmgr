@@ -146,6 +146,11 @@ var $myMsg = function(){
 }();
 var $util = function () {
     return {
+        HTTP_STATUS: {
+            SC_OK: 200,
+            SC_NOT_FOUND: 404,
+            SC_INTERNAL_SERVER_ERROR: 500
+        },
         copyProps: function (src, target, attrList) {
             if (attrList) {
                 for (var i = 0; i < attrList.length; i++) {
@@ -177,10 +182,10 @@ var $util = function () {
         }
     }
 }();
-$(function () {
+setTimeout(function () {
     $(document).bind("ajaxSend", function () {
         $("body").mLoading();
     }).bind("ajaxComplete", function () {
         $("body").mLoading("hide");
     });
-});
+}, 500);

@@ -3,7 +3,7 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.common.utils.ValidateUtils;
+import com.chris.common.utils.*;
 import com.chris.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.chris.modules.sys.entity.SysDictEntity;
 import com.chris.modules.sys.service.SysDictService;
-import com.chris.common.utils.PageUtils;
-import com.chris.common.utils.Query;
-import com.chris.common.utils.R;
-
-
 
 
 /**
@@ -67,6 +62,13 @@ public class SysDictController {
 	public boolean checkDictName(@RequestBody SysDictEntity sysDict){
 		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByNotEqualIdAndDictName(sysDict.getDictId(), sysDict.getDictName()));
 		return ValidateUtils.isEmptyCollection(sysDictList);
+	}
+
+	@RequestMapping("/querySysDictListByCondition")
+	@RequiresPermissions("sys:sysdict:list")
+	public CommonResponse querySysDictListByCondition(@RequestBody SysDictEntity sysDict){
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(sysDict);
+		return CommonResponse.getSuccessResponse().setData(sysDictList);
 	}
 	
 	/**
