@@ -1,6 +1,7 @@
 var $sysDictTree = function () {
     return {
         treeObj: null,
+        srcData: null,
         config: {
             data: {
                 simpleData: {
@@ -10,7 +11,8 @@ var $sysDictTree = function () {
                     rootPId: -1
                 },
                 key: {
-                    url:"nourl"
+                    url:"nourl",
+                    name: "dictName"
                 }
             }
         },
@@ -22,6 +24,7 @@ var $sysDictTree = function () {
                 data: JSON.stringify({}),
                 success: function(r){
                     if(r.code == $util.HTTP_STATUS.SC_OK){
+                        $sysDictTree.srcData = $.extend({}, r.data);
                         $sysDictTree.treeObj = $.fn.zTree.init($("#parentDicTree"), $sysDictTree.config, r.data);
                     }else{
                         alert(r.msg);
@@ -41,16 +44,14 @@ var vm = new Vue({
         title: null,
         sysDict: {
             status: "1",
+            // parentDictName: "abc",
             dictItems: []
         },
-        sysDictItem: {
-
-        },
+        sysDictItem: {},
         srcSysDict: null,
         isChangedDictItems: false
     },
     created: function (){
-        //console.log(JSON.stringify(this.sysDict));
         $sysDictTree.init();
     },
     methods: {
@@ -68,8 +69,7 @@ var vm = new Vue({
             }
             vm.showList = false;
             vm.title = "修改";
-
-            vm.getInfo(dictId)
+            vm.getInfo(dictId);
         },
         isUpdateAction: function () {
           return vm.sysDict.dictId != null;
@@ -96,6 +96,8 @@ var vm = new Vue({
                     if(r.code == $util.HTTP_STATUS.SC_OK){
                         alert('操作成功', function(index){
                             vm.reload();
+                            //更新字典树
+                            vm.updateDictTree();
                         });
                     }else{
                         alert(r.msg);
@@ -130,7 +132,26 @@ var vm = new Vue({
             $.get(baseURL + "sys/sysdict/info/"+dictId, function(r){
                 vm.sysDict = r.sysDict;
                 vm.srcSysDict = $.extend({}, vm.sysDict);
+                var nodes = $sysDictTree.treeObj.getSelectedNodes();
+                $.each(nodes, function (index, node) {
+                    if (node.dictId == vm.sysDict.dictId || node.parentDictId == vm.sysDict.dictId) {
+                        $sysDictTree.treeObj.removeNode(node);
+                    }
+                });
             });
+        },
+        updateDictTree: function () {
+          if (this.isUpdateAction()) {
+              var node = $sysDictTree.treeObj.getNodeByTId(this.sysDict.dictId);
+              node.dictName = this.sysDict.dictName;
+
+          } else {
+              $sysDictTree.treeObj.addNodes(null, {
+                  dictId: this.sysDict.dictId,
+                  dictName: this.sysDict.dictName,
+                  parentId: this.sysDict.parentDictId
+              });
+          }
         },
         reload: function (event) {
             vm.showList = true;
@@ -221,7 +242,6 @@ var vm = new Vue({
             }
         },
         showParentDict: function(){
-            alert("come");
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -233,8 +253,10 @@ var vm = new Vue({
                 content: jQuery("#parentDicLayer"),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
-                    alert(JSON.stringify(vm.sysDictItem));
-                    //layer.close(index);
+                    var nodes = $sysDictTree.treeObj.getSelectedNodes();
+                    vm.sysDict.parentDictId = nodes[0].dictId;
+                    vm.sysDict.parentDictName = nodes[0].dictName;
+                    layer.close(index);
                 }
             });
         }

@@ -42,14 +42,15 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="dictName">字典名称：</label>
 				<div class="col-sm-6">
-					<input class="form-control" id="dictName" name="dictName" v-model="sysDict.dictName" placeholder="字典名称" />
+					<input class="form-control" id="dictName" name="dictName" :keyup.13="saveOrUpdate" v-model.trim="sysDict.dictName" placeholder="字典名称" />
                     <input type="hidden" id="dictId"  v-model="sysDict.dictId"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label" for="parentDictId">父级字典：</label>
+				<label class="col-sm-2 control-label" for="parentDictName">父级字典：</label>
 				<div class="col-sm-6">
-					<input class="form-control" id="parentDictId" name="parentDictId" v-model="sysDict.parentDictId" @click="showParentDict" placeholder="请选择父级字典" readonly />
+					<input class="form-control" id="parentDictName" v-model="sysDict.parentDictName" style="cursor:pointer;" @click="showParentDict" placeholder="请选择父级字典" readonly />
+					<input type="hidden" id="parentDictId"  v-model="sysDict.parentDictId"/>
 				</div>
 			</div>
 			<div class="form-group">
@@ -95,7 +96,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="dictDesc">字典描述：</label>
 				<div class="col-sm-6">
-					<textarea class="form-control" id="dictDesc" name="dictDesc" v-model="sysDict.dictDesc" rows="3"></textarea>
+					<textarea class="form-control"  id="dictDesc" name="dictDesc" v-model.trim="sysDict.dictDesc" rows="3"></textarea>
 				</div>
 			</div>
 			<div class="form-group">

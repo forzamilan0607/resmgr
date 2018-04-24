@@ -24,7 +24,7 @@ public class SysDictEntity implements Serializable {
 	//父级字典ID
 	private Integer parentDictId;
 	//父级字典名称
-	private String parentDicName;
+	private String parentDictName;
 	//状态，1、有效，0、无效
 	private String status;
 	//创建时间
@@ -123,12 +123,12 @@ public class SysDictEntity implements Serializable {
 		return isSync;
 	}
 
-	public String getParentDicName() {
-		return parentDicName;
+	public String getParentDictName() {
+		return parentDictName;
 	}
 
-	public void setParentDicName(String parentDicName) {
-		this.parentDicName = parentDicName;
+	public void setParentDictName(String parentDictName) {
+		this.parentDictName = parentDictName;
 	}
 
 	public List<SysDictItemEntity> getDictItems() {
