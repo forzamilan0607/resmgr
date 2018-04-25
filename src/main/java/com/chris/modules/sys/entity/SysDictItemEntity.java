@@ -31,6 +31,10 @@ public class SysDictItemEntity implements Serializable {
 	//是否同步，1、是，0、否
 	private String isSync;
 
+	private Integer parentDictId;
+
+	private String dictName;
+
 	/**
 	 * 设置：字典项ID
 	 */
@@ -119,5 +123,21 @@ public class SysDictItemEntity implements Serializable {
 
 	public void setDictItemName(String dictItemName) {
 		this.dictItemName = dictItemName;
+	}
+
+	public Integer getParentDictId() {
+		return parentDictId;
+	}
+
+	public void setParentDictId(Integer parentDictId) {
+		this.parentDictId = parentDictId;
+	}
+
+	public String getDictName() {
+		return dictName;
+	}
+
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
 	}
 }
