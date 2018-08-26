@@ -111,8 +111,81 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
-
-//判断是否为空
-function isBlank(value) {
-    return !value || !/\S/.test(value)
+function clearObjValue(obj) {
+    if (obj && typeof obj === "object") {
+        for (var attr in obj) {
+            obj[attr] = null;
+        }
+    }
 }
+var $myMsg = function(){
+    var tempMsgs = {
+        requiredMsg : "请输入{name}",
+        required4SelMsg : "请选择{name}",
+        minLength : "{name}不能小于{length}位长度",
+        maxLength : "{name}不能大于{length}位长度",
+        rangelength : "{name}长度必须在{start}-{end}之间"
+    };
+    return {
+        required : function(name) {
+            return tempMsgs.requiredMsg.replace("{name}", name);
+        },
+        required4Sel : function(name) {
+            return tempMsgs.required4SelMsg.replace("{name}", name);
+        },
+        rangelength: function(name, start, end) {
+            return tempMsgs.rangelength.replace("{name}", name).replace("{start}", start).replace("{end}", end);
+        },
+        minLength: function(name, length) {
+            return tempMsgs.minLength.replace("{name}", name).replace("{length}", length);
+        },
+        maxLength: function(name, length) {
+            return tempMsgs.maxLength.replace("{name}", name).replace("{length}", length);
+        }
+    }
+}();
+var $util = function () {
+    return {
+        HTTP_STATUS: {
+            SC_OK: 200,
+            SC_NOT_FOUND: 404,
+            SC_INTERNAL_SERVER_ERROR: 500
+        },
+        copyProps: function (src, target, attrList) {
+            if (attrList) {
+                for (var i = 0; i < attrList.length; i++) {
+                    var attr = attrList[i];
+                    target[attr] = src[attr];
+                }
+            } else {
+                for (var attr in src) {
+                    target[attr] = src[attr];
+                }
+            }
+        },
+        isValueInArray: function (k, v, array) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i][k] == v) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isObjAttrEquals: function (objA, objB, attrList) {
+            for (var i = 0; i < attrList.length; i++) {
+                var attr = attrList[i];
+                if (objA[attr] != objB[attr]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+}();
+setTimeout(function () {
+    $(document).bind("ajaxSend", function () {
+        $("body").mLoading();
+    }).bind("ajaxComplete", function () {
+        $("body").mLoading("hide");
+    });
+}, 500);

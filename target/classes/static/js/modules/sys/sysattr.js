@@ -5,13 +5,12 @@ $(function () {
         colModel: [			
 			{ label: 'attrId', name: 'attrId', index: 'attr_id', width: 50, key: true },
 			{ label: '属性名称', name: 'attrName', index: 'attr_name', width: 80 }, 			
-			{ label: '属性类别，如：文本、数字、邮件、IP地址、下拉框等', name: 'attrType', index: 'attr_type', width: 80 }, 			
-			{ label: '数据来源，1、属性值表 2、字典表 3、业务表', name: 'dataSource', index: 'data_source', width: 80 }, 			
+			{ label: '属性类别', name: 'attrType', index: 'attr_type', width: 80 },
+			{ label: '数据来源', name: 'dataSource', index: 'data_source', width: 80 },
 			{ label: '正则表达式', name: 'regExpression', index: 'reg_expression', width: 80 }, 			
-			{ label: '数据来源=2时为字典KEY，=3时为业务表SQL', name: 'queryText', index: 'query_text', width: 80 }, 			
-			{ label: '状态，1、有效，0、无效', name: 'status', index: 'status', width: 80 }, 			
-			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }, 			
-			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
+			{ label: '数据来源', name: 'queryText', index: 'query_text', width: 80 },
+			{ label: '状态', name: 'status', index: 'status', width: 80 },
+			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }
         ],
 		viewrecords: true,
         height: 385,
@@ -41,7 +40,7 @@ $(function () {
 });
 
 var vm = new Vue({
-	el:'#rrapp',
+	el:'#attrmgr',
 	data:{
 		showList: true,
 		title: null,
@@ -67,14 +66,14 @@ var vm = new Vue({
             vm.getInfo(attrId)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysAttr.attrId == null ? "generator/sysattr/save" : "generator/sysattr/update";
+			var url = vm.sysAttr.attrId == null ? "sys/sysattr/save" : "sys/sysattr/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysAttr),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -93,11 +92,11 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysattr/delete",
+				    url: baseURL + "sys/sysattr/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(attrIds),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == $util.HTTP_STATUS.SC_OK){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -109,7 +108,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(attrId){
-			$.get(baseURL + "generator/sysattr/info/"+attrId, function(r){
+			$.get(baseURL + "sys/sysattr/info/"+attrId, function(r){
                 vm.sysAttr = r.sysAttr;
             });
 		},

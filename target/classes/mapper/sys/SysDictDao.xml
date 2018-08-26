@@ -15,33 +15,50 @@
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDictEntity">
-		select * from sys_dict where dict_id = #{value}
+		select t.*,t1.dict_name AS parentDictName from sys_dict t
+		LEFT JOIN (SELECT dict_id,dict_name FROM sys_dict) t1 ON (t.parent_dict_id = t1.dict_id)
+		where t.dict_id = #{value}
+	</select>
+
+	<select id="querySysDictListByCondition" resultType="com.chris.modules.sys.entity.SysDictEntity" parameterType="com.chris.modules.sys.entity.SysDictEntity">
+		select * from sys_dict t
+		<where>
+			<if test="dictName != null and dictName != '' ">
+				AND t.dict_name = #{dictName}
+			</if>
+			<if test="parentDictId != null and parentDictId != '' ">
+				AND t.parent_dict_id = #{parentDictId}
+			</if>
+			<if test="notEqualDictId != null and notEqualDictId != 0 ">
+				AND t.dict_id != #{notEqualDictId}
+			</if>
+		</where>
 	</select>
 
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictEntity">
 		select * from sys_dict
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by ${sidx} ${order}
+			</when>
 			<otherwise>
-                order by dict_id desc
+				order by dict_id desc
 			</otherwise>
-        </choose>
+		</choose>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from sys_dict 
+		select count(1) from sys_dict
 	</select>
 	 
 	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="dictId">
 		insert into sys_dict
 		(
 			`dict_name`, 
-			`dict_desc`, 
+			`dict_desc`,
 			`parent_dict_id`, 
 			`status`, 
 			`create_time`, 
@@ -50,11 +67,11 @@
 		values
 		(
 			#{dictName}, 
-			#{dictDesc}, 
+			#{dictDesc},
 			#{parentDictId}, 
 			#{status}, 
-			#{createTime}, 
-			#{isSync}
+			now(),
+			0
 		)
 	</insert>
 	 

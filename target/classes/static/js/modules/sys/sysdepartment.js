@@ -67,14 +67,14 @@ var vm = new Vue({
             vm.getInfo(deptId)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysDepartment.deptId == null ? "generator/sysdepartment/save" : "generator/sysdepartment/update";
+			var url = vm.sysDepartment.deptId == null ? "sys/sysdepartment/save" : "sys/sysdepartment/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysDepartment),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -93,11 +93,11 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysdepartment/delete",
+				    url: baseURL + "sys/sysdepartment/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(deptIds),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == $util.HTTP_STATUS.SC_OK){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -109,7 +109,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(deptId){
-			$.get(baseURL + "generator/sysdepartment/info/"+deptId, function(r){
+			$.get(baseURL + "sys/sysdepartment/info/"+deptId, function(r){
                 vm.sysDepartment = r.sysDepartment;
             });
 		},

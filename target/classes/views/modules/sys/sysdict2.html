@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>字典表</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../static/css/jquery.mloading.css">
+<style>
+	.validate-error {
+		border-color: #a94442;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075)
+	}
+	.validate-success {
+		border-color: #3c763d;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075)
+	}
+</style>
+<script src="../../../static/libs/jquery.min.js"></script>
+<script src="../../../static/libs/jquery.validate.min.js"></script>
+<script src="../../../static/js/validator.js"></script>
+<script src="../../../static/plugins/layer/layer.js"></script>
+<script src="../../../static/libs/bootstrap.min.js"></script>
+<script src="../../../static/libs/vue.min.js"></script>
+<script src="../../../static/libs/jquery.mloading.js"></script>
+</head>
+<body>
+<div id="sysDictApp" v-cloak>
+	<h1 class="text-center text-danger">用户注册</h1><br>
+	<form id="register-form" role="form" class="form-horizontal" method="post">
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="dictName">字典名称：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="dictName" name="dictName" v-model="sysDict.dictName" placeholder="字典名称" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="parentDictId">父级字典：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="parentDictId" name="parentDictId" v-model="sysDict.parentDictId" @click="showParentDict" placeholder="请选择父级字典" readonly />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="status">状态：</label>
+			<div class="col-sm-5">
+				<select class="form-control" v-model="sysDict.status" id="status">
+					<option value="-1" selected>请选择</option>
+					<option value="1">启用</option>
+					<option value="0">禁用</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" >字典值列表：</label>
+			<div class="col-sm-5">
+				<div id="mydiv">
+					<table class="table table-bordered" id="mytable">
+						<thead>
+						<tr>
+							<th scope="col">字典项值</th>
+							<th scope="col">扩展值1</th>
+							<th scope="col">扩展值2</th>
+							<th scope="col">
+								<a class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;添加</a>
+							</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="(dictItem, index) in sysDict.dictItems">
+							<td>{{dictItem.dictItemValue}}</td>
+							<td>{{dictItem.extValue1}}</td>
+							<td>{{dictItem.extValue2}}</td>
+							<td>
+								<button class="btn btn-danger" @click="delDictItem(index)">删除{{index}}</button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="dictDesc">字典描述：</label>
+			<div class="col-sm-5">
+				<textarea class="form-control" id="dictDesc" name="dictDesc" v-model="sysDict.dictDesc" rows="3"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="button" class="btn btn-primary" id="btn_submit" value="确定"/>
+				<input type="button" class="btn btn-warning" @click="reload" value="返回" style="margin-left: 10px;"/>
+			</div>
+		</div>
+	</form>
+	<script>
+		var vm = new Vue({
+		    el: "#sysDictApp",
+			data: {
+                sysDict: {
+                    status: "-1",
+                    dictItems: [
+                        /*{
+                            dictItemValue: "admin",
+                            extValue1: "abc",
+                            extValue2: "extend value 2"
+                        },
+						{
+                            dictItemValue: "admin2",
+                            extValue1: "abc2",
+                            extValue2: "extend value 3"
+                        },
+						{
+                            dictItemValue: "admin3",
+                            extValue1: "abc3",
+                            extValue2: "extend value 4"
+                        }*/
+                    ]
+                }
+			},
+			methods: {
+		        add: function () {
+					
+                },
+                reload: function () {
+
+                },
+				delDictItem: function (index) {
+					this.sysDict.dictItems.splice(index, 1);
+                },
+                showParentDict: function () {
+					alert("showParentDict");
+                }
+			}
+		});
+		var _validate;
+        $(document).ready(function() {
+            _validate = $validator.build({
+                allPassRequired: false,
+                items:[
+                    {
+                        id: "status",
+                        changes: ["notEqualsTo"],
+                        validateMethod: {
+                            notEqualsTo: {
+                                value: "-1",
+                                msg: "请选择状态"
+                            }
+                        }
+                    },
+					{
+                        id: "parentDictId",
+                        validateMethod: {
+                            required: {
+                                value: true,
+                                msg: "请选择父级字典"
+                            }
+                        }
+                    },{
+                        id: "dictDesc",
+                        validateMethod: {
+                            checkReg: {
+                                value: /^\d+$/g,
+                                msg: "只能输入数字"
+                            }
+                        }
+                    },{
+                        id: "mydiv",
+                        text: "字典描述",
+                        validateMethod: {
+                            minLength: {
+                                childSelector: "#mytable tbody>tr",
+                                value: 1,
+                                msg: "请至少添加一个字典项值"
+                            }
+                        }
+                    },
+                    {
+                        id: "dictName",
+                        text: "字典名称",
+                        blurs: ["required", "range"],
+                        validateMethod: {
+                            required: {
+                                value: true,
+                                msg: "请输入字典名称"
+                            },
+                            range: {
+                                value: [2, 32],
+                                msg: "字典名称长度范围只能是2-32位之间"
+                            },
+                            notEqualsTo: {
+                                value: "超级",
+                                msg: "字典名称不能等于超级"
+                            }/*,
+                            minLength: {
+                                value: 2,
+                                msg: "字典名称最小长度不能小于2"
+                            },
+                            maxLength: {
+                                value: 32,
+                                msg: "字典名称最大长度不能大于32"
+                            },
+                            remote: {
+                                url : "sdfsdfsdf",
+                                event: "blur",
+                                callback: function (r) {}
+                            }*/
+                        }
+                    }
+                ]
+            });
+
+
+            $("#btn_submit").bind("click", function () {
+                if (_validate.validate()) {
+                    alert("校验成功！");
+				} else {
+                    alert("校验失败！")
+				}
+
+            });
+            /*var $myMsg = function(){
+                var tempMsgs = {
+                    requiredMsg : "请输入{name}",
+                    required4SelMsg : "请选择{name}",
+                    minLength : "{name}不能小于{length}长度",
+                    maxLength : "{name}不能大于{length}长度"
+                };
+                return {
+                    required : function(name) {
+                        return tempMsgs.requiredMsg.replace("{name}", name);
+                    },
+                    required4Sel : function(name) {
+                        return tempMsgs.required4SelMsg.replace("{name}", name);
+                    },
+                    minLength: function(name, length) {
+                        return tempMsgs.minLength.replace("{name}", name).replace("{length}", length);
+                    },
+                    maxLength: function(name, length) {
+                        return tempMsgs.maxLength.replace("{name}", name).replace("{length}", length);
+                    }
+                }
+            }();
+
+            _validate = $("#register-form").validate({
+                rules: {
+                    status: "required",
+                    dictName: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 32
+                    },
+                    dictDesc: {
+                        maxlength: 50
+                    }
+                },
+                messages: {
+                    dictName: {
+                        required: $myMsg.required("字典名称"),
+                        minlength: $myMsg.minLength("字典名称", 2),
+                        maxlength: $myMsg.maxLength("字典名称", 32)
+                    },
+                    status: $myMsg.required4Sel("状态"),
+                    dictDesc: {
+                        maxlength: $myMsg.maxLength("字典名称", 50)
+                    }
+                },
+                errorElement : 'span',
+                errorClass : 'help-block',
+                errorPlacement : function(error, element) {
+                    element.next().remove();
+                    element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                    element.closest('.form-group').append(error);
+                },
+                highlight : function(element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback');
+                },
+                success : function(label) {
+                    var el=label.closest('.form-group').find("input");
+                    el.next().remove();
+                    el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                    label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    label.remove();
+                },
+                submitHandler: function(form) {
+                    alert("submitted!");
+                }
+            });*/
+        });
+	</script>
+</body>
+</html>

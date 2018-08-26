@@ -3,7 +3,7 @@
   "groups": [
     {
       "sourceType": "com.chris.modules.app.utils.JwtUtils",
-      "name": "renren.jwt",
+      "name": "chris.jwt",
       "type": "com.chris.modules.app.utils.JwtUtils"
     },
     {
@@ -23,17 +23,17 @@
     {
       "sourceType": "com.chris.modules.app.utils.JwtUtils",
       "defaultValue": 0,
-      "name": "renren.jwt.expire",
+      "name": "chris.jwt.expire",
       "type": "java.lang.Long"
     },
     {
       "sourceType": "com.chris.modules.app.utils.JwtUtils",
-      "name": "renren.jwt.header",
+      "name": "chris.jwt.header",
       "type": "java.lang.String"
     },
     {
       "sourceType": "com.chris.modules.app.utils.JwtUtils",
-      "name": "renren.jwt.secret",
+      "name": "chris.jwt.secret",
       "type": "java.lang.String"
     }
   ]

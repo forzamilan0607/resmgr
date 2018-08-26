@@ -68,7 +68,7 @@ var vm = new Vue({
                     url: baseURL + "sys/menu/delete",
                     data: "menuId=" + menuId,
                     success: function(r){
-                        if(r.code === 0){
+                        if(r.code == $util.HTTP_STATUS.SC_OK){
                             alert('操作成功', function(){
                                 vm.reload();
                             });
@@ -91,7 +91,7 @@ var vm = new Vue({
                 contentType: "application/json",
                 data: JSON.stringify(vm.menu),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code == $util.HTTP_STATUS.SC_OK){
                         alert('操作成功', function(){
                             vm.reload();
                         });
@@ -127,13 +127,13 @@ var vm = new Vue({
             Menu.table.refresh();
         },
         validator: function () {
-            if(isBlank(vm.menu.name)){
+            if($validator.isBlank(vm.menu.name)){
                 alert("菜单名称不能为空");
                 return true;
             }
 
             //菜单
-            if(vm.menu.type === 1 && isBlank(vm.menu.url)){
+            if(vm.menu.type === 1 && $validator.isBlank(vm.menu.url)){
                 alert("菜单URL不能为空");
                 return true;
             }

@@ -20,63 +20,33 @@
 <script src="../../js/common.js"></script>
 </head>
 <body>
-<div id="rrapp" v-cloak>
-	<div v-show="showList">
-		<div class="grid-btn">
-			<a v-if="hasPermission('sys:sysdictitem:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			<a v-if="hasPermission('sys:sysdictitem:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<a v-if="hasPermission('sys:sysdictitem:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+<div id="infTestApp" v-cloak>
+	<form role="form" class="form-horizontal full-width" method="post" >
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="beginDate">开始时间：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="beginDate" v-model="param.beginDate" placeholder="开始时间" />
+			</div>
 		</div>
-	    <table id="jqGrid"></table>
-	    <div id="jqGridPager"></div>
-    </div>
-    
-    <div v-show="!showList" class="panel panel-default">
-		<div class="panel-heading">{{title}}</div>
-		<form class="form-horizontal">
-											<div class="form-group">
-			   	<div class="col-sm-2 control-label">字典ID</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.dictId" placeholder="字典ID"/>
-			    </div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="endDate">结束时间：</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="endDate" v-model="param.endDate" placeholder="结束时间" />
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">字典项值</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.dictItemValue" placeholder="字典项值"/>
-			    </div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="jsonObj">JSON串：</label>
+			<div class="col-sm-5">
+				<textarea class="form-control" id="jsonObj" v-model="jsonObj.data" placeholder="请求体" >
+				</textarea>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">扩展值1</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.extValue1" placeholder="扩展值1"/>
-			    </div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-5 pull-center">
+				<input type="button" class="btn btn-primary" @click="query" value="接口测试"/>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">扩展值2</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.extValue2" placeholder="扩展值2"/>
-			    </div>
-			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">排序</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.order" placeholder="排序"/>
-			    </div>
-			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">是否同步，1、是，0、否</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDictItem.isSync" placeholder="是否同步，1、是，0、否"/>
-			    </div>
-			</div>
-							<div class="form-group">
-				<div class="col-sm-2 control-label"></div> 
-				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
-			</div>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>
 
 <script src="../../js/modules/sys/sysdictitem.js"></script>

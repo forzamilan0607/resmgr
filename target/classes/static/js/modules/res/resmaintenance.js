@@ -80,7 +80,7 @@ var vm = new Vue({
                 contentType: "application/json",
 			    data: JSON.stringify(vm.resMaintenance),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -103,7 +103,7 @@ var vm = new Vue({
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == $util.HTTP_STATUS.SC_OK){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});

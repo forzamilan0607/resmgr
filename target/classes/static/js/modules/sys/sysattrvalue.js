@@ -6,7 +6,7 @@ $(function () {
 			{ label: 'attrValueId', name: 'attrValueId', index: 'attr_value_id', width: 50, key: true },
 			{ label: '属性ID', name: 'attrId', index: 'attr_id', width: 80 }, 			
 			{ label: '属性值', name: 'attrValue', index: 'attr_value', width: 80 }, 			
-			{ label: '顺序', name: 'order', index: 'order', width: 80 }, 			
+			{ label: '顺序', name: 'sortOrder', index: 'sort_order', width: 80 },
 			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
         ],
 		viewrecords: true,
@@ -27,7 +27,7 @@ $(function () {
         prmNames : {
             page:"page", 
             rows:"limit", 
-            order: "order"
+            order: "sortOrder"
         },
         gridComplete:function(){
         	//隐藏grid底部滚动条
@@ -63,14 +63,14 @@ var vm = new Vue({
             vm.getInfo(attrValueId)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysAttrValue.attrValueId == null ? "generator/sysattrvalue/save" : "generator/sysattrvalue/update";
+			var url = vm.sysAttrValue.attrValueId == null ? "sys/sysattrvalue/save" : "sys/sysattrvalue/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysAttrValue),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -89,11 +89,11 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysattrvalue/delete",
+				    url: baseURL + "sys/sysattrvalue/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(attrValueIds),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == $util.HTTP_STATUS.SC_OK){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -105,7 +105,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(attrValueId){
-			$.get(baseURL + "generator/sysattrvalue/info/"+attrValueId, function(r){
+			$.get(baseURL + "sys/sysattrvalue/info/"+attrValueId, function(r){
                 vm.sysAttrValue = r.sysAttrValue;
             });
 		},

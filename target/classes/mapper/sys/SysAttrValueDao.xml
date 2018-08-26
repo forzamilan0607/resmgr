@@ -8,7 +8,7 @@
         <result property="attrValueId" column="attr_value_id"/>
         <result property="attrId" column="attr_id"/>
         <result property="attrValue" column="attr_value"/>
-        <result property="order" column="order"/>
+        <result property="sortOrder" column="sort_order"/>
         <result property="isSync" column="is_sync"/>
     </resultMap>
 
@@ -20,7 +20,7 @@
 		select * from sys_attr_value
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
+                order by ${sidx} ${sortOrder}
             </when>
 			<otherwise>
                 order by attr_value_id desc
@@ -40,14 +40,14 @@
 		(
 			`attr_id`, 
 			`attr_value`, 
-			`order`, 
+			`sort_order`,
 			`is_sync`
 		)
 		values
 		(
 			#{attrId}, 
 			#{attrValue}, 
-			#{order}, 
+			#{sortOrder},
 			#{isSync}
 		)
 	</insert>
@@ -57,7 +57,7 @@
 		<set>
 			<if test="attrId != null">`attr_id` = #{attrId}, </if>
 			<if test="attrValue != null">`attr_value` = #{attrValue}, </if>
-			<if test="order != null">`order` = #{order}, </if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
 			<if test="isSync != null">`is_sync` = #{isSync}</if>
 		</set>
 		where attr_value_id = #{attrValueId}

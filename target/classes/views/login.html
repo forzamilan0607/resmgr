@@ -14,6 +14,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="css/all-skins.min.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/jquery.mloading.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -30,7 +31,7 @@
   <div class="login-box-body">
       <p class="login-box-msg">管理员登录</p>
       <div v-if="error" class="alert alert-danger alert-dismissible">
-        <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-circle"></i> {{errorMsg}}</h4>
+        <h4 style="margin-bottom: 0px;" v-html="errorMsg"><i class="fa fa-exclamation-circle"></i> </h4>
       </div>
       <div class="form-group has-feedback">
           <input type="text" class="form-control" v-model="form.username" placeholder="账号">
@@ -71,6 +72,7 @@
 <script src="libs/vue.min.js"></script>
 <script src="libs/bootstrap.min.js"></script>
 <script src="libs/app.js"></script>
+<script src="libs/jquery.mloading.js"></script>
 <script src="js/common.js"></script>
 <script type="text/javascript">
     var vm = new Vue({
@@ -102,7 +104,7 @@
                     contentType: "application/json",
                     data: JSON.stringify(vm.form),
                     success: function(r){
-                        if(r.code == 0){//登录成功
+                        if(r.code == $util.HTTP_STATUS.SC_OK){//登录成功
                             localStorage.setItem("token", r.token);
                             parent.location.href ='index.html';
                         }else{

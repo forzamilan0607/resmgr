@@ -1,4 +1,33 @@
 $(function () {
+
+    /*$('#fileupload').fileupload({
+        dataType: 'json',
+        add: function (e, data) {
+            // baseURL + 'fileTransfer/upload'
+            $.getJSON('/example/url', function (result) {
+                data.formData = result; // e.g. {id: 123}
+                data.submit();
+            });
+        }
+    });*/
+
+    $('#fileupload').fileupload({
+        // Uncomment the following to send cross-domain cookies:
+        //xhrFields: {withCredentials: true},
+        url: baseURL + 'fileTransfer/upload'
+    });
+
+    // Enable iframe cross-domain access via redirect option:
+    $('#fileupload').fileupload(
+        'option',
+        'redirect',
+        window.location.href.replace(
+            /\/[^\/]*$/,
+            '/cors/result.html?%s'
+        )
+    );
+
+
     $("#jqGrid").jqGrid({
         url: baseURL + 'sys/oss/list',
         datatype: "json",
@@ -34,7 +63,8 @@ $(function () {
     });
 
     new AjaxUpload('#upload', {
-        action: baseURL + 'sys/oss/upload?token=' + token,
+        // action: baseURL + 'sys/oss/upload?token=' + token,
+        action: baseURL + 'fileTransfer/upload?token=' + token,
         name: 'file',
         autoSubmit:true,
         responseType:"json",
@@ -49,7 +79,7 @@ $(function () {
             }
         },
         onComplete : function(file, r){
-            if(r.code == 0){
+            if(r.code == $util.HTTP_STATUS.SC_OK){
                 alert(r.url);
                 vm.reload();
             }else{
@@ -91,7 +121,7 @@ var vm = new Vue({
                 contentType: "application/json",
 			    data: JSON.stringify(vm.config),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(){
 							vm.reload();
 						});
@@ -114,7 +144,7 @@ var vm = new Vue({
                     contentType: "application/json",
                     data: JSON.stringify(ossIds),
                     success: function(r){
-                        if(r.code === 0){
+                        if(r.code == $util.HTTP_STATUS.SC_OK){
                             alert('操作成功', function(){
                                 vm.reload();
                             });

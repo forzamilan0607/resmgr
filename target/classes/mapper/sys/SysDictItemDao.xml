@@ -7,10 +7,11 @@
     <resultMap type="com.chris.modules.sys.entity.SysDictItemEntity" id="sysDictItemMap">
         <result property="dictItemId" column="dict_item_id"/>
         <result property="dictId" column="dict_id"/>
+        <result property="dictItemName" column="dict_item_name"/>
         <result property="dictItemValue" column="dict_item_value"/>
         <result property="extValue1" column="ext_value1"/>
         <result property="extValue2" column="ext_value2"/>
-        <result property="order" column="order"/>
+        <result property="sortOrder" column="sort_order"/>
         <result property="isSync" column="is_sync"/>
     </resultMap>
 
@@ -20,14 +21,12 @@
 
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictItemEntity">
 		select * from sys_dict_item
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
-			<otherwise>
-                order by dict_item_id desc
-			</otherwise>
-        </choose>
+		<where>
+			<if test="dictId != null and dictId != 0 ">
+				AND dict_id = ${dictId}
+			</if>
+		</where>
+			order by sort_order
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
@@ -37,23 +36,47 @@
 		select count(*) from sys_dict_item 
 	</select>
 	 
+	<insert id="saveBatch" parameterType="java.util.List" >
+		insert into sys_dict_item
+		(
+			`dict_id`,
+			`dict_item_name`,
+			`dict_item_value`,
+			`ext_value1`,
+			`ext_value2`,
+			`sort_order`
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.dictId,jdbcType=INTEGER},
+			#{item.dictItemName,jdbcType=VARCHAR},
+			#{item.dictItemValue,jdbcType=VARCHAR},
+			#{item.extValue1,jdbcType=VARCHAR},
+			#{item.extValue2,jdbcType=VARCHAR},
+			#{item.sortOrder,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
 	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictItemEntity" useGeneratedKeys="true" keyProperty="dictItemId">
 		insert into sys_dict_item
 		(
 			`dict_id`, 
-			`dict_item_value`, 
-			`ext_value1`, 
+			`dict_item_name`,
+			`dict_item_value`,
+			`ext_value1`,
 			`ext_value2`, 
-			`order`, 
+			`sort_order`,
 			`is_sync`
 		)
 		values
 		(
 			#{dictId}, 
-			#{dictItemValue}, 
-			#{extValue1}, 
+			#{dictItemName},
+			#{dictItemValue},
+			#{extValue1},
 			#{extValue2}, 
-			#{order}, 
+			#{sortOrder},
 			#{isSync}
 		)
 	</insert>
@@ -62,10 +85,11 @@
 		update sys_dict_item 
 		<set>
 			<if test="dictId != null">`dict_id` = #{dictId}, </if>
+			<if test="dictItemName != null">`dict_item_value` = #{dictItemName}, </if>
 			<if test="dictItemValue != null">`dict_item_value` = #{dictItemValue}, </if>
 			<if test="extValue1 != null">`ext_value1` = #{extValue1}, </if>
 			<if test="extValue2 != null">`ext_value2` = #{extValue2}, </if>
-			<if test="order != null">`order` = #{order}, </if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
 			<if test="isSync != null">`is_sync` = #{isSync}</if>
 		</set>
 		where dict_item_id = #{dictItemId}
@@ -74,6 +98,10 @@
 	<delete id="delete">
 		delete from sys_dict_item where dict_item_id = #{value}
 	</delete>
+
+	<delete id="deleteByDictId" parameterType="java.lang.Integer">
+		delete from sys_dict_item where dict_id = #{dictId}
+	</delete>
 	
 	<delete id="deleteBatch">
 		delete from sys_dict_item where dict_item_id in 
@@ -81,5 +109,14 @@
 			#{dictItemId}
 		</foreach>
 	</delete>
+
+	<select id="queryDictItemRefNums" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT SUM(t.nums) AS nums FROM
+		(
+			SELECT COUNT(1) AS nums FROM t_res_base_info t WHERE t.res_type = #{dictItemId} OR t.brand = #{dictItemId} OR t.series = #{dictItemId}
+			UNION ALL
+			SELECT COUNT(1) AS nums FROM t_res_maintenance t WHERE t.res_status = #{dictItemId}
+		) t
+	</select>
 
 </mapper>
