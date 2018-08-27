@@ -1,4 +1,4 @@
-package com.chris.modules.res.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,51 +9,71 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class ResAttachmentEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//附件ID
-	private Long attachId;
+	private Long id;
 	//附件名称
-	private String attachName;
+	private String name;
+	//附件URL
+	private String url;
 	//资源ID
 	private Long resId;
 	//附件大小，KB为单位
-	private Integer attachSize;
+	private Integer size;
 	//附件类型，如：jpg、png、pdf、xls、word、mp4等
-	private Integer attachType;
+	private Integer type;
 	//上传时间
 	private Date uploadTime;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//创建时间
+	private Date createTime;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 	//顺序
 	private Integer sortOrder;
 
 	/**
 	 * 设置：附件ID
 	 */
-	public void setAttachId(Long attachId) {
-		this.attachId = attachId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：附件ID
 	 */
-	public Long getAttachId() {
-		return attachId;
+	public Long getId() {
+		return id;
 	}
 	/**
 	 * 设置：附件名称
 	 */
-	public void setAttachName(String attachName) {
-		this.attachName = attachName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * 获取：附件名称
 	 */
-	public String getAttachName() {
-		return attachName;
+	public String getName() {
+		return name;
+	}
+	/**
+	 * 设置：附件URL
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	/**
+	 * 获取：附件URL
+	 */
+	public String getUrl() {
+		return url;
 	}
 	/**
 	 * 设置：资源ID
@@ -70,26 +90,26 @@ public class ResAttachmentEntity implements Serializable {
 	/**
 	 * 设置：附件大小，KB为单位
 	 */
-	public void setAttachSize(Integer attachSize) {
-		this.attachSize = attachSize;
+	public void setSize(Integer size) {
+		this.size = size;
 	}
 	/**
 	 * 获取：附件大小，KB为单位
 	 */
-	public Integer getAttachSize() {
-		return attachSize;
+	public Integer getSize() {
+		return size;
 	}
 	/**
 	 * 设置：附件类型，如：jpg、png、pdf、xls、word、mp4等
 	 */
-	public void setAttachType(Integer attachType) {
-		this.attachType = attachType;
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	/**
 	 * 获取：附件类型，如：jpg、png、pdf、xls、word、mp4等
 	 */
-	public Integer getAttachType() {
-		return attachType;
+	public Integer getType() {
+		return type;
 	}
 	/**
 	 * 设置：上传时间
@@ -104,23 +124,63 @@ public class ResAttachmentEntity implements Serializable {
 		return uploadTime;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建时间
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建时间
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Date getCreateTime() {
+		return createTime;
 	}
-
-	public Integer getSortOrder() {
-		return sortOrder;
+	/**
+	 * 设置：创建人
+	 */
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
-
+	/**
+	 * 获取：创建人
+	 */
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
+	}
+	/**
+	 * 设置：顺序
+	 */
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+	/**
+	 * 获取：顺序
+	 */
+	public Integer getSortOrder() {
+		return sortOrder;
 	}
 }

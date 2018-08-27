@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.sys.dao.SysAttrDao">
+<mapper namespace="com.chris.modules.generator.dao.SysAttrDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.sys.entity.SysAttrEntity" id="sysAttrMap">
-        <result property="attrId" column="attr_id"/>
-        <result property="attrName" column="attr_name"/>
-        <result property="attrType" column="attr_type"/>
+    <resultMap type="com.chris.modules.generator.entity.SysAttrEntity" id="sysAttrMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
         <result property="dataSource" column="data_source"/>
         <result property="regExpression" column="reg_expression"/>
         <result property="queryText" column="query_text"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysAttrEntity">
-		select * from sys_attr where attr_id = #{value}
+	<select id="queryObject" resultType="com.chris.modules.generator.entity.SysAttrEntity">
+		select * from sys_attr where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.sys.entity.SysAttrEntity">
+	<select id="queryList" resultType="com.chris.modules.generator.entity.SysAttrEntity">
 		select * from sys_attr
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by attr_id desc
+                order by id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -39,54 +41,60 @@
 		select count(*) from sys_attr 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.sys.entity.SysAttrEntity" useGeneratedKeys="true" keyProperty="attrId">
+	<insert id="save" parameterType="com.chris.modules.generator.entity.SysAttrEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_attr
 		(
-			`attr_name`, 
-			`attr_type`, 
+			`name`, 
+			`type`, 
 			`data_source`, 
 			`reg_expression`, 
 			`query_text`, 
 			`status`, 
 			`create_time`, 
-			`is_sync`
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
-			#{attrName}, 
-			#{attrType}, 
+			#{name}, 
+			#{type}, 
 			#{dataSource}, 
 			#{regExpression}, 
 			#{queryText}, 
 			#{status}, 
 			#{createTime}, 
-			#{isSync}
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.sys.entity.SysAttrEntity">
+	<update id="update" parameterType="com.chris.modules.generator.entity.SysAttrEntity">
 		update sys_attr 
 		<set>
-			<if test="attrName != null">`attr_name` = #{attrName}, </if>
-			<if test="attrType != null">`attr_type` = #{attrType}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="type != null">`type` = #{type}, </if>
 			<if test="dataSource != null">`data_source` = #{dataSource}, </if>
 			<if test="regExpression != null">`reg_expression` = #{regExpression}, </if>
 			<if test="queryText != null">`query_text` = #{queryText}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
-		where attr_id = #{attrId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from sys_attr where attr_id = #{value}
+		delete from sys_attr where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from sys_attr where attr_id in 
-		<foreach item="attrId" collection="array" open="(" separator="," close=")">
-			#{attrId}
+		delete from sys_attr where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

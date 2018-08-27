@@ -1,4 +1,4 @@
-package com.chris.modules.sys.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.sys.dao.SysAttrDao;
-import com.chris.modules.sys.entity.SysAttrEntity;
-import com.chris.modules.sys.service.SysAttrService;
+import com.chris.modules.generator.dao.SysAttrDao;
+import com.chris.modules.generator.entity.SysAttrEntity;
+import com.chris.modules.generator.service.SysAttrService;
 
 
 
@@ -18,8 +18,8 @@ public class SysAttrServiceImpl implements SysAttrService {
 	private SysAttrDao sysAttrDao;
 	
 	@Override
-	public SysAttrEntity queryObject(Integer attrId){
-		return sysAttrDao.queryObject(attrId);
+	public SysAttrEntity queryObject(Integer id){
+		return sysAttrDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class SysAttrServiceImpl implements SysAttrService {
 	}
 	
 	@Override
-	public void delete(Integer attrId){
-		sysAttrDao.delete(attrId);
+	public void delete(Integer id){
+		sysAttrDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Integer[] attrIds){
-		sysAttrDao.deleteBatch(attrIds);
+	public void deleteBatch(Integer[] ids){
+		sysAttrDao.deleteBatch(ids);
 	}
 	
 }

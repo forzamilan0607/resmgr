@@ -1,4 +1,4 @@
-package com.chris.modules.sys.controller;
+package com.chris.modules.res.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.sys.entity.SysDepartmentEntity;
-import com.chris.modules.sys.service.SysDepartmentService;
+import com.chris.modules.generator.entity.SysDepartmentEntity;
+import com.chris.modules.generator.service.SysDepartmentService;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
@@ -25,10 +25,10 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/sys/sysdepartment")
+@RequestMapping("/generator/sysdepartment")
 public class SysDepartmentController {
 	@Autowired
 	private SysDepartmentService sysDepartmentService;
@@ -37,7 +37,7 @@ public class SysDepartmentController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("sys:sysdepartment:list")
+	@RequiresPermissions("generator:sysdepartment:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -54,10 +54,10 @@ public class SysDepartmentController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{deptId}")
-	@RequiresPermissions("sys:sysdepartment:info")
-	public R info(@PathVariable("deptId") Integer deptId){
-		SysDepartmentEntity sysDepartment = sysDepartmentService.queryObject(deptId);
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("generator:sysdepartment:info")
+	public R info(@PathVariable("id") Integer id){
+		SysDepartmentEntity sysDepartment = sysDepartmentService.queryObject(id);
 		
 		return R.ok().put("sysDepartment", sysDepartment);
 	}
@@ -66,7 +66,7 @@ public class SysDepartmentController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("sys:sysdepartment:save")
+	@RequiresPermissions("generator:sysdepartment:save")
 	public R save(@RequestBody SysDepartmentEntity sysDepartment){
 		sysDepartmentService.save(sysDepartment);
 		
@@ -77,7 +77,7 @@ public class SysDepartmentController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("sys:sysdepartment:update")
+	@RequiresPermissions("generator:sysdepartment:update")
 	public R update(@RequestBody SysDepartmentEntity sysDepartment){
 		sysDepartmentService.update(sysDepartment);
 		
@@ -88,9 +88,9 @@ public class SysDepartmentController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("sys:sysdepartment:delete")
-	public R delete(@RequestBody Integer[] deptIds){
-		sysDepartmentService.deleteBatch(deptIds);
+	@RequiresPermissions("generator:sysdepartment:delete")
+	public R delete(@RequestBody Integer[] ids){
+		sysDepartmentService.deleteBatch(ids);
 		
 		return R.ok();
 	}

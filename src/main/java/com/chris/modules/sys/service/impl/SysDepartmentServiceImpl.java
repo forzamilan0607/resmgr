@@ -1,4 +1,4 @@
-package com.chris.modules.sys.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.sys.dao.SysDepartmentDao;
-import com.chris.modules.sys.entity.SysDepartmentEntity;
-import com.chris.modules.sys.service.SysDepartmentService;
+import com.chris.modules.generator.dao.SysDepartmentDao;
+import com.chris.modules.generator.entity.SysDepartmentEntity;
+import com.chris.modules.generator.service.SysDepartmentService;
 
 
 
@@ -18,8 +18,8 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
 	private SysDepartmentDao sysDepartmentDao;
 	
 	@Override
-	public SysDepartmentEntity queryObject(Integer deptId){
-		return sysDepartmentDao.queryObject(deptId);
+	public SysDepartmentEntity queryObject(Integer id){
+		return sysDepartmentDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
 	}
 	
 	@Override
-	public void delete(Integer deptId){
-		sysDepartmentDao.delete(deptId);
+	public void delete(Integer id){
+		sysDepartmentDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Integer[] deptIds){
-		sysDepartmentDao.deleteBatch(deptIds);
+	public void deleteBatch(Integer[] ids){
+		sysDepartmentDao.deleteBatch(ids);
 	}
 	
 }

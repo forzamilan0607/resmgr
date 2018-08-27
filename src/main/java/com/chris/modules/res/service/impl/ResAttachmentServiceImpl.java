@@ -1,4 +1,4 @@
-package com.chris.modules.res.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.res.dao.ResAttachmentDao;
-import com.chris.modules.res.entity.ResAttachmentEntity;
-import com.chris.modules.res.service.ResAttachmentService;
+import com.chris.modules.generator.dao.ResAttachmentDao;
+import com.chris.modules.generator.entity.ResAttachmentEntity;
+import com.chris.modules.generator.service.ResAttachmentService;
 
 
 
@@ -18,8 +18,8 @@ public class ResAttachmentServiceImpl implements ResAttachmentService {
 	private ResAttachmentDao resAttachmentDao;
 	
 	@Override
-	public ResAttachmentEntity queryObject(Long attachId){
-		return resAttachmentDao.queryObject(attachId);
+	public ResAttachmentEntity queryObject(Long id){
+		return resAttachmentDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class ResAttachmentServiceImpl implements ResAttachmentService {
 	}
 	
 	@Override
-	public void delete(Long attachId){
-		resAttachmentDao.delete(attachId);
+	public void delete(Long id){
+		resAttachmentDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] attachIds){
-		resAttachmentDao.deleteBatch(attachIds);
+	public void deleteBatch(Long[] ids){
+		resAttachmentDao.deleteBatch(ids);
 	}
 	
 }

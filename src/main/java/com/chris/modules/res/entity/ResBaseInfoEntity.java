@@ -1,4 +1,4 @@
-package com.chris.modules.res.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,15 +9,19 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class ResBaseInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//资源ID
-	private Long resId;
+	private Long id;
+	//资源名称
+	private String name;
+	//资源编码
+	private String code;
 	//资源类别
-	private Integer resType;
+	private Integer resTypeId;
 	//品牌
 	private Integer brand;
 	//系列
@@ -31,11 +35,13 @@ public class ResBaseInfoEntity implements Serializable {
 	//主要部件信息
 	private Long componentInfo;
 	//资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	private String resNameplate;
-	//描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	private Integer positionDesc;
+	private String nameplate;
+	//位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
+	private Integer locationId;
+	//描述性位置
+	private String locationDesc;
 	//坐标位置，如：F8、H13
-	private String positionCoordinate;
+	private String locationCoordinate;
 	//三维图形对象ID
 	private String objId;
 	//创建时间
@@ -43,39 +49,63 @@ public class ResBaseInfoEntity implements Serializable {
 	//创建人
 	private Integer createUserId;
 	//修改时间
-	private Date modifyTime;
+	private Date updateTime;
 	//修改人
-	private Integer modifyUserId;
+	private Integer updateUserId;
 	//部门ID
 	private Integer deptId;
+	//资源描述
+	private String remark;
 	//责任人
 	private Integer personResponsible;
-	//是否同步，1、是，0、否
-	private String isSync;
 
 	/**
 	 * 设置：资源ID
 	 */
-	public void setResId(Long resId) {
-		this.resId = resId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：资源ID
 	 */
-	public Long getResId() {
-		return resId;
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * 设置：资源名称
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * 获取：资源名称
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * 设置：资源编码
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+	/**
+	 * 获取：资源编码
+	 */
+	public String getCode() {
+		return code;
 	}
 	/**
 	 * 设置：资源类别
 	 */
-	public void setResType(Integer resType) {
-		this.resType = resType;
+	public void setResTypeId(Integer resTypeId) {
+		this.resTypeId = resTypeId;
 	}
 	/**
 	 * 获取：资源类别
 	 */
-	public Integer getResType() {
-		return resType;
+	public Integer getResTypeId() {
+		return resTypeId;
 	}
 	/**
 	 * 设置：品牌
@@ -152,38 +182,50 @@ public class ResBaseInfoEntity implements Serializable {
 	/**
 	 * 设置：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
 	 */
-	public void setResNameplate(String resNameplate) {
-		this.resNameplate = resNameplate;
+	public void setNameplate(String nameplate) {
+		this.nameplate = nameplate;
 	}
 	/**
 	 * 获取：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
 	 */
-	public String getResNameplate() {
-		return resNameplate;
+	public String getNameplate() {
+		return nameplate;
 	}
 	/**
-	 * 设置：描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
+	 * 设置：位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
 	 */
-	public void setPositionDesc(Integer positionDesc) {
-		this.positionDesc = positionDesc;
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
 	}
 	/**
-	 * 获取：描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
+	 * 获取：位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
 	 */
-	public Integer getPositionDesc() {
-		return positionDesc;
+	public Integer getLocationId() {
+		return locationId;
+	}
+	/**
+	 * 设置：描述性位置
+	 */
+	public void setLocationDesc(String locationDesc) {
+		this.locationDesc = locationDesc;
+	}
+	/**
+	 * 获取：描述性位置
+	 */
+	public String getLocationDesc() {
+		return locationDesc;
 	}
 	/**
 	 * 设置：坐标位置，如：F8、H13
 	 */
-	public void setPositionCoordinate(String positionCoordinate) {
-		this.positionCoordinate = positionCoordinate;
+	public void setLocationCoordinate(String locationCoordinate) {
+		this.locationCoordinate = locationCoordinate;
 	}
 	/**
 	 * 获取：坐标位置，如：F8、H13
 	 */
-	public String getPositionCoordinate() {
-		return positionCoordinate;
+	public String getLocationCoordinate() {
+		return locationCoordinate;
 	}
 	/**
 	 * 设置：三维图形对象ID
@@ -224,26 +266,26 @@ public class ResBaseInfoEntity implements Serializable {
 	/**
 	 * 设置：修改时间
 	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	/**
 	 * 获取：修改时间
 	 */
-	public Date getModifyTime() {
-		return modifyTime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 	/**
 	 * 设置：修改人
 	 */
-	public void setModifyUserId(Integer modifyUserId) {
-		this.modifyUserId = modifyUserId;
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
 	}
 	/**
 	 * 获取：修改人
 	 */
-	public Integer getModifyUserId() {
-		return modifyUserId;
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 	/**
 	 * 设置：部门ID
@@ -258,6 +300,18 @@ public class ResBaseInfoEntity implements Serializable {
 		return deptId;
 	}
 	/**
+	 * 设置：资源描述
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	/**
+	 * 获取：资源描述
+	 */
+	public String getRemark() {
+		return remark;
+	}
+	/**
 	 * 设置：责任人
 	 */
 	public void setPersonResponsible(Integer personResponsible) {
@@ -268,17 +322,5 @@ public class ResBaseInfoEntity implements Serializable {
 	 */
 	public Integer getPersonResponsible() {
 		return personResponsible;
-	}
-	/**
-	 * 设置：是否同步，1、是，0、否
-	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
-	}
-	/**
-	 * 获取：是否同步，1、是，0、否
-	 */
-	public String getIsSync() {
-		return isSync;
 	}
 }

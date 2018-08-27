@@ -1,6 +1,6 @@
-package com.chris.modules.res.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.res.entity.ResMaintenanceEntity;
+import com.chris.modules.generator.entity.ResMaintenanceEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResMaintenanceService {
 	

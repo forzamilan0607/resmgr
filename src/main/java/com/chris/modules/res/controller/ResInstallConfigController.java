@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.res.entity.ResInstallConfigEntity;
-import com.chris.modules.res.service.ResInstallConfigService;
+import com.chris.modules.generator.entity.ResInstallConfigEntity;
+import com.chris.modules.generator.service.ResInstallConfigService;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
@@ -25,10 +25,10 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/res/resinstallconfig")
+@RequestMapping("/generator/resinstallconfig")
 public class ResInstallConfigController {
 	@Autowired
 	private ResInstallConfigService resInstallConfigService;
@@ -37,7 +37,7 @@ public class ResInstallConfigController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions(" res:resinstallconfig:list")
+	@RequiresPermissions("generator:resinstallconfig:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -54,10 +54,10 @@ public class ResInstallConfigController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{configId}")
-	@RequiresPermissions(" res:resinstallconfig:info")
-	public R info(@PathVariable("configId") Long configId){
-		ResInstallConfigEntity resInstallConfig = resInstallConfigService.queryObject(configId);
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("generator:resinstallconfig:info")
+	public R info(@PathVariable("id") Long id){
+		ResInstallConfigEntity resInstallConfig = resInstallConfigService.queryObject(id);
 		
 		return R.ok().put("resInstallConfig", resInstallConfig);
 	}
@@ -66,7 +66,7 @@ public class ResInstallConfigController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions(" res:resinstallconfig:save")
+	@RequiresPermissions("generator:resinstallconfig:save")
 	public R save(@RequestBody ResInstallConfigEntity resInstallConfig){
 		resInstallConfigService.save(resInstallConfig);
 		
@@ -77,7 +77,7 @@ public class ResInstallConfigController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions(" res:resinstallconfig:update")
+	@RequiresPermissions("generator:resinstallconfig:update")
 	public R update(@RequestBody ResInstallConfigEntity resInstallConfig){
 		resInstallConfigService.update(resInstallConfig);
 		
@@ -88,9 +88,9 @@ public class ResInstallConfigController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions(" res:resinstallconfig:delete")
-	public R delete(@RequestBody Long[] configIds){
-		resInstallConfigService.deleteBatch(configIds);
+	@RequiresPermissions("generator:resinstallconfig:delete")
+	public R delete(@RequestBody Long[] ids){
+		resInstallConfigService.deleteBatch(ids);
 		
 		return R.ok();
 	}

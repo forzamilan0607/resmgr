@@ -1,4 +1,4 @@
-package com.chris.modules.sys.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,17 +9,19 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class SysDepartmentEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//部门ID
-	private Integer deptId;
+	private Integer id;
 	//部门名称
-	private String deptName;
-	//公司ID
-	private Integer companyId;
+	private String name;
+	//园区ID
+	private Integer parkId;
+	//上级部门ID
+	private Integer parentDeptId;
 	//状态，1、有效，0、无效
 	private String status;
 	//创建时间
@@ -27,47 +29,57 @@ public class SysDepartmentEntity implements Serializable {
 	//创建人
 	private Integer createUserId;
 	//修改时间
-	private Date modifyTime;
+	private Date updateTime;
 	//修改人
-	private Integer modifyUserId;
-	//是否同步，1、是，0、否
-	private String isSync;
+	private Integer updateUserId;
 
 	/**
 	 * 设置：部门ID
 	 */
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：部门ID
 	 */
-	public Integer getDeptId() {
-		return deptId;
+	public Integer getId() {
+		return id;
 	}
 	/**
 	 * 设置：部门名称
 	 */
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * 获取：部门名称
 	 */
-	public String getDeptName() {
-		return deptName;
+	public String getName() {
+		return name;
 	}
 	/**
-	 * 设置：公司ID
+	 * 设置：园区ID
 	 */
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
+	public void setParkId(Integer parkId) {
+		this.parkId = parkId;
 	}
 	/**
-	 * 获取：公司ID
+	 * 获取：园区ID
 	 */
-	public Integer getCompanyId() {
-		return companyId;
+	public Integer getParkId() {
+		return parkId;
+	}
+	/**
+	 * 设置：上级部门ID
+	 */
+	public void setParentDeptId(Integer parentDeptId) {
+		this.parentDeptId = parentDeptId;
+	}
+	/**
+	 * 获取：上级部门ID
+	 */
+	public Integer getParentDeptId() {
+		return parentDeptId;
 	}
 	/**
 	 * 设置：状态，1、有效，0、无效
@@ -108,37 +120,25 @@ public class SysDepartmentEntity implements Serializable {
 	/**
 	 * 设置：修改时间
 	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	/**
 	 * 获取：修改时间
 	 */
-	public Date getModifyTime() {
-		return modifyTime;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 	/**
 	 * 设置：修改人
 	 */
-	public void setModifyUserId(Integer modifyUserId) {
-		this.modifyUserId = modifyUserId;
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
 	}
 	/**
 	 * 获取：修改人
 	 */
-	public Integer getModifyUserId() {
-		return modifyUserId;
-	}
-	/**
-	 * 设置：是否同步，1、是，0、否
-	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
-	}
-	/**
-	 * 获取：是否同步，1、是，0、否
-	 */
-	public String getIsSync() {
-		return isSync;
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

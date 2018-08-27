@@ -1,4 +1,4 @@
-package com.chris.modules.res.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,13 +9,13 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class ResInstallConfigEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//安装配置ID
-	private Long configId;
+	private Long id;
 	//资源ID
 	private Long resId;
 	//图纸，多个附件ID以逗号分隔
@@ -24,20 +24,26 @@ public class ResInstallConfigEntity implements Serializable {
 	private String operationSpecificationText;
 	//操作规范说明（附件），多个附件ID以逗号分隔
 	private String operationSpecificationAttach;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//创建时间
+	private Date createTime;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 
 	/**
 	 * 设置：安装配置ID
 	 */
-	public void setConfigId(Long configId) {
-		this.configId = configId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：安装配置ID
 	 */
-	public Long getConfigId() {
-		return configId;
+	public Long getId() {
+		return id;
 	}
 	/**
 	 * 设置：资源ID
@@ -88,15 +94,51 @@ public class ResInstallConfigEntity implements Serializable {
 		return operationSpecificationAttach;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建时间
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建时间
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Date getCreateTime() {
+		return createTime;
+	}
+	/**
+	 * 设置：创建人
+	 */
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
+	/**
+	 * 获取：创建人
+	 */
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

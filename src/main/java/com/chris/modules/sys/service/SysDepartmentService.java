@@ -1,6 +1,6 @@
-package com.chris.modules.sys.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.sys.entity.SysDepartmentEntity;
+import com.chris.modules.generator.entity.SysDepartmentEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface SysDepartmentService {
 	
-	SysDepartmentEntity queryObject(Integer deptId);
+	SysDepartmentEntity queryObject(Integer id);
 	
 	List<SysDepartmentEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface SysDepartmentService {
 	
 	void update(SysDepartmentEntity sysDepartment);
 	
-	void delete(Integer deptId);
+	void delete(Integer id);
 	
-	void deleteBatch(Integer[] deptIds);
+	void deleteBatch(Integer[] ids);
 }

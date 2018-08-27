@@ -1,101 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.sys.dao.SysDictDao">
+<mapper namespace="com.chris.modules.generator.dao.SysDictDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.sys.entity.SysDictEntity" id="sysDictMap">
-        <result property="dictId" column="dict_id"/>
-        <result property="dictName" column="dict_name"/>
+    <resultMap type="com.chris.modules.generator.entity.SysDictEntity" id="sysDictMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
         <result property="dictDesc" column="dict_desc"/>
-        <result property="parentDictId" column="parent_dict_id"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDictEntity">
-		select t.*,t1.dict_name AS parentDictName from sys_dict t
-		LEFT JOIN (SELECT dict_id,dict_name FROM sys_dict) t1 ON (t.parent_dict_id = t1.dict_id)
-		where t.dict_id = #{value}
+	<select id="queryObject" resultType="com.chris.modules.generator.entity.SysDictEntity">
+		select * from sys_dict where id = #{value}
 	</select>
 
-	<select id="querySysDictListByCondition" resultType="com.chris.modules.sys.entity.SysDictEntity" parameterType="com.chris.modules.sys.entity.SysDictEntity">
-		select * from sys_dict t
-		<where>
-			<if test="dictName != null and dictName != '' ">
-				AND t.dict_name = #{dictName}
-			</if>
-			<if test="parentDictId != null and parentDictId != '' ">
-				AND t.parent_dict_id = #{parentDictId}
-			</if>
-			<if test="notEqualDictId != null and notEqualDictId != 0 ">
-				AND t.dict_id != #{notEqualDictId}
-			</if>
-		</where>
-	</select>
-
-	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictEntity">
+	<select id="queryList" resultType="com.chris.modules.generator.entity.SysDictEntity">
 		select * from sys_dict
-		<choose>
-			<when test="sidx != null and sidx.trim() != ''">
-				order by ${sidx} ${order}
-			</when>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
 			<otherwise>
-				order by dict_id desc
+                order by id desc
 			</otherwise>
-		</choose>
+        </choose>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(1) from sys_dict
+		select count(*) from sys_dict 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="dictId">
+	<insert id="save" parameterType="com.chris.modules.generator.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_dict
 		(
-			`dict_name`, 
-			`dict_desc`,
-			`parent_dict_id`, 
+			`name`, 
+			`dict_desc`, 
 			`status`, 
 			`create_time`, 
-			`is_sync`
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
-			#{dictName}, 
-			#{dictDesc},
-			#{parentDictId}, 
+			#{name}, 
+			#{dictDesc}, 
 			#{status}, 
-			now(),
-			0
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.sys.entity.SysDictEntity">
+	<update id="update" parameterType="com.chris.modules.generator.entity.SysDictEntity">
 		update sys_dict 
 		<set>
-			<if test="dictName != null">`dict_name` = #{dictName}, </if>
+			<if test="name != null">`name` = #{name}, </if>
 			<if test="dictDesc != null">`dict_desc` = #{dictDesc}, </if>
-			<if test="parentDictId != null">`parent_dict_id` = #{parentDictId}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
-		where dict_id = #{dictId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from sys_dict where dict_id = #{value}
+		delete from sys_dict where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from sys_dict where dict_id in 
-		<foreach item="dictId" collection="array" open="(" separator="," close=")">
-			#{dictId}
+		delete from sys_dict where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

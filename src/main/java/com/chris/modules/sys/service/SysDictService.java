@@ -1,6 +1,6 @@
-package com.chris.modules.sys.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.sys.entity.SysDictEntity;
+import com.chris.modules.generator.entity.SysDictEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface SysDictService {
 	
-	SysDictEntity queryObject(Integer dictId);
+	SysDictEntity queryObject(Integer id);
 	
 	List<SysDictEntity> queryList(Map<String, Object> map);
 	
@@ -24,9 +24,7 @@ public interface SysDictService {
 	
 	void update(SysDictEntity sysDict);
 	
-	void delete(Integer dictId);
+	void delete(Integer id);
 	
-	void deleteBatch(Integer[] dictIds);
-
-	List<SysDictEntity> querySysDictListByCondition(SysDictEntity param);
+	void deleteBatch(Integer[] ids);
 }

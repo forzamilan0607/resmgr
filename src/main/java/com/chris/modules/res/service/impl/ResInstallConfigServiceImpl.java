@@ -1,4 +1,4 @@
-package com.chris.modules.res.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.res.dao.ResInstallConfigDao;
-import com.chris.modules.res.entity.ResInstallConfigEntity;
-import com.chris.modules.res.service.ResInstallConfigService;
+import com.chris.modules.generator.dao.ResInstallConfigDao;
+import com.chris.modules.generator.entity.ResInstallConfigEntity;
+import com.chris.modules.generator.service.ResInstallConfigService;
 
 
 
@@ -18,8 +18,8 @@ public class ResInstallConfigServiceImpl implements ResInstallConfigService {
 	private ResInstallConfigDao resInstallConfigDao;
 	
 	@Override
-	public ResInstallConfigEntity queryObject(Long configId){
-		return resInstallConfigDao.queryObject(configId);
+	public ResInstallConfigEntity queryObject(Long id){
+		return resInstallConfigDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class ResInstallConfigServiceImpl implements ResInstallConfigService {
 	}
 	
 	@Override
-	public void delete(Long configId){
-		resInstallConfigDao.delete(configId);
+	public void delete(Long id){
+		resInstallConfigDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] configIds){
-		resInstallConfigDao.deleteBatch(configIds);
+	public void deleteBatch(Long[] ids){
+		resInstallConfigDao.deleteBatch(ids);
 	}
 	
 }

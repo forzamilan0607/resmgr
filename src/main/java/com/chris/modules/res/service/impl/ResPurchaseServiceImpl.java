@@ -1,4 +1,4 @@
-package com.chris.modules.res.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.res.dao.ResPurchaseDao;
-import com.chris.modules.res.entity.ResPurchaseEntity;
-import com.chris.modules.res.service.ResPurchaseService;
+import com.chris.modules.generator.dao.ResPurchaseDao;
+import com.chris.modules.generator.entity.ResPurchaseEntity;
+import com.chris.modules.generator.service.ResPurchaseService;
 
 
 
@@ -18,8 +18,8 @@ public class ResPurchaseServiceImpl implements ResPurchaseService {
 	private ResPurchaseDao resPurchaseDao;
 	
 	@Override
-	public ResPurchaseEntity queryObject(Long purchaseId){
-		return resPurchaseDao.queryObject(purchaseId);
+	public ResPurchaseEntity queryObject(Long id){
+		return resPurchaseDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class ResPurchaseServiceImpl implements ResPurchaseService {
 	}
 	
 	@Override
-	public void delete(Long purchaseId){
-		resPurchaseDao.delete(purchaseId);
+	public void delete(Long id){
+		resPurchaseDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] purchaseIds){
-		resPurchaseDao.deleteBatch(purchaseIds);
+	public void deleteBatch(Long[] ids){
+		resPurchaseDao.deleteBatch(ids);
 	}
 	
 }

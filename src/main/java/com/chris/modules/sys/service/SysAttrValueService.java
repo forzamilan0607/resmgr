@@ -1,6 +1,6 @@
-package com.chris.modules.sys.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.sys.entity.SysAttrValueEntity;
+import com.chris.modules.generator.entity.SysAttrValueEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface SysAttrValueService {
 	
-	SysAttrValueEntity queryObject(Integer attrValueId);
+	SysAttrValueEntity queryObject(Integer id);
 	
 	List<SysAttrValueEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface SysAttrValueService {
 	
 	void update(SysAttrValueEntity sysAttrValue);
 	
-	void delete(Integer attrValueId);
+	void delete(Integer id);
 	
-	void deleteBatch(Integer[] attrValueIds);
+	void deleteBatch(Integer[] ids);
 }

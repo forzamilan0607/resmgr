@@ -1,8 +1,7 @@
-package com.chris.modules.sys.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -10,57 +9,51 @@ import java.util.List;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class SysDictEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//字典ID
-	private Integer dictId;
+	private Integer id;
 	//字典名称
-	private String dictName;
+	private String name;
 	//字典描述
 	private String dictDesc;
-	//父级字典ID
-	private Integer parentDictId;
-	//父级字典名称
-	private String parentDictName;
 	//状态，1、有效，0、无效
 	private String status;
 	//创建时间
 	private Date createTime;
-	//是否同步，1、是，0、否
-	private String isSync;
-
-	private List<SysDictItemEntity> dictItems;
-
-	private boolean isChangedDictItems;
-
-	private Integer notEqualDictId;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 
 	/**
 	 * 设置：字典ID
 	 */
-	public void setDictId(Integer dictId) {
-		this.dictId = dictId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：字典ID
 	 */
-	public Integer getDictId() {
-		return dictId;
+	public Integer getId() {
+		return id;
 	}
 	/**
 	 * 设置：字典名称
 	 */
-	public void setDictName(String dictName) {
-		this.dictName = dictName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * 获取：字典名称
 	 */
-	public String getDictName() {
-		return dictName;
+	public String getName() {
+		return name;
 	}
 	/**
 	 * 设置：字典描述
@@ -73,18 +66,6 @@ public class SysDictEntity implements Serializable {
 	 */
 	public String getDictDesc() {
 		return dictDesc;
-	}
-	/**
-	 * 设置：父级字典ID
-	 */
-	public void setParentDictId(Integer parentDictId) {
-		this.parentDictId = parentDictId;
-	}
-	/**
-	 * 获取：父级字典ID
-	 */
-	public Integer getParentDictId() {
-		return parentDictId;
 	}
 	/**
 	 * 设置：状态，1、有效，0、无效
@@ -111,57 +92,39 @@ public class SysDictEntity implements Serializable {
 		return createTime;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建人
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建人
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Integer getCreateUserId() {
+		return createUserId;
 	}
-
-	public String getParentDictName() {
-		return parentDictName;
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
-
-	public void setParentDictName(String parentDictName) {
-		this.parentDictName = parentDictName;
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
 	}
-
-	public List<SysDictItemEntity> getDictItems() {
-		return dictItems;
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
 	}
-
-	public void setDictItems(List<SysDictItemEntity> dictItems) {
-		this.dictItems = dictItems;
-	}
-
-	public SysDictEntity() {
-	}
-
-	public static SysDictEntity buildByNotEqualIdAndDictName(Integer notEqualDictId, String dictName) {
-		SysDictEntity sysDictEntity = new SysDictEntity();
-		sysDictEntity.setDictName(dictName);
-		sysDictEntity.setNotEqualDictId(notEqualDictId);
-		return sysDictEntity;
-	}
-
-	public boolean isChangedDictItems() {
-		return isChangedDictItems;
-	}
-
-	public void setChangedDictItems(boolean changedDictItems) {
-		isChangedDictItems = changedDictItems;
-	}
-
-	public Integer getNotEqualDictId() {
-		return notEqualDictId;
-	}
-
-	public void setNotEqualDictId(Integer notEqualDictId) {
-		this.notEqualDictId = notEqualDictId;
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

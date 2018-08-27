@@ -1,6 +1,6 @@
-package com.chris.modules.sys.dao;
+package com.chris.modules.res.dao;
 
-import com.chris.modules.sys.entity.SysDepartmentEntity;
+import com.chris.modules.generator.entity.SysDepartmentEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @Mapper
 public interface SysDepartmentDao extends BaseDao<SysDepartmentEntity> {

@@ -1,4 +1,4 @@
-package com.chris.modules.res.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class ResMaintenanceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class ResMaintenanceEntity implements Serializable {
 	//资源ID
 	private Long resId;
 	//维护单位
-	private Integer maintainDept;
+	private Integer maintainDeptId;
 	//责任人
 	private Integer personResponsible;
 	//保修开始日期
@@ -43,8 +43,14 @@ public class ResMaintenanceEntity implements Serializable {
 	private String precautionsAttach;
 	//设备状态,入库/在用/送修/注销
 	private Integer resStatus;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//创建时间
+	private Date createTime;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 
 	/**
 	 * 设置：运维ID
@@ -73,14 +79,14 @@ public class ResMaintenanceEntity implements Serializable {
 	/**
 	 * 设置：维护单位
 	 */
-	public void setMaintainDept(Integer maintainDept) {
-		this.maintainDept = maintainDept;
+	public void setMaintainDeptId(Integer maintainDeptId) {
+		this.maintainDeptId = maintainDeptId;
 	}
 	/**
 	 * 获取：维护单位
 	 */
-	public Integer getMaintainDept() {
-		return maintainDept;
+	public Integer getMaintainDeptId() {
+		return maintainDeptId;
 	}
 	/**
 	 * 设置：责任人
@@ -215,15 +221,51 @@ public class ResMaintenanceEntity implements Serializable {
 		return resStatus;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建时间
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建时间
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Date getCreateTime() {
+		return createTime;
+	}
+	/**
+	 * 设置：创建人
+	 */
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
+	/**
+	 * 获取：创建人
+	 */
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

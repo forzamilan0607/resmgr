@@ -1,16 +1,23 @@
-package com.chris.modules.sys.controller;
+package com.chris.modules.res.controller;
 
 import java.util.List;
 import java.util.Map;
 
-import com.chris.common.utils.*;
-import com.chris.modules.sys.service.SysDictItemService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.sys.entity.SysDictEntity;
-import com.chris.modules.sys.service.SysDictService;
+import com.chris.modules.generator.entity.SysDictEntity;
+import com.chris.modules.generator.service.SysDictService;
+import com.chris.common.utils.PageUtils;
+import com.chris.common.utils.Query;
+import com.chris.common.utils.R;
+
+
 
 
 /**
@@ -18,22 +25,19 @@ import com.chris.modules.sys.service.SysDictService;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/sys/sysdict")
+@RequestMapping("/generator/sysdict")
 public class SysDictController {
 	@Autowired
 	private SysDictService sysDictService;
-
-	@Autowired
-	private SysDictItemService sysDictItemService;
-
+	
 	/**
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("sys:sysdict:list")
+	@RequiresPermissions("generator:sysdict:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -50,34 +54,22 @@ public class SysDictController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{dictId}")
-	@RequiresPermissions("sys:sysdict:info")
-	public R info(@PathVariable("dictId") Integer dictId){
-		SysDictEntity sysDict = sysDictService.queryObject(dictId);
-
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("generator:sysdict:info")
+	public R info(@PathVariable("id") Integer id){
+		SysDictEntity sysDict = sysDictService.queryObject(id);
+		
 		return R.ok().put("sysDict", sysDict);
-	}
-
-	@RequestMapping("/checkDictName")
-	public boolean checkDictName(@RequestBody SysDictEntity sysDict){
-		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(SysDictEntity.buildByNotEqualIdAndDictName(sysDict.getDictId(), sysDict.getDictName()));
-		return ValidateUtils.isEmptyCollection(sysDictList);
-	}
-
-	@RequestMapping("/querySysDictListByCondition")
-	@RequiresPermissions("sys:sysdict:list")
-	public CommonResponse querySysDictListByCondition(@RequestBody SysDictEntity sysDict){
-		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(sysDict);
-		return CommonResponse.getSuccessResponse().setData(sysDictList);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("sys:sysdict:save")
+	@RequiresPermissions("generator:sysdict:save")
 	public R save(@RequestBody SysDictEntity sysDict){
 		sysDictService.save(sysDict);
+		
 		return R.ok();
 	}
 	
@@ -85,9 +77,10 @@ public class SysDictController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("sys:sysdict:update")
+	@RequiresPermissions("generator:sysdict:update")
 	public R update(@RequestBody SysDictEntity sysDict){
 		sysDictService.update(sysDict);
+		
 		return R.ok();
 	}
 	
@@ -95,20 +88,11 @@ public class SysDictController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("sys:sysdict:delete")
-	public R delete(@RequestBody Integer[] dictIds){
-		sysDictService.deleteBatch(dictIds);
+	@RequiresPermissions("generator:sysdict:delete")
+	public R delete(@RequestBody Integer[] ids){
+		sysDictService.deleteBatch(ids);
 		
 		return R.ok();
-	}
-
-	/**
-	 * 验证是否可删除字典项
-	 */
-	@RequestMapping("/isCanDelDictItem")
-	@RequiresPermissions("sys:sysdict:delete")
-	public boolean isCanDelDictItem(@RequestBody Integer dictItemId){
-		return this.sysDictItemService.isCanDelDictItem(dictItemId);
 	}
 	
 }

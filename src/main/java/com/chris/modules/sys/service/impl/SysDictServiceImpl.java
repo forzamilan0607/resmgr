@@ -1,103 +1,55 @@
-package com.chris.modules.sys.service.impl;
+package com.chris.modules.generator.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.chris.common.utils.CommonResponse;
-import com.chris.common.utils.CommonUtils;
-import com.chris.common.utils.ValidateUtils;
-import com.chris.modules.sys.entity.SysDictItemEntity;
-import com.chris.modules.sys.service.SysDictItemService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.sys.dao.SysDictDao;
-import com.chris.modules.sys.entity.SysDictEntity;
-import com.chris.modules.sys.service.SysDictService;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
+import com.chris.modules.generator.dao.SysDictDao;
+import com.chris.modules.generator.entity.SysDictEntity;
+import com.chris.modules.generator.service.SysDictService;
+
 
 
 @Service("sysDictService")
-@Slf4j
 public class SysDictServiceImpl implements SysDictService {
 	@Autowired
 	private SysDictDao sysDictDao;
-	@Autowired
-	private SysDictItemService sysDictItemService;
+	
 	@Override
-	public SysDictEntity queryObject(Integer dictId){
-		SysDictEntity dataDict = this.sysDictDao.queryObject(dictId);
-		if (!ObjectUtils.isEmpty(dataDict)) {
-			dataDict.setDictItems(this.sysDictItemService.queryList(CommonUtils.buildMapByKeyValue(new String[]{"dictId"}, dictId)));
-		}
-		return dataDict;
+	public SysDictEntity queryObject(Integer id){
+		return sysDictDao.queryObject(id);
 	}
 	
 	@Override
 	public List<SysDictEntity> queryList(Map<String, Object> map){
-		return this.sysDictDao.queryList(map);
+		return sysDictDao.queryList(map);
 	}
 	
 	@Override
 	public int queryTotal(Map<String, Object> map){
-		return this.sysDictDao.queryTotal(map);
+		return sysDictDao.queryTotal(map);
 	}
 	
 	@Override
-	@Transactional
 	public void save(SysDictEntity sysDict){
-		this.sysDictDao.save(sysDict);
-		this.addDictItems(sysDict);
+		sysDictDao.save(sysDict);
 	}
-
-	private void addDictItems(SysDictEntity sysDict) {
-		this.setDictIdAndSort(sysDict);
-		this.sysDictItemService.saveBatch(sysDict.getDictItems());
-	}
-
-	private void setDictIdAndSort(SysDictEntity sysDict) {
-		for (int i = 0; i < sysDict.getDictItems().size(); i++) {
-			SysDictItemEntity dictItem = sysDict.getDictItems().get(i);
-			dictItem.setDictId(sysDict.getDictId());
-			dictItem.setSortOrder(i + 1);
-		}
-	}
-
+	
 	@Override
 	public void update(SysDictEntity sysDict){
-		this.sysDictDao.update(sysDict);
-		if (sysDict.isChangedDictItems()) {
-			this.sysDictItemService.deleteByDictId(sysDict.getDictId());
-			this.addDictItems(sysDict);
-		}
+		sysDictDao.update(sysDict);
 	}
 	
 	@Override
-	public void delete(Integer dictId){
-		this.sysDictDao.delete(dictId);
+	public void delete(Integer id){
+		sysDictDao.delete(id);
 	}
 	
 	@Override
-	@Transactional
-	public void deleteBatch(Integer[] dictIds){
-		//删除字典前需要校验字典是否有引用
-		this.sysDictDao.deleteBatch(dictIds);
-		for (int i = 0; i < dictIds.length; i++) {
-			this.sysDictItemService.deleteByDictId(dictIds[i]);
-		}
+	public void deleteBatch(Integer[] ids){
+		sysDictDao.deleteBatch(ids);
 	}
-
-	/*public CommonResponse isCanDelete(Integer [] dictIds) {
-
-	}*/
-
-	@Override
-	public List<SysDictEntity> querySysDictListByCondition(SysDictEntity param) {
-		return this.sysDictDao.querySysDictListByCondition(param);
-	}
-
-
+	
 }

@@ -23,128 +23,71 @@
 <script src="../../js/validator.js"></script>
 </head>
 <body>
-<div id="sysDictApp" v-cloak>
+<div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
-			<a v-if="hasPermission('sys:sysdict:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			<a v-if="hasPermission('sys:sysdict:update')" class="btn btn-primary" @click="update"><i
-					class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<a v-if="hasPermission('sys:sysdict:delete')" class="btn btn-primary" @click="del"><i
-					class="fa fa-trash-o"></i>&nbsp;删除</a>
+			<a v-if="hasPermission('generator:sysdict:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('generator:sysdict:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('generator:sysdict:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 		</div>
-		<table id="jqGrid"></table>
-		<div id="jqGridPager"></div>
-	</div>
-
-	<div v-show="!showList" class="panel panel-default">
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
-		<form id="register-form" role="form" class="form-horizontal full-width" method="post" >
-			<div class="form-group">
-				<label class="col-sm-2 control-label" for="dictName">字典名称：</label>
-				<div class="col-sm-6">
-					<input class="form-control" id="dictName" name="dictName" :keyup.13="saveOrUpdate" v-model.trim="sysDict.dictName" placeholder="字典名称" />
-                    <input type="hidden" id="dictId"  v-model="sysDict.dictId"/>
-				</div>
+		<form class="form-horizontal">
+											<div class="form-group">
+			   	<div class="col-sm-2 control-label">字典名称</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="name" v-model="sysDict.name" placeholder="字典名称"/>
+			    </div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label" for="parentDictName">父级字典：</label>
-				<div class="col-sm-6">
-					<input class="form-control" id="parentDictName" v-model="sysDict.parentDictName" style="cursor:pointer;" @click="showParentDict" placeholder="请选择父级字典" readonly />
-					<input type="hidden" id="parentDictId"  v-model="sysDict.parentDictId"/>
-				</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">字典描述</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="dictDesc" v-model="sysDict.dictDesc" placeholder="字典描述"/>
+			    </div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label" for="status">状态：</label>
-				<div class="col-sm-6">
-					<select class="form-control" v-model="sysDict.status" id="status" :disabled="sysDict.dictId == null">
-						<option disabled value="-1">请选择</option>
-						<option value="1">启用</option>
-						<option value="0">禁用</option>
-					</select>
-				</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">状态，1、有效，0、无效</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="status" v-model="sysDict.status" placeholder="状态，1、有效，0、无效"/>
+			    </div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label" >字典值列表：</label>
-				<div class="col-sm-6">
-					<table class="table table-bordered" id="table_dictItems">
-						<thead>
-						<tr>
-							<th scope="col">字典项名称</th>
-							<th scope="col">字典项值</th>
-							<th scope="col">扩展值1</th>
-							<th scope="col">扩展值2</th>
-							<th scope="col">
-								<a class="btn btn-primary" @click="addOrUpdateDictItem(-1)"><i class="fa fa-plus"></i>&nbsp;添加</a>
-							</th>
-						</tr>
-						</thead>
-						<tbody id="tbody_dictItems">
-							<tr v-for="(dictItem, index) in sysDict.dictItems">
-								<td>{{ dictItem.dictItemName }}</td>
-								<td>{{ dictItem.dictItemValue }}</td>
-								<td>{{ dictItem.extValue1 }}</td>
-								<td>{{ dictItem.extValue2 }}</td>
-								<td>
-									<a class="btn btn-primary" @click="addOrUpdateDictItem(index)"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-									<a class="btn btn-danger" @click="delDictItem(index)"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">创建时间</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="createTime" v-model="sysDict.createTime" placeholder="创建时间"/>
+			    </div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label" for="dictDesc">字典描述：</label>
-				<div class="col-sm-6">
-					<textarea class="form-control"  id="dictDesc" name="dictDesc" v-model.trim="sysDict.dictDesc" rows="3"></textarea>
-				</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">创建人</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="createUserId" v-model="sysDict.createUserId" placeholder="创建人"/>
+			    </div>
 			</div>
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-6 pull-center">
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改时间</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateTime" v-model="sysDict.updateTime" placeholder="修改时间"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改人</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateUserId" v-model="sysDict.updateUserId" placeholder="修改人"/>
+			    </div>
+			</div>
+							<div class="form-group">
+				<div class="col-sm-2 control-label"></div> 
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-				<input type="button" class="btn btn-warning" @click="reload" value="返回" style="margin-left: 10px;"/>
-				</div>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
 			</div>
 		</form>
-
-	</div>
-
-    <div id="dictItemsLayer" style="display: none; padding: 10px;">
-        <form class="form-horizontal" style="width: 100%;">
-            <div class="form-group">
-                <div class="col-sm-2 control-label">字典项名称</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="sysDictItem.dictItemName" placeholder="字典项名称"/>
-                </div>
-            </div>
-			<div class="form-group">
-                <div class="col-sm-2 control-label">字典项值</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="sysDictItem.dictItemValue" placeholder="字典项值"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">扩展值1</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="sysDictItem.extValue1" placeholder="扩展值1"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">扩展值2</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="sysDictItem.extValue2" placeholder="扩展值2"/>
-                </div>
-            </div>
-        </form>
-    </div>
-
-	<div id="parentDicLayer" style="display: none;padding:10px;">
-		<ul id="parentDicTree" class="ztree"></ul>
 	</div>
 </div>
 
-
-
-<script src="../../js/modules/sys/sysdict.js"></script>
+<script src="../../js/modules/generator/sysdict.js"></script>
 </body>
 </html>

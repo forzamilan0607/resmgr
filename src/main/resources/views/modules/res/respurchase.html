@@ -7,10 +7,12 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../css/jquery.mloading.css">
 <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" href="../../css/main.css">
 <script src="../../libs/jquery.min.js"></script>
+<script src="../../libs/jquery.mloading.js"></script>
 <script src="../../plugins/layer/layer.js"></script>
 <script src="../../libs/bootstrap.min.js"></script>
 <script src="../../libs/vue.min.js"></script>
@@ -18,6 +20,7 @@
 <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 <script src="../../js/common.js"></script>
+<script src="../../js/validator.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -37,49 +40,61 @@
 											<div class="form-group">
 			   	<div class="col-sm-2 control-label">资源ID</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.resId" placeholder="资源ID"/>
+			      <input type="text" class="form-control" id="resId" v-model="resPurchase.resId" placeholder="资源ID"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">合同单位</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.contractCompany" placeholder="合同单位"/>
+			      <input type="text" class="form-control" id="contractCompany" v-model="resPurchase.contractCompany" placeholder="合同单位"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">合同编号</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.contractNo" placeholder="合同编号"/>
+			      <input type="text" class="form-control" id="contractNo" v-model="resPurchase.contractNo" placeholder="合同编号"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">合同附件，多个附件ID以逗号分隔</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.contractAttach" placeholder="合同附件，多个附件ID以逗号分隔"/>
+			      <input type="text" class="form-control" id="contractAttach" v-model="resPurchase.contractAttach" placeholder="合同附件，多个附件ID以逗号分隔"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">合同描述</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.contractDesc" placeholder="合同描述"/>
+			      <input type="text" class="form-control" id="contractDesc" v-model="resPurchase.contractDesc" placeholder="合同描述"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">采购价格</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.purchasePrice" placeholder="采购价格"/>
+			      <input type="text" class="form-control" id="price" v-model="resPurchase.price" placeholder="采购价格"/>
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label">采购时间</div>
+			   	<div class="col-sm-2 control-label">创建时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.purchaseDate" placeholder="采购时间"/>
+			      <input type="text" class="form-control" id="createTime" v-model="resPurchase.createTime" placeholder="创建时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label">是否同步，1、是，0、否</div>
+			   	<div class="col-sm-2 control-label">创建人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resPurchase.isSync" placeholder="是否同步，1、是，0、否"/>
+			      <input type="text" class="form-control" id="createUserId" v-model="resPurchase.createUserId" placeholder="创建人"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改时间</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateTime" v-model="resPurchase.updateTime" placeholder="修改时间"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改人</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateUserId" v-model="resPurchase.updateUserId" placeholder="修改人"/>
 			    </div>
 			</div>
 							<div class="form-group">
@@ -91,6 +106,6 @@
 	</div>
 </div>
 
-<script src="../../js/modules/res/respurchase.js"></script>
+<script src="../../js/modules/generator/respurchase.js"></script>
 </body>
 </html>

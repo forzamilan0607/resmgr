@@ -1,6 +1,6 @@
-package com.chris.modules.res.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.res.entity.ResPurchaseEntity;
+import com.chris.modules.generator.entity.ResPurchaseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResPurchaseService {
 	
-	ResPurchaseEntity queryObject(Long purchaseId);
+	ResPurchaseEntity queryObject(Long id);
 	
 	List<ResPurchaseEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface ResPurchaseService {
 	
 	void update(ResPurchaseEntity resPurchase);
 	
-	void delete(Long purchaseId);
+	void delete(Long id);
 	
-	void deleteBatch(Long[] purchaseIds);
+	void deleteBatch(Long[] ids);
 }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.res.entity.ResAttachmentEntity;
-import com.chris.modules.res.service.ResAttachmentService;
+import com.chris.modules.generator.entity.ResAttachmentEntity;
+import com.chris.modules.generator.service.ResAttachmentService;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
@@ -25,10 +25,10 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/res/resattachment")
+@RequestMapping("/generator/resattachment")
 public class ResAttachmentController {
 	@Autowired
 	private ResAttachmentService resAttachmentService;
@@ -37,7 +37,7 @@ public class ResAttachmentController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions(" res:resattachment:list")
+	@RequiresPermissions("generator:resattachment:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -54,10 +54,10 @@ public class ResAttachmentController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{attachId}")
-	@RequiresPermissions(" res:resattachment:info")
-	public R info(@PathVariable("attachId") Long attachId){
-		ResAttachmentEntity resAttachment = resAttachmentService.queryObject(attachId);
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("generator:resattachment:info")
+	public R info(@PathVariable("id") Long id){
+		ResAttachmentEntity resAttachment = resAttachmentService.queryObject(id);
 		
 		return R.ok().put("resAttachment", resAttachment);
 	}
@@ -66,7 +66,7 @@ public class ResAttachmentController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions(" res:resattachment:save")
+	@RequiresPermissions("generator:resattachment:save")
 	public R save(@RequestBody ResAttachmentEntity resAttachment){
 		resAttachmentService.save(resAttachment);
 		
@@ -77,7 +77,7 @@ public class ResAttachmentController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions(" res:resattachment:update")
+	@RequiresPermissions("generator:resattachment:update")
 	public R update(@RequestBody ResAttachmentEntity resAttachment){
 		resAttachmentService.update(resAttachment);
 		
@@ -88,9 +88,9 @@ public class ResAttachmentController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions(" res:resattachment:delete")
-	public R delete(@RequestBody Long[] attachIds){
-		resAttachmentService.deleteBatch(attachIds);
+	@RequiresPermissions("generator:resattachment:delete")
+	public R delete(@RequestBody Long[] ids){
+		resAttachmentService.deleteBatch(ids);
 		
 		return R.ok();
 	}

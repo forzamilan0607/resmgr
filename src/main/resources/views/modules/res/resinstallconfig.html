@@ -7,10 +7,12 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../css/jquery.mloading.css">
 <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" href="../../css/main.css">
 <script src="../../libs/jquery.min.js"></script>
+<script src="../../libs/jquery.mloading.js"></script>
 <script src="../../plugins/layer/layer.js"></script>
 <script src="../../libs/bootstrap.min.js"></script>
 <script src="../../libs/vue.min.js"></script>
@@ -18,6 +20,7 @@
 <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 <script src="../../js/common.js"></script>
+<script src="../../js/validator.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -37,31 +40,49 @@
 											<div class="form-group">
 			   	<div class="col-sm-2 control-label">资源ID</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resInstallConfig.resId" placeholder="资源ID"/>
+			      <input type="text" class="form-control" id="resId" v-model="resInstallConfig.resId" placeholder="资源ID"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">图纸，多个附件ID以逗号分隔</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resInstallConfig.drawing" placeholder="图纸，多个附件ID以逗号分隔"/>
+			      <input type="text" class="form-control" id="drawing" v-model="resInstallConfig.drawing" placeholder="图纸，多个附件ID以逗号分隔"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">操作规范说明</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"/>
+			      <input type="text" class="form-control" id="operationSpecificationText" v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">操作规范说明（附件），多个附件ID以逗号分隔</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resInstallConfig.operationSpecificationAttach" placeholder="操作规范说明（附件），多个附件ID以逗号分隔"/>
+			      <input type="text" class="form-control" id="operationSpecificationAttach" v-model="resInstallConfig.operationSpecificationAttach" placeholder="操作规范说明（附件），多个附件ID以逗号分隔"/>
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label">是否同步，1、是，0、否</div>
+			   	<div class="col-sm-2 control-label">创建时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resInstallConfig.isSync" placeholder="是否同步，1、是，0、否"/>
+			      <input type="text" class="form-control" id="createTime" v-model="resInstallConfig.createTime" placeholder="创建时间"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">创建人</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="createUserId" v-model="resInstallConfig.createUserId" placeholder="创建人"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改时间</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateTime" v-model="resInstallConfig.updateTime" placeholder="修改时间"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">修改人</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="updateUserId" v-model="resInstallConfig.updateUserId" placeholder="修改人"/>
 			    </div>
 			</div>
 							<div class="form-group">
@@ -73,6 +94,6 @@
 	</div>
 </div>
 
-<script src="../../js/modules/res/resinstallconfig.js"></script>
+<script src="../../js/modules/generator/resinstallconfig.js"></script>
 </body>
 </html>

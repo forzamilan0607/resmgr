@@ -1,4 +1,4 @@
-package com.chris.modules.res.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,13 +10,13 @@ import java.math.BigDecimal;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class ResPurchaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//采购ID
-	private Long purchaseId;
+	private Long id;
 	//资源ID
 	private Long resId;
 	//合同单位
@@ -28,23 +28,27 @@ public class ResPurchaseEntity implements Serializable {
 	//合同描述
 	private String contractDesc;
 	//采购价格
-	private BigDecimal purchasePrice;
-	//采购时间
-	private Date purchaseDate;
-	//是否同步，1、是，0、否
-	private String isSync;
+	private BigDecimal price;
+	//创建时间
+	private Date createTime;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 
 	/**
 	 * 设置：采购ID
 	 */
-	public void setPurchaseId(Long purchaseId) {
-		this.purchaseId = purchaseId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：采购ID
 	 */
-	public Long getPurchaseId() {
-		return purchaseId;
+	public Long getId() {
+		return id;
 	}
 	/**
 	 * 设置：资源ID
@@ -109,37 +113,61 @@ public class ResPurchaseEntity implements Serializable {
 	/**
 	 * 设置：采购价格
 	 */
-	public void setPurchasePrice(BigDecimal purchasePrice) {
-		this.purchasePrice = purchasePrice;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 	/**
 	 * 获取：采购价格
 	 */
-	public BigDecimal getPurchasePrice() {
-		return purchasePrice;
+	public BigDecimal getPrice() {
+		return price;
 	}
 	/**
-	 * 设置：采购时间
+	 * 设置：创建时间
 	 */
-	public void setPurchaseDate(Date purchaseDate) {
-		this.purchaseDate = purchaseDate;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	/**
-	 * 获取：采购时间
+	 * 获取：创建时间
 	 */
-	public Date getPurchaseDate() {
-		return purchaseDate;
+	public Date getCreateTime() {
+		return createTime;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建人
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建人
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

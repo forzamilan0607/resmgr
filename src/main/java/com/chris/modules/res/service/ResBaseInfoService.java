@@ -1,6 +1,6 @@
-package com.chris.modules.res.service;
+package com.chris.modules.generator.service;
 
-import com.chris.modules.res.entity.ResBaseInfoEntity;
+import com.chris.modules.generator.entity.ResBaseInfoEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResBaseInfoService {
 	
-	ResBaseInfoEntity queryObject(Long resId);
+	ResBaseInfoEntity queryObject(Long id);
 	
 	List<ResBaseInfoEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface ResBaseInfoService {
 	
 	void update(ResBaseInfoEntity resBaseInfo);
 	
-	void delete(Long resId);
+	void delete(Long id);
 	
-	void deleteBatch(Long[] resIds);
+	void deleteBatch(Long[] ids);
 }

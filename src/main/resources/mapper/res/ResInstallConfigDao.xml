@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.res.dao.ResInstallConfigDao">
+<mapper namespace="com.chris.modules.generator.dao.ResInstallConfigDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.res.entity.ResInstallConfigEntity" id="resInstallConfigMap">
-        <result property="configId" column="config_id"/>
+    <resultMap type="com.chris.modules.generator.entity.ResInstallConfigEntity" id="resInstallConfigMap">
+        <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
         <result property="drawing" column="drawing"/>
         <result property="operationSpecificationText" column="operation_specification_text"/>
         <result property="operationSpecificationAttach" column="operation_specification_attach"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
-		select * from t_res_install_config where config_id = #{value}
+	<select id="queryObject" resultType="com.chris.modules.generator.entity.ResInstallConfigEntity">
+		select * from t_res_install_config where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
+	<select id="queryList" resultType="com.chris.modules.generator.entity.ResInstallConfigEntity">
 		select * from t_res_install_config
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by config_id desc
+                order by id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -36,14 +39,17 @@
 		select count(*) from t_res_install_config 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity" useGeneratedKeys="true" keyProperty="configId">
+	<insert id="save" parameterType="com.chris.modules.generator.entity.ResInstallConfigEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_res_install_config
 		(
 			`res_id`, 
 			`drawing`, 
 			`operation_specification_text`, 
 			`operation_specification_attach`, 
-			`is_sync`
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
@@ -51,30 +57,36 @@
 			#{drawing}, 
 			#{operationSpecificationText}, 
 			#{operationSpecificationAttach}, 
-			#{isSync}
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity">
+	<update id="update" parameterType="com.chris.modules.generator.entity.ResInstallConfigEntity">
 		update t_res_install_config 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
 			<if test="drawing != null">`drawing` = #{drawing}, </if>
 			<if test="operationSpecificationText != null">`operation_specification_text` = #{operationSpecificationText}, </if>
 			<if test="operationSpecificationAttach != null">`operation_specification_attach` = #{operationSpecificationAttach}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
-		where config_id = #{configId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from t_res_install_config where config_id = #{value}
+		delete from t_res_install_config where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from t_res_install_config where config_id in 
-		<foreach item="configId" collection="array" open="(" separator="," close=")">
-			#{configId}
+		delete from t_res_install_config where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

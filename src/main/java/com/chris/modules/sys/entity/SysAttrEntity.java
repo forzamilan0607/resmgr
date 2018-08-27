@@ -1,4 +1,4 @@
-package com.chris.modules.sys.entity;
+package com.chris.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,17 +9,17 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public class SysAttrEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//属性ID
-	private Integer attrId;
+	private Integer id;
 	//属性名称
-	private String attrName;
+	private String name;
 	//属性类别，如：文本、数字、邮件、IP地址、下拉框等
-	private Integer attrType;
+	private Integer type;
 	//数据来源，1、属性值表 2、字典表 3、业务表
 	private String dataSource;
 	//正则表达式
@@ -30,44 +30,48 @@ public class SysAttrEntity implements Serializable {
 	private String status;
 	//创建时间
 	private Date createTime;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//创建人
+	private Integer createUserId;
+	//修改时间
+	private Date updateTime;
+	//修改人
+	private Integer updateUserId;
 
 	/**
 	 * 设置：属性ID
 	 */
-	public void setAttrId(Integer attrId) {
-		this.attrId = attrId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	/**
 	 * 获取：属性ID
 	 */
-	public Integer getAttrId() {
-		return attrId;
+	public Integer getId() {
+		return id;
 	}
 	/**
 	 * 设置：属性名称
 	 */
-	public void setAttrName(String attrName) {
-		this.attrName = attrName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * 获取：属性名称
 	 */
-	public String getAttrName() {
-		return attrName;
+	public String getName() {
+		return name;
 	}
 	/**
 	 * 设置：属性类别，如：文本、数字、邮件、IP地址、下拉框等
 	 */
-	public void setAttrType(Integer attrType) {
-		this.attrType = attrType;
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	/**
 	 * 获取：属性类别，如：文本、数字、邮件、IP地址、下拉框等
 	 */
-	public Integer getAttrType() {
-		return attrType;
+	public Integer getType() {
+		return type;
 	}
 	/**
 	 * 设置：数据来源，1、属性值表 2、字典表 3、业务表
@@ -130,15 +134,39 @@ public class SysAttrEntity implements Serializable {
 		return createTime;
 	}
 	/**
-	 * 设置：是否同步，1、是，0、否
+	 * 设置：创建人
 	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
 	/**
-	 * 获取：是否同步，1、是，0、否
+	 * 获取：创建人
 	 */
-	public String getIsSync() {
-		return isSync;
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+	/**
+	 * 设置：修改时间
+	 */
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+	/**
+	 * 获取：修改时间
+	 */
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	/**
+	 * 设置：修改人
+	 */
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+	/**
+	 * 获取：修改人
+	 */
+	public Integer getUpdateUserId() {
+		return updateUserId;
 	}
 }

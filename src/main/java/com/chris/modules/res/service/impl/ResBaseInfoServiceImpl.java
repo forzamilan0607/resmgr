@@ -1,4 +1,4 @@
-package com.chris.modules.res.service.impl;
+package com.chris.modules.generator.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.res.dao.ResBaseInfoDao;
-import com.chris.modules.res.entity.ResBaseInfoEntity;
-import com.chris.modules.res.service.ResBaseInfoService;
+import com.chris.modules.generator.dao.ResBaseInfoDao;
+import com.chris.modules.generator.entity.ResBaseInfoEntity;
+import com.chris.modules.generator.service.ResBaseInfoService;
 
 
 
@@ -18,8 +18,8 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	private ResBaseInfoDao resBaseInfoDao;
 	
 	@Override
-	public ResBaseInfoEntity queryObject(Long resId){
-		return resBaseInfoDao.queryObject(resId);
+	public ResBaseInfoEntity queryObject(Long id){
+		return resBaseInfoDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	}
 	
 	@Override
-	public void delete(Long resId){
-		resBaseInfoDao.delete(resId);
+	public void delete(Long id){
+		resBaseInfoDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] resIds){
-		resBaseInfoDao.deleteBatch(resIds);
+	public void deleteBatch(Long[] ids){
+		resBaseInfoDao.deleteBatch(ids);
 	}
 	
 }

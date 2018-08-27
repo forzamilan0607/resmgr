@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.res.dao.ResMaintenanceDao">
+<mapper namespace="com.chris.modules.generator.dao.ResMaintenanceDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.res.entity.ResMaintenanceEntity" id="resMaintenanceMap">
+    <resultMap type="com.chris.modules.generator.entity.ResMaintenanceEntity" id="resMaintenanceMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="maintainDept" column="maintain_dept"/>
+        <result property="maintainDeptId" column="maintain_dept_id"/>
         <result property="personResponsible" column="person_responsible"/>
         <result property="warrantyStartDate" column="warranty_start_date"/>
         <result property="warrantyEndDate" column="warranty_end_date"/>
@@ -19,14 +19,17 @@
         <result property="precautionsText" column="precautions_text"/>
         <result property="precautionsAttach" column="precautions_attach"/>
         <result property="resStatus" column="res_status"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
+	<select id="queryObject" resultType="com.chris.modules.generator.entity.ResMaintenanceEntity">
 		select * from t_res_maintenance where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
+	<select id="queryList" resultType="com.chris.modules.generator.entity.ResMaintenanceEntity">
 		select * from t_res_maintenance
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -45,11 +48,11 @@
 		select count(*) from t_res_maintenance 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.generator.entity.ResMaintenanceEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_res_maintenance
 		(
 			`res_id`, 
-			`maintain_dept`, 
+			`maintain_dept_id`, 
 			`person_responsible`, 
 			`warranty_start_date`, 
 			`warranty_end_date`, 
@@ -61,12 +64,15 @@
 			`precautions_text`, 
 			`precautions_attach`, 
 			`res_status`, 
-			`is_sync`
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
 			#{resId}, 
-			#{maintainDept}, 
+			#{maintainDeptId}, 
 			#{personResponsible}, 
 			#{warrantyStartDate}, 
 			#{warrantyEndDate}, 
@@ -78,15 +84,18 @@
 			#{precautionsText}, 
 			#{precautionsAttach}, 
 			#{resStatus}, 
-			#{isSync}
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity">
+	<update id="update" parameterType="com.chris.modules.generator.entity.ResMaintenanceEntity">
 		update t_res_maintenance 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="maintainDept != null">`maintain_dept` = #{maintainDept}, </if>
+			<if test="maintainDeptId != null">`maintain_dept_id` = #{maintainDeptId}, </if>
 			<if test="personResponsible != null">`person_responsible` = #{personResponsible}, </if>
 			<if test="warrantyStartDate != null">`warranty_start_date` = #{warrantyStartDate}, </if>
 			<if test="warrantyEndDate != null">`warranty_end_date` = #{warrantyEndDate}, </if>
@@ -98,7 +107,10 @@
 			<if test="precautionsText != null">`precautions_text` = #{precautionsText}, </if>
 			<if test="precautionsAttach != null">`precautions_attach` = #{precautionsAttach}, </if>
 			<if test="resStatus != null">`res_status` = #{resStatus}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
 		where id = #{id}
 	</update>
