@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.generator.dao.ResMaintenanceDao">
+<mapper namespace="com.chris.modules.res.dao.ResMaintenanceDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.generator.entity.ResMaintenanceEntity" id="resMaintenanceMap">
+    <resultMap type="com.chris.modules.res.entity.ResMaintenanceEntity" id="resMaintenanceMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
         <result property="maintainDeptId" column="maintain_dept_id"/>
@@ -25,11 +25,11 @@
         <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.generator.entity.ResMaintenanceEntity">
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
 		select * from t_res_maintenance where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.generator.entity.ResMaintenanceEntity">
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
 		select * from t_res_maintenance
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -48,7 +48,7 @@
 		select count(*) from t_res_maintenance 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.generator.entity.ResMaintenanceEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_res_maintenance
 		(
 			`res_id`, 
@@ -91,7 +91,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.generator.entity.ResMaintenanceEntity">
+	<update id="update" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity">
 		update t_res_maintenance 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>

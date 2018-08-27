@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.generator.entity.ResInstallConfigEntity;
-import com.chris.modules.generator.service.ResInstallConfigService;
+import com.chris.modules.res.entity.ResInstallConfigEntity;
+import com.chris.modules.res.service.ResInstallConfigService;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;

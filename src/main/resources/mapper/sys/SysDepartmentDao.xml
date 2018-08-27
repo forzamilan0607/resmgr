@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.generator.dao.SysDepartmentDao">
+<mapper namespace="com.chris.modules.sys.dao.SysDepartmentDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.generator.entity.SysDepartmentEntity" id="sysDepartmentMap">
+    <resultMap type="com.chris.modules.sys.entity.SysDepartmentEntity" id="sysDepartmentMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="parkId" column="park_id"/>
@@ -16,11 +16,11 @@
         <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.generator.entity.SysDepartmentEntity">
+	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDepartmentEntity">
 		select * from sys_department where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.generator.entity.SysDepartmentEntity">
+	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDepartmentEntity">
 		select * from sys_department
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -39,7 +39,7 @@
 		select count(*) from sys_department 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.generator.entity.SysDepartmentEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDepartmentEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_department
 		(
 			`name`, 
@@ -64,7 +64,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.generator.entity.SysDepartmentEntity">
+	<update id="update" parameterType="com.chris.modules.sys.entity.SysDepartmentEntity">
 		update sys_department 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>

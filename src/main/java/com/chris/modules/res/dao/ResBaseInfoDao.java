@@ -1,6 +1,6 @@
 package com.chris.modules.res.dao;
 
-import com.chris.modules.generator.entity.ResBaseInfoEntity;
+import com.chris.modules.res.entity.ResBaseInfoEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 

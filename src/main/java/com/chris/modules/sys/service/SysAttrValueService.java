@@ -1,6 +1,6 @@
-package com.chris.modules.generator.service;
+package com.chris.modules.sys.service;
 
-import com.chris.modules.generator.entity.SysAttrValueEntity;
+import com.chris.modules.sys.entity.SysAttrValueEntity;
 
 import java.util.List;
 import java.util.Map;

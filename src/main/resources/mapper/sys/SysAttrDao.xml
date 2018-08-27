@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.generator.dao.SysAttrDao">
+<mapper namespace="com.chris.modules.sys.dao.SysAttrDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.generator.entity.SysAttrEntity" id="sysAttrMap">
+    <resultMap type="com.chris.modules.sys.entity.SysAttrEntity" id="sysAttrMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="type" column="type"/>
@@ -18,11 +18,11 @@
         <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.generator.entity.SysAttrEntity">
+	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysAttrEntity">
 		select * from sys_attr where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.generator.entity.SysAttrEntity">
+	<select id="queryList" resultType="com.chris.modules.sys.entity.SysAttrEntity">
 		select * from sys_attr
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -41,7 +41,7 @@
 		select count(*) from sys_attr 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.generator.entity.SysAttrEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysAttrEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_attr
 		(
 			`name`, 
@@ -70,7 +70,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.generator.entity.SysAttrEntity">
+	<update id="update" parameterType="com.chris.modules.sys.entity.SysAttrEntity">
 		update sys_attr 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>

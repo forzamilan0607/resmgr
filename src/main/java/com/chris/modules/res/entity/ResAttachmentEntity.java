@@ -1,4 +1,4 @@
-package com.chris.modules.generator.entity;
+package com.chris.modules.res.entity;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.chris.modules.res.controller;
+package com.chris.modules.sys.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chris.modules.generator.entity.SysDepartmentEntity;
-import com.chris.modules.generator.service.SysDepartmentService;
+import com.chris.modules.sys.entity.SysDepartmentEntity;
+import com.chris.modules.sys.service.SysDepartmentService;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
-
-
-
 
 /**
  * 部门

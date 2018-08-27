@@ -1,4 +1,4 @@
-package com.chris.modules.generator.service.impl;
+package com.chris.modules.sys.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.generator.dao.SysAttrDao;
-import com.chris.modules.generator.entity.SysAttrEntity;
-import com.chris.modules.generator.service.SysAttrService;
+import com.chris.modules.sys.dao.SysAttrDao;
+import com.chris.modules.sys.entity.SysAttrEntity;
+import com.chris.modules.sys.service.SysAttrService;
 
 
 

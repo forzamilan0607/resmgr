@@ -1,6 +1,6 @@
-package com.chris.modules.generator.service;
+package com.chris.modules.res.service;
 
-import com.chris.modules.generator.entity.ResMaintenanceEntity;
+import com.chris.modules.res.entity.ResMaintenanceEntity;
 
 import java.util.List;
 import java.util.Map;

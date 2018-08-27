@@ -1,7 +1,6 @@
-package com.chris.modules.res.dao;
+package com.chris.modules.sys.dao;
 
-import com.chris.modules.generator.entity.SysAttrValueEntity;
-import com.chris.modules.sys.dao.BaseDao;
+import com.chris.modules.sys.entity.SysAttrValueEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

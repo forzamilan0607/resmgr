@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.generator.dao.SysDicitemDao">
+<mapper namespace="com.chris.modules.sys.dao.SysDicitemDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.generator.entity.SysDicitemEntity" id="sysDicitemMap">
+    <resultMap type="com.chris.modules.sys.entity.SysDicitemEntity" id="sysDicitemMap">
         <result property="id" column="id"/>
         <result property="dictId" column="dict_id"/>
         <result property="name" column="name"/>
@@ -18,11 +18,11 @@
         <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.generator.entity.SysDicitemEntity">
+	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDicitemEntity">
 		select * from sys_dict_item where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.generator.entity.SysDicitemEntity">
+	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDicitemEntity">
 		select * from sys_dict_item
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -41,7 +41,7 @@
 		select count(*) from sys_dict_item 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.generator.entity.SysDicitemEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDicitemEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_dict_item
 		(
 			`dict_id`, 
@@ -70,7 +70,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.generator.entity.SysDicitemEntity">
+	<update id="update" parameterType="com.chris.modules.sys.entity.SysDicitemEntity">
 		update sys_dict_item 
 		<set>
 			<if test="dictId != null">`dict_id` = #{dictId}, </if>

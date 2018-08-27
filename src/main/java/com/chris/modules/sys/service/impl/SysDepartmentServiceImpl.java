@@ -1,14 +1,14 @@
-package com.chris.modules.generator.service.impl;
+package com.chris.modules.sys.service.impl;
 
+import com.chris.modules.sys.dao.SysDepartmentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-import com.chris.modules.generator.dao.SysDepartmentDao;
-import com.chris.modules.generator.entity.SysDepartmentEntity;
-import com.chris.modules.generator.service.SysDepartmentService;
+import com.chris.modules.sys.entity.SysDepartmentEntity;
+import com.chris.modules.sys.service.SysDepartmentService;
 
 
 

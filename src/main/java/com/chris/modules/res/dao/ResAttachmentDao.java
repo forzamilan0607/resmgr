@@ -1,6 +1,6 @@
 package com.chris.modules.res.dao;
 
-import com.chris.modules.generator.entity.ResAttachmentEntity;
+import com.chris.modules.res.entity.ResAttachmentEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 

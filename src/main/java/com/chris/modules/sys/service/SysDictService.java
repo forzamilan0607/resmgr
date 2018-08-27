@@ -1,6 +1,6 @@
-package com.chris.modules.generator.service;
+package com.chris.modules.sys.service;
 
-import com.chris.modules.generator.entity.SysDictEntity;
+import com.chris.modules.sys.entity.SysDictEntity;
 
 import java.util.List;
 import java.util.Map;

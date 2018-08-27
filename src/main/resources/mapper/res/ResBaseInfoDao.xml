@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.generator.dao.ResBaseInfoDao">
+<mapper namespace="com.chris.modules.res.dao.ResBaseInfoDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.generator.entity.ResBaseInfoEntity" id="resBaseInfoMap">
+    <resultMap type="com.chris.modules.res.entity.ResBaseInfoEntity" id="resBaseInfoMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="code" column="code"/>
@@ -29,11 +29,11 @@
         <result property="personResponsible" column="person_responsible"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.generator.entity.ResBaseInfoEntity">
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResBaseInfoEntity">
 		select * from t_res_base_info where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.generator.entity.ResBaseInfoEntity">
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResBaseInfoEntity">
 		select * from t_res_base_info
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -52,7 +52,7 @@
 		select count(*) from t_res_base_info 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.generator.entity.ResBaseInfoEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResBaseInfoEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_res_base_info
 		(
 			`name`, 
@@ -103,7 +103,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.generator.entity.ResBaseInfoEntity">
+	<update id="update" parameterType="com.chris.modules.res.entity.ResBaseInfoEntity">
 		update t_res_base_info 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
