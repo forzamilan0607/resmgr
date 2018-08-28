@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/respurchase/list',
+        url: baseURL + 'res/respurchase/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -75,7 +75,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resPurchase.id == null ? "generator/respurchase/save" : "generator/respurchase/update";
+			var url = vm.resPurchase.id == null ? "res/respurchase/save" : "res/respurchase/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -101,7 +101,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/respurchase/delete",
+				    url: baseURL + "res/respurchase/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -117,7 +117,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/respurchase/info/"+id, function(r){
+			$.get(baseURL + "res/respurchase/info/"+id, function(r){
                 vm.resPurchase = r.resPurchase;
             });
 		},

@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/restype")
+@RequestMapping("/res/restype")
 public class ResTypeController {
 	@Autowired
 	private ResTypeService resTypeService;
@@ -37,7 +37,7 @@ public class ResTypeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:restype:list")
+	@RequiresPermissions("res:restype:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResTypeController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:restype:info")
+	@RequiresPermissions("res:restype:info")
 	public R info(@PathVariable("id") Integer id){
 		ResTypeEntity resType = resTypeService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResTypeController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:restype:save")
+	@RequiresPermissions("res:restype:save")
 	public R save(@RequestBody ResTypeEntity resType){
 		resTypeService.save(resType);
 		
@@ -77,7 +77,7 @@ public class ResTypeController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:restype:update")
+	@RequiresPermissions("res:restype:update")
 	public R update(@RequestBody ResTypeEntity resType){
 		resTypeService.update(resType);
 		
@@ -88,7 +88,7 @@ public class ResTypeController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:restype:delete")
+	@RequiresPermissions("res:restype:delete")
 	public R delete(@RequestBody Integer[] ids){
 		resTypeService.deleteBatch(ids);
 		

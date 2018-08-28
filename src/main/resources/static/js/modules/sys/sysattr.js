@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/sysattr/list',
+        url: baseURL + 'sys/sysattr/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -75,7 +75,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysAttr.id == null ? "generator/sysattr/save" : "generator/sysattr/update";
+			var url = vm.sysAttr.id == null ? "sys/sysattr/save" : "sys/sysattr/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -101,7 +101,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysattr/delete",
+				    url: baseURL + "sys/sysattr/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -117,7 +117,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/sysattr/info/"+id, function(r){
+			$.get(baseURL + "sys/sysattr/info/"+id, function(r){
                 vm.sysAttr = r.sysAttr;
             });
 		},

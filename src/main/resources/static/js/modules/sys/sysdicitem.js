@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/sysdicitem/list',
+        url: baseURL + 'sys/sysdicitem/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -75,7 +75,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysDicitem.id == null ? "generator/sysdicitem/save" : "generator/sysdicitem/update";
+			var url = vm.sysDicitem.id == null ? "sys/sysdicitem/save" : "sys/sysdicitem/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -101,7 +101,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysdicitem/delete",
+				    url: baseURL + "sys/sysdicitem/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -117,7 +117,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/sysdicitem/info/"+id, function(r){
+			$.get(baseURL + "sys/sysdicitem/info/"+id, function(r){
                 vm.sysDicitem = r.sysDicitem;
             });
 		},

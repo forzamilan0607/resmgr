@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/respurchase")
+@RequestMapping("/res/respurchase")
 public class ResPurchaseController {
 	@Autowired
 	private ResPurchaseService resPurchaseService;
@@ -37,7 +37,7 @@ public class ResPurchaseController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:respurchase:list")
+	@RequiresPermissions("res:respurchase:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResPurchaseController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:respurchase:info")
+	@RequiresPermissions("res:respurchase:info")
 	public R info(@PathVariable("id") Long id){
 		ResPurchaseEntity resPurchase = resPurchaseService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResPurchaseController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:respurchase:save")
+	@RequiresPermissions("res:respurchase:save")
 	public R save(@RequestBody ResPurchaseEntity resPurchase){
 		resPurchaseService.save(resPurchase);
 		
@@ -77,7 +77,7 @@ public class ResPurchaseController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:respurchase:update")
+	@RequiresPermissions("res:respurchase:update")
 	public R update(@RequestBody ResPurchaseEntity resPurchase){
 		resPurchaseService.update(resPurchase);
 		
@@ -88,7 +88,7 @@ public class ResPurchaseController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:respurchase:delete")
+	@RequiresPermissions("res:respurchase:delete")
 	public R delete(@RequestBody Long[] ids){
 		resPurchaseService.deleteBatch(ids);
 		

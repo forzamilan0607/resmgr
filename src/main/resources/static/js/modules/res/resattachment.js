@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/resattachment/list',
+        url: baseURL + 'res/resattachment/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -76,7 +76,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resAttachment.id == null ? "generator/resattachment/save" : "generator/resattachment/update";
+			var url = vm.resAttachment.id == null ? "res/resattachment/save" : "res/resattachment/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -102,7 +102,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/resattachment/delete",
+				    url: baseURL + "res/resattachment/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -118,7 +118,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/resattachment/info/"+id, function(r){
+			$.get(baseURL + "res/resattachment/info/"+id, function(r){
                 vm.resAttachment = r.resAttachment;
             });
 		},

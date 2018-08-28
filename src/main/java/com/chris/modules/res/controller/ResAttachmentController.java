@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/resattachment")
+@RequestMapping("/res/resattachment")
 public class ResAttachmentController {
 	@Autowired
 	private ResAttachmentService resAttachmentService;
@@ -37,7 +37,7 @@ public class ResAttachmentController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:resattachment:list")
+	@RequiresPermissions("res:resattachment:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResAttachmentController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:resattachment:info")
+	@RequiresPermissions("res:resattachment:info")
 	public R info(@PathVariable("id") Long id){
 		ResAttachmentEntity resAttachment = resAttachmentService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResAttachmentController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:resattachment:save")
+	@RequiresPermissions("res:resattachment:save")
 	public R save(@RequestBody ResAttachmentEntity resAttachment){
 		resAttachmentService.save(resAttachment);
 		
@@ -77,7 +77,7 @@ public class ResAttachmentController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:resattachment:update")
+	@RequiresPermissions("res:resattachment:update")
 	public R update(@RequestBody ResAttachmentEntity resAttachment){
 		resAttachmentService.update(resAttachment);
 		
@@ -88,7 +88,7 @@ public class ResAttachmentController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:resattachment:delete")
+	@RequiresPermissions("res:resattachment:delete")
 	public R delete(@RequestBody Long[] ids){
 		resAttachmentService.deleteBatch(ids);
 		

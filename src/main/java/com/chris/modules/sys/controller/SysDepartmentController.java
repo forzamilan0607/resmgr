@@ -25,7 +25,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/sysdepartment")
+@RequestMapping("/sys/sysdepartment")
 public class SysDepartmentController {
 	@Autowired
 	private SysDepartmentService sysDepartmentService;
@@ -34,7 +34,7 @@ public class SysDepartmentController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:sysdepartment:list")
+	@RequiresPermissions("sys:sysdepartment:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -52,7 +52,7 @@ public class SysDepartmentController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:sysdepartment:info")
+	@RequiresPermissions("sys:sysdepartment:info")
 	public R info(@PathVariable("id") Integer id){
 		SysDepartmentEntity sysDepartment = sysDepartmentService.queryObject(id);
 		
@@ -63,7 +63,7 @@ public class SysDepartmentController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:sysdepartment:save")
+	@RequiresPermissions("sys:sysdepartment:save")
 	public R save(@RequestBody SysDepartmentEntity sysDepartment){
 		sysDepartmentService.save(sysDepartment);
 		
@@ -74,7 +74,7 @@ public class SysDepartmentController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:sysdepartment:update")
+	@RequiresPermissions("sys:sysdepartment:update")
 	public R update(@RequestBody SysDepartmentEntity sysDepartment){
 		sysDepartmentService.update(sysDepartment);
 		
@@ -85,7 +85,7 @@ public class SysDepartmentController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:sysdepartment:delete")
+	@RequiresPermissions("sys:sysdepartment:delete")
 	public R delete(@RequestBody Integer[] ids){
 		sysDepartmentService.deleteBatch(ids);
 		

@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/sysdict")
+@RequestMapping("/sys/sysdict")
 public class SysDictController {
 	@Autowired
 	private SysDictService sysDictService;
@@ -37,7 +37,7 @@ public class SysDictController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:sysdict:list")
+	@RequiresPermissions("sys:sysdict:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class SysDictController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:sysdict:info")
+	@RequiresPermissions("sys:sysdict:info")
 	public R info(@PathVariable("id") Integer id){
 		SysDictEntity sysDict = sysDictService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class SysDictController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:sysdict:save")
+	@RequiresPermissions("sys:sysdict:save")
 	public R save(@RequestBody SysDictEntity sysDict){
 		sysDictService.save(sysDict);
 		
@@ -77,7 +77,7 @@ public class SysDictController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:sysdict:update")
+	@RequiresPermissions("sys:sysdict:update")
 	public R update(@RequestBody SysDictEntity sysDict){
 		sysDictService.update(sysDict);
 		
@@ -88,7 +88,7 @@ public class SysDictController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:sysdict:delete")
+	@RequiresPermissions("sys:sysdict:delete")
 	public R delete(@RequestBody Integer[] ids){
 		sysDictService.deleteBatch(ids);
 		

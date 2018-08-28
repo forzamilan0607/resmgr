@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/resinstallconfig")
+@RequestMapping("/res/resinstallconfig")
 public class ResInstallConfigController {
 	@Autowired
 	private ResInstallConfigService resInstallConfigService;
@@ -37,7 +37,7 @@ public class ResInstallConfigController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:resinstallconfig:list")
+	@RequiresPermissions("res:resinstallconfig:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResInstallConfigController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:resinstallconfig:info")
+	@RequiresPermissions("res:resinstallconfig:info")
 	public R info(@PathVariable("id") Long id){
 		ResInstallConfigEntity resInstallConfig = resInstallConfigService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResInstallConfigController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:resinstallconfig:save")
+	@RequiresPermissions("res:resinstallconfig:save")
 	public R save(@RequestBody ResInstallConfigEntity resInstallConfig){
 		resInstallConfigService.save(resInstallConfig);
 		
@@ -77,7 +77,7 @@ public class ResInstallConfigController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:resinstallconfig:update")
+	@RequiresPermissions("res:resinstallconfig:update")
 	public R update(@RequestBody ResInstallConfigEntity resInstallConfig){
 		resInstallConfigService.update(resInstallConfig);
 		
@@ -88,7 +88,7 @@ public class ResInstallConfigController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:resinstallconfig:delete")
+	@RequiresPermissions("res:resinstallconfig:delete")
 	public R delete(@RequestBody Long[] ids){
 		resInstallConfigService.deleteBatch(ids);
 		

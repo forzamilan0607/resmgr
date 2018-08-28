@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/sysattr")
+@RequestMapping("/sys/sysattr")
 public class SysAttrController {
 	@Autowired
 	private SysAttrService sysAttrService;
@@ -37,7 +37,7 @@ public class SysAttrController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:sysattr:list")
+	@RequiresPermissions("sys:sysattr:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class SysAttrController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:sysattr:info")
+	@RequiresPermissions("sys:sysattr:info")
 	public R info(@PathVariable("id") Integer id){
 		SysAttrEntity sysAttr = sysAttrService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class SysAttrController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:sysattr:save")
+	@RequiresPermissions("sys:sysattr:save")
 	public R save(@RequestBody SysAttrEntity sysAttr){
 		sysAttrService.save(sysAttr);
 		
@@ -77,7 +77,7 @@ public class SysAttrController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:sysattr:update")
+	@RequiresPermissions("sys:sysattr:update")
 	public R update(@RequestBody SysAttrEntity sysAttr){
 		sysAttrService.update(sysAttr);
 		
@@ -88,7 +88,7 @@ public class SysAttrController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:sysattr:delete")
+	@RequiresPermissions("sys:sysattr:delete")
 	public R delete(@RequestBody Integer[] ids){
 		sysAttrService.deleteBatch(ids);
 		

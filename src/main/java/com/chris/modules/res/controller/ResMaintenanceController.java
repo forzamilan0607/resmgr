@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/resmaintenance")
+@RequestMapping("/res/resmaintenance")
 public class ResMaintenanceController {
 	@Autowired
 	private ResMaintenanceService resMaintenanceService;
@@ -37,7 +37,7 @@ public class ResMaintenanceController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:resmaintenance:list")
+	@RequiresPermissions("res:resmaintenance:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResMaintenanceController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:resmaintenance:info")
+	@RequiresPermissions("res:resmaintenance:info")
 	public R info(@PathVariable("id") Long id){
 		ResMaintenanceEntity resMaintenance = resMaintenanceService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResMaintenanceController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:resmaintenance:save")
+	@RequiresPermissions("res:resmaintenance:save")
 	public R save(@RequestBody ResMaintenanceEntity resMaintenance){
 		resMaintenanceService.save(resMaintenance);
 		
@@ -77,7 +77,7 @@ public class ResMaintenanceController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:resmaintenance:update")
+	@RequiresPermissions("res:resmaintenance:update")
 	public R update(@RequestBody ResMaintenanceEntity resMaintenance){
 		resMaintenanceService.update(resMaintenance);
 		
@@ -88,7 +88,7 @@ public class ResMaintenanceController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:resmaintenance:delete")
+	@RequiresPermissions("res:resmaintenance:delete")
 	public R delete(@RequestBody Long[] ids){
 		resMaintenanceService.deleteBatch(ids);
 		

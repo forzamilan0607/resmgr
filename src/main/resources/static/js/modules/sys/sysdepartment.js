@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/sysdepartment/list',
+        url: baseURL + 'sys/sysdepartment/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -73,7 +73,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysDepartment.id == null ? "generator/sysdepartment/save" : "generator/sysdepartment/update";
+			var url = vm.sysDepartment.id == null ? "sys/sysdepartment/save" : "sys/sysdepartment/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -99,7 +99,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/sysdepartment/delete",
+				    url: baseURL + "sys/sysdepartment/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -115,7 +115,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/sysdepartment/info/"+id, function(r){
+			$.get(baseURL + "sys/sysdepartment/info/"+id, function(r){
                 vm.sysDepartment = r.sysDepartment;
             });
 		},

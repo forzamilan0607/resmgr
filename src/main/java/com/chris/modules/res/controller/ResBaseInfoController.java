@@ -28,7 +28,7 @@ import com.chris.common.utils.R;
  * @since Aug 28.18
  */
 @RestController
-@RequestMapping("/generator/resbaseinfo")
+@RequestMapping("/res/resbaseinfo")
 public class ResBaseInfoController {
 	@Autowired
 	private ResBaseInfoService resBaseInfoService;
@@ -37,7 +37,7 @@ public class ResBaseInfoController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("generator:resbaseinfo:list")
+	@RequiresPermissions("res:resbaseinfo:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -55,7 +55,7 @@ public class ResBaseInfoController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:resbaseinfo:info")
+	@RequiresPermissions("res:resbaseinfo:info")
 	public R info(@PathVariable("id") Long id){
 		ResBaseInfoEntity resBaseInfo = resBaseInfoService.queryObject(id);
 		
@@ -66,7 +66,7 @@ public class ResBaseInfoController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("generator:resbaseinfo:save")
+	@RequiresPermissions("res:resbaseinfo:save")
 	public R save(@RequestBody ResBaseInfoEntity resBaseInfo){
 		resBaseInfoService.save(resBaseInfo);
 		
@@ -77,7 +77,7 @@ public class ResBaseInfoController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:resbaseinfo:update")
+	@RequiresPermissions("res:resbaseinfo:update")
 	public R update(@RequestBody ResBaseInfoEntity resBaseInfo){
 		resBaseInfoService.update(resBaseInfo);
 		
@@ -88,7 +88,7 @@ public class ResBaseInfoController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("generator:resbaseinfo:delete")
+	@RequiresPermissions("res:resbaseinfo:delete")
 	public R delete(@RequestBody Long[] ids){
 		resBaseInfoService.deleteBatch(ids);
 		

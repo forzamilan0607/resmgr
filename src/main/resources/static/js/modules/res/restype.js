@@ -6,7 +6,7 @@ function initValidator() {
 }
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'generator/restype/list',
+        url: baseURL + 'res/restype/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -76,7 +76,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resType.id == null ? "generator/restype/save" : "generator/restype/update";
+			var url = vm.resType.id == null ? "res/restype/save" : "res/restype/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -102,7 +102,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "generator/restype/delete",
+				    url: baseURL + "res/restype/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -118,7 +118,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "generator/restype/info/"+id, function(r){
+			$.get(baseURL + "res/restype/info/"+id, function(r){
                 vm.resType = r.resType;
             });
 		},
