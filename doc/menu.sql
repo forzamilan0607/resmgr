@@ -91,10 +91,29 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
 
 -- 菜单SQL
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`, `status`)
-VALUES ('30', '0', '资源管理', NULL, NULL, '0', 'fa fa-cog', '0', '1');
+VALUES ('60', '0', '资源管理', NULL, NULL, '0', 'fa fa-cog', '0', '1');
+
+-- 菜单SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('60', '资源设备管理', 'modules/res/resmgr.html', NULL, '1', 'fa fa-file-code-o', '6');
+
+-- 按钮父菜单ID
+set @parentId = @@identity;
+
+-- 菜单对应按钮SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '查看', null, 'res:resmgr:list,res:resbaseinfo:info', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '新增', null, 'res:resmgr:save', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '修改', null, 'res:resmgr:update', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '删除', null, 'res:resmgr:delete', '2', null, '6';
+
+-- ***********************************************************************************************
 
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('30', '资源采购信息', 'modules/res/respurchase.html', NULL, '1', 'fa fa-file-code-o', '6');
+    VALUES ('60', '资源采购信息', 'modules/res/respurchase.html', NULL, '1', 'fa fa-file-code-o', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
@@ -110,7 +129,7 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '删除', null, 'res:respurchase:delete', '2', null, '6';
 -- 菜单SQL
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('30', '资源参数配置信息', 'modules/res/resparamconfig.html', NULL, '1', 'fa fa-file-code-o', '6');
+    VALUES ('60', '资源参数配置信息', 'modules/res/resparamconfig.html', NULL, '1', 'fa fa-file-code-o', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
@@ -126,7 +145,7 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '删除', null, 'res:resparamconfig:delete', '2', null, '6';
 -- 菜单SQL
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('30', '资源运维信息', 'modules/res/resmaintenance.html', NULL, '1', 'fa fa-file-code-o', '6');
+    VALUES ('60', '资源运维信息', 'modules/res/resmaintenance.html', NULL, '1', 'fa fa-file-code-o', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
@@ -143,7 +162,7 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
 
 -- 菜单SQL
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('30', '资源安装/配置信息', 'modules/res/resinstallconfig.html', NULL, '1', 'fa fa-file-code-o', '6');
+    VALUES ('60', '资源安装/配置信息', 'modules/res/resinstallconfig.html', NULL, '1', 'fa fa-file-code-o', '6');
 
 -- 按钮父菜单ID
 set @parentId = @@identity;
@@ -157,20 +176,3 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '修改', null, 'res:resinstallconfig:update', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
     SELECT @parentId, '删除', null, 'res:resinstallconfig:delete', '2', null, '6';
-
--- 菜单SQL
-INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    VALUES ('30', '资源基本信息', 'modules/res/resbaseinfo.html', NULL, '1', 'fa fa-file-code-o', '6');
-
--- 按钮父菜单ID
-set @parentId = @@identity;
-
--- 菜单对应按钮SQL
-INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '查看', null, 'res:resbaseinfo:list,res:resbaseinfo:info', '2', null, '6';
-INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '新增', null, 'res:resbaseinfo:save', '2', null, '6';
-INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '修改', null, 'res:resbaseinfo:update', '2', null, '6';
-INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '删除', null, 'res:resbaseinfo:delete', '2', null, '6';

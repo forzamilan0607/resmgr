@@ -1,12 +1,7 @@
-var $myValidator = null;
-function initValidator() {
-    return {
 
-	};
-}
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'res/resbaseinfo/list',
+        url: baseURL + 'res/resmgr/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -60,11 +55,11 @@ $(function () {
 });
 
 var vm = new Vue({
-	el:'#rrapp',
+	el:'#resMgrApp',
 	data:{
 		showList: true,
 		title: null,
-		resBaseInfo: {}
+		resmgr: {}
 	},
 	methods: {
 		query: function () {
@@ -73,7 +68,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.resBaseInfo = {};
+			vm.resmgr = {};
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -86,12 +81,12 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resBaseInfo.id == null ? "res/resbaseinfo/save" : "res/resbaseinfo/update";
+			var url = vm.resmgr.id == null ? "res/resmgr/save" : "res/resmgr/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
-			    data: JSON.stringify(vm.resBaseInfo),
+			    data: JSON.stringify(vm.resmgr),
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(index){
@@ -112,7 +107,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "res/resbaseinfo/delete",
+				    url: baseURL + "res/resmgr/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -128,8 +123,8 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + "res/resbaseinfo/info/"+id, function(r){
-                vm.resBaseInfo = r.resBaseInfo;
+			$.get(baseURL + "res/resmgr/info/"+id, function(r){
+                vm.resmgr = r.resmgr;
             });
 		},
 		reload: function (event) {
