@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
     <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
     <link rel="stylesheet" href="../../css/main.css">
+    <style>
+        .row {
+            border-top: none
+        }
+    </style>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
     <script src="../../plugins/layer/layer.js"></script>
@@ -38,147 +43,324 @@
 
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
-        <form id="register-form" role="form" class="form-horizontal full-width" method="post">
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">资源名称</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" v-model="resmgr.name" placeholder="资源名称"/>
-                    </div>
+        <div class="panel-body">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#div_resBaseInfo" data-toggle="tab">
+                        基本信息
+                    </a>
+                </li>
+                <li>
+                    <a href="#div_resPurchase" data-toggle="tab">
+                        购置信息
+                    </a>
+                </li>
+                <li>
+                    <a href="#div_resMaintenance" data-toggle="tab">
+                        运维信息
+                    </a>
+                </li>
+                <li>
+                    <a href="#div_resInstallConfig" data-toggle="tab">
+                        安装配置信息
+                    </a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="div_resBaseInfo">
+                    <form id="form_resBaseInfo" role="form" class="form-horizontal full-width" method="post">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">资源名称</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.name" v-model="resBaseInfo.name" placeholder="资源名称"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">资源编码</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.code" v-model="resBaseInfo.code" placeholder="资源编码"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">资源类别</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId"
+                                           placeholder="资源类别"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">品牌</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">系列</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">型号</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.model" v-model="resBaseInfo.model" placeholder="型号"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">出厂时间</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime"
+                                           placeholder="出厂时间"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">整机序列号</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo"
+                                           placeholder="整机序列号"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">主要部件信息</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
+                                           placeholder="主要部件信息"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">资源铭牌</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.nameplate" v-model="resBaseInfo.nameplate"
+                                           placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">位置ID</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.locationId" v-model="resBaseInfo.locationId"
+                                           placeholder="位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">描述性位置</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.locationDesc" v-model="resBaseInfo.locationDesc"
+                                           placeholder="描述性位置"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">坐标位置</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.locationCoordinate"
+                                           v-model="resBaseInfo.locationCoordinate" placeholder="坐标位置，如：F8、H13"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">三维图形对象ID</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId"
+                                           placeholder="三维图形对象ID"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">部门ID</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.deptId" v-model="resBaseInfo.deptId"
+                                           placeholder="部门ID"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">责任人</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.personResponsible"
+                                           v-model="resBaseInfo.personResponsible" placeholder="责任人"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="col-sm-2 control-label">资源描述</div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="resBaseInfo.remark" v-model="resBaseInfo.remark"
+                                           placeholder="资源描述"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">资源编码</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="code" v-model="resmgr.code" placeholder="资源编码"/>
-                    </div>
+                <div class="tab-pane fade" id="div_resPurchase">
+                    <form id="form_resPurchase" role="form" class="form-horizontal full-width" method="post">
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">合同单位</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resPurchase.contractCompany" v-model="resPurchase.contractCompany" placeholder="合同单位"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">合同编号</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resPurchase.contractNo" v-model="resPurchase.contractNo" placeholder="合同编号"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">合同附件</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resPurchase.contractAttach" v-model="resPurchase.contractAttach"
+                                       placeholder="合同附件"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">采购价格</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resPurchase.price" v-model="resPurchase.price" placeholder="采购价格"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">合同描述</div>
+                            <div class="col-sm-6">
+                                <textarea type="text" class="form-control" id="resPurchase.contractDesc" v-model="resPurchase.contractDesc" rows="5"
+                                          placeholder="合同描述"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="div_resMaintenance">
+                    <form id="form_resMaintenance" role="form" class="form-horizontal full-width" method="post">
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维护单位</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.maintainDeptId" v-model="resMaintenance.maintainDeptId"
+                                       placeholder="维护单位"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">责任人</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.personResponsible"
+                                       v-model="resMaintenance.personResponsible" placeholder="责任人"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">保修开始日期</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.warrantyStartDate"
+                                       v-model="resMaintenance.warrantyStartDate" placeholder="保修开始日期"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">保修结束日期</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.warrantyEndDate"
+                                       v-model="resMaintenance.warrantyEndDate" placeholder="保修结束日期"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维保单位</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.maintainCompany"
+                                       v-model="resMaintenance.maintainCompany" placeholder="维保单位"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维保周期</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.maintainPeriod" v-model="resMaintenance.maintainPeriod"
+                                       placeholder="维保周期"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维保价格</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.maintainPrice" v-model="resMaintenance.maintainPrice"
+                                       placeholder="维保价格"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维保合同</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.maintainContract"
+                                       v-model="resMaintenance.maintainContract" placeholder="维保合同，多个附件ID以逗号分隔"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">设备资源说明书</div>
+                            <div class="col-sm-6">
+                                <textarea type="text" class="form-control" id="resMaintenance.resInstructions"
+                                          v-model="resMaintenance.resInstructions" placeholder="设备资源说明书，多个附件ID以逗号分隔"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">运维保养注意事项</div>
+                            <div class="col-sm-6">
+                                <textarea type="text" class="form-control" id="resMaintenance.precautionsText"
+                                          v-model="resMaintenance.precautionsText" placeholder="运维保养特别提示和注意事项（文字）"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">注意事项（附件）</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resMaintenance.precautionsAttach"
+                                       v-model="resMaintenance.precautionsAttach" placeholder="运维或保养特别提示、注意事项（附件）"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">设备状态</div>
+                            <div class="col-sm-6">
+                                <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus"
+                                        placeholder="设备状态,入库/在用/送修/注销"></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="div_resInstallConfig">
+                    <form id="form_resInstallConfig" role="form" class="form-horizontal full-width" method="post">
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">图纸，多个附件ID以逗号分隔</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resInstallConfig.drawing" v-model="resInstallConfig.drawing"
+                                       placeholder="图纸，多个附件ID以逗号分隔"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">操作规范说明</div>
+                            <div class="col-sm-6">
+                                <textarea type="text" class="form-control" id="resInstallConfig.operationSpecificationText" rows="5"
+                                          v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">操作规范说明（附件）</div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="resInstallConfig.operationSpecificationAttach"
+                                       v-model="resInstallConfig.operationSpecificationAttach"
+                                       placeholder="操作规范说明（附件），多个附件ID以逗号分隔"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">资源类别</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="resTypeId" v-model="resmgr.resTypeId"
-                               placeholder="资源类别"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">品牌</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="brand" v-model="resmgr.brand" placeholder="品牌"/>
-                    </div>
-                </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row pull-center">
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="保存"/>&nbsp;&nbsp;
+                <input type="button" class="btn btn-warning" @click="reload" value="返回"/>
             </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">系列</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="series" v-model="resmgr.series" placeholder="系列"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">型号</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="model" v-model="resmgr.model" placeholder="型号"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">出厂时间</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="factoryTime" v-model="resmgr.factoryTime"
-                               placeholder="出厂时间"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">整机序列号</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="serialNo" v-model="resmgr.serialNo"
-                               placeholder="整机序列号"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">主要部件信息</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="componentInfo" v-model="resmgr.componentInfo"
-                               placeholder="主要部件信息"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">资源铭牌</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nameplate" v-model="resmgr.nameplate"
-                               placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">位置ID</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="locationId" v-model="resmgr.locationId"
-                               placeholder="位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">描述性位置</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="locationDesc" v-model="resmgr.locationDesc"
-                               placeholder="描述性位置"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">坐标位置</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="locationCoordinate"
-                               v-model="resmgr.locationCoordinate" placeholder="坐标位置，如：F8、H13"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">三维图形对象ID</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="objId" v-model="resmgr.objId"
-                               placeholder="三维图形对象ID"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">部门ID</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="deptId" v-model="resmgr.deptId"
-                               placeholder="部门ID"/>
-                    </div>
-                </div>
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">责任人</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="personResponsible"
-                               v-model="resmgr.personResponsible" placeholder="责任人"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <div class="col-sm-2 control-label">资源描述</div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="remark" v-model="resmgr.remark"
-                               placeholder="资源描述"/>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-sm-3 control-label"></div>
-                    <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-                    &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

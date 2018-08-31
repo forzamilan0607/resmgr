@@ -59,7 +59,10 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		resmgr: {}
+        resBaseInfo: {},
+        resPurchase: {},
+        resMaintenance: {},
+        resInstallConfig: {}
 	},
 	methods: {
 		query: function () {
