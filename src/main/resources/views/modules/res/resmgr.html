@@ -9,23 +9,46 @@
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../plugins/jqmloading/jquery.mloading.css">
     <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/jqdatetimepicker/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload-ui.css">
     <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
     <link rel="stylesheet" href="../../css/main.css">
     <style>
         .row {
             border-top: none
         }
+        fieldset legend {
+            font-size: 14px;
+        }
     </style>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
+    <script src="../../plugins/jqdatetimepicker/jquery.datetimepicker.full.js"></script>
     <script src="../../plugins/layer/layer.js"></script>
     <script src="../../libs/bootstrap.min.js"></script>
     <script src="../../libs/vue.min.js"></script>
     <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
     <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="../../plugins/jqfileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="../../plugins/jqfileupload/js/jquery.iframe-transport.js"></script>
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload.js"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-process.js"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-image.js"></script>
+    <!-- The File Upload audio preview plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-audio.js"></script>
+    <!-- The File Upload video preview plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-video.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-validate.js"></script>
+    <!-- The File Upload user interface plugin -->
+    <script src="../../plugins/jqfileupload/js/jquery.fileupload-ui.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/validator.js"></script>
+    <script src="../../js/selectLocation.js"></script>
 </head>
 <body>
 <div id="resMgrApp" v-cloak>
@@ -47,7 +70,7 @@
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active">
                     <a href="#div_resBaseInfo" data-toggle="tab">
-                        基本信息
+                        资源信息
                     </a>
                 </li>
                 <li>
@@ -69,138 +92,211 @@
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="div_resBaseInfo">
                     <form id="form_resBaseInfo" role="form" class="form-horizontal full-width" method="post">
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">资源名称</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.name" v-model="resBaseInfo.name" placeholder="资源名称"/>
+                        <fieldset>
+                            <legend>基本信息</legend>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">资源名称</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.name" v-model="resBaseInfo.name" placeholder="资源名称"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">资源编码</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.code" v-model="resBaseInfo.code" placeholder="资源编码" readonly />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">资源编码</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.code" v-model="resBaseInfo.code" placeholder="资源编码"/>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">资源类别</div>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId" placeholder="请选择资源类别" readonly />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info" type="button">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">品牌</div>
+                                    <div class="col-sm-10">
+                                        <select type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌" >
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">资源类别</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId"
-                                           placeholder="资源类别"/>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">系列</div>
+                                    <div class="col-sm-10">
+                                        <select type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列" >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">型号</div>
+                                    <div class="col-sm-10">
+                                        <select type="text" class="form-control" id="resBaseInfo.model" v-model="resBaseInfo.model" placeholder="型号" >
+                                            <option>IOS</option>
+                                            <option>android</option>
+                                            <option>windows phone</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">品牌</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌"/>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">部门ID</div>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control" id="resBaseInfo.deptId" v-model="resBaseInfo.deptId" placeholder="请选择部门" readonly />
+                                        <span class="input-group-btn">
+                                        <button class="btn btn-info" type="button">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">责任人</div>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control" id="resBaseInfo.personResponsible" v-model="resBaseInfo.personResponsible" placeholder="请选择责任人" readonly />
+                                        <span class="input-group-btn">
+                                        <button class="btn btn-info" type="button">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">系列</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列"/>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">资源描述</div>
+                                    <div class="col-sm-10">
+                                    <textarea type="text" rows="5" class="form-control" id="resBaseInfo.remark" v-model="resBaseInfo.remark"
+                                              placeholder="资源描述"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">型号</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.model" v-model="resBaseInfo.model" placeholder="型号"/>
+                        </fieldset>
+                        <fieldset>
+                            <legend>出厂信息</legend>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">出厂时间</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control myDatetimePicker" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime"
+                                               placeholder="出厂时间"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">整机序列号</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo"
+                                               placeholder="整机序列号"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">出厂时间</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime"
-                                           placeholder="出厂时间"/>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="col-sm-2 control-label">资源铭牌</div>
+                                    <div class="col-sm-10">
+                                        <table role="presentation" class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                                <th scope="col">
+                                                        <span class="btn btn-success fileinput-button">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                            <span>添加附件</span>
+                                                            <input type="file" name="files[]" multiple>
+                                                        </span>
+                                                    <span class="fileupload-process"></span>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="files">
+                                            <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.attachmentList">
+                                                <td class="pull-center">
+                                                    <div>
+                                                        <img :src="attach.url">
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">{{attach.name}}</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary start">
+                                                        <i class="glyphicon glyphicon-upload"></i>
+                                                        <span>预览</span>
+                                                    </button>
+                                                    <button class="btn btn-danger cancel">
+                                                        <i class="fa fa-trash-o"></i>
+                                                        <span>删除</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">主要部件信息</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
+                                               placeholder="主要部件信息"/>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">资源铭牌</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.nameplate" v-model="resBaseInfo.nameplate"
+                                               placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>位置信息</legend>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">位置</div>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control" id="resBaseInfo.locationId" v-model="resBaseInfo.locationId" placeholder="请选择位置" readonly />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info" type="button" @click="showLocationLayer">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">描述性位置</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.locationDesc" v-model="resBaseInfo.locationDesc"
+                                               placeholder="描述性位置"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">整机序列号</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo"
-                                           placeholder="整机序列号"/>
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">坐标位置</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.locationCoordinate"
+                                               v-model="resBaseInfo.locationCoordinate" placeholder="坐标位置，如：F8、H13"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <div class="col-sm-2 control-label">三维图形对象ID</div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId"
+                                               placeholder="三维图形对象ID"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">主要部件信息</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
-                                           placeholder="主要部件信息"/>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">资源铭牌</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.nameplate" v-model="resBaseInfo.nameplate"
-                                           placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">位置ID</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.locationId" v-model="resBaseInfo.locationId"
-                                           placeholder="位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面"/>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">描述性位置</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.locationDesc" v-model="resBaseInfo.locationDesc"
-                                           placeholder="描述性位置"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">坐标位置</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.locationCoordinate"
-                                           v-model="resBaseInfo.locationCoordinate" placeholder="坐标位置，如：F8、H13"/>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">三维图形对象ID</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId"
-                                           placeholder="三维图形对象ID"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">部门ID</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.deptId" v-model="resBaseInfo.deptId"
-                                           placeholder="部门ID"/>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">责任人</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.personResponsible"
-                                           v-model="resBaseInfo.personResponsible" placeholder="责任人"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <div class="col-sm-2 control-label">资源描述</div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="resBaseInfo.remark" v-model="resBaseInfo.remark"
-                                           placeholder="资源描述"/>
-                                </div>
-                            </div>
-                        </div>
+                        </fieldset>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="div_resPurchase">
@@ -220,8 +316,43 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">合同附件</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resPurchase.contractAttach" v-model="resPurchase.contractAttach"
-                                       placeholder="合同附件"/>
+                                <table role="presentation" class="table table-bordered" id="resPurchase.contractAttach">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                            <th scope="col">
+                                                <span class="btn btn-success fileinput-button">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>添加附件</span>
+                                                    <input type="file" name="files[]" multiple>
+                                                </span>
+                                                <span class="fileupload-process"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resPurchase.attachmentList">
+                                            <td class="pull-center">
+                                                <div>
+                                                    <img :src="attach.url">
+                                                </div>
+                                                <div>
+                                                    <a href="#">{{attach.name}}</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary start">
+                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                    <span>预览</span>
+                                                </button>
+                                                <button class="btn btn-danger cancel">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
@@ -293,15 +424,85 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">维保合同</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.maintainContract"
-                                       v-model="resMaintenance.maintainContract" placeholder="维保合同，多个附件ID以逗号分隔"/>
+                                <table role="presentation" class="table table-bordered" id="resMaintenance.maintainContract">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                        <th scope="col">
+                                                        <span class="btn btn-success fileinput-button">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                            <span>添加附件</span>
+                                                            <input type="file" name="files[]" multiple>
+                                                        </span>
+                                            <span class="fileupload-process"></span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                    <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList1">
+                                        <td class="pull-center">
+                                            <div>
+                                                <img :src="attach.url">
+                                            </div>
+                                            <div>
+                                                <a href="#">{{attach.name}}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary start">
+                                                <i class="glyphicon glyphicon-upload"></i>
+                                                <span>预览</span>
+                                            </button>
+                                            <button class="btn btn-danger cancel">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span>删除</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">设备资源说明书</div>
                             <div class="col-sm-6">
-                                <textarea type="text" class="form-control" id="resMaintenance.resInstructions"
-                                          v-model="resMaintenance.resInstructions" placeholder="设备资源说明书，多个附件ID以逗号分隔"></textarea>
+                                <table role="presentation" class="table table-bordered" id="resMaintenance.resInstructions">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                            <th scope="col">
+                                                            <span class="btn btn-success fileinput-button">
+                                                                <i class="glyphicon glyphicon-plus"></i>
+                                                                <span>添加附件</span>
+                                                                <input type="file" name="files[]" multiple>
+                                                            </span>
+                                                <span class="fileupload-process"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList2">
+                                            <td class="pull-center">
+                                                <div>
+                                                    <img :src="attach.url">
+                                                </div>
+                                                <div>
+                                                    <a href="#">{{attach.name}}</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary start">
+                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                    <span>预览</span>
+                                                </button>
+                                                <button class="btn btn-danger cancel">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
@@ -314,15 +515,55 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">注意事项（附件）</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.precautionsAttach"
-                                       v-model="resMaintenance.precautionsAttach" placeholder="运维或保养特别提示、注意事项（附件）"/>
+                                <table role="presentation" class="table table-bordered" id="resMaintenance.precautionsAttach">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                            <th scope="col">
+                                                            <span class="btn btn-success fileinput-button">
+                                                                <i class="glyphicon glyphicon-plus"></i>
+                                                                <span>添加附件</span>
+                                                                <input type="file" name="files[]" multiple>
+                                                            </span>
+                                                <span class="fileupload-process"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList3">
+                                            <td class="pull-center">
+                                                <div>
+                                                    <img :src="attach.url">
+                                                </div>
+                                                <div>
+                                                    <a href="#">{{attach.name}}</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary start">
+                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                    <span>预览</span>
+                                                </button>
+                                                <button class="btn btn-danger cancel">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">设备状态</div>
                             <div class="col-sm-6">
                                 <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus"
-                                        placeholder="设备状态,入库/在用/送修/注销"></select>
+                                        placeholder="设备状态">
+                                    <option value="1">入库</option>
+                                    <option value="2">在用</option>
+                                    <option value="3">送修</option>
+                                    <option value="4">注销</option>
+                                </select>
                             </div>
                         </div>
                     </form>
@@ -330,10 +571,45 @@
                 <div class="tab-pane fade" id="div_resInstallConfig">
                     <form id="form_resInstallConfig" role="form" class="form-horizontal full-width" method="post">
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">图纸，多个附件ID以逗号分隔</div>
+                            <div class="col-sm-2 control-label">图纸</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resInstallConfig.drawing" v-model="resInstallConfig.drawing"
-                                       placeholder="图纸，多个附件ID以逗号分隔"/>
+                                <table role="presentation" class="table table-bordered" id="resInstallConfig.drawing">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                            <th scope="col">
+                                                                <span class="btn btn-success fileinput-button">
+                                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                                    <span>添加附件</span>
+                                                                    <input type="file" name="files[]" multiple>
+                                                                </span>
+                                                <span class="fileupload-process"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList1">
+                                            <td class="pull-center">
+                                                <div>
+                                                    <img :src="attach.url">
+                                                </div>
+                                                <div>
+                                                    <a href="#">{{attach.name}}</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary start">
+                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                    <span>预览</span>
+                                                </button>
+                                                <button class="btn btn-danger cancel">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
@@ -346,9 +622,43 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">操作规范说明（附件）</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resInstallConfig.operationSpecificationAttach"
-                                       v-model="resInstallConfig.operationSpecificationAttach"
-                                       placeholder="操作规范说明（附件），多个附件ID以逗号分隔"/>
+                                <table role="presentation" class="table table-bordered" id="resInstallConfig.operationSpecificationAttach">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                            <th scope="col">
+                                                                <span class="btn btn-success fileinput-button">
+                                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                                    <span>添加附件</span>
+                                                                    <input type="file" name="files[]" multiple>
+                                                                </span>
+                                                <span class="fileupload-process"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="files">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList2">
+                                            <td class="pull-center">
+                                                <div>
+                                                    <img :src="attach.url">
+                                                </div>
+                                                <div>
+                                                    <a href="#">{{attach.name}}</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary start">
+                                                    <i class="glyphicon glyphicon-upload"></i>
+                                                    <span>预览</span>
+                                                </button>
+                                                <button class="btn btn-danger cancel">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </form>
@@ -361,6 +671,10 @@
                 <input type="button" class="btn btn-warning" @click="reload" value="返回"/>
             </div>
         </div>
+    </div>
+
+    <div id="div_locationLayer" style="display: none;padding:10px;">
+        <ul id="locationTree" class="ztree"></ul>
     </div>
 </div>
 

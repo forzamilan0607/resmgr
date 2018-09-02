@@ -2,6 +2,7 @@ package com.chris.modules.res.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -58,6 +59,8 @@ public class ResBaseInfoEntity implements Serializable {
 	private String remark;
 	//责任人
 	private Integer personResponsible;
+
+	private List<ResAttachmentEntity> attachmentList;
 
 	/**
 	 * 设置：资源ID
@@ -322,5 +325,13 @@ public class ResBaseInfoEntity implements Serializable {
 	 */
 	public Integer getPersonResponsible() {
 		return personResponsible;
+	}
+
+	public List<ResAttachmentEntity> getAttachmentList() {
+		return attachmentList;
+	}
+
+	public void setAttachmentList(List<ResAttachmentEntity> attachmentList) {
+		this.attachmentList = attachmentList;
 	}
 }

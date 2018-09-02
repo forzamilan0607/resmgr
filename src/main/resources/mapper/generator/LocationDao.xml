@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.LocationDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.LocationEntity" id="locationMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="parentLocationId" column="parent_location_id"/>
+        <result property="isFolder" column="is_folder"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="hierarchy" column="hierarchy"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.LocationEntity">
+		select * from t_location where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.LocationEntity">
+		select * from t_location
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_location 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.LocationEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into t_location
+		(
+			`name`, 
+			`code`, 
+			`parent_location_id`, 
+			`is_folder`, 
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`, 
+			`dept_id`, 
+			`hierarchy`, 
+			`remark`
+		)
+		values
+		(
+			#{name}, 
+			#{code}, 
+			#{parentLocationId}, 
+			#{isFolder}, 
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}, 
+			#{deptId}, 
+			#{hierarchy}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.res.entity.LocationEntity">
+		update t_location 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="parentLocationId != null">`parent_location_id` = #{parentLocationId}, </if>
+			<if test="isFolder != null">`is_folder` = #{isFolder}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="hierarchy != null">`hierarchy` = #{hierarchy}, </if>
+			<if test="remark != null">`remark` = #{remark}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from t_location where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_location where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="queryLocationListByCondition" parameterType="com.chris.modules.res.dto.LocationParamDTO" resultType="com.chris.modules.res.entity.LocationEntity">
+		select
+			id,
+			name,
+			code,
+			parent_location_id AS parentLocationId,
+			is_folder AS folder,
+			create_time AS createTime,
+			create_user_id AS createUserId,
+			update_time AS updateTime,
+			update_user_id AS updateUserId,
+			dept_id AS deptId,
+			hierarchy,
+			remark
+		from t_location t
+		<where>
+			<if test="deptId != null">
+				AND t.dept_id = #{deptId}
+			</if>
+			<if test="createUserId != null">
+				AND t.create_user_Id = #{createUserId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

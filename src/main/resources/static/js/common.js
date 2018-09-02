@@ -111,6 +111,12 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
+
+//判断是否为空
+function isBlank(value) {
+    return !value || !/\S/.test(value)
+}
+
 function clearObjValue(obj) {
     if (obj && typeof obj === "object") {
         for (var attr in obj) {

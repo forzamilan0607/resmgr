@@ -84,6 +84,9 @@ CREATE TABLE `sys_department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
 
+INSERT INTO `sys_department` (`id`, `name`, `park_id`, `parent_dept_id`, `status`, `create_time`, `create_user_id`, `update_time`, `update_user_id`) VALUES ('100001', '综合部', '1', '-1', '1', 'CURRENT_TIMESTAMP', '1', 'CURRENT_TIMESTAMP', NULL);
+
+
 -- 资源基本信息
 CREATE TABLE `t_res_base_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源ID',

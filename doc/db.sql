@@ -21,8 +21,11 @@ CREATE TABLE `sys_user` (
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',
   `status` tinyint COMMENT '状态  0：禁用   1：正常',
+  `dept_id` int(10) NOT NULL COMMENT '部门ID',
   `create_user_id` bigint(20) COMMENT '创建者ID',
   `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
@@ -88,7 +91,8 @@ CREATE TABLE `sys_log` (
 ) ENGINE=`InnoDB` DEFAULT CHARACTER SET utf8 COMMENT='系统日志';
 
 -- 初始数据 
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `salt`, `email`, `mobile`, `status`, `create_user_id`, `create_time`) VALUES ('1', 'admin', '9ec9750e709431dad22365cabc5c625482e574c74adaebba7dd02f1129e4ce1d', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', '1', '1', '2016-11-11 11:11:11');
+INSERT INTO `sys_user` (`user_id`, `username`, `password`, `salt`, `email`, `mobile`, `status`, `dept_id`, `create_user_id`, `create_time`, `update_user_id`, `update_time`) VALUES ('1', 'admin', '9ec9750e709431dad22365cabc5c625482e574c74adaebba7dd02f1129e4ce1d', 'YzcmCZNvbXocrsz9dm8e', 'admin@163.com', '13612345678', '1', '100001', '1', '2016-11-11 11:11:11', 1, '2016-11-11 11:11:11');
+
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`,`status`) VALUES ('1', '0', '系统管理', NULL, NULL, '0', 'fa fa-cog', '0', '1');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`,`status`) VALUES ('2', '1', '管理员列表', 'modules/sys/user.html', NULL, '1', 'fa fa-user', '1', '1');
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`,`status`) VALUES ('3', '1', '角色管理', 'modules/sys/role.html', NULL, '1', 'fa fa-user-secret', '2', '1');

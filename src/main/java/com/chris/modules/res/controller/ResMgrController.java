@@ -31,6 +31,7 @@ public class ResMgrController {
     @Autowired
     private ResMgrService resMgrService;
 
+
     /**
      * 列表
      */

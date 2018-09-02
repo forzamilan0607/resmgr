@@ -23,7 +23,7 @@ public class ResAttachmentEntity implements Serializable {
 	//资源ID
 	private Long resId;
 	//附件大小，KB为单位
-	private Integer size;
+	private String size;
 	//附件类型，如：jpg、png、pdf、xls、word、mp4等
 	private Integer type;
 	//上传时间
@@ -90,13 +90,13 @@ public class ResAttachmentEntity implements Serializable {
 	/**
 	 * 设置：附件大小，KB为单位
 	 */
-	public void setSize(Integer size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 	/**
 	 * 获取：附件大小，KB为单位
 	 */
-	public Integer getSize() {
+	public String getSize() {
 		return size;
 	}
 	/**

@@ -3,6 +3,7 @@ package com.chris.modules.res.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -37,6 +38,8 @@ public class ResPurchaseEntity implements Serializable {
 	private Date updateTime;
 	//修改人
 	private Integer updateUserId;
+
+	private List<ResAttachmentEntity> attachmentList;
 
 	/**
 	 * 设置：采购ID
@@ -169,5 +172,13 @@ public class ResPurchaseEntity implements Serializable {
 	 */
 	public Integer getUpdateUserId() {
 		return updateUserId;
+	}
+
+	public List<ResAttachmentEntity> getAttachmentList() {
+		return attachmentList;
+	}
+
+	public void setAttachmentList(List<ResAttachmentEntity> attachmentList) {
+		this.attachmentList = attachmentList;
 	}
 }
