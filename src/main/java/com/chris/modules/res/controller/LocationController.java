@@ -3,10 +3,11 @@ package com.chris.modules.res.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.chris.common.utils.CommonResponse;
+import com.chris.common.utils.*;
 import com.chris.modules.res.dto.LocationParamDTO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chris.modules.res.entity.LocationEntity;
 import com.chris.modules.res.service.LocationService;
-import com.chris.common.utils.PageUtils;
-import com.chris.common.utils.Query;
-import com.chris.common.utils.R;
-
-
 
 
 /**
@@ -55,8 +51,11 @@ public class LocationController {
 	@RequestMapping("/queryLocationListByCondition")
 	@RequiresPermissions("res:location:list")
 	public CommonResponse queryLocationListByCondition(@RequestBody LocationParamDTO param){
-		List<LocationEntity> sysDictList = this.locationService.queryLocationListByCondition(param);
-		return CommonResponse.getSuccessResponse().setData(sysDictList);
+	    if (StringUtils.isEmpty(param.getDeptId())) {
+            param.setDeptId(ShiroUtils.getUserEntity().getDeptId());
+        }
+		List<LocationEntity> locationList = this.locationService.queryLocationListByCondition(param);
+		return CommonResponse.getSuccessResponse().setData(locationList);
 	}
 	
 	

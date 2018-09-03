@@ -31,6 +31,17 @@ public class SysDictEntity implements Serializable {
 	//修改人
 	private Integer updateUserId;
 
+	public SysDictEntity() {
+	}
+
+	public SysDictEntity(Integer id) {
+		this.id = id;
+	}
+
+	public SysDictEntity(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * 设置：字典ID
 	 */

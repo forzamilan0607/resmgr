@@ -50,7 +50,7 @@ var vm = new Vue({
         isChangedDictItems: false
 	},
     created: function (){
-        // $sysDictTree.init();
+        console.log("created");
     },
 	methods: {
 		query: function () {
@@ -59,7 +59,10 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.sysDict = {};
+			vm.sysDict = {
+                status: "1",
+                dictItems: []
+            };
 		},
 		update: function (event) {
 			var id = getSelectedRow();

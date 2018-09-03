@@ -27,4 +27,7 @@ public interface SysDictService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+
+	List<SysDictEntity> querySysDictListByCondition(SysDictEntity param);
+
 }

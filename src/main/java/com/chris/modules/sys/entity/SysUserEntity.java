@@ -73,6 +73,8 @@ public class SysUserEntity implements Serializable {
 	 */
 	private Date createTime;
 
+	private Integer deptId;
+
 	/**
 	 * 设置：
 	 * @param userId 
@@ -207,5 +209,13 @@ public class SysUserEntity implements Serializable {
 
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
 }

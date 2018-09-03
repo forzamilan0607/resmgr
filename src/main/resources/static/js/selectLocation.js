@@ -18,7 +18,7 @@ var $locationTree = function () {
         init: function (treeId) {
             $.ajax({
                 type: "POST",
-                url: "/resmgr/res/location/list",
+                url: "/resmgr/res/location/queryLocationListByCondition",
                 contentType: "application/json",
                 data: JSON.stringify({}),
                 success: function(r){

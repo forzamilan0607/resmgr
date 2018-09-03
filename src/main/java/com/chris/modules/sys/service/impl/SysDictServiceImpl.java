@@ -51,5 +51,10 @@ public class SysDictServiceImpl implements SysDictService {
 	public void deleteBatch(Integer[] ids){
 		sysDictDao.deleteBatch(ids);
 	}
+
+	@Override
+	public List<SysDictEntity> querySysDictListByCondition(SysDictEntity param) {
+		return this.sysDictDao.querySysDictListByCondition(param);
+	}
 	
 }

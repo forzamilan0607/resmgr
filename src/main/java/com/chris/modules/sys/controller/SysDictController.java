@@ -3,8 +3,10 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.chris.common.utils.ValidateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,8 +51,16 @@ public class SysDictController {
 		
 		return R.ok().put("page", pageUtil);
 	}
-	
-	
+
+	@RequestMapping("/checkDictName")
+	public boolean checkDictName(@RequestBody SysDictEntity sysDict){
+		List<SysDictEntity> sysDictList = this.sysDictService.querySysDictListByCondition(new SysDictEntity(sysDict.getName()));
+		if (ValidateUtils.isNotEmpty(sysDict.getId()) && ValidateUtils.isNotEmptyCollection(sysDictList)) {
+			return ValidateUtils.equals(sysDict.getId(), sysDictList.get(0).getId());
+		}
+		return ValidateUtils.isEmptyCollection(sysDictList);
+	}
+
 	/**
 	 * 信息
 	 */

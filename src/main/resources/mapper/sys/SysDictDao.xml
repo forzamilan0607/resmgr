@@ -86,4 +86,16 @@
 		</foreach>
 	</delete>
 
+    <select id="querySysDictListByCondition" resultType="com.chris.modules.sys.entity.SysDictEntity" parameterType="com.chris.modules.sys.entity.SysDictEntity">
+        select * from sys_dict t
+        <where>
+            <if test="name != null and name != '' ">
+                AND t.name = #{name}
+            </if>
+            <if test="id != null and id != 0 ">
+                AND t.id != #{id}
+            </if>
+        </where>
+    </select>
+
 </mapper>
