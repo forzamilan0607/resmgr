@@ -184,10 +184,12 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveResInfo: function () {
-
         },
 		saveOrUpdate: function (event) {
 			var url = vm.resmgr.id == null ? "res/resmgr/save" : "res/resmgr/update";
+			if (!$myValidator.validateResInfo()) {
+			    return;
+            }
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -267,7 +269,7 @@ var $myValidator = function () {
         allPassRequired: false,
         items:[
             {
-                id: "resBaseInfo.name",
+                selector: "input[id='resBaseInfo.name']",
                 blurs: ["required", "range"],
                 validateMethod: {
                     required: {
@@ -277,13 +279,52 @@ var $myValidator = function () {
                     range: {
                         value: [1, 128],
                         msg: "资源名称长度范围只能是1-128位之间"
-
                     }
                 }
 
             },
             {
-                id: "resBaseInfo.resType",
+                selector: "input[id='resBaseInfo.resTypeName']",
+                blurs: ["required"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请选择资源类别"
+                    }
+                }
+            },
+            {
+                selector: "select[id='resBaseInfo.brand']",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请选择品牌"
+                    }
+                }
+            },
+            {
+                selector: "select[id='resBaseInfo.series']",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请选择系列"
+                    }
+                }
+            },
+            {
+                selector: "select[id='resBaseInfo.model']",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请选择模型"
+                    }
+                }
+            },
+            /*{
+                selector: "resBaseInfo.resTypeName",
                 changes: ["notEqualsTo"],
                 validateMethod: {
                     required: {
@@ -293,7 +334,7 @@ var $myValidator = function () {
                 }
             },
             {
-                id: "table_dictItems",
+                selector: "table_dictItems",
                 validateMethod: {
                     minLength: {
                         childSelector: "#tbody_dictItems tr",
@@ -301,16 +342,25 @@ var $myValidator = function () {
                         msg: "请至少添加一个字典项值"
                     }
                 }
-            },
+            },*/
             {
-                id: "dictDesc",
+                selector: "textarea[id='resBaseInfo.remark']",
                 validateMethod: {
                     maxLength: {
-                        value: 50,
-                        msg: $myMsg.maxLength("字典名称", 50)
+                        value: 512,
+                        msg: $myMsg.maxLength("资源描述", 512)
                     }
                 }
             }
         ]
     });
+	return {
+	    validateResInfo: function () {
+            return _validate4ResInfo.validate();
+        },
+        resetBySelector: function (selector) {
+            return _validate4ResInfo.resetBySelector(selector);
+        }
+    }
 }();
+var count = 0;

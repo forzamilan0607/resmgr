@@ -96,7 +96,10 @@
                             <legend>基本信息</legend>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">资源名称</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        资源名称
+                                    </div>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="resBaseInfo.name" v-model="resBaseInfo.name" placeholder="资源名称"/>
                                     </div>
@@ -110,9 +113,13 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">资源类别</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        资源类别
+                                    </div>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId" placeholder="请选择资源类别" readonly />
+                                        <input type="hidden" v-model="resBaseInfo.resTypeId" />
+                                        <input type="text" class="form-control" id="resBaseInfo.resTypeName" v-model="resBaseInfo.resTypeId" placeholder="请选择资源类别" readonly />
                                         <span class="input-group-btn">
                                             <button class="btn btn-info" type="button">
                                                 <span class="glyphicon glyphicon-search"></span>
@@ -121,25 +128,37 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">品牌</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        品牌
+                                    </div>
                                     <div class="col-sm-10">
                                         <select type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌" >
+                                            <option value="-1">请选择</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">系列</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        系列
+                                    </div>
                                     <div class="col-sm-10">
                                         <select type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列" >
+                                            <option value="-1">请选择</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">型号</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        型号
+                                    </div>
                                     <div class="col-sm-10">
                                         <select type="text" class="form-control" id="resBaseInfo.model" v-model="resBaseInfo.model" placeholder="型号" >
+                                            <option value="-1">请选择</option>
                                             <option>IOS</option>
                                             <option>android</option>
                                             <option>windows phone</option>
@@ -149,7 +168,10 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">部门ID</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        部门ID
+                                    </div>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control" id="resBaseInfo.deptId" v-model="resBaseInfo.deptId" placeholder="请选择部门" readonly />
                                         <span class="input-group-btn">
@@ -160,7 +182,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">责任人</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>责任人
+                                    </div>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control" id="resBaseInfo.personResponsible" v-model="resBaseInfo.personResponsible" placeholder="请选择责任人" readonly />
                                         <span class="input-group-btn">
