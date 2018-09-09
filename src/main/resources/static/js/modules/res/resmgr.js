@@ -152,12 +152,19 @@ var vm = new Vue({
                     size: "4830 KB"
                 }
 			]
+		},
+		validator: {
+
 		}
 	},
 	created: function () {
         $locationTree.init("locationTree");
+        this.validator["aa"] = this.test();
     },
 	methods: {
+		test: function () {
+			return "fuck";
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -176,6 +183,9 @@ var vm = new Vue({
             
             vm.getInfo(id)
 		},
+		saveResInfo: function () {
+
+        },
 		saveOrUpdate: function (event) {
 			var url = vm.resmgr.id == null ? "res/resmgr/save" : "res/resmgr/update";
 			$.ajax({
@@ -252,3 +262,55 @@ var vm = new Vue({
         }
 	}
 });
+var $myValidator = function () {
+	var _validate4ResInfo = $validator.build({
+        allPassRequired: false,
+        items:[
+            {
+                id: "resBaseInfo.name",
+                blurs: ["required", "range"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入资源名称"
+                    },
+                    range: {
+                        value: [1, 128],
+                        msg: "资源名称长度范围只能是1-128位之间"
+
+                    }
+                }
+
+            },
+            {
+                id: "resBaseInfo.resType",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请选择状态"
+                    }
+                }
+            },
+            {
+                id: "table_dictItems",
+                validateMethod: {
+                    minLength: {
+                        childSelector: "#tbody_dictItems tr",
+                        value: 1,
+                        msg: "请至少添加一个字典项值"
+                    }
+                }
+            },
+            {
+                id: "dictDesc",
+                validateMethod: {
+                    maxLength: {
+                        value: 50,
+                        msg: $myMsg.maxLength("字典名称", 50)
+                    }
+                }
+            }
+        ]
+    });
+}();
