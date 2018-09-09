@@ -280,6 +280,7 @@ var $myValidator = function () {
 
                     }
                 }
+
             },
             {
                 id: "resBaseInfo.resType",
