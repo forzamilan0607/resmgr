@@ -31,7 +31,8 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	 */
 	@PostConstruct
 	public void init(){
-		List<ScheduleJobEntity> scheduleJobList = schedulerJobDao.queryList(new HashMap<>());
+		// TODO 暂时不需要定时任务功能
+		/*List<ScheduleJobEntity> scheduleJobList = schedulerJobDao.queryList(new HashMap<>());
 		for(ScheduleJobEntity scheduleJob : scheduleJobList){
 			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建
@@ -40,7 +41,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
             }else {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
-		}
+		}*/
 	}
 	
 	@Override
