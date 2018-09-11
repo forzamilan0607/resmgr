@@ -82,7 +82,7 @@ var $validator = function(){
         build: function (validateObj) {
             function buildValidateItem(item, eventName) {
                 var validateItem = {
-                    jqObj: $("#" + item.id),
+                    jqObj: $(item.selector),
                     value: item.validateMethod[eventName].value,
                     msg: item.validateMethod[eventName].msg
                 }
@@ -103,18 +103,31 @@ var $validator = function(){
             /*function getSuccessClass() {
                 return _validateObj.config.successClass || "validate-success";
             };*/
+            function removeSpan(jqSpan) {
+                if (jqSpan.hasClass("input-group-btn")) {
+                    jqSpan.next("span").remove();
+                    return false;
+                } else {
+                    jqSpan.remove();
+                    return true;
+                }
+            }
             function validateOK(validateItem) {
                 // validateItem.jqObj.removeClass('has-error').addClass("has-feedback has-success")
                 validateItem.jqObj.removeClass(getErrorClass());
-                validateItem.jqObj.next("span").remove();
+                var jqSpan = validateItem.jqObj.next("span");
+                removeSpan(jqSpan);
                 return true;
             };
             function validateFail(validateItem) {
                 // validateItem.jqObj.removeClass("has-success").addClass("has-error has-feedback");
                 validateItem.jqObj.addClass(getErrorClass());
-                validateItem.jqObj.next("span").remove();
-                // validateItem.jqObj.after("<span>" + validateItem.msg + "</span>");
-                validateItem.jqObj.after('<span class="glyphicon glyphicon-remove" style="color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                var jqSpan =validateItem.jqObj.next("span");
+                if (removeSpan(jqSpan)) {
+                    validateItem.jqObj.after('<span class="glyphicon glyphicon-remove" style="color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                } else {
+                    jqSpan.after('<span class="glyphicon glyphicon-remove" style="position: absolute; top: 40px; left: 0px;color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                }
                 return false;
             };
             function getEvents(validateItems){
@@ -201,7 +214,7 @@ var $validator = function(){
             };
             function dynamicBindEvent(item, triggerEventNames, eventName) {
                 if (item[triggerEventNames] && item[triggerEventNames].length) {
-                    $("#" + item.id).unbind(eventName).bind(eventName, function () {
+                    $(item.selector).unbind(eventName).bind(eventName, function () {
                         $.each(item[triggerEventNames], function (index, eventItem) {
                             if (!doValidate(item, eventItem)) {
                                 return false;
@@ -210,12 +223,20 @@ var $validator = function(){
                     });
                 }
             }
+            function resetSelector(items) {
+                $.each(items, function (index, item) {
+                    if (item.id && !item.selector) {
+                        item.selector = "#" + item.id;
+                    }
+                });
+            }
             var _validateObj = {
                 config: validateObj,
                 events: getEvents(validateObj.items),
                 validateResult: true,
                 remoteResult: {}
             };
+            resetSelector(_validateObj.config.items);
             //初始化绑定blur事件
             $.each(_validateObj.config.items, function (index, item) {
                 dynamicBindEvent(item, "blurs", "blur");
@@ -255,13 +276,16 @@ var $validator = function(){
                 },
                 reset: function () {                    
                     var jqIds = $.map(_validateObj.config.items, function (item, index) {
-                        return "#" + item.id;
+                        return item.selector;
                     }).join(",");
                     $(jqIds).removeClass(getErrorClass()).next("span").remove();
                     _validateObj.validateResult = true;
                 },
                 resetById: function (id) {
-                    $("#"+ id).removeClass(getErrorClass()).next("span").remove();
+                    removeSpan($("#"+ id).removeClass(getErrorClass()).next("span"));
+                },
+                resetBySelector: function (selector) {
+                    removeSpan($(selector).removeClass(getErrorClass()).next("span"));
                 }
             }
         }
