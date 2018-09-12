@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    $util.upload({
+        selector: "#uploadResNameplate",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|xls|xlsx|csv|mp4|avi|pdf)$/,
+        msg: "仅支持图片、office文档、pdf文件、mp4、avi格式文件上传！",
+        attachmentList: vm.resBaseInfo.attachmentList
+    });
+
     $("#jqGrid").jqGrid({
         url: baseURL + 'res/resmgr/list',
         datatype: "json",
@@ -159,7 +166,6 @@ var vm = new Vue({
 	},
 	created: function () {
         $locationTree.init("locationTree");
-        this.validator["aa"] = this.test();
     },
 	methods: {
 		test: function () {

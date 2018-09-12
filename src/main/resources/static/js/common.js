@@ -185,6 +185,33 @@ var $util = function () {
                 }
             }
             return true;
+        },
+        upload: function (conf) {
+            new AjaxUpload(conf.selector, {
+                action: baseURL + 'sys/oss/upload?token=' + token,
+                name: 'file',
+                autoSubmit: true,
+                responseType: "json",
+                onChange: function (file, extension) {
+                    alert(file);
+                },
+                onSubmit: function (file, extension) {
+                    if (!extension || !conf.suffixReg.test(extension.toLowerCase())) {
+                        alert(conf.msg ? conf.msg : "不支持的文件格式！");
+                        return false;
+                    }
+                    $("body").mLoading();
+                },
+                onComplete: function (file, r) {
+                    $("body").mLoading("hide");
+                    if (r.code == $util.HTTP_STATUS.SC_OK) {
+                        alert(r.url);
+                        // conf.attachmentList.push();
+                    } else {
+                        alert(r.msg);
+                    }
+                }
+            });
         }
     }
 }();

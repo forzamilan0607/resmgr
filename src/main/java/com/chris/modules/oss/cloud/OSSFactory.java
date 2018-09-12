@@ -14,14 +14,14 @@ import com.chris.common.utils.SpringContextUtils;
 public final class OSSFactory {
     private static SysConfigService sysConfigService;
 
+    private static CloudStorageConfig config;
     static {
         OSSFactory.sysConfigService = (SysConfigService) SpringContextUtils.getBean("sysConfigService");
+        //获取云存储配置信息
+        config = sysConfigService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
     }
 
     public static CloudStorageService build(){
-        //获取云存储配置信息
-        CloudStorageConfig config = sysConfigService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
-
         if(config.getType() == Constant.CloudService.QINIU.getValue()){
             return new QiniuCloudStorageService(config);
         }else if(config.getType() == Constant.CloudService.ALIYUN.getValue()){
