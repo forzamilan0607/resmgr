@@ -10,7 +10,7 @@
 /target/
 /logs/
 /*.iml
-/.idea
+/.idea/*
 /.settings
 /.classpath
 /.project

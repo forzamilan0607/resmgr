@@ -7,6 +7,7 @@
     <resultMap type="com.chris.modules.sys.entity.SysDictEntity" id="sysDictMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="parentDictitemId" column="parent_dictitem_id"/>
         <result property="dictDesc" column="dict_desc"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
@@ -43,7 +44,8 @@
 		(
 			`name`, 
 			`dict_desc`, 
-			`status`, 
+			`parent_dictitem_id`,
+			`status`,
 			`create_time`, 
 			`create_user_id`, 
 			`update_time`, 
@@ -53,7 +55,8 @@
 		(
 			#{name}, 
 			#{dictDesc}, 
-			#{status}, 
+			#{parentDictitemId},
+			#{status},
 			#{createTime}, 
 			#{createUserId}, 
 			#{updateTime}, 
@@ -66,12 +69,13 @@
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="dictDesc != null">`dict_desc` = #{dictDesc}, </if>
+			<if test="parentDictitemId != null">`parent_dictitem_id` = #{parentDictitemId}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId},</if>
 		</set>
+		`updateTime` = now()
 		where id = #{id}
 	</update>
 	

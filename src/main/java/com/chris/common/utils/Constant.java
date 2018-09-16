@@ -16,7 +16,7 @@ public class Constant {
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;
 
-	public static final String TEMP_URL = "/img/#{fileType}";
+	public static final String TEMP_URL = "/resmgr/img/#{fileType}";
 
     public static final Map<String, String> FILE_TYPE_MAP = new HashMap<>();
 

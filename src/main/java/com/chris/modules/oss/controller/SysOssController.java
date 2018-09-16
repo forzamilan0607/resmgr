@@ -145,8 +145,7 @@ public class SysOssController {
 	}
 
 	private String generateTempUrl(HttpServletRequest request, String suffixName) {
-		return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() +
-				Constant.TEMP_URL.replace("#{fileType}", Constant.FILE_TYPE_MAP.get(suffixName));
+		return Constant.TEMP_URL.replace("#{fileType}", Constant.FILE_TYPE_MAP.get(suffixName));
 	}
 
 	private String getFileType(String suffix) {
@@ -154,7 +153,7 @@ public class SysOssController {
 		if (docTypes.contains(suffix.toLowerCase())) {
 			return Constant.FileType.DOCUMENT.getValue();
 		}
-		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg");
+		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg", "gif");
 		if (imgTypes.contains(suffix.toLowerCase())) {
 			return Constant.FileType.IMAGE.getValue();
 		}

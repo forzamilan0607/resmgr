@@ -45,6 +45,7 @@ CREATE TABLE `sys_attr_value` (
 CREATE TABLE `sys_dict` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '字典ID',
   `name` varchar(32) NOT NULL COMMENT '字典名称',
+  `parent_dictitem_id` int(10) COMMENT '父级字典项',
   `dict_desc` varchar(50) COMMENT '字典描述',
   `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',
 	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

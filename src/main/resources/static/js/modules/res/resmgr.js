@@ -90,7 +90,7 @@ var vm = new Vue({
 				{
 				    id: 1,
 					name: "煤气探测器",
-					tempUrl: "http://localhost:8080/resmgr/img/image2.png",
+					tempUrl: "/resmgr/img/image2.png",
                     url: "hangzhou.aliyuncs.com/20180916/100d2eaa90d84656aa3d28aa0b6c847f.jpg",
 					type: "图片",
 					size: "20 KB"
@@ -98,7 +98,7 @@ var vm = new Vue({
 				{
 				    id: 7,
 					name: "消防电话2",
-					tempUrl: "http://localhost:8080/resmgr/img/video3.png",
+					tempUrl: "/resmgr/img/video3.png",
                     url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/a1b30e8156db4cc1977bc8b48428818b.mp4",
 					type: "视频",
 					size: "20480 KB"
@@ -106,7 +106,7 @@ var vm = new Vue({
 				{
 				    id: 3,
 					name: "统计说明",
-					tempUrl: "http://localhost:8080/resmgr/img/excel.png",
+					tempUrl: "/resmgr/img/excel.png",
                     url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/8913dae430bb435b923f8cc030f77142.doc",
 					type: "文档",
 					size: "1024 KB"
@@ -117,7 +117,7 @@ var vm = new Vue({
             attachmentList: [
                 {
                     name: "信息园资源设备合同",
-                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "/resmgr/img/word.png",
                     type: "文档",
                     size: "2048 KB"
                 }
@@ -127,7 +127,7 @@ var vm = new Vue({
             attachmentList1: [
                 {
                     name: "维护保养合同123",
-                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "/resmgr/img/word.png",
                     type: "文档",
                     size: "5778 KB"
                 }
@@ -135,7 +135,7 @@ var vm = new Vue({
             attachmentList2: [
                 {
                     name: "灭火器说明书",
-                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "/resmgr/img/word.png",
                     type: "文档",
                     size: "8877 KB"
                 }
@@ -143,7 +143,7 @@ var vm = new Vue({
 			attachmentList3: [
                 {
                     name: "维护保养注意事项",
-                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "/resmgr/img/word.png",
                     type: "文档",
                     size: "4830 KB"
                 }
@@ -153,7 +153,7 @@ var vm = new Vue({
             attachmentList1: [
                 {
                     name: "图纸1",
-                    tempUrl: "http://localhost:8080/resmgr/img/image3.png",
+                    tempUrl: "/resmgr/img/image3.png",
                     type: "图片",
                     size: "4830 KB"
                 }
@@ -161,7 +161,7 @@ var vm = new Vue({
             attachmentList2: [
                 {
                     name: "烟感系统操作说明书",
-                    tempUrl: "http://localhost:8080/resmgr/img/image3.png",
+                    tempUrl: "/resmgr/img/image3.png",
                     type: "图片",
                     size: "4830 KB"
                 }

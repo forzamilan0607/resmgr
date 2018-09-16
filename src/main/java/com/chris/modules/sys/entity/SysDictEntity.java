@@ -1,5 +1,8 @@
 package com.chris.modules.sys.entity;
 
+import com.chris.common.model.SysUpdateInfo;
+import com.oracle.deploy.update.UpdateInfo;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,25 +14,19 @@ import java.util.Date;
  * @email 258321511@qq.com
  * @since Aug 28.18
  */
-public class SysDictEntity implements Serializable {
+public class SysDictEntity extends SysUpdateInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//字典ID
 	private Integer id;
 	//字典名称
 	private String name;
+	//父级字典项
+	private Integer parentDictitemId;
 	//字典描述
 	private String dictDesc;
 	//状态，1、有效，0、无效
 	private String status;
-	//创建时间
-	private Date createTime;
-	//创建人
-	private Integer createUserId;
-	//修改时间
-	private Date updateTime;
-	//修改人
-	private Integer updateUserId;
 
 	public SysDictEntity() {
 	}
@@ -90,52 +87,12 @@ public class SysDictEntity implements Serializable {
 	public String getStatus() {
 		return status;
 	}
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+
+	public Integer getParentDictitemId() {
+		return parentDictitemId;
 	}
-	/**
-	 * 获取：创建时间
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-	/**
-	 * 设置：创建人
-	 */
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
-	}
-	/**
-	 * 获取：创建人
-	 */
-	public Integer getCreateUserId() {
-		return createUserId;
-	}
-	/**
-	 * 设置：修改时间
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	/**
-	 * 获取：修改时间
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-	/**
-	 * 设置：修改人
-	 */
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-	/**
-	 * 获取：修改人
-	 */
-	public Integer getUpdateUserId() {
-		return updateUserId;
+
+	public void setParentDictitemId(Integer parentDictitemId) {
+		this.parentDictitemId = parentDictitemId;
 	}
 }
