@@ -244,18 +244,18 @@
                                                         <img :src="attach.tempUrl">
                                                     </div>
                                                     <div>
-                                                        <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                        <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-primary start">
+                                                    <a class="btn btn-primary start" @click="preview(attach)">
                                                         <i class="glyphicon glyphicon-upload"></i>
                                                         <span>预览</span>
-                                                    </button>
-                                                    <button class="btn btn-danger cancel">
+                                                    </a>
+                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                         <i class="fa fa-trash-o"></i>
                                                         <span>删除</span>
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -352,18 +352,18 @@
                                                     <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start" @click="preview(attach)">
+                                                <a class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
-                                                </button>
-                                                <button class="btn btn-danger cancel">
+                                                </a>
+                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -455,18 +455,18 @@
                                                 <img :src="attach.tempUrl">
                                             </div>
                                             <div>
-                                                <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn btn-primary start">
+                                            <a class="btn btn-primary start" @click="preview(attach)">
                                                 <i class="glyphicon glyphicon-upload"></i>
                                                 <span>预览</span>
-                                            </button>
-                                            <button class="btn btn-danger cancel">
+                                            </a>
+                                            <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                 <i class="fa fa-trash-o"></i>
                                                 <span>删除</span>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -492,18 +492,18 @@
                                                     <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start" @click="preview(attach)">
+                                                <a class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
-                                                </button>
-                                                <button class="btn btn-danger cancel">
+                                                </a>
+                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -536,18 +536,18 @@
                                                     <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start" @click="preview(attach)">
+                                                <a class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
-                                                </button>
-                                                <button class="btn btn-danger cancel">
+                                                </a>
+                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -589,18 +589,18 @@
                                                     <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start" @click="preview(attach)">
+                                                <a class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
-                                                </button>
-                                                <button class="btn btn-danger cancel">
+                                                </a>
+                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -633,18 +633,18 @@
                                                     <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
+                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start" @click="preview(attach)">
+                                                <a class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
-                                                </button>
-                                                <button class="btn btn-danger cancel">
+                                                </a>
+                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
-                                                </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>

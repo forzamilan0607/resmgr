@@ -84,6 +84,7 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
+        $token: null,
         resBaseInfo: {
             attachmentList: [
 				{
@@ -172,6 +173,7 @@ var vm = new Vue({
 	},
 	created: function () {
         $locationTree.init("locationTree");
+        this.$token = token;
     },
 	methods: {
 		test: function () {
@@ -280,14 +282,35 @@ var vm = new Vue({
         preview: function (attach) {
             alert(JSON.stringify(attach))
         },
-        download: function (attach) {
-            $.ajax({
-                type: "GET",
-                url: baseURL + 'sys/oss/downLoad?token=' + token + "&id=" + attach.id,
-                success: function(){
-                    alert("下载文件成功");
-                }
+        deleteAttach: function (attach) {
+            var attachId = attach.id;
+            confirm('确定要删除此文件吗？', function(){
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "sys/oss/delete?id=" + attachId,
+                    contentType: "application/json",
+                    success: function(r){
+                        if(r.code == 0){
+                            vm.deleteAttachFromList(vm.resBaseInfo.attachmentList, attachId) || vm.deleteAttachFromList(vm.resPurchase.attachmentList, attachId) ||
+                            vm.deleteAttachFromList(vm.resMaintenance.attachmentList1, attachId) || vm.deleteAttachFromList(vm.resMaintenance.attachmentList2, attachId) ||
+                            vm.deleteAttachFromList(vm.resMaintenance.attachmentList3, attachId)  || vm.deleteAttachFromList(vm.resInstallConfig.attachmentList1, attachId) ||
+                            vm.deleteAttachFromList(vm.resInstallConfig.attachmentList2, attachId);
+                            alert('删除成功');
+                        }else{
+                            alert(r.msg);
+                        }
+                    }
+                });
             });
+        },
+        deleteAttachFromList: function (attachmentList, attachId) {
+            for (var i = 0; i < attachmentList.length; i++) {
+                if (attachmentList[i].id == attachId) {
+                    attachmentList.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
         }
 	}
 });

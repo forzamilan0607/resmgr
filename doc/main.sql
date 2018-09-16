@@ -6,7 +6,6 @@ DROP TABLE IF EXISTS sys_department;
 DROP TABLE IF EXISTS t_res_base_info;
 DROP TABLE IF EXISTS t_res_type;
 DROP TABLE IF EXISTS t_res_location;
-DROP TABLE IF EXISTS t_res_attachment;
 DROP TABLE IF EXISTS t_res_purchase;
 DROP TABLE IF EXISTS t_res_maintenance;
 DROP TABLE IF EXISTS t_res_install_config;
@@ -147,23 +146,6 @@ CREATE TABLE `t_location` (
   `remark` varchar(512) COMMENT '位置描述',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='位置信息';
-
--- 资源附件
-CREATE TABLE `t_res_attachment` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '附件ID',
-  `name` varchar(64) NOT NULL COMMENT '附件名称',
-  `url` varchar(255) NOT NULL COMMENT '附件URL',
-  `res_id` bigint(20) NOT NULL COMMENT '资源ID',
-  `size` int(10) COMMENT '附件大小，KB为单位',
-  `type` int(10) COMMENT '附件类型，如：jpg、png、pdf、xls、word、mp4等',
-	`upload_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
-	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user_id` int(10) COMMENT '创建人',
-	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `update_user_id` int(10) COMMENT '修改人',
-	`sort_order` tinyint(3) DEFAULT 0 COMMENT '顺序',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源附件';
 
 -- 资源采购信息
 CREATE TABLE `t_res_purchase` (

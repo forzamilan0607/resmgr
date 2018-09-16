@@ -131,6 +131,24 @@ INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('CLOUD_STO
 
 INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`,`status`) VALUES ('30', '1', '文件上传', 'modules/oss/oss.html', 'sys:oss:all', '1', 'fa fa-file-image-o', '6', '1');
 
+-- 附件信息
+CREATE TABLE `sys_attachment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '附件ID',
+  `name` varchar(64) NOT NULL COMMENT '附件名称',
+  `url` varchar(255) NOT NULL COMMENT '附件URL',
+  `obj_id` bigint(20) COMMENT '对象ID',
+  `obj_source` varchar(20) COMMENT '对象来源',
+  `size` int(10) COMMENT '附件大小，KB为单位',
+  `suffix_name` varchar(10) COMMENT '文件后缀名',
+  `type` varchar(10) COMMENT '附件类型，如：图片、文档、视频',
+	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+	`sort_order` tinyint(3) DEFAULT 0 COMMENT '顺序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件信息';
+
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------

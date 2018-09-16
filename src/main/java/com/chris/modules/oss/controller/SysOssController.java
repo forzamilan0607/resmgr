@@ -171,8 +171,8 @@ public class SysOssController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
-	public R delete(@RequestBody Long[] ids){
-		this.sysAttachmentService.deleteBatch(ids);
+	public R delete(Long id){
+		this.sysAttachmentService.delete(id);
 		return R.ok();
 	}
 
