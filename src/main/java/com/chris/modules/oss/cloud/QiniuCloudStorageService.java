@@ -8,6 +8,7 @@ import com.qiniu.util.Auth;
 import com.chris.common.exception.CommonException;
 import org.apache.commons.io.IOUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -66,5 +67,9 @@ public class QiniuCloudStorageService extends CloudStorageService {
     @Override
     public String uploadSuffix(InputStream inputStream, String suffix) {
         return upload(inputStream, getPath(config.getQiniuPrefix(), suffix));
+    }
+
+    @Override
+    public void download(String path, HttpServletResponse response) {
     }
 }

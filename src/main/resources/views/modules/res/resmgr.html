@@ -241,10 +241,10 @@
                                             <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.attachmentList">
                                                 <td class="pull-center">
                                                     <div>
-                                                        <img :src="attach.url">
+                                                        <img :src="attach.tempUrl">
                                                     </div>
                                                     <div>
-                                                        <a href="#">{{attach.name}}</a>
+                                                        <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -349,14 +349,14 @@
                                         <tr class="template-upload fade in" v-for="(attach, index) in resPurchase.attachmentList">
                                             <td class="pull-center">
                                                 <div>
-                                                    <img :src="attach.url">
+                                                    <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#">{{attach.name}}</a>
+                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start">
+                                                <button class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </button>
@@ -452,10 +452,10 @@
                                     <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList1">
                                         <td class="pull-center">
                                             <div>
-                                                <img :src="attach.url">
+                                                <img :src="attach.tempUrl">
                                             </div>
                                             <div>
-                                                <a href="#">{{attach.name}}</a>
+                                                <a href="#" @click="download(attach)">{{attach.name}}</a>
                                             </div>
                                         </td>
                                         <td>
@@ -489,14 +489,14 @@
                                         <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList2">
                                             <td class="pull-center">
                                                 <div>
-                                                    <img :src="attach.url">
+                                                    <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#">{{attach.name}}</a>
+                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start">
+                                                <button class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </button>
@@ -533,14 +533,14 @@
                                         <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList3">
                                             <td class="pull-center">
                                                 <div>
-                                                    <img :src="attach.url">
+                                                    <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#">{{attach.name}}</a>
+                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start">
+                                                <button class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </button>
@@ -586,14 +586,14 @@
                                         <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList1">
                                             <td class="pull-center">
                                                 <div>
-                                                    <img :src="attach.url">
+                                                    <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#">{{attach.name}}</a>
+                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start">
+                                                <button class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </button>
@@ -630,14 +630,14 @@
                                         <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList2">
                                             <td class="pull-center">
                                                 <div>
-                                                    <img :src="attach.url">
+                                                    <img :src="attach.tempUrl">
                                                 </div>
                                                 <div>
-                                                    <a href="#">{{attach.name}}</a>
+                                                    <a href="#" @click="download(attach)">{{attach.name}}</a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary start">
+                                                <button class="btn btn-primary start" @click="preview(attach)">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </button>

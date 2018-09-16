@@ -1,5 +1,7 @@
 package com.chris.modules.res.entity;
 
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +62,7 @@ public class ResBaseInfoEntity implements Serializable {
 	//责任人
 	private Integer personResponsible;
 
-	private List<ResAttachmentEntity> attachmentList;
+	private List<SysAttachmentEntity> attachmentList;
 
 	/**
 	 * 设置：资源ID
@@ -327,11 +329,11 @@ public class ResBaseInfoEntity implements Serializable {
 		return personResponsible;
 	}
 
-	public List<ResAttachmentEntity> getAttachmentList() {
+	public List<SysAttachmentEntity> getAttachmentList() {
 		return attachmentList;
 	}
 
-	public void setAttachmentList(List<ResAttachmentEntity> attachmentList) {
+	public void setAttachmentList(List<SysAttachmentEntity> attachmentList) {
 		this.attachmentList = attachmentList;
 	}
 }

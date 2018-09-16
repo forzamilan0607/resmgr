@@ -5,6 +5,9 @@ import com.chris.common.utils.ConfigConstant;
 import com.chris.common.utils.Constant;
 import com.chris.common.utils.SpringContextUtils;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 文件上传Factory
  * @author chris
@@ -19,6 +22,8 @@ public final class OSSFactory {
         OSSFactory.sysConfigService = (SysConfigService) SpringContextUtils.getBean("sysConfigService");
         //获取云存储配置信息
         config = sysConfigService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
+
+
     }
 
     public static CloudStorageService build(){

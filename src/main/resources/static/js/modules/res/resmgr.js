@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $util.upload({
         selector: "#uploadResNameplate",
-        suffixReg: /^(jpg|jpeg|png|gif|doc|xls|xlsx|csv|mp4|avi|pdf)$/,
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
         msg: "仅支持图片、office文档、pdf文件、mp4、avi格式文件上传！",
         attachmentList: vm.resBaseInfo.attachmentList
     });
@@ -87,20 +87,26 @@ var vm = new Vue({
         resBaseInfo: {
             attachmentList: [
 				{
+				    id: 1,
 					name: "煤气探测器",
-					url: "http://localhost:8080/resmgr/img/image2.png",
+					tempUrl: "http://localhost:8080/resmgr/img/image2.png",
+                    url: "hangzhou.aliyuncs.com/20180916/100d2eaa90d84656aa3d28aa0b6c847f.jpg",
 					type: "图片",
 					size: "20 KB"
 				},
 				{
+				    id: 7,
 					name: "消防电话2",
-					url: "http://localhost:8080/resmgr/img/video3.png",
+					tempUrl: "http://localhost:8080/resmgr/img/video3.png",
+                    url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/a1b30e8156db4cc1977bc8b48428818b.mp4",
 					type: "视频",
 					size: "20480 KB"
 				},
 				{
+				    id: 3,
 					name: "统计说明",
-					url: "http://localhost:8080/resmgr/img/excel.png",
+					tempUrl: "http://localhost:8080/resmgr/img/excel.png",
+                    url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/8913dae430bb435b923f8cc030f77142.doc",
 					type: "文档",
 					size: "1024 KB"
 				}
@@ -110,7 +116,7 @@ var vm = new Vue({
             attachmentList: [
                 {
                     name: "信息园资源设备合同",
-                    url: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
                     type: "文档",
                     size: "2048 KB"
                 }
@@ -120,7 +126,7 @@ var vm = new Vue({
             attachmentList1: [
                 {
                     name: "维护保养合同123",
-                    url: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
                     type: "文档",
                     size: "5778 KB"
                 }
@@ -128,7 +134,7 @@ var vm = new Vue({
             attachmentList2: [
                 {
                     name: "灭火器说明书",
-                    url: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
                     type: "文档",
                     size: "8877 KB"
                 }
@@ -136,7 +142,7 @@ var vm = new Vue({
 			attachmentList3: [
                 {
                     name: "维护保养注意事项",
-                    url: "http://localhost:8080/resmgr/img/word.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/word.png",
                     type: "文档",
                     size: "4830 KB"
                 }
@@ -146,7 +152,7 @@ var vm = new Vue({
             attachmentList1: [
                 {
                     name: "图纸1",
-                    url: "http://localhost:8080/resmgr/img/image3.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/image3.png",
                     type: "图片",
                     size: "4830 KB"
                 }
@@ -154,7 +160,7 @@ var vm = new Vue({
             attachmentList2: [
                 {
                     name: "烟感系统操作说明书",
-                    url: "http://localhost:8080/resmgr/img/image3.png",
+                    tempUrl: "http://localhost:8080/resmgr/img/image3.png",
                     type: "图片",
                     size: "4830 KB"
                 }
@@ -265,6 +271,21 @@ var vm = new Vue({
                     // vm.sysDict.parentDictId = nodes[0].dictId;
                     // vm.sysDict.parentDictName = nodes[0].dictName;
                     layer.close(index);
+                }
+            });
+        },
+        /**
+         * 附件预览
+         */
+        preview: function (attach) {
+            alert(JSON.stringify(attach))
+        },
+        download: function (attach) {
+            $.ajax({
+                type: "GET",
+                url: baseURL + 'sys/oss/downLoad?token=' + token + "&id=" + attach.id,
+                success: function(){
+                    alert("下载文件成功");
                 }
             });
         }

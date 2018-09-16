@@ -1,5 +1,7 @@
 package com.chris.modules.res.entity;
 
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +23,12 @@ public class ResInstallConfigEntity implements Serializable {
 	private Long resId;
 	//图纸，多个附件ID以逗号分隔
 	private String drawing;
-	private List<ResAttachmentEntity> attachmentList1;
+	private List<SysAttachmentEntity> attachmentList1;
 	//操作规范说明
 	private String operationSpecificationText;
 	//操作规范说明（附件），多个附件ID以逗号分隔
 	private String operationSpecificationAttach;
-	private List<ResAttachmentEntity> attachmentList2;
+	private List<SysAttachmentEntity> attachmentList2;
 	//创建时间
 	private Date createTime;
 	//创建人
@@ -145,19 +147,19 @@ public class ResInstallConfigEntity implements Serializable {
 		return updateUserId;
 	}
 
-	public List<ResAttachmentEntity> getAttachmentList1() {
+	public List<SysAttachmentEntity> getAttachmentList1() {
 		return attachmentList1;
 	}
 
-	public void setAttachmentList1(List<ResAttachmentEntity> attachmentList1) {
+	public void setAttachmentList1(List<SysAttachmentEntity> attachmentList1) {
 		this.attachmentList1 = attachmentList1;
 	}
 
-	public List<ResAttachmentEntity> getAttachmentList2() {
+	public List<SysAttachmentEntity> getAttachmentList2() {
 		return attachmentList2;
 	}
 
-	public void setAttachmentList2(List<ResAttachmentEntity> attachmentList2) {
+	public void setAttachmentList2(List<SysAttachmentEntity> attachmentList2) {
 		this.attachmentList2 = attachmentList2;
 	}
 }

@@ -1,5 +1,7 @@
 package com.chris.modules.res.entity;
 
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.math.BigDecimal;
@@ -36,18 +38,18 @@ public class ResMaintenanceEntity implements Serializable {
     private BigDecimal maintainPrice;
     //维保合同，多个附件ID以逗号分隔
     private String maintainContract;
-    private List<ResAttachmentEntity> attachmentList1;
+    private List<SysAttachmentEntity> attachmentList1;
 
     //设备资源说明书，多个附件ID以逗号分隔
     private String resInstructions;
-    private List<ResAttachmentEntity> attachmentList2;
+    private List<SysAttachmentEntity> attachmentList2;
 
     //运维或保养特别提示、注意事项（文字）
     private String precautionsText;
 
     //运维或保养特别提示、注意事项（附件）
     private String precautionsAttach;
-    private List<ResAttachmentEntity> attachmentList3;
+    private List<SysAttachmentEntity> attachmentList3;
 
     //设备状态,入库/在用/送修/注销
     private Integer resStatus;
@@ -312,27 +314,27 @@ public class ResMaintenanceEntity implements Serializable {
         return updateUserId;
     }
 
-    public List<ResAttachmentEntity> getAttachmentList1() {
+    public List<SysAttachmentEntity> getAttachmentList1() {
         return attachmentList1;
     }
 
-    public void setAttachmentList1(List<ResAttachmentEntity> attachmentList1) {
+    public void setAttachmentList1(List<SysAttachmentEntity> attachmentList1) {
         this.attachmentList1 = attachmentList1;
     }
 
-    public List<ResAttachmentEntity> getAttachmentList2() {
+    public List<SysAttachmentEntity> getAttachmentList2() {
         return attachmentList2;
     }
 
-    public void setAttachmentList2(List<ResAttachmentEntity> attachmentList2) {
+    public void setAttachmentList2(List<SysAttachmentEntity> attachmentList2) {
         this.attachmentList2 = attachmentList2;
     }
 
-    public List<ResAttachmentEntity> getAttachmentList3() {
+    public List<SysAttachmentEntity> getAttachmentList3() {
         return attachmentList3;
     }
 
-    public void setAttachmentList3(List<ResAttachmentEntity> attachmentList3) {
+    public void setAttachmentList3(List<SysAttachmentEntity> attachmentList3) {
         this.attachmentList3 = attachmentList3;
     }
 }

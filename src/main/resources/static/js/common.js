@@ -206,7 +206,7 @@ var $util = function () {
                     $("body").mLoading("hide");
                     if (r.code == $util.HTTP_STATUS.SC_OK) {
                         alert(r.url);
-                        // conf.attachmentList.push();
+                        conf.attachmentList.push(r.attachmentObj);
                     } else {
                         alert(r.msg);
                     }

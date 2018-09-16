@@ -3,6 +3,7 @@ package com.chris.modules.oss.cloud;
 import com.chris.common.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
@@ -67,5 +68,7 @@ public abstract class CloudStorageService {
      * @return             返回http地址
      */
     public abstract String uploadSuffix(InputStream inputStream, String suffix);
+
+    public abstract void download(String path, HttpServletResponse response);
 
 }

@@ -1,5 +1,7 @@
 package com.chris.modules.res.entity;
 
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.math.BigDecimal;
@@ -39,7 +41,7 @@ public class ResPurchaseEntity implements Serializable {
 	//修改人
 	private Integer updateUserId;
 
-	private List<ResAttachmentEntity> attachmentList;
+	private List<SysAttachmentEntity> attachmentList;
 
 	/**
 	 * 设置：采购ID
@@ -174,11 +176,11 @@ public class ResPurchaseEntity implements Serializable {
 		return updateUserId;
 	}
 
-	public List<ResAttachmentEntity> getAttachmentList() {
+	public List<SysAttachmentEntity> getAttachmentList() {
 		return attachmentList;
 	}
 
-	public void setAttachmentList(List<ResAttachmentEntity> attachmentList) {
+	public void setAttachmentList(List<SysAttachmentEntity> attachmentList) {
 		this.attachmentList = attachmentList;
 	}
 }

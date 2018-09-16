@@ -1,5 +1,9 @@
 package com.chris.modules.oss.controller;
 
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+import com.chris.modules.oss.service.SysAttachmentService;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.chris.common.exception.CommonException;
 import com.chris.common.utils.*;
@@ -14,12 +18,18 @@ import com.chris.modules.oss.service.SysOssService;
 import com.chris.modules.sys.service.SysConfigService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +46,7 @@ import java.util.Map;
 @RequestMapping("sys/oss")
 public class SysOssController {
 	@Autowired
-	private SysOssService sysOssService;
+	private SysAttachmentService sysAttachmentService;
     @Autowired
     private SysConfigService sysConfigService;
 
@@ -50,10 +60,10 @@ public class SysOssController {
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		Query query = new Query(params);
-		List<SysOssEntity> sysOssList = sysOssService.queryList(query);
-		int total = sysOssService.queryTotal(query);
+		List<SysAttachmentEntity> attachmentList = this.sysAttachmentService.queryList(query);
+		int total = this.sysAttachmentService.queryTotal(query);
 		
-		PageUtils pageUtil = new PageUtils(sysOssList, total, query.getLimit(), query.getPage());
+		PageUtils pageUtil = new PageUtils(attachmentList, total, query.getLimit(), query.getPage());
 		
 		return R.ok().put("page", pageUtil);
 	}
@@ -103,7 +113,7 @@ public class SysOssController {
 	 */
 	@RequestMapping("/upload")
 	@RequiresPermissions("sys:oss:all")
-	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
+	public R upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 		if (file.isEmpty()) {
 			throw new CommonException("上传文件不能为空");
 		}
@@ -113,12 +123,46 @@ public class SysOssController {
 		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
 
 		//保存文件信息
-		SysOssEntity ossEntity = new SysOssEntity();
-		ossEntity.setUrl(url);
-		ossEntity.setCreateDate(new Date());
-		sysOssService.save(ossEntity);
+		SysAttachmentEntity attachmentEntity = new SysAttachmentEntity();
+		attachmentEntity.setUrl(url);
+		attachmentEntity.setName(file.getOriginalFilename());
+		attachmentEntity.setSuffixName(suffix.substring(1).toLowerCase());
+		attachmentEntity.setType(this.getFileType(suffix.substring(1)));
+		attachmentEntity.setTempUrl(this.generateTempUrl(request, attachmentEntity.getSuffixName()));
+		this.sysAttachmentService.save(attachmentEntity);
 
-		return R.ok().put("url", url);
+		return R.ok().put("url", url).put("attachmentObj", attachmentEntity);
+	}
+
+	@RequestMapping("/downLoad")
+	public R downLoad(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		SysAttachmentEntity attachmentEntity = this.sysAttachmentService.queryObject(Long.valueOf(request.getParameter("id")));
+		String name = new String(attachmentEntity.getName().getBytes("gbk"),"iso-8859-1");
+		response.setHeader("content-disposition", "attachment; filename=" + name);
+		response.setCharacterEncoding("gbk");
+		OSSFactory.build().download(attachmentEntity.getUrl(), response);
+		return R.ok();
+	}
+
+	private String generateTempUrl(HttpServletRequest request, String suffixName) {
+		return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() +
+				Constant.TEMP_URL.replace("#{fileType}", Constant.FILE_TYPE_MAP.get(suffixName));
+	}
+
+	private String getFileType(String suffix) {
+		ImmutableList<String> docTypes = ImmutableList.of("doc", "xls", "xlsx", "csv", "pdf");
+		if (docTypes.contains(suffix.toLowerCase())) {
+			return Constant.FileType.DOCUMENT.getValue();
+		}
+		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg");
+		if (imgTypes.contains(suffix.toLowerCase())) {
+			return Constant.FileType.IMAGE.getValue();
+		}
+		ImmutableList<String> videoTypes = ImmutableList.of("mp4", "avi");
+		if (videoTypes.contains(suffix.toLowerCase())) {
+			return Constant.FileType.VIDEO.getValue();
+		}
+		throw new CommonException("不支持的文件类型[" + suffix + "]");
 	}
 
 
@@ -128,8 +172,7 @@ public class SysOssController {
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
 	public R delete(@RequestBody Long[] ids){
-		sysOssService.deleteBatch(ids);
-
+		this.sysAttachmentService.deleteBatch(ids);
 		return R.ok();
 	}
 
