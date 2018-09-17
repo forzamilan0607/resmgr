@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS sys_attr;
 DROP TABLE IF EXISTS sys_attr_value;
-DROP TABLE IF EXISTS sys_dict;
-DROP TABLE IF EXISTS sys_dict_item;
+DROP TABLE IF EXISTS sys_data_dict;
 DROP TABLE IF EXISTS sys_department;
 DROP TABLE IF EXISTS t_res_base_info;
 DROP TABLE IF EXISTS t_res_type;
@@ -41,34 +40,23 @@ CREATE TABLE `sys_attr_value` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='属性值表';
 
--- 字典
-CREATE TABLE `sys_dict` (
+CREATE TABLE `sys_data_dict` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '字典ID',
   `name` varchar(32) NOT NULL COMMENT '字典名称',
-  `parent_dictitem_id` int(10) COMMENT '父级字典项',
+  `type` varchar(50) NOT NULL COMMENT '字典类型',
+  `value` varchar(200) COMMENT '字典项值',
+  `ext_value` varchar(100) COMMENT '扩展值',
+  `sort_order` tinyint(1) NOT NULL COMMENT '排序',
+  `parent_id` int(10) COMMENT '父级字典',
   `dict_desc` varchar(50) COMMENT '字典描述',
   `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',
-	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_user_id` int(10) COMMENT '创建人',
-	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `update_user_id` int(10) COMMENT '修改人',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
-
-CREATE TABLE `sys_dict_item` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '字典项ID',
-  `dict_id` int(10) NOT NULL COMMENT '字典ID',
-  `name` varchar(50) COMMENT '字典项值',
-  `value` varchar(200) COMMENT '字典项值',
-  `ext_value1` varchar(100) COMMENT '扩展值1',
-  `ext_value2` varchar(100) COMMENT '扩展值2',
-  `sort_order` tinyint(1) NOT NULL COMMENT '排序',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` int(10) COMMENT '创建人',
-	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `update_user_id` int(10) COMMENT '修改人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典项表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典表';
+
 
 -- 部门信息
 CREATE TABLE `sys_department` (
