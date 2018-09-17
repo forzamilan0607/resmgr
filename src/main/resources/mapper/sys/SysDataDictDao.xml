@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chris.modules.sys.dao.SysDictDao">
+<mapper namespace="com.chris.modules.sys.dao.SysDataDictDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.chris.modules.sys.entity.SysDictEntity" id="sysDictMap">
+    <resultMap type="com.chris.modules.sys.entity.SysDataDictEntity" id="sysDataDictMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="parentDictitemId" column="parent_dictitem_id"/>
+        <result property="type" column="type"/>
+        <result property="value" column="value"/>
+        <result property="extValue" column="ext_value"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="parentId" column="parent_id"/>
         <result property="dictDesc" column="dict_desc"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
@@ -16,12 +20,12 @@
         <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDictEntity">
-		select * from sys_dict where id = #{value}
+	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysDataDictEntity">
+		select * from sys_data_dict where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDictEntity">
-		select * from sys_dict
+	<select id="queryList" resultType="com.chris.modules.sys.entity.SysDataDictEntity">
+		select * from sys_data_dict
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -36,16 +40,20 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from sys_dict 
+		select count(*) from sys_data_dict 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDictEntity" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_dict
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysDataDictEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_data_dict
 		(
 			`name`, 
+			`type`, 
+			`value`, 
+			`ext_value`, 
+			`sort_order`, 
+			`parent_id`, 
 			`dict_desc`, 
-			`parent_dictitem_id`,
-			`status`,
+			`status`, 
 			`create_time`, 
 			`create_user_id`, 
 			`update_time`, 
@@ -54,9 +62,13 @@
 		values
 		(
 			#{name}, 
+			#{type}, 
+			#{value}, 
+			#{extValue}, 
+			#{sortOrder}, 
+			#{parentId}, 
 			#{dictDesc}, 
-			#{parentDictitemId},
-			#{status},
+			#{status}, 
 			#{createTime}, 
 			#{createUserId}, 
 			#{updateTime}, 
@@ -64,42 +76,34 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.chris.modules.sys.entity.SysDictEntity">
-		update sys_dict 
+	<update id="update" parameterType="com.chris.modules.sys.entity.SysDataDictEntity">
+		update sys_data_dict 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="value != null">`value` = #{value}, </if>
+			<if test="extValue != null">`ext_value` = #{extValue}, </if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
 			<if test="dictDesc != null">`dict_desc` = #{dictDesc}, </if>
-			<if test="parentDictitemId != null">`parent_dictitem_id` = #{parentDictitemId}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateUserId != null">`update_user_id` = #{updateUserId},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
-		`updateTime` = now()
 		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from sys_dict where id = #{value}
+		delete from sys_data_dict where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from sys_dict where id in 
+		delete from sys_data_dict where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
 	</delete>
-
-    <select id="querySysDictListByCondition" resultType="com.chris.modules.sys.entity.SysDictEntity" parameterType="com.chris.modules.sys.entity.SysDictEntity">
-        select * from sys_dict t
-        <where>
-            <if test="name != null and name != '' ">
-                AND t.name = #{name}
-            </if>
-            <if test="id != null and id != 0 ">
-                AND t.id != #{id}
-            </if>
-        </where>
-    </select>
 
 </mapper>
