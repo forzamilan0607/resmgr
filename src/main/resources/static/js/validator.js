@@ -229,6 +229,9 @@ var $validator = function(){
                         item.selector = "#" + item.id;
                     }
                 });
+            };
+            function scroll2Dom(selector) {
+                $("html,body").animate({scrollTop: $(selector).offset().top}, 500);
             }
             var _validateObj = {
                 config: validateObj,
@@ -247,6 +250,7 @@ var $validator = function(){
                     _validateObj.validateResult = true;
                     $.each(_validateObj.config.items, function(index, item) {
                         if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
+                            scroll2Dom(item.selector);
                             return false;
                         }
                         for (var eventName in item.validateMethod) {

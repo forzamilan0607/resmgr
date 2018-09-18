@@ -86,6 +86,11 @@ var vm = new Vue({
 		title: null,
         $token: null,
         resBaseInfo: {
+            resTypeId: null,
+            equipId: null,
+            brand: null,
+            deptId: 100001,
+            deptName: "综合部",
             attachmentList: [
 				{
 				    id: 1,
@@ -169,15 +174,57 @@ var vm = new Vue({
 		},
 		validator: {
 
-		}
+		},
+        dataDictList: null
 	},
+    computed: {
+        // 计算属性的 getter
+        resTypeList: function () {
+            if (this.dataDictList && this.dataDictList.length) {
+                return $.grep(this.dataDictList, function (item, i) {
+                    return item.type == 'RES_TYPE'
+                });
+            }
+            return [];
+        },
+        equipList: function () {
+            return this.getDataDictListByParentId(this.resBaseInfo.resTypeId, "SUB_SYSTEM");
+        },
+        brandList: function () {
+            var id = this.resBaseInfo.equipId;
+            return id ? $.grep(this.dataDictList, function (item, i) {
+                return item.type == 'BRAND' && (item.parentIdsText && $.inArray(id + "", item.parentIdsText.split(",")) >= 0);
+            }) : [];
+        },
+        seriesList: function () {
+            return this.getDataDictListByParentId(this.resBaseInfo.brand);
+        }
+    },
 	created: function () {
         $locationTree.init("locationTree");
         this.$token = token;
+        this.initQueryDataDictList();
     },
 	methods: {
-		test: function () {
-			return "fuck";
+	    getDataDictListByParentId: function (parentId, type) {
+            return parentId ? $.grep(this.dataDictList, function (item, i) {
+                return type ? item.type == type && item.parentId == parentId : item.parentId == parentId;
+            }) : [];
+        },
+        initQueryDataDictList: function () {
+            $.ajax({
+                type: "POST",
+                url: baseURL + 'sys/sysdatadict/listAll',
+                contentType: "application/json",
+                success: function(r){
+                    if(r.code === $util.HTTP_STATUS.SC_OK){
+                        vm.dataDictList = r.dataDictList;
+                        alert("resTypeList.length = " + vm.resTypeList.length + ", equipList.length = " + vm.equipList.length);
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            });
         },
 		query: function () {
 			vm.reload();
@@ -210,7 +257,7 @@ var vm = new Vue({
                 contentType: "application/json",
 			    data: JSON.stringify(vm.resmgr),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code === $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -316,26 +363,11 @@ var vm = new Vue({
 });
 var $myValidator = function () {
 	var _validate4ResInfo = $validator.build({
-        allPassRequired: false,
+        allPassRequired: true,
         items:[
             {
-                selector: "input[id='resBaseInfo.name']",
-                blurs: ["required", "range"],
-                validateMethod: {
-                    required: {
-                        value: true,
-                        msg: "请输入资源名称"
-                    },
-                    range: {
-                        value: [1, 128],
-                        msg: "资源名称长度范围只能是1-128位之间"
-                    }
-                }
-
-            },
-            {
-                selector: "input[id='resBaseInfo.resTypeName']",
-                blurs: ["required"],
+                selector: "select[id='resBaseInfo.resTypeId']",
+                changes: ["notEqualsTo"],
                 validateMethod: {
                     required: {
                         value: true,
@@ -344,11 +376,21 @@ var $myValidator = function () {
                 }
             },
             {
+                selector: "select[id='resBaseInfo.equipId']",
+                changes: ["notEqualsTo"],
+                validateMethod: {
+                    notEqualsTo: {
+                        value: null,
+                        msg: "请选择设备"
+                    }
+                }
+            },
+            {
                 selector: "select[id='resBaseInfo.brand']",
                 changes: ["notEqualsTo"],
                 validateMethod: {
-                    required: {
-                        value: true,
+                    notEqualsTo: {
+                        value: null,
                         msg: "请选择品牌"
                     }
                 }
@@ -357,19 +399,9 @@ var $myValidator = function () {
                 selector: "select[id='resBaseInfo.series']",
                 changes: ["notEqualsTo"],
                 validateMethod: {
-                    required: {
-                        value: true,
+                    notEqualsTo: {
+                        value: null,
                         msg: "请选择系列"
-                    }
-                }
-            },
-            {
-                selector: "select[id='resBaseInfo.model']",
-                changes: ["notEqualsTo"],
-                validateMethod: {
-                    required: {
-                        value: true,
-                        msg: "请选择模型"
                     }
                 }
             },
@@ -399,6 +431,34 @@ var $myValidator = function () {
                     maxLength: {
                         value: 512,
                         msg: $myMsg.maxLength("资源描述", 512)
+                    }
+                }
+            },
+            {
+                selector: "input[id='resBaseInfo.factoryTime']",
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入出厂时间"
+                    }
+                }
+            },
+            {
+                selector: "input[id='resBaseInfo.serialNo']",
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入整机序列号"
+                    }
+                }
+            },
+            {
+                selector: "table_resNameplate",
+                validateMethod: {
+                    minLength: {
+                        childSelector: "#tbody_resNameplate tr",
+                        value: 1,
+                        msg: "请至少上传一个资源铭牌"
                     }
                 }
             }

@@ -48,6 +48,7 @@ CREATE TABLE `sys_data_dict` (
   `ext_value` varchar(100) COMMENT '扩展值',
   `sort_order` tinyint(1) NOT NULL COMMENT '排序',
   `parent_id` int(10) COMMENT '父级字典',
+  `parent_ids_text` varchar(100) COMMENT '父级字典ids，多个id以逗号分隔',
   `dict_desc` varchar(50) COMMENT '字典描述',
   `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -78,7 +79,8 @@ INSERT INTO `sys_department` (`id`, `name`, `park_id`, `parent_dept_id`, `status
 -- 资源基本信息
 CREATE TABLE `t_res_base_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源ID',
-  `name` varchar(128) NOT NULL COMMENT '资源名称',
+  `name` varchar(128) NOT NULL COMMENT '资源设备名称',
+  `equip_id` int(10) NOT NULL COMMENT '设备ID',
   `code` varchar(128) NOT NULL COMMENT '资源编码',
   `res_type_id` int(10) NOT NULL COMMENT '资源类别',
   `brand` int(10) NOT NULL COMMENT '品牌',

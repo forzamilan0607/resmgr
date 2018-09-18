@@ -19,8 +19,10 @@ public class ResBaseInfoEntity implements Serializable {
 	
 	//资源ID
 	private Long id;
-	//资源名称
+	//资源设备名称
 	private String name;
+	//设备ID
+	private Integer equipId;
 	//资源编码
 	private String code;
 	//资源类别
@@ -335,5 +337,13 @@ public class ResBaseInfoEntity implements Serializable {
 
 	public void setAttachmentList(List<SysAttachmentEntity> attachmentList) {
 		this.attachmentList = attachmentList;
+	}
+
+	public Integer getEquipId() {
+		return equipId;
+	}
+
+	public void setEquipId(Integer equipId) {
+		this.equipId = equipId;
 	}
 }

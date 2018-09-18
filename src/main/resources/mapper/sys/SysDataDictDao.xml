@@ -12,6 +12,7 @@
         <result property="extValue" column="ext_value"/>
         <result property="sortOrder" column="sort_order"/>
         <result property="parentId" column="parent_id"/>
+        <result property="parentIdsText" column="parent_ids_text"/>
         <result property="dictDesc" column="dict_desc"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
@@ -52,7 +53,8 @@
 			`ext_value`, 
 			`sort_order`, 
 			`parent_id`, 
-			`dict_desc`, 
+			`parent_ids_text`,
+			`dict_desc`,
 			`status`, 
 			`create_time`, 
 			`create_user_id`, 
@@ -67,7 +69,8 @@
 			#{extValue}, 
 			#{sortOrder}, 
 			#{parentId}, 
-			#{dictDesc}, 
+			#{parentIdsText},
+			#{dictDesc},
 			#{status}, 
 			#{createTime}, 
 			#{createUserId}, 
@@ -85,6 +88,7 @@
 			<if test="extValue != null">`ext_value` = #{extValue}, </if>
 			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
 			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="parentIdsText != null">`parent_ids_text` = #{parentIdsText}, </if>
 			<if test="dictDesc != null">`dict_desc` = #{dictDesc}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>

@@ -28,6 +28,7 @@ public class SysDataDictEntity implements Serializable {
 	private Integer sortOrder;
 	//父级字典
 	private Integer parentId;
+	private String parentIdsText;
 	//字典描述
 	private String dictDesc;
 	//状态，1、有效，0、无效
@@ -196,5 +197,13 @@ public class SysDataDictEntity implements Serializable {
 	 */
 	public Integer getUpdateUserId() {
 		return updateUserId;
+	}
+
+	public String getParentIdsText() {
+		return parentIdsText;
+	}
+
+	public void setParentIdsText(String parentIdsText) {
+		this.parentIdsText = parentIdsText;
 	}
 }

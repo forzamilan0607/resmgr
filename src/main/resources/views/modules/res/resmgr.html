@@ -99,59 +99,51 @@
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
                                         <span class="required">*</span>
-                                        资源名称
+                                        资源类别
                                     </div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="resBaseInfo.name" v-model="resBaseInfo.name" placeholder="资源名称"/>
+                                        <select type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId" placeholder="资源类别" >
+                                            <option  v-for="resType in resTypeList" :value="resType.id" >{{resType.name}}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">资源编码</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>
+                                        设备
+                                    </div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="resBaseInfo.code" v-model="resBaseInfo.code" placeholder="资源编码" readonly />
+                                        <select type="text" class="form-control" id="resBaseInfo.equipId" v-model="resBaseInfo.equipId" placeholder="设备名称" :disabled="!resBaseInfo.resTypeId" >
+                                            <option  v-for="equip  in equipList" :value="equip.id" >{{equip.name}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">
-                                        <span class="required">*</span>
-                                        资源类别
-                                    </div>
-                                    <div class="input-group col-sm-8">
-                                        <input type="hidden" v-model="resBaseInfo.resTypeId" />
-                                        <input type="text" class="form-control" id="resBaseInfo.resTypeName" v-model="resBaseInfo.resTypeId" placeholder="请选择资源类别" readonly />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-info" type="button">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
                                         <span class="required">*</span>
                                         品牌
                                     </div>
                                     <div class="col-sm-10">
-                                        <select type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌" >
-                                            <option value="-1">请选择</option>
+                                        <select type="text" class="form-control" id="resBaseInfo.brand" v-model="resBaseInfo.brand" placeholder="品牌" :disabled="!resBaseInfo.equipId || !brandList.length" >
+                                            <option  v-for="brand  in brandList" :value="brand.id" >{{brand.name}}</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
                                         <span class="required">*</span>
                                         系列
                                     </div>
                                     <div class="col-sm-10">
-                                        <select type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列" >
-                                            <option value="-1">请选择</option>
+                                        <select type="text" class="form-control" id="resBaseInfo.series" v-model="resBaseInfo.series" placeholder="系列" :disabled="!resBaseInfo.brand || !seriesList.length" >
+                                            <option  v-for="series  in seriesList" :value="series.id" >{{series.name}}</option>
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <!--<div class="row">
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
                                         <span class="required">*</span>
@@ -166,7 +158,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
@@ -174,7 +166,8 @@
                                         部门ID
                                     </div>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control" id="resBaseInfo.deptId" v-model="resBaseInfo.deptId" placeholder="请选择部门" readonly />
+                                        <input type="hidden" v-model="resBaseInfo.deptId" />
+                                        <input type="text" class="form-control" id="resBaseInfo.deptName" v-model="resBaseInfo.deptName" placeholder="请选择部门" readonly />
                                         <span class="input-group-btn">
                                         <button class="btn btn-info" type="button">
                                             <span class="glyphicon glyphicon-search"></span>
@@ -210,14 +203,18 @@
                             <legend>出厂信息</legend>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">出厂时间</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>出厂时间
+                                    </div>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control myDatetimePicker" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime"
                                                placeholder="出厂时间"/>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">整机序列号</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>整机序列号
+                                    </div>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo"
                                                placeholder="整机序列号"/>
@@ -226,9 +223,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="col-sm-2 control-label">资源铭牌</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>资源铭牌
+                                    </div>
                                     <div class="col-sm-10">
-                                        <table role="presentation" class="table table-bordered">
+                                        <table role="presentation" class="table table-bordered" id="table_resNameplate">
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="col-sm-7 pull-center">附件名称</th>
@@ -237,27 +236,27 @@
                                                 </th>
                                             </tr>
                                             </thead>
-                                            <tbody class="files">
-                                            <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.attachmentList">
-                                                <td class="pull-center">
-                                                    <div>
-                                                        <img :src="attach.tempUrl">
-                                                    </div>
-                                                    <div>
-                                                        <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-primary start" @click="preview(attach)">
-                                                        <i class="glyphicon glyphicon-upload"></i>
-                                                        <span>预览</span>
-                                                    </a>
-                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
-                                                        <i class="fa fa-trash-o"></i>
-                                                        <span>删除</span>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            <tbody class="files" id="tbody_resNameplate">
+                                                <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.attachmentList">
+                                                    <td class="pull-center">
+                                                        <div>
+                                                            <img :src="attach.tempUrl">
+                                                        </div>
+                                                        <div>
+                                                            <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-primary start" @click="preview(attach)">
+                                                            <i class="glyphicon glyphicon-upload"></i>
+                                                            <span>预览</span>
+                                                        </a>
+                                                        <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                            <i class="fa fa-trash-o"></i>
+                                                            <span>删除</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -265,8 +264,8 @@
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">主要部件信息</div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
-                                               placeholder="主要部件信息"/>
+                                        <textarea rows="3" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
+                                                  placeholder="主要部件信息" ></textarea>
                                     </div>
                                 </div>
                                 <!--<div class="form-group col-sm-6">
@@ -282,9 +281,11 @@
                             <legend>位置信息</legend>
                             <div class="row">
                                 <div class="form-group col-sm-6">
+                                    <span class="required">*</span>
                                     <div class="col-sm-2 control-label">位置</div>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control" id="resBaseInfo.locationId" v-model="resBaseInfo.locationId" placeholder="请选择位置" readonly />
+                                        <input type="hidden" v-model="resBaseInfo.locationId" />
+                                        <input type="text" class="form-control" id="resBaseInfo.locationName" v-model="resBaseInfo.locationName" placeholder="请选择位置" readonly />
                                         <span class="input-group-btn">
                                             <button class="btn btn-info" type="button" @click="showLocationLayer">
                                                 <span class="glyphicon glyphicon-search"></span>
@@ -309,6 +310,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
+                                    <span class="required">*</span>
                                     <div class="col-sm-2 control-label">三维图形对象ID</div>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId"

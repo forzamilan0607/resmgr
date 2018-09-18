@@ -9,6 +9,7 @@
         <result property="name" column="name"/>
         <result property="code" column="code"/>
         <result property="resTypeId" column="res_type_id"/>
+        <result property="equipId" column="equip_id"/>
         <result property="brand" column="brand"/>
         <result property="series" column="series"/>
         <result property="model" column="model"/>
@@ -56,7 +57,8 @@
 		insert into t_res_base_info
 		(
 			`name`, 
-			`code`, 
+			`equip_id`,
+			`code`,
 			`res_type_id`, 
 			`brand`, 
 			`series`, 
@@ -80,7 +82,8 @@
 		values
 		(
 			#{name}, 
-			#{code}, 
+			#{equipId},
+			#{code},
 			#{resTypeId}, 
 			#{brand}, 
 			#{series}, 
@@ -107,6 +110,7 @@
 		update t_res_base_info 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
+			<if test="equipId != null">`equip_id` = #{equipId}, </if>
 			<if test="code != null">`code` = #{code}, </if>
 			<if test="resTypeId != null">`res_type_id` = #{resTypeId}, </if>
 			<if test="brand != null">`brand` = #{brand}, </if>
@@ -122,12 +126,12 @@
 			<if test="objId != null">`obj_id` = #{objId}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
 			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
 			<if test="deptId != null">`dept_id` = #{deptId}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
-			<if test="personResponsible != null">`person_responsible` = #{personResponsible}</if>
+			<if test="personResponsible != null">`person_responsible` = #{personResponsible},</if>
 		</set>
+		`update_time` = now()
 		where id = #{id}
 	</update>
 	
