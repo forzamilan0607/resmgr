@@ -231,10 +231,14 @@ var $validator = function(){
                 });
             };
             function scroll2Dom(item) {
-                if (item.tabId) {
+                if (item.tabId && !$("#" + item.tabId).parent("li").hasClass("active")) {
                     $("#" + item.tabId).click();
+                    setTimeout(function () {
+                        $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
+                    }, 500)
+                } else {
+                    $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
                 }
-                $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
             }
             var _validateObj = {
                 config: validateObj,
