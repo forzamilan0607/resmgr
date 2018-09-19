@@ -31,6 +31,11 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
 	public int queryTotal(Map<String, Object> map){
 		return sysDepartmentDao.queryTotal(map);
 	}
+
+	@Override
+	public List<SysDepartmentEntity> queryDepartmentListByCondition(SysDepartmentEntity param) {
+		return sysDepartmentDao.queryDepartmentListByCondition(param);
+	}
 	
 	@Override
 	public void save(SysDepartmentEntity sysDepartment){

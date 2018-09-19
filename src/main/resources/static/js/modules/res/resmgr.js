@@ -2,8 +2,49 @@ $(document).ready(function () {
     $util.upload({
         selector: "#uploadResNameplate",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
-        msg: "仅支持图片、office文档、pdf文件、mp4、avi格式文件上传！",
+        msg: "资源铭牌仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
         attachmentList: vm.resBaseInfo.attachmentList
+    });
+
+    $util.upload({
+        selector: "#uploadConcractAttach",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
+        msg: "合同附件仅支持图片、office文档、pdf文件上传！",
+        attachmentList: vm.resPurchase.attachmentList
+    });
+    $util.upload({
+        selector: "#uploadMaintainContract",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
+        msg: "维保合同仅支持图片、office文档、pdf文件上传！",
+        attachmentList: vm.resMaintenance.attachmentList1
+    });
+
+    $util.upload({
+        selector: "#uploadInstructions",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
+        msg: "资源设备说明书仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
+        attachmentList: vm.resMaintenance.attachmentList2
+    });
+
+    $util.upload({
+        selector: "#uploadPrecautions",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
+        msg: "注意事项仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
+        attachmentList: vm.resMaintenance.attachmentList3
+    });
+
+    $util.upload({
+        selector: "#uploadDrawing",
+        suffixReg: /^(jpg|jpeg|png|gif)$/,
+        msg: "图纸仅支持图片上传！",
+        attachmentList: vm.resInstallConfig.attachmentList1
+    });
+
+    $util.upload({
+        selector: "#uploadOperationSpecification",
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
+        msg: "操作规范说明仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
+        attachmentList: vm.resInstallConfig.attachmentList1
     });
 
     $("#jqGrid").jqGrid({
@@ -175,7 +216,9 @@ var vm = new Vue({
 		validator: {
 
 		},
-        dataDictList: null
+        dataDictList: null,
+        deptTree: null,
+        empTree: null
 	},
     computed: {
         // 计算属性的 getter
@@ -204,6 +247,21 @@ var vm = new Vue({
         $locationTree.init("locationTree");
         this.$token = token;
         this.initQueryDataDictList();
+        this.deptTree = new SelectTree({
+            id: "id",
+            parentId: "parentDeptId",
+            name: "name",
+            treeId: "deptTree",
+            url: "/resmgr/sys/sysdepartment/listAll",
+            param: {
+                parkId: 1
+            },
+            callback: function (event, treeId, treeNode) {
+                vm.resBaseInfo.deptId = treeNode.id;
+                vm.resBaseInfo.deptName = treeNode.name;
+                layer.close(layer.index);
+            }
+        });
     },
 	methods: {
 	    getDataDictListByParentId: function (parentId, type) {
@@ -219,7 +277,6 @@ var vm = new Vue({
                 success: function(r){
                     if(r.code === $util.HTTP_STATUS.SC_OK){
                         vm.dataDictList = r.dataDictList;
-                        alert("resTypeList.length = " + vm.resTypeList.length + ", equipList.length = " + vm.equipList.length);
                     }else{
                         alert(r.msg);
                     }
@@ -319,6 +376,25 @@ var vm = new Vue({
                     alert(JSON.stringify(nodes));
                     // vm.sysDict.parentDictId = nodes[0].dictId;
                     // vm.sysDict.parentDictName = nodes[0].dictName;
+                    layer.close(index);
+                }
+            });
+        },
+        showDeptLayer: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择部门",
+                area: ['300px', '450px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#div_deptLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    var nodes = vm.deptTree.getSelectedNodes();
+                    vm.resBaseInfo.deptId = nodes[0].id;
+                    vm.resBaseInfo.deptName = nodes[0].name;
                     layer.close(index);
                 }
             });

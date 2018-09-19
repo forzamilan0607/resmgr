@@ -19,8 +19,10 @@ public interface SysDepartmentService {
 	List<SysDepartmentEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
-	
-	void save(SysDepartmentEntity sysDepartment);
+
+    List<SysDepartmentEntity> queryDepartmentListByCondition(SysDepartmentEntity param);
+
+    void save(SysDepartmentEntity sysDepartment);
 	
 	void update(SysDepartmentEntity sysDepartment);
 	

@@ -50,6 +50,7 @@
     <script src="../../js/common.js"></script>
     <script src="../../js/validator.js"></script>
     <script src="../../js/selectLocation.js"></script>
+    <script src="../../js/selectTree.js"></script>
 </head>
 <body>
 <div id="resMgrApp" v-cloak>
@@ -169,7 +170,7 @@
                                         <input type="hidden" v-model="resBaseInfo.deptId" />
                                         <input type="text" class="form-control" id="resBaseInfo.deptName" v-model="resBaseInfo.deptName" placeholder="请选择部门" readonly />
                                         <span class="input-group-btn">
-                                        <button class="btn btn-info" type="button">
+                                        <button class="btn btn-info" type="button" @click="showDeptLayer">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </button>
                                     </span>
@@ -281,8 +282,9 @@
                             <legend>位置信息</legend>
                             <div class="row">
                                 <div class="form-group col-sm-6">
-                                    <span class="required">*</span>
-                                    <div class="col-sm-2 control-label">位置</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>位置
+                                    </div>
                                     <div class="input-group col-sm-8">
                                         <input type="hidden" v-model="resBaseInfo.locationId" />
                                         <input type="text" class="form-control" id="resBaseInfo.locationName" v-model="resBaseInfo.locationName" placeholder="请选择位置" readonly />
@@ -310,11 +312,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <span class="required">*</span>
-                                    <div class="col-sm-2 control-label">三维图形对象ID</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>三维图形对象ID
+                                    </div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId"
-                                               placeholder="三维图形对象ID"/>
+                                        <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId" placeholder="三维图形对象ID"/>
                                     </div>
                                 </div>
                             </div>
@@ -343,7 +345,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                <a class="btn btn-success upload" id="uploadConcractAttach"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -446,7 +448,7 @@
                                     <tr>
                                         <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                         <th scope="col">
-                                            <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                            <a class="btn btn-success upload" id="uploadMaintainContract"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                         </th>
                                     </tr>
                                     </thead>
@@ -483,7 +485,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                <a class="btn btn-success upload" id="uploadInstructions"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -527,7 +529,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                <a class="btn btn-success upload" id="uploadPrecautions"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -580,7 +582,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                <a class="btn btn-success upload" id="uploadDrawing"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -624,7 +626,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                <a class="btn btn-success upload" id="uploadOperationSpecification"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -667,6 +669,9 @@
 
     <div id="div_locationLayer" style="display: none;padding:10px;">
         <ul id="locationTree" class="ztree"></ul>
+    </div>
+    <div id="div_deptLayer" style="display: none;padding:10px;">
+        <ul id="deptTree" class="ztree"></ul>
     </div>
 </div>
 

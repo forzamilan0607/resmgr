@@ -3,6 +3,8 @@ package com.chris.modules.sys.dao;
 import com.chris.modules.sys.entity.SysDepartmentEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 部门
  * 
@@ -12,5 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDepartmentDao extends BaseDao<SysDepartmentEntity> {
-	
+
+    List<SysDepartmentEntity> queryDepartmentListByCondition(SysDepartmentEntity param);
 }

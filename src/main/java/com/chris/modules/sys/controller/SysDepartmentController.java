@@ -3,6 +3,7 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.chris.common.utils.CommonResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,13 @@ public class SysDepartmentController {
 		PageUtils pageUtil = new PageUtils(sysDepartmentList, total, query.getLimit(), query.getPage());
 		
 		return R.ok().put("page", pageUtil);
+	}
+
+	@RequestMapping("/listAll")
+	@RequiresPermissions("sys:sysdepartment:list")
+	public CommonResponse listAll(@RequestBody SysDepartmentEntity param){
+		List<SysDepartmentEntity> deptList = sysDepartmentService.queryDepartmentListByCondition(param);
+		return CommonResponse.getSuccessResponse().setData(deptList);
 	}
 	
 	
