@@ -449,7 +449,8 @@ var $myValidator = function () {
                         value: true,
                         msg: "请选择资源类别"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "select[id='resBaseInfo.equipId']",
@@ -459,7 +460,8 @@ var $myValidator = function () {
                         value: null,
                         msg: "请选择设备"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "select[id='resBaseInfo.brand']",
@@ -469,7 +471,8 @@ var $myValidator = function () {
                         value: null,
                         msg: "请选择品牌"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "select[id='resBaseInfo.series']",
@@ -479,7 +482,8 @@ var $myValidator = function () {
                         value: null,
                         msg: "请选择系列"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             /*{
                 selector: "resBaseInfo.resTypeName",
@@ -508,7 +512,8 @@ var $myValidator = function () {
                         value: 512,
                         msg: $myMsg.maxLength("资源描述", 512)
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "input[id='resBaseInfo.factoryTime']",
@@ -517,7 +522,8 @@ var $myValidator = function () {
                         value: true,
                         msg: "请输入出厂时间"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "input[id='resBaseInfo.serialNo']",
@@ -526,7 +532,8 @@ var $myValidator = function () {
                         value: true,
                         msg: "请输入整机序列号"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             },
             {
                 selector: "table_resNameplate",
@@ -536,7 +543,8 @@ var $myValidator = function () {
                         value: 1,
                         msg: "请至少上传一个资源铭牌"
                     }
-                }
+                },
+                tabId: "link_resBaseInfo"
             }
         ]
     });

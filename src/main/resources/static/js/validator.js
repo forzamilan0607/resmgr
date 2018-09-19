@@ -230,8 +230,11 @@ var $validator = function(){
                     }
                 });
             };
-            function scroll2Dom(selector) {
-                $("html,body").animate({scrollTop: $(selector).offset().top}, 500);
+            function scroll2Dom(item) {
+                if (item.tabId) {
+                    $("#" + item.tabId).click();
+                }
+                $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
             }
             var _validateObj = {
                 config: validateObj,
@@ -250,7 +253,7 @@ var $validator = function(){
                     _validateObj.validateResult = true;
                     $.each(_validateObj.config.items, function(index, item) {
                         if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
-                            scroll2Dom(item.selector);
+                            scroll2Dom(item);
                             return false;
                         }
                         for (var eventName in item.validateMethod) {
