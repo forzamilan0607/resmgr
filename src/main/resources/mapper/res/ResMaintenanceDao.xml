@@ -14,10 +14,7 @@
         <result property="maintainCompany" column="maintain_company"/>
         <result property="maintainPeriod" column="maintain_period"/>
         <result property="maintainPrice" column="maintain_price"/>
-        <result property="maintainContract" column="maintain_contract"/>
-        <result property="resInstructions" column="res_instructions"/>
         <result property="precautionsText" column="precautions_text"/>
-        <result property="precautionsAttach" column="precautions_attach"/>
         <result property="resStatus" column="res_status"/>
         <result property="createTime" column="create_time"/>
         <result property="createUserId" column="create_user_id"/>
@@ -59,11 +56,8 @@
 			`maintain_company`, 
 			`maintain_period`, 
 			`maintain_price`, 
-			`maintain_contract`, 
-			`res_instructions`, 
-			`precautions_text`, 
-			`precautions_attach`, 
-			`res_status`, 
+			`precautions_text`,
+			`res_status`,
 			`create_time`, 
 			`create_user_id`, 
 			`update_time`, 
@@ -79,11 +73,8 @@
 			#{maintainCompany}, 
 			#{maintainPeriod}, 
 			#{maintainPrice}, 
-			#{maintainContract}, 
-			#{resInstructions}, 
-			#{precautionsText}, 
-			#{precautionsAttach}, 
-			#{resStatus}, 
+			#{precautionsText},
+			#{resStatus},
 			#{createTime}, 
 			#{createUserId}, 
 			#{updateTime}, 
@@ -102,10 +93,7 @@
 			<if test="maintainCompany != null">`maintain_company` = #{maintainCompany}, </if>
 			<if test="maintainPeriod != null">`maintain_period` = #{maintainPeriod}, </if>
 			<if test="maintainPrice != null">`maintain_price` = #{maintainPrice}, </if>
-			<if test="maintainContract != null">`maintain_contract` = #{maintainContract}, </if>
-			<if test="resInstructions != null">`res_instructions` = #{resInstructions}, </if>
 			<if test="precautionsText != null">`precautions_text` = #{precautionsText}, </if>
-			<if test="precautionsAttach != null">`precautions_attach` = #{precautionsAttach}, </if>
 			<if test="resStatus != null">`res_status` = #{resStatus}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>

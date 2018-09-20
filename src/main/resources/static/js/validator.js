@@ -256,10 +256,6 @@ var $validator = function(){
                 validate: function () {
                     _validateObj.validateResult = true;
                     $.each(_validateObj.config.items, function(index, item) {
-                        if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
-                            scroll2Dom(item);
-                            return false;
-                        }
                         for (var eventName in item.validateMethod) {
                             //不需要在提交时再触发的事件
                             if (item.noTriggerEvents && $.inArray(eventName, item.noTriggerEvents) >= 0) {
@@ -269,6 +265,10 @@ var $validator = function(){
                                 _validateObj.validateResult = false;
                                 break;
                             }
+                        }
+                        if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
+                            scroll2Dom(item);
+                            return false;
                         }
                     });
                     //如果存在remote服务错误

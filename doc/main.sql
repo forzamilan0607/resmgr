@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS t_res_location;
 DROP TABLE IF EXISTS t_res_purchase;
 DROP TABLE IF EXISTS t_res_maintenance;
 DROP TABLE IF EXISTS t_res_install_config;
-DROP TABLE IF EXISTS t_res_param_config;
+DROP TABLE IF EXISTS t_res_component;
+DROP TABLE IF EXISTS t_res_equip_param;
 
 
 -- 属性定义
@@ -87,9 +88,7 @@ CREATE TABLE `t_res_base_info` (
   `series` int(10) NOT NULL COMMENT '系列',
   `model` int(10) NOT NULL COMMENT '型号',
   `factory_time` date COMMENT '出厂时间',
-  `serial_no` varchar(32) NOT NULL COMMENT '整机序列号',
-  `component_info` bigint(20) COMMENT '主要部件信息',
-  `nameplate` varchar(100) COMMENT '资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔',
+  `serial_no` varchar(64) NOT NULL COMMENT '整机序列号',
   `location_id` int(10) COMMENT '位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面',
   `location_desc` varchar(255) COMMENT '描述性位置',
   `location_coordinate` varchar(20) COMMENT '坐标位置，如：F8、H13',
@@ -135,6 +134,7 @@ CREATE TABLE `t_location` (
   `dept_id` int(10) COMMENT '部门ID',
   `hierarchy` varchar(512) COMMENT '位置层次结构',
   `remark` varchar(512) COMMENT '位置描述',
+  `has_children` tinyint(1) DEFAULT '0' COMMENT '是否有子节点,1、是，0、否',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='位置信息';
 
@@ -166,10 +166,7 @@ CREATE TABLE `t_res_maintenance` (
   `maintain_company` varchar(50) COMMENT '维保单位',
   `maintain_period` date COMMENT '维保周期',
 	`maintain_price` decimal(10,2) COMMENT '维保价格',
-	`maintain_contract` varchar(100) COMMENT '维保合同，多个附件ID以逗号分隔',
-	`res_instructions` varchar(100) COMMENT '设备资源说明书，多个附件ID以逗号分隔',
 	`precautions_text` varchar(1000) COMMENT '运维或保养特别提示、注意事项（文字）',
-	`precautions_attach` varchar(100) COMMENT '运维或保养特别提示、注意事项（附件）',
 	`res_status` int(10) COMMENT '设备状态,入库/在用/送修/注销',
 	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` int(10) COMMENT '创建人',
@@ -182,9 +179,7 @@ CREATE TABLE `t_res_maintenance` (
 CREATE TABLE `t_res_install_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '安装配置ID',
 	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
-	`drawing` varchar(255) COMMENT '图纸，多个附件ID以逗号分隔',
 	`operation_specification_text` varchar(3000) COMMENT '操作规范说明',
-	`operation_specification_attach` varchar(255) COMMENT '操作规范说明（附件），多个附件ID以逗号分隔',
 	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` int(10) COMMENT '创建人',
 	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -192,13 +187,28 @@ CREATE TABLE `t_res_install_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源安装/配置信息';
 
--- 资源参数配置信息
-/**
-CREATE TABLE `t_res_param_config` (
+-- 设备部件信息
+CREATE TABLE `t_res_component` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部件ID',
+  `res_id` bigint(20) NOT NULL COMMENT '资源ID',
+  `name` varchar(64) NOT NULL COMMENT '部件名称',
+  `serial_no` varchar(64) NOT NULL COMMENT '序列号',
+  `dict_id` int(10) COMMENT '字典ID',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备部件信息';
+
+-- 资源设备参数信息
+CREATE TABLE `t_res_equip_param` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '参数ID',
 	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
 	`attr_id` bigint(10) NOT NULL COMMENT '属性ID',
-	`attr_value` varchar(500) COMMENT '属性值',
-	`is_sync` char(1) DEFAULT 0 COMMENT '是否同步，1、是，0、否',
-  PRIMARY KEY (`res_id`,`attr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源参数配置信息';
-**/
+	`name` varchar(64) NOT NULL COMMENT '参数名称',
+	`value` varchar(128) COMMENT '参数值',
+  `dict_id` int(10) COMMENT '字典ID',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源设备参数信息';
+

@@ -12,6 +12,11 @@ var $locationTree = function () {
                 url:"nourl",
                 name: "name"
             }
+        },
+        callback: {
+            onDblClick: function (a, b, c) {
+                
+            }
         }
     };
     return {

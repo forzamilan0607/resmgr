@@ -21,14 +21,12 @@ public class ResInstallConfigEntity implements Serializable {
 	private Long id;
 	//资源ID
 	private Long resId;
-	//图纸，多个附件ID以逗号分隔
-	private String drawing;
-	private List<SysAttachmentEntity> attachmentList1;
+	//图纸附件列表
+	private List<SysAttachmentEntity> drawingAttachments;
 	//操作规范说明
-	private String operationSpecificationText;
-	//操作规范说明（附件），多个附件ID以逗号分隔
-	private String operationSpecificationAttach;
-	private List<SysAttachmentEntity> attachmentList2;
+	private String operationSpecification;
+	//操作规范说明附件列表
+	private List<SysAttachmentEntity> operSpecAttachments;
 	//创建时间
 	private Date createTime;
 	//创建人
@@ -38,128 +36,75 @@ public class ResInstallConfigEntity implements Serializable {
 	//修改人
 	private Integer updateUserId;
 
-	/**
-	 * 设置：安装配置ID
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-	/**
-	 * 获取：安装配置ID
-	 */
 	public Long getId() {
 		return id;
 	}
-	/**
-	 * 设置：资源ID
-	 */
-	public void setResId(Long resId) {
-		this.resId = resId;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	/**
-	 * 获取：资源ID
-	 */
+
 	public Long getResId() {
 		return resId;
 	}
-	/**
-	 * 设置：图纸，多个附件ID以逗号分隔
-	 */
-	public void setDrawing(String drawing) {
-		this.drawing = drawing;
+
+	public void setResId(Long resId) {
+		this.resId = resId;
 	}
-	/**
-	 * 获取：图纸，多个附件ID以逗号分隔
-	 */
-	public String getDrawing() {
-		return drawing;
+
+	public List<SysAttachmentEntity> getDrawingAttachments() {
+		return drawingAttachments;
 	}
-	/**
-	 * 设置：操作规范说明
-	 */
-	public void setOperationSpecificationText(String operationSpecificationText) {
-		this.operationSpecificationText = operationSpecificationText;
+
+	public void setDrawingAttachments(List<SysAttachmentEntity> drawingAttachments) {
+		this.drawingAttachments = drawingAttachments;
 	}
-	/**
-	 * 获取：操作规范说明
-	 */
-	public String getOperationSpecificationText() {
-		return operationSpecificationText;
+
+	public String getOperationSpecification() {
+		return operationSpecification;
 	}
-	/**
-	 * 设置：操作规范说明（附件），多个附件ID以逗号分隔
-	 */
-	public void setOperationSpecificationAttach(String operationSpecificationAttach) {
-		this.operationSpecificationAttach = operationSpecificationAttach;
+
+	public void setOperationSpecification(String operationSpecification) {
+		this.operationSpecification = operationSpecification;
 	}
-	/**
-	 * 获取：操作规范说明（附件），多个附件ID以逗号分隔
-	 */
-	public String getOperationSpecificationAttach() {
-		return operationSpecificationAttach;
+
+	public List<SysAttachmentEntity> getOperSpecAttachments() {
+		return operSpecAttachments;
 	}
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+
+	public void setOperSpecAttachments(List<SysAttachmentEntity> operSpecAttachments) {
+		this.operSpecAttachments = operSpecAttachments;
 	}
-	/**
-	 * 获取：创建时间
-	 */
+
 	public Date getCreateTime() {
 		return createTime;
 	}
-	/**
-	 * 设置：创建人
-	 */
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
-	/**
-	 * 获取：创建人
-	 */
+
 	public Integer getCreateUserId() {
 		return createUserId;
 	}
-	/**
-	 * 设置：修改时间
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
-	/**
-	 * 获取：修改时间
-	 */
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
-	/**
-	 * 设置：修改人
-	 */
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
-	/**
-	 * 获取：修改人
-	 */
+
 	public Integer getUpdateUserId() {
 		return updateUserId;
 	}
 
-	public List<SysAttachmentEntity> getAttachmentList1() {
-		return attachmentList1;
-	}
-
-	public void setAttachmentList1(List<SysAttachmentEntity> attachmentList1) {
-		this.attachmentList1 = attachmentList1;
-	}
-
-	public List<SysAttachmentEntity> getAttachmentList2() {
-		return attachmentList2;
-	}
-
-	public void setAttachmentList2(List<SysAttachmentEntity> attachmentList2) {
-		this.attachmentList2 = attachmentList2;
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
 	}
 }

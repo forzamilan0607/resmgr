@@ -1,50 +1,60 @@
 $(document).ready(function () {
     $util.upload({
         selector: "#uploadResNameplate",
-        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
+        suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
         msg: "资源铭牌仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
-        attachmentList: vm.resBaseInfo.attachmentList
+        attachmentList: vm.resBaseInfo.resNameplateAttachments,
+        callback: function (r) {
+            if (vm.resBaseInfo.resNameplateAttachments.length) {
+                $myValidator.resetBySelector("#table_resNameplate");
+            }
+        }
     });
 
     $util.upload({
         selector: "#uploadConcractAttach",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
         msg: "合同附件仅支持图片、office文档、pdf文件上传！",
-        attachmentList: vm.resPurchase.attachmentList
+        attachmentList: vm.resPurchase.contractAtachments,
+        callback: function (r) {
+            if (vm.resPurchase.contractAtachments.length) {
+                $myValidator.resetBySelector2("#table_contractAttach");
+            }
+        }
     });
     $util.upload({
         selector: "#uploadMaintainContract",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
         msg: "维保合同仅支持图片、office文档、pdf文件上传！",
-        attachmentList: vm.resMaintenance.attachmentList1
+        attachmentList: vm.resMaintenance.maintainContractAttachments
     });
 
     $util.upload({
         selector: "#uploadInstructions",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
         msg: "资源设备说明书仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
-        attachmentList: vm.resMaintenance.attachmentList2
+        attachmentList: vm.resMaintenance.resInstructionsAttachments
     });
 
     $util.upload({
         selector: "#uploadPrecautions",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
         msg: "注意事项仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
-        attachmentList: vm.resMaintenance.attachmentList3
+        attachmentList: vm.resMaintenance.resInstructionsAttachments
     });
 
     $util.upload({
         selector: "#uploadDrawing",
         suffixReg: /^(jpg|jpeg|png|gif)$/,
         msg: "图纸仅支持图片上传！",
-        attachmentList: vm.resInstallConfig.attachmentList1
+        attachmentList: vm.resInstallConfig.drawingAttachments
     });
 
     $util.upload({
         selector: "#uploadOperationSpecification",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|mp4|avi|pdf)$/,
         msg: "操作规范说明仅支持图片、office文档、pdf文件、mp4、avi视频格式文件上传！",
-        attachmentList: vm.resInstallConfig.attachmentList1
+        attachmentList: vm.resInstallConfig.operSpecAttachments
     });
 
     $("#jqGrid").jqGrid({
@@ -100,24 +110,17 @@ $(document).ready(function () {
         }
     });
 
-    $.datetimepicker.setLocale('zh');
-
-    $('.myDatetimePicker').datetimepicker({
-        i18n:{
-            zh:{
-                months:[
-                    '一月','二月','三月','四月',
-                    '五月','六月','七月','八月',
-                    '九月','十月','十一月','十二月',
-                ],
-                dayOfWeek:[
-                    "星期天", "星期一", "星期二", "星期三",
-                    "星期四", "星期五", "星期六"
-                ]
-            }
-        },
-        timepicker:false,
-        format:'Y-m-d'
+    $("input[id='resBaseInfo.factoryTime']").datetimepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,//显示‘今日’按钮
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
+        clearBtn:true,//清除按钮
+        forceParse: 0
     });
 });
 var vm = new Vue({
@@ -132,91 +135,30 @@ var vm = new Vue({
             brand: null,
             deptId: 100001,
             deptName: "综合部",
-            attachmentList: [
-				{
-				    id: 1,
-					name: "煤气探测器",
-					tempUrl: "/resmgr/img/image2.png",
-                    url: "hangzhou.aliyuncs.com/20180916/100d2eaa90d84656aa3d28aa0b6c847f.jpg",
-					type: "图片",
-					size: "20 KB"
-				},
-				{
-				    id: 7,
-					name: "消防电话2",
-					tempUrl: "/resmgr/img/video3.png",
-                    url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/a1b30e8156db4cc1977bc8b48428818b.mp4",
-					type: "视频",
-					size: "20480 KB"
-				},
-				{
-				    id: 3,
-					name: "统计说明",
-					tempUrl: "/resmgr/img/excel.png",
-                    url: "https://resmgr.oss-cn-hangzhou.aliyuncs.com/20180916/8913dae430bb435b923f8cc030f77142.doc",
-					type: "文档",
-					size: "1024 KB"
-				}
-			]
+            factoryTime: null,
+            locationId: null,
+            locationName: null,
+            resNameplateAttachments: [],
+            resComponentList: [],
+            resEquipParamList: []
 		},
         resPurchase: {
-            attachmentList: [
-                {
-                    name: "信息园资源设备合同",
-                    tempUrl: "/resmgr/img/word.png",
-                    type: "文档",
-                    size: "2048 KB"
-                }
-			]
+            contractAtachments: []
 		},
         resMaintenance: {
-            attachmentList1: [
-                {
-                    name: "维护保养合同123",
-                    tempUrl: "/resmgr/img/word.png",
-                    type: "文档",
-                    size: "5778 KB"
-                }
-            ],
-            attachmentList2: [
-                {
-                    name: "灭火器说明书",
-                    tempUrl: "/resmgr/img/word.png",
-                    type: "文档",
-                    size: "8877 KB"
-                }
-            ],
-			attachmentList3: [
-                {
-                    name: "维护保养注意事项",
-                    tempUrl: "/resmgr/img/word.png",
-                    type: "文档",
-                    size: "4830 KB"
-                }
-            ]
+            maintainContractAttachments: [],
+            resInstructionsAttachments: [],
+			resInstructionsAttachments: []
 		},
         resInstallConfig: {
-            attachmentList1: [
-                {
-                    name: "图纸1",
-                    tempUrl: "/resmgr/img/image3.png",
-                    type: "图片",
-                    size: "4830 KB"
-                }
-			],
-            attachmentList2: [
-                {
-                    name: "烟感系统操作说明书",
-                    tempUrl: "/resmgr/img/image3.png",
-                    type: "图片",
-                    size: "4830 KB"
-                }
-			]
+            drawingAttachments: [],
+            operSpecAttachments: []
 		},
 		validator: {
 
 		},
         dataDictList: null,
+        locationTree: null,
         deptTree: null,
         empTree: null
 	},
@@ -240,13 +182,23 @@ var vm = new Vue({
             }) : [];
         },
         seriesList: function () {
-            return this.getDataDictListByParentId(this.resBaseInfo.brand);
+            return this.getDataDictListByParentId(this.resBaseInfo.brand, "SERIES");
         }
     },
 	created: function () {
-        $locationTree.init("locationTree");
         this.$token = token;
         this.initQueryDataDictList();
+        this.locationTree = new SelectTree({
+            id: "id",
+            parentId: "parentLocationId",
+            name: "name",
+            treeId: "locationTree",
+            url: "/resmgr/res/location/queryLocationListByCondition",
+            param: {},
+            callback: function (event, treeId, treeNode) {
+                vm.selectLocation(treeNode);
+            }
+        });
         this.deptTree = new SelectTree({
             id: "id",
             parentId: "parentDeptId",
@@ -264,6 +216,10 @@ var vm = new Vue({
         });
     },
 	methods: {
+        handleDecimal: function (e) {
+            // 通过正则过滤小数点后两位
+            e.target.value = (e.target.value.match(/^\d*(\.?\d{0,1})/g)[0]) || null
+        },
 	    getDataDictListByParentId: function (parentId, type) {
             return parentId ? $.grep(this.dataDictList, function (item, i) {
                 return type ? item.type == type && item.parentId == parentId : item.parentId == parentId;
@@ -301,18 +257,21 @@ var vm = new Vue({
             
             vm.getInfo(id)
 		},
-		saveResInfo: function () {
-        },
 		saveOrUpdate: function (event) {
 			var url = vm.resmgr.id == null ? "res/resmgr/save" : "res/resmgr/update";
-			if (!$myValidator.validateResInfo()) {
+			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase()) {
 			    return;
             }
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
-			    data: JSON.stringify(vm.resmgr),
+			    data: JSON.stringify({
+                    resBaseInfo: vm.resBaseInfo,
+                    resPurchase: vm.resPurchase,
+                    resMaintenance: vm.resMaintenance,
+                    resInstallConfig: vm.resInstallConfig
+                }),
 			    success: function(r){
 			    	if(r.code === $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(index){
@@ -329,7 +288,6 @@ var vm = new Vue({
 			if(ids == null){
 				return ;
 			}
-			
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
@@ -372,13 +330,55 @@ var vm = new Vue({
                 content: jQuery("#div_locationLayer"),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
-                    var nodes = $locationTree.getSelectedNodes();
-                    alert(JSON.stringify(nodes));
-                    // vm.sysDict.parentDictId = nodes[0].dictId;
-                    // vm.sysDict.parentDictName = nodes[0].dictName;
-                    layer.close(index);
+                    vm.selectLocation(vm.locationTree.getSelectedNodes()[0]);
                 }
             });
+        },
+        addResComponent: function () {
+            if (this.resBaseInfo.resComponentList.length) {
+                var component = this.resBaseInfo.resComponentList[this.resBaseInfo.resComponentList.length - 1];
+                if (!component.name || !$.trim(component.name)) {
+                    alert("请输入部件名称");
+                    return;
+                }
+                if (!component.serialNo || !$.trim(component.serialNo)) {
+                    alert("请输入序列号");
+                    return;
+                }
+            }
+            this.resBaseInfo.resComponentList.push({});
+            $myValidator.resetBySelector("#table_resComponent");
+        },
+        deleteResComponent: function (component, index) {
+            if (!component.id && !component.name && !component.serialNo) {
+                vm.resBaseInfo.resComponentList.splice(index, 1);
+                return;
+            }
+            confirm('确定要删除部件信息？', function(){
+                vm.resBaseInfo.resComponentList.splice(index, 1);
+                alert("删除成功");
+            });
+        },
+        showComponentLayer: function(){
+            alert("showComponentLayer");
+        },
+        addResEquipParam: function (param) {
+
+        },
+        deleteResEquipParam: function (param, index) {
+
+        },
+        showParamLayer: function(){
+            alert("showComponentLayer");
+        },
+        selectLocation: function (treeNode) {
+            if (treeNode.hasChildren == 0) {
+                vm.resBaseInfo.locationId = treeNode.id;
+                vm.resBaseInfo.locationName = treeNode.name;
+                layer.close(layer.index);
+            } else {
+                alert("不能选择目录!");
+            }
         },
         showDeptLayer: function(){
             layer.open({
@@ -386,7 +386,7 @@ var vm = new Vue({
                 offset: '50px',
                 skin: 'layui-layer-molv',
                 title: "选择部门",
-                area: ['300px', '450px'],
+                area: ['300px', '300px'],
                 shade: 0,
                 shadeClose: false,
                 content: jQuery("#div_deptLayer"),
@@ -414,10 +414,10 @@ var vm = new Vue({
                     contentType: "application/json",
                     success: function(r){
                         if(r.code == 0){
-                            vm.deleteAttachFromList(vm.resBaseInfo.attachmentList, attachId) || vm.deleteAttachFromList(vm.resPurchase.attachmentList, attachId) ||
-                            vm.deleteAttachFromList(vm.resMaintenance.attachmentList1, attachId) || vm.deleteAttachFromList(vm.resMaintenance.attachmentList2, attachId) ||
-                            vm.deleteAttachFromList(vm.resMaintenance.attachmentList3, attachId)  || vm.deleteAttachFromList(vm.resInstallConfig.attachmentList1, attachId) ||
-                            vm.deleteAttachFromList(vm.resInstallConfig.attachmentList2, attachId);
+                            vm.deleteAttachFromList(vm.resBaseInfo.resNameplateAttachments, attachId) || vm.deleteAttachFromList(vm.resPurchase.contractAtachments, attachId) ||
+                            vm.deleteAttachFromList(vm.resMaintenance.maintainContractAttachments, attachId) || vm.deleteAttachFromList(vm.resMaintenance.resInstructionsAttachments, attachId) ||
+                            vm.deleteAttachFromList(vm.resMaintenance.resInstructionsAttachments, attachId)  || vm.deleteAttachFromList(vm.resInstallConfig.drawingAttachments, attachId) ||
+                            vm.deleteAttachFromList(vm.resInstallConfig.operSpecAttachments, attachId);
                             alert('删除成功');
                         }else{
                             alert(r.msg);
@@ -445,8 +445,8 @@ var $myValidator = function () {
                 selector: "select[id='resBaseInfo.resTypeId']",
                 changes: ["notEqualsTo"],
                 validateMethod: {
-                    required: {
-                        value: true,
+                    notEqualsTo: {
+                        value: null,
                         msg: "请选择资源类别"
                     }
                 },
@@ -485,26 +485,6 @@ var $myValidator = function () {
                 },
                 tabId: "link_resBaseInfo"
             },
-            /*{
-                selector: "resBaseInfo.resTypeName",
-                changes: ["notEqualsTo"],
-                validateMethod: {
-                    required: {
-                        value: true,
-                        msg: "请选择状态"
-                    }
-                }
-            },
-            {
-                selector: "table_dictItems",
-                validateMethod: {
-                    minLength: {
-                        childSelector: "#tbody_dictItems tr",
-                        value: 1,
-                        msg: "请至少添加一个字典项值"
-                    }
-                }
-            },*/
             {
                 selector: "textarea[id='resBaseInfo.remark']",
                 validateMethod: {
@@ -517,9 +497,9 @@ var $myValidator = function () {
             },
             {
                 selector: "input[id='resBaseInfo.factoryTime']",
+                blurs: ["required"],
                 validateMethod: {
                     required: {
-                        value: true,
                         msg: "请输入出厂时间"
                     }
                 },
@@ -527,16 +507,17 @@ var $myValidator = function () {
             },
             {
                 selector: "input[id='resBaseInfo.serialNo']",
+                blurs: ["required"],
                 validateMethod: {
                     required: {
-                        value: true,
                         msg: "请输入整机序列号"
                     }
                 },
                 tabId: "link_resBaseInfo"
             },
             {
-                selector: "table_resNameplate",
+                selector: "#table_resNameplate",
+                blurs: ["minLength"],
                 validateMethod: {
                     minLength: {
                         childSelector: "#tbody_resNameplate tr",
@@ -545,6 +526,55 @@ var $myValidator = function () {
                     }
                 },
                 tabId: "link_resBaseInfo"
+            },
+            {
+                selector: "#table_resComponent",
+                validateMethod: {
+                    minLength: {
+                        childSelector: "#tbody_resComponent tr",
+                        value: 1,
+                        msg: "请添加部件信息"
+                    }
+                },
+                tabId: "link_resBaseInfo"
+            }
+        ]
+    });
+    var _validate4Purchase = $validator.build({
+        allPassRequired: true,
+        items:[
+            {
+                selector: "input[id='resPurchase.contractNo']",
+                changes: ["required"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入合同编号"
+                    }
+                },
+                tabId: "link_resPurchase"
+            },
+            {
+                selector: "input[id='resPurchase.price']",
+                changes: ["required"],
+                validateMethod: {
+                    required: {
+                        value: true,
+                        msg: "请输入采购价格"
+                    }
+                },
+                tabId: "link_resPurchase"
+            },
+            {
+                selector: "#table_contractAttach",
+                validateMethod: {
+                    minLength: {
+                        childSelector: "#tbody_contractAttach tr",
+                        value: 1,
+                        msg: "请至少上传一个合同附件"
+                    }
+                },
+                tabId: "link_resPurchase"
             }
         ]
     });
@@ -552,8 +582,14 @@ var $myValidator = function () {
 	    validateResInfo: function () {
             return _validate4ResInfo.validate();
         },
+        validatePurchase: function () {
+            return _validate4Purchase.validate();
+        },
         resetBySelector: function (selector) {
             return _validate4ResInfo.resetBySelector(selector);
+        },
+        resetBySelector2: function (selector) {
+            return _validate4Purchase.resetBySelector(selector);
         }
     }
 }();

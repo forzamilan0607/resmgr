@@ -26,8 +26,6 @@ public class ResPurchaseEntity implements Serializable {
 	private String contractCompany;
 	//合同编号
 	private String contractNo;
-	//合同附件，多个附件ID以逗号分隔
-	private String contractAttach;
 	//合同描述
 	private String contractDesc;
 	//采购价格
@@ -41,146 +39,94 @@ public class ResPurchaseEntity implements Serializable {
 	//修改人
 	private Integer updateUserId;
 
-	private List<SysAttachmentEntity> attachmentList;
+	//合同附件
+	private List<SysAttachmentEntity> contractAtachments;
 
-	/**
-	 * 设置：采购ID
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-	/**
-	 * 获取：采购ID
-	 */
 	public Long getId() {
 		return id;
 	}
-	/**
-	 * 设置：资源ID
-	 */
-	public void setResId(Long resId) {
-		this.resId = resId;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	/**
-	 * 获取：资源ID
-	 */
+
 	public Long getResId() {
 		return resId;
 	}
-	/**
-	 * 设置：合同单位
-	 */
-	public void setContractCompany(String contractCompany) {
-		this.contractCompany = contractCompany;
+
+	public void setResId(Long resId) {
+		this.resId = resId;
 	}
-	/**
-	 * 获取：合同单位
-	 */
+
 	public String getContractCompany() {
 		return contractCompany;
 	}
-	/**
-	 * 设置：合同编号
-	 */
-	public void setContractNo(String contractNo) {
-		this.contractNo = contractNo;
+
+	public void setContractCompany(String contractCompany) {
+		this.contractCompany = contractCompany;
 	}
-	/**
-	 * 获取：合同编号
-	 */
+
 	public String getContractNo() {
 		return contractNo;
 	}
-	/**
-	 * 设置：合同附件，多个附件ID以逗号分隔
-	 */
-	public void setContractAttach(String contractAttach) {
-		this.contractAttach = contractAttach;
+
+	public void setContractNo(String contractNo) {
+		this.contractNo = contractNo;
 	}
-	/**
-	 * 获取：合同附件，多个附件ID以逗号分隔
-	 */
-	public String getContractAttach() {
-		return contractAttach;
-	}
-	/**
-	 * 设置：合同描述
-	 */
-	public void setContractDesc(String contractDesc) {
-		this.contractDesc = contractDesc;
-	}
-	/**
-	 * 获取：合同描述
-	 */
+
 	public String getContractDesc() {
 		return contractDesc;
 	}
-	/**
-	 * 设置：采购价格
-	 */
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+
+	public void setContractDesc(String contractDesc) {
+		this.contractDesc = contractDesc;
 	}
-	/**
-	 * 获取：采购价格
-	 */
+
 	public BigDecimal getPrice() {
 		return price;
 	}
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
-	/**
-	 * 获取：创建时间
-	 */
+
 	public Date getCreateTime() {
 		return createTime;
 	}
-	/**
-	 * 设置：创建人
-	 */
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
-	/**
-	 * 获取：创建人
-	 */
+
 	public Integer getCreateUserId() {
 		return createUserId;
 	}
-	/**
-	 * 设置：修改时间
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
 	}
-	/**
-	 * 获取：修改时间
-	 */
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}
-	/**
-	 * 设置：修改人
-	 */
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
-	/**
-	 * 获取：修改人
-	 */
+
 	public Integer getUpdateUserId() {
 		return updateUserId;
 	}
 
-	public List<SysAttachmentEntity> getAttachmentList() {
-		return attachmentList;
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
 	}
 
-	public void setAttachmentList(List<SysAttachmentEntity> attachmentList) {
-		this.attachmentList = attachmentList;
+	public List<SysAttachmentEntity> getContractAtachments() {
+		return contractAtachments;
+	}
+
+	public void setContractAtachments(List<SysAttachmentEntity> contractAtachments) {
+		this.contractAtachments = contractAtachments;
 	}
 }

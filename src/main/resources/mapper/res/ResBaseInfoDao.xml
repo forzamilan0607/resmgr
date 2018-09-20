@@ -15,8 +15,6 @@
         <result property="model" column="model"/>
         <result property="factoryTime" column="factory_time"/>
         <result property="serialNo" column="serial_no"/>
-        <result property="componentInfo" column="component_info"/>
-        <result property="nameplate" column="nameplate"/>
         <result property="locationId" column="location_id"/>
         <result property="locationDesc" column="location_desc"/>
         <result property="locationCoordinate" column="location_coordinate"/>
@@ -65,9 +63,7 @@
 			`model`, 
 			`factory_time`, 
 			`serial_no`, 
-			`component_info`, 
-			`nameplate`, 
-			`location_id`, 
+			`location_id`,
 			`location_desc`, 
 			`location_coordinate`, 
 			`obj_id`, 
@@ -90,9 +86,7 @@
 			#{model}, 
 			#{factoryTime}, 
 			#{serialNo}, 
-			#{componentInfo}, 
-			#{nameplate}, 
-			#{locationId}, 
+			#{locationId},
 			#{locationDesc}, 
 			#{locationCoordinate}, 
 			#{objId}, 
@@ -118,8 +112,6 @@
 			<if test="model != null">`model` = #{model}, </if>
 			<if test="factoryTime != null">`factory_time` = #{factoryTime}, </if>
 			<if test="serialNo != null">`serial_no` = #{serialNo}, </if>
-			<if test="componentInfo != null">`component_info` = #{componentInfo}, </if>
-			<if test="nameplate != null">`nameplate` = #{nameplate}, </if>
 			<if test="locationId != null">`location_id` = #{locationId}, </if>
 			<if test="locationDesc != null">`location_desc` = #{locationDesc}, </if>
 			<if test="locationCoordinate != null">`location_coordinate` = #{locationCoordinate}, </if>

@@ -17,6 +17,7 @@
         <result property="deptId" column="dept_id"/>
         <result property="hierarchy" column="hierarchy"/>
         <result property="remark" column="remark"/>
+        <result property="hasChildren" column="has_children"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.res.entity.LocationEntity">
@@ -55,7 +56,8 @@
 			`update_user_id`, 
 			`dept_id`, 
 			`hierarchy`, 
-			`remark`
+			`remark`,
+			`has_children`
 		)
 		values
 		(
@@ -69,6 +71,7 @@
 			#{updateUserId}, 
 			#{deptId}, 
 			#{hierarchy}, 
+			#{hasChildren},
 			#{remark}
 		)
 	</insert>
@@ -82,12 +85,14 @@
 			<if test="isFolder != null">`is_folder` = #{isFolder}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
 			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
 			<if test="deptId != null">`dept_id` = #{deptId}, </if>
 			<if test="hierarchy != null">`hierarchy` = #{hierarchy}, </if>
 			<if test="remark != null">`remark` = #{remark}</if>
+			<if test="hasChildren != null">`has_children` = #{hasChildren}</if>
+			`update_time` = now()
 		</set>
+
 		where id = #{id}
 	</update>
 	
@@ -115,6 +120,7 @@
 			update_user_id AS updateUserId,
 			dept_id AS deptId,
 			hierarchy,
+			t.has_children AS hasChildren,
 			remark
 		from t_location t
 		<where>

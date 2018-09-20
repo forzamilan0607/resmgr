@@ -37,10 +37,6 @@ public class ResBaseInfoEntity implements Serializable {
 	private Date factoryTime;
 	//整机序列号
 	private String serialNo;
-	//主要部件信息
-	private Long componentInfo;
-	//资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	private String nameplate;
 	//位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
 	private Integer locationId;
 	//描述性位置
@@ -64,279 +60,26 @@ public class ResBaseInfoEntity implements Serializable {
 	//责任人
 	private Integer personResponsible;
 
-	private List<SysAttachmentEntity> attachmentList;
+	private List<SysAttachmentEntity> resNameplateAttachments;
 
-	/**
-	 * 设置：资源ID
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
-	/**
-	 * 获取：资源ID
-	 */
+	private List<ResComponentEntity> resComponentList;
+
+	private List<ResEquipParamEntity> resEquipParamList;
+
 	public Long getId() {
 		return id;
 	}
-	/**
-	 * 设置：资源名称
-	 */
-	public void setName(String name) {
-		this.name = name;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	/**
-	 * 获取：资源名称
-	 */
+
 	public String getName() {
 		return name;
 	}
-	/**
-	 * 设置：资源编码
-	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
-	/**
-	 * 获取：资源编码
-	 */
-	public String getCode() {
-		return code;
-	}
-	/**
-	 * 设置：资源类别
-	 */
-	public void setResTypeId(Integer resTypeId) {
-		this.resTypeId = resTypeId;
-	}
-	/**
-	 * 获取：资源类别
-	 */
-	public Integer getResTypeId() {
-		return resTypeId;
-	}
-	/**
-	 * 设置：品牌
-	 */
-	public void setBrand(Integer brand) {
-		this.brand = brand;
-	}
-	/**
-	 * 获取：品牌
-	 */
-	public Integer getBrand() {
-		return brand;
-	}
-	/**
-	 * 设置：系列
-	 */
-	public void setSeries(Integer series) {
-		this.series = series;
-	}
-	/**
-	 * 获取：系列
-	 */
-	public Integer getSeries() {
-		return series;
-	}
-	/**
-	 * 设置：型号
-	 */
-	public void setModel(Integer model) {
-		this.model = model;
-	}
-	/**
-	 * 获取：型号
-	 */
-	public Integer getModel() {
-		return model;
-	}
-	/**
-	 * 设置：出厂时间
-	 */
-	public void setFactoryTime(Date factoryTime) {
-		this.factoryTime = factoryTime;
-	}
-	/**
-	 * 获取：出厂时间
-	 */
-	public Date getFactoryTime() {
-		return factoryTime;
-	}
-	/**
-	 * 设置：整机序列号
-	 */
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-	/**
-	 * 获取：整机序列号
-	 */
-	public String getSerialNo() {
-		return serialNo;
-	}
-	/**
-	 * 设置：主要部件信息
-	 */
-	public void setComponentInfo(Long componentInfo) {
-		this.componentInfo = componentInfo;
-	}
-	/**
-	 * 获取：主要部件信息
-	 */
-	public Long getComponentInfo() {
-		return componentInfo;
-	}
-	/**
-	 * 设置：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	 */
-	public void setNameplate(String nameplate) {
-		this.nameplate = nameplate;
-	}
-	/**
-	 * 获取：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	 */
-	public String getNameplate() {
-		return nameplate;
-	}
-	/**
-	 * 设置：位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	 */
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
-	}
-	/**
-	 * 获取：位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	 */
-	public Integer getLocationId() {
-		return locationId;
-	}
-	/**
-	 * 设置：描述性位置
-	 */
-	public void setLocationDesc(String locationDesc) {
-		this.locationDesc = locationDesc;
-	}
-	/**
-	 * 获取：描述性位置
-	 */
-	public String getLocationDesc() {
-		return locationDesc;
-	}
-	/**
-	 * 设置：坐标位置，如：F8、H13
-	 */
-	public void setLocationCoordinate(String locationCoordinate) {
-		this.locationCoordinate = locationCoordinate;
-	}
-	/**
-	 * 获取：坐标位置，如：F8、H13
-	 */
-	public String getLocationCoordinate() {
-		return locationCoordinate;
-	}
-	/**
-	 * 设置：三维图形对象ID
-	 */
-	public void setObjId(String objId) {
-		this.objId = objId;
-	}
-	/**
-	 * 获取：三维图形对象ID
-	 */
-	public String getObjId() {
-		return objId;
-	}
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	/**
-	 * 获取：创建时间
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-	/**
-	 * 设置：创建人
-	 */
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
-	}
-	/**
-	 * 获取：创建人
-	 */
-	public Integer getCreateUserId() {
-		return createUserId;
-	}
-	/**
-	 * 设置：修改时间
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	/**
-	 * 获取：修改时间
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-	/**
-	 * 设置：修改人
-	 */
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
-	}
-	/**
-	 * 获取：修改人
-	 */
-	public Integer getUpdateUserId() {
-		return updateUserId;
-	}
-	/**
-	 * 设置：部门ID
-	 */
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
-	}
-	/**
-	 * 获取：部门ID
-	 */
-	public Integer getDeptId() {
-		return deptId;
-	}
-	/**
-	 * 设置：资源描述
-	 */
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	/**
-	 * 获取：资源描述
-	 */
-	public String getRemark() {
-		return remark;
-	}
-	/**
-	 * 设置：责任人
-	 */
-	public void setPersonResponsible(Integer personResponsible) {
-		this.personResponsible = personResponsible;
-	}
-	/**
-	 * 获取：责任人
-	 */
-	public Integer getPersonResponsible() {
-		return personResponsible;
-	}
 
-	public List<SysAttachmentEntity> getAttachmentList() {
-		return attachmentList;
-	}
-
-	public void setAttachmentList(List<SysAttachmentEntity> attachmentList) {
-		this.attachmentList = attachmentList;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Integer getEquipId() {
@@ -345,5 +88,173 @@ public class ResBaseInfoEntity implements Serializable {
 
 	public void setEquipId(Integer equipId) {
 		this.equipId = equipId;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Integer getResTypeId() {
+		return resTypeId;
+	}
+
+	public void setResTypeId(Integer resTypeId) {
+		this.resTypeId = resTypeId;
+	}
+
+	public Integer getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Integer brand) {
+		this.brand = brand;
+	}
+
+	public Integer getSeries() {
+		return series;
+	}
+
+	public void setSeries(Integer series) {
+		this.series = series;
+	}
+
+	public Integer getModel() {
+		return model;
+	}
+
+	public void setModel(Integer model) {
+		this.model = model;
+	}
+
+	public Date getFactoryTime() {
+		return factoryTime;
+	}
+
+	public void setFactoryTime(Date factoryTime) {
+		this.factoryTime = factoryTime;
+	}
+
+	public String getSerialNo() {
+		return serialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+
+	public Integer getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
+	}
+
+	public String getLocationDesc() {
+		return locationDesc;
+	}
+
+	public void setLocationDesc(String locationDesc) {
+		this.locationDesc = locationDesc;
+	}
+
+	public String getLocationCoordinate() {
+		return locationCoordinate;
+	}
+
+	public void setLocationCoordinate(String locationCoordinate) {
+		this.locationCoordinate = locationCoordinate;
+	}
+
+	public String getObjId() {
+		return objId;
+	}
+
+	public void setObjId(String objId) {
+		this.objId = objId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(Integer createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Integer getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(Integer updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getPersonResponsible() {
+		return personResponsible;
+	}
+
+	public void setPersonResponsible(Integer personResponsible) {
+		this.personResponsible = personResponsible;
+	}
+
+	public List<SysAttachmentEntity> getResNameplateAttachments() {
+		return resNameplateAttachments;
+	}
+
+	public void setResNameplateAttachments(List<SysAttachmentEntity> resNameplateAttachments) {
+		this.resNameplateAttachments = resNameplateAttachments;
+	}
+
+	public List<ResComponentEntity> getResComponentList() {
+		return resComponentList;
+	}
+
+	public void setResComponentList(List<ResComponentEntity> resComponentList) {
+		this.resComponentList = resComponentList;
+	}
+
+	public List<ResEquipParamEntity> getResEquipParamList() {
+		return resEquipParamList;
+	}
+
+	public void setResEquipParamList(List<ResEquipParamEntity> resEquipParamList) {
+		this.resEquipParamList = resEquipParamList;
 	}
 }

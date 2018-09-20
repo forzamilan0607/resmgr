@@ -117,9 +117,9 @@ public class SysOssController {
 		if (file.isEmpty()) {
 			throw new CommonException("上传文件不能为空");
 		}
-
 		//上传文件
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		String fileType = this.getFileType(suffix.substring(1));
 		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
 
 		//保存文件信息
@@ -127,7 +127,7 @@ public class SysOssController {
 		attachmentEntity.setUrl(url);
 		attachmentEntity.setName(file.getOriginalFilename());
 		attachmentEntity.setSuffixName(suffix.substring(1).toLowerCase());
-		attachmentEntity.setType(this.getFileType(suffix.substring(1)));
+		attachmentEntity.setType(fileType);
 		attachmentEntity.setTempUrl(this.generateTempUrl(request, attachmentEntity.getSuffixName()));
 		this.sysAttachmentService.save(attachmentEntity);
 
@@ -149,7 +149,7 @@ public class SysOssController {
 	}
 
 	private String getFileType(String suffix) {
-		ImmutableList<String> docTypes = ImmutableList.of("doc", "xls", "xlsx", "csv", "pdf");
+		ImmutableList<String> docTypes = ImmutableList.of("doc", "docx", "xls", "xlsx", "csv", "pdf");
 		if (docTypes.contains(suffix.toLowerCase())) {
 			return Constant.FileType.DOCUMENT.getValue();
 		}

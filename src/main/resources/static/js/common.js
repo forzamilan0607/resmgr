@@ -193,7 +193,7 @@ var $util = function () {
                 autoSubmit: true,
                 responseType: "json",
                 onChange: function (file, extension) {
-                    alert(file);
+                    // alert(file);
                 },
                 onSubmit: function (file, extension) {
                     if (!extension || !conf.suffixReg.test(extension.toLowerCase())) {
@@ -205,8 +205,8 @@ var $util = function () {
                 onComplete: function (file, r) {
                     $("body").mLoading("hide");
                     if (r.code == $util.HTTP_STATUS.SC_OK) {
-                        alert(r.url);
                         conf.attachmentList.push(r.attachmentObj);
+                        conf.callback && conf.callback(r);
                     } else {
                         alert(r.msg);
                     }

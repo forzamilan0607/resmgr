@@ -8,8 +8,7 @@
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
         <result property="drawing" column="drawing"/>
-        <result property="operationSpecificationText" column="operation_specification_text"/>
-        <result property="operationSpecificationAttach" column="operation_specification_attach"/>
+        <result property="operationSpecification" column="operation_specification"/>
         <result property="createTime" column="create_time"/>
         <result property="createUserId" column="create_user_id"/>
         <result property="updateTime" column="update_time"/>
@@ -44,9 +43,8 @@
 		(
 			`res_id`, 
 			`drawing`, 
-			`operation_specification_text`, 
-			`operation_specification_attach`, 
-			`create_time`, 
+			`operation_specification`,
+			`create_time`,
 			`create_user_id`, 
 			`update_time`, 
 			`update_user_id`
@@ -55,9 +53,8 @@
 		(
 			#{resId}, 
 			#{drawing}, 
-			#{operationSpecificationText}, 
-			#{operationSpecificationAttach}, 
-			#{createTime}, 
+			#{operationSpecification},
+			#{createTime},
 			#{createUserId}, 
 			#{updateTime}, 
 			#{updateUserId}
@@ -69,8 +66,7 @@
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
 			<if test="drawing != null">`drawing` = #{drawing}, </if>
-			<if test="operationSpecificationText != null">`operation_specification_text` = #{operationSpecificationText}, </if>
-			<if test="operationSpecificationAttach != null">`operation_specification_attach` = #{operationSpecificationAttach}, </if>
+			<if test="operationSpecification != null">`operation_specification` = #{operationSpecification}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>

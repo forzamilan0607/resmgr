@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../plugins/jqmloading/jquery.mloading.css">
     <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
-    <link rel="stylesheet" href="../../plugins/jqdatetimepicker/jquery.datetimepicker.min.css">
+    <!--<link rel="stylesheet" href="../../plugins/jqdatetimepicker/jquery.datetimepicker.min.css">-->
+    <link rel="stylesheet" href="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload.css">
     <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload-ui.css">
     <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
@@ -24,9 +25,11 @@
     </style>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
-    <script src="../../plugins/jqdatetimepicker/jquery.datetimepicker.full.js"></script>
+    <!--<script src="../../plugins/jqdatetimepicker/jquery.datetimepicker.full.js"></script>-->
     <script src="../../plugins/layer/layer.js"></script>
     <script src="../../libs/bootstrap.min.js"></script>
+    <script src="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../../libs/vue.min.js"></script>
     <script src="../../libs/ajaxupload.js"></script>
     <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
@@ -163,8 +166,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
-                                        <span class="required">*</span>
-                                        部门ID
+                                        部门
                                     </div>
                                     <div class="input-group col-sm-8">
                                         <input type="hidden" v-model="resBaseInfo.deptId" />
@@ -178,9 +180,10 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
-                                        <span class="required">*</span>责任人
+                                        责任人
                                     </div>
                                     <div class="input-group col-sm-8">
+                                        <input type="hidden" v-model="resBaseInfo.responsible" />
                                         <input type="text" class="form-control" id="resBaseInfo.personResponsible" v-model="resBaseInfo.personResponsible" placeholder="请选择责任人" readonly />
                                         <span class="input-group-btn">
                                         <button class="btn btn-info" type="button">
@@ -208,8 +211,7 @@
                                         <span class="required">*</span>出厂时间
                                     </div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control myDatetimePicker" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime"
-                                               placeholder="出厂时间"/>
+                                        <input type="text" class="form-control myDatetimePicker" id="resBaseInfo.factoryTime" v-model="resBaseInfo.factoryTime" placeholder="出厂时间" readonly/>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
@@ -217,8 +219,7 @@
                                         <span class="required">*</span>整机序列号
                                     </div>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo"
-                                               placeholder="整机序列号"/>
+                                        <input type="text" class="form-control" id="resBaseInfo.serialNo" v-model="resBaseInfo.serialNo" placeholder="整机序列号"/>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +239,7 @@
                                             </tr>
                                             </thead>
                                             <tbody class="files" id="tbody_resNameplate">
-                                                <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.attachmentList">
+                                                <tr class="template-upload fade in" v-for="(attach, index) in resBaseInfo.resNameplateAttachments">
                                                     <td class="pull-center">
                                                         <div>
                                                             <img :src="attach.tempUrl">
@@ -263,10 +264,43 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <div class="col-sm-2 control-label">主要部件信息</div>
+                                    <div class="col-sm-2 control-label">
+                                        <span class="required">*</span>部件列表
+                                    </div>
                                     <div class="col-sm-10">
-                                        <textarea rows="3" class="form-control" id="resBaseInfo.componentInfo" v-model="resBaseInfo.componentInfo"
-                                                  placeholder="主要部件信息" ></textarea>
+                                        <table role="presentation" class="table table-bordered" id="table_resComponent">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="col-sm-4 pull-center">部件名称</th>
+                                                <th scope="col" class="col-sm-4 pull-center">序列号</th>
+                                                <th scope="col" class="pull-center">
+                                                    <a class="btn btn-success" @click="addResComponent"><i class="fa fa-plus"></i>&nbsp;添加</a>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody_resComponent">
+                                                <tr class="template-upload fade in" v-for="(component, index) in resBaseInfo.resComponentList">
+                                                    <td class="pull-center">
+                                                        <input type="hidden" v-model="component.dictId" />
+                                                        <input type="text" class="form-control" id="component.name" v-model="component.name" />
+                                                        <span class="input-group-btn">
+                                                        <button class="btn btn-info" type="button" @click="showComponentLayer">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                    </span>
+                                                    </td>
+                                                    <td class="pull-center">
+                                                        <input type="text" class="form-control" v-model="component.serialNo" />
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-danger cancel" @click="deleteResComponent(component, index)">
+                                                            <i class="fa fa-trash-o"></i>
+                                                            <span>删除</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <!--<div class="form-group col-sm-6">
@@ -313,7 +347,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <div class="col-sm-2 control-label">
-                                        <span class="required">*</span>三维图形对象ID
+                                        三维图形对象ID
                                     </div>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="resBaseInfo.objId" v-model="resBaseInfo.objId" placeholder="三维图形对象ID"/>
@@ -332,15 +366,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">合同编号</div>
+                            <div class="col-sm-2 control-label">
+                                <span class="required">*</span>合同编号
+                            </div>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="resPurchase.contractNo" v-model="resPurchase.contractNo" placeholder="合同编号"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">合同附件</div>
+                            <div class="col-sm-2 control-label">
+                                <span class="required">*</span>合同附件
+                            </div>
                             <div class="col-sm-6">
-                                <table role="presentation" class="table table-bordered" id="resPurchase.contractAttach">
+                                <table role="presentation" class="table table-bordered" id="table_contractAttach">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
@@ -349,8 +387,8 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="files">
-                                        <tr class="template-upload fade in" v-for="(attach, index) in resPurchase.attachmentList">
+                                    <tbody class="files" id="tbody_contractAttach">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resPurchase.contractAtachments">
                                             <td class="pull-center">
                                                 <div>
                                                     <img :src="attach.tempUrl">
@@ -375,9 +413,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">采购价格</div>
+                            <div class="col-sm-2 control-label">
+                                <span class="required">*</span>采购价格
+                            </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resPurchase.price" v-model="resPurchase.price" placeholder="采购价格"/>
+                                <input type="text" class="form-control" @keydown="handleDecimal" id="resPurchase.price" v-model="resPurchase.price" placeholder="采购价格"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -453,7 +493,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="files">
-                                    <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList1">
+                                    <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.maintainContractAttachments">
                                         <td class="pull-center">
                                             <div>
                                                 <img :src="attach.tempUrl">
@@ -490,7 +530,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="files">
-                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList2">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.resInstructionsAttachments">
                                             <td class="pull-center">
                                                 <div>
                                                     <img :src="attach.tempUrl">
@@ -534,7 +574,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="files">
-                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.attachmentList3">
+                                        <tr class="template-upload fade in" v-for="(attach, index) in resMaintenance.precautionsAttachments">
                                             <td class="pull-center">
                                                 <div>
                                                     <img :src="attach.tempUrl">
@@ -561,8 +601,7 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">设备状态</div>
                             <div class="col-sm-6">
-                                <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus"
-                                        placeholder="设备状态">
+                                <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus" placeholder="设备状态">
                                     <option value="1">入库</option>
                                     <option value="2">在用</option>
                                     <option value="3">送修</option>
@@ -574,87 +613,131 @@
                 </div>
                 <div class="tab-pane fade" id="div_resInstallConfig">
                     <form id="form_resInstallConfig" role="form" class="form-horizontal full-width" method="post">
-                        <div class="form-group">
-                            <div class="col-sm-2 control-label">图纸</div>
-                            <div class="col-sm-6">
-                                <table role="presentation" class="table table-bordered" id="resInstallConfig.drawing">
-                                    <thead>
+                        <fieldset>
+                            <legend>安装信息</legend>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">图纸</div>
+                                <div class="col-sm-6">
+                                    <table role="presentation" class="table table-bordered" id="resInstallConfig.drawing">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                                <th scope="col">
+                                                    <a class="btn btn-success upload" id="uploadDrawing"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="files">
+                                            <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.drawingAttachments">
+                                                <td class="pull-center">
+                                                    <div>
+                                                        <img :src="attach.tempUrl">
+                                                    </div>
+                                                    <div>
+                                                        <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-primary start" @click="preview(attach)">
+                                                        <i class="glyphicon glyphicon-upload"></i>
+                                                        <span>预览</span>
+                                                    </a>
+                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                        <i class="fa fa-trash-o"></i>
+                                                        <span>删除</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">操作规范说明</div>
+                                <div class="col-sm-6">
+                                    <textarea type="text" class="form-control" id="resInstallConfig.operationSpecificationText" rows="5"
+                                              v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">操作规范说明（附件）</div>
+                                <div class="col-sm-6">
+                                    <table role="presentation" class="table table-bordered" id="resInstallConfig.operationSpecificationAttach">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="col-sm-7 pull-center">附件名称</th>
+                                                <th scope="col">
+                                                    <a class="btn btn-success upload" id="uploadOperationSpecification"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="files">
+                                            <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.operSpecAttachments">
+                                                <td class="pull-center">
+                                                    <div>
+                                                        <img :src="attach.tempUrl">
+                                                    </div>
+                                                    <div>
+                                                        <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-primary start" @click="preview(attach)">
+                                                        <i class="glyphicon glyphicon-upload"></i>
+                                                        <span>预览</span>
+                                                    </a>
+                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                        <i class="fa fa-trash-o"></i>
+                                                        <span>删除</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>参数配置</legend>
+                            <div class="form-group">
+                                <div class="col-sm-2 control-label">参数列表</div>
+                                <div class="col-sm-6">
+                                    <table role="presentation" class="table table-bordered" id="table_resEquipParam">
+                                        <thead>
                                         <tr>
-                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
-                                            <th scope="col">
-                                                <a class="btn btn-success upload" id="uploadDrawing"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                            <th scope="col" class="col-sm-4 pull-center">参数名称</th>
+                                            <th scope="col" class="col-sm-4 pull-center">参数值</th>
+                                            <th scope="col" class="pull-center">
+                                                <a class="btn btn-success" @click="addResEquipParam"><i class="fa fa-plus"></i>&nbsp;添加</a>
                                             </th>
                                         </tr>
-                                    </thead>
-                                    <tbody class="files">
-                                        <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList1">
-                                            <td class="pull-center">
-                                                <div>
-                                                    <img :src="attach.tempUrl">
-                                                </div>
-                                                <div>
-                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary start" @click="preview(attach)">
-                                                    <i class="glyphicon glyphicon-upload"></i>
-                                                    <span>预览</span>
-                                                </a>
-                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
-                                                    <i class="fa fa-trash-o"></i>
-                                                    <span>删除</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody id="tbody_resEquipParam">
+                                            <tr class="template-upload fade in" v-for="(param, index) in resBaseInfo.resEquipParamList">
+                                                <td class="pull-center">
+                                                    <input type="hidden" v-model="param.dictId" />
+                                                    <input type="text" class="form-control" id="param.name" v-model="param.name" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-info" type="button" @click="showParamLayer">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                                <td class="pull-center">
+                                                    <input type="text" class="form-control" v-model="param.value" />
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger cancel" @click="deleteResEquipParam(param, index)">
+                                                        <i class="fa fa-trash-o"></i>
+                                                        <span>删除</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-2 control-label">操作规范说明</div>
-                            <div class="col-sm-6">
-                                <textarea type="text" class="form-control" id="resInstallConfig.operationSpecificationText" rows="5"
-                                          v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-2 control-label">操作规范说明（附件）</div>
-                            <div class="col-sm-6">
-                                <table role="presentation" class="table table-bordered" id="resInstallConfig.operationSpecificationAttach">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="col-sm-7 pull-center">附件名称</th>
-                                            <th scope="col">
-                                                <a class="btn btn-success upload" id="uploadOperationSpecification"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="files">
-                                        <tr class="template-upload fade in" v-for="(attach, index) in resInstallConfig.attachmentList2">
-                                            <td class="pull-center">
-                                                <div>
-                                                    <img :src="attach.tempUrl">
-                                                </div>
-                                                <div>
-                                                    <a :href="'*.fileDownload?id=' + attach.id + '&token=' + $token">{{attach.name}}</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary start" @click="preview(attach)">
-                                                    <i class="glyphicon glyphicon-upload"></i>
-                                                    <span>预览</span>
-                                                </a>
-                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
-                                                    <i class="fa fa-trash-o"></i>
-                                                    <span>删除</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        </fieldset>
                     </form>
                 </div>
             </div>

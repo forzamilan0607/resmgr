@@ -9,7 +9,6 @@
         <result property="resId" column="res_id"/>
         <result property="contractCompany" column="contract_company"/>
         <result property="contractNo" column="contract_no"/>
-        <result property="contractAttach" column="contract_attach"/>
         <result property="contractDesc" column="contract_desc"/>
         <result property="price" column="price"/>
         <result property="createTime" column="create_time"/>
@@ -47,8 +46,7 @@
 			`res_id`, 
 			`contract_company`, 
 			`contract_no`, 
-			`contract_attach`, 
-			`contract_desc`, 
+			`contract_desc`,
 			`price`, 
 			`create_time`, 
 			`create_user_id`, 
@@ -60,8 +58,7 @@
 			#{resId}, 
 			#{contractCompany}, 
 			#{contractNo}, 
-			#{contractAttach}, 
-			#{contractDesc}, 
+			#{contractDesc},
 			#{price}, 
 			#{createTime}, 
 			#{createUserId}, 
@@ -76,7 +73,6 @@
 			<if test="resId != null">`res_id` = #{resId}, </if>
 			<if test="contractCompany != null">`contract_company` = #{contractCompany}, </if>
 			<if test="contractNo != null">`contract_no` = #{contractNo}, </if>
-			<if test="contractAttach != null">`contract_attach` = #{contractAttach}, </if>
 			<if test="contractDesc != null">`contract_desc` = #{contractDesc}, </if>
 			<if test="price != null">`price` = #{price}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>

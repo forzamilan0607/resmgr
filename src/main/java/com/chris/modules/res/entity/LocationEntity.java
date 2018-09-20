@@ -38,7 +38,8 @@ public class LocationEntity implements Serializable {
 	private String hierarchy;
 	//位置描述
 	private String remark;
-
+	//是否有子节点
+	private Integer hasChildren;
 	/**
 	 * 设置：位置ID
 	 */
@@ -182,5 +183,13 @@ public class LocationEntity implements Serializable {
 	 */
 	public String getRemark() {
 		return remark;
+	}
+
+	public Integer getHasChildren() {
+		return hasChildren;
+	}
+
+	public void setHasChildren(Integer hasChildren) {
+		this.hasChildren = hasChildren;
 	}
 }
