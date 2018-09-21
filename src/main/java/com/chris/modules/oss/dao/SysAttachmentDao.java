@@ -4,6 +4,8 @@ import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 附件信息
  * 
@@ -13,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysAttachmentDao extends BaseDao<SysAttachmentEntity> {
-	
+
+    void updateBatch(List<SysAttachmentEntity> sysAttachments);
 }

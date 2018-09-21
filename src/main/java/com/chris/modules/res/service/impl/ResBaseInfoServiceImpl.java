@@ -1,5 +1,9 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.service.SysAttachmentService;
+import com.chris.modules.res.service.ResComponentService;
+import com.chris.modules.res.service.ResEquipParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,15 @@ import com.chris.modules.res.service.ResBaseInfoService;
 public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	@Autowired
 	private ResBaseInfoDao resBaseInfoDao;
+	
+	@Autowired
+	private ResComponentService resComponentService;
+	
+	@Autowired
+	private ResEquipParamService resEquipParamService;
+	
+	@Autowired
+	private SysAttachmentService sysAttachmentService;
 	
 	@Override
 	public ResBaseInfoEntity queryObject(Long id){
@@ -40,6 +53,17 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	@Override
 	public void update(ResBaseInfoEntity resBaseInfo){
 		resBaseInfoDao.update(resBaseInfo);
+		if (ValidateUtils.isNotEmptyCollection(resBaseInfo.getResComponentList())) {
+			this.resComponentService.deleteByResId(resBaseInfo.getId());
+			this.resComponentService.saveBatch(resBaseInfo.getResComponentList());
+		}
+		if (ValidateUtils.isNotEmptyCollection(resBaseInfo.getResEquipParamList())) {
+			this.resEquipParamService.deleteByResId(resBaseInfo.getId());
+			this.resEquipParamService.saveBatch(resBaseInfo.getResEquipParamList());
+		}
+		if (ValidateUtils.isNotEmptyCollection(resBaseInfo.getResNameplateAttachments())) {
+			this.sysAttachmentService.updateBatch(resBaseInfo.getResNameplateAttachments());
+		}
 	}
 	
 	@Override
@@ -51,5 +75,18 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	public void deleteBatch(Long[] ids){
 		resBaseInfoDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public void saveOtherObj(ResBaseInfoEntity resBaseInfo) {
+		//保存设备主要部件信息
+		if (ValidateUtils.isNotEmptyCollection(resBaseInfo.getResComponentList())) {
+			this.resComponentService.saveBatch(resBaseInfo.getResComponentList());
+		}
+		//保存资源参数信息
+		if (ValidateUtils.isNotEmptyCollection(resBaseInfo.getResEquipParamList())) {
+			this.resEquipParamService.saveBatch(resBaseInfo.getResEquipParamList());
+		}
+		//更新资源铭牌信息
+		this.sysAttachmentService.updateBatch(resBaseInfo.getResNameplateAttachments());
+	}
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.res.dao.ResComponentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.res.entity.ResComponentEntity" id="resComponentMap">
+        <result property="id" column="id"/>
+        <result property="resId" column="res_id"/>
+        <result property="name" column="name"/>
+        <result property="serialNo" column="serial_no"/>
+        <result property="dictId" column="dict_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.res.entity.ResComponentEntity">
+		select * from t_res_component where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResComponentEntity">
+		select * from t_res_component
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_res_component 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResComponentEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into t_res_component
+		(
+			`res_id`, 
+			`name`, 
+			`serial_no`, 
+			`dict_id`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{resId}, 
+			#{name}, 
+			#{serialNo}, 
+			#{dictId}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+
+	<insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into t_res_component
+		(
+			`res_id`,
+			`name`,
+			`serial_no`,
+			`dict_id`,
+			`create_time`,
+			`update_time`
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.resId},
+				#{item.name},
+				#{item.serialNo},
+				#{item.dictId},
+				now(),
+				now()
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="update" parameterType="com.chris.modules.res.entity.ResComponentEntity">
+		update t_res_component 
+		<set>
+			<if test="resId != null">`res_id` = #{resId}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="serialNo != null">`serial_no` = #{serialNo}, </if>
+			<if test="dictId != null">`dict_id` = #{dictId}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from t_res_component where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_res_component where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByResId" parameterType="java.lang.Long">
+		delete from t_res_component where res_id = #{resId}
+	</delete>
+
+</mapper>

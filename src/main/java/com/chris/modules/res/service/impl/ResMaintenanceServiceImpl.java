@@ -1,5 +1,7 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.service.SysAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ import com.chris.modules.res.service.ResMaintenanceService;
 public class ResMaintenanceServiceImpl implements ResMaintenanceService {
 	@Autowired
 	private ResMaintenanceDao resMaintenanceDao;
+
+	@Autowired
+	private SysAttachmentService sysAttachmentService;
 	
 	@Override
 	public ResMaintenanceEntity queryObject(Long id){
@@ -34,12 +39,26 @@ public class ResMaintenanceServiceImpl implements ResMaintenanceService {
 	
 	@Override
 	public void save(ResMaintenanceEntity resMaintenance){
-		resMaintenanceDao.save(resMaintenance);
+		this.resMaintenanceDao.save(resMaintenance);
+		this.batchUpdateAttachments(resMaintenance);
 	}
-	
+
+	private void batchUpdateAttachments(ResMaintenanceEntity resMaintenance) {
+		if (ValidateUtils.isNotEmptyCollection(resMaintenance.getMaintainContractAttachments())) {
+			this.sysAttachmentService.updateBatch(resMaintenance.getMaintainContractAttachments());
+		}
+		if (ValidateUtils.isNotEmptyCollection(resMaintenance.getResInstructionsAttachments())) {
+			this.sysAttachmentService.updateBatch(resMaintenance.getResInstructionsAttachments());
+		}
+		if (ValidateUtils.isNotEmptyCollection(resMaintenance.getPrecautionsAttachments())) {
+			this.sysAttachmentService.updateBatch(resMaintenance.getPrecautionsAttachments());
+		}
+	}
+
 	@Override
 	public void update(ResMaintenanceEntity resMaintenance){
-		resMaintenanceDao.update(resMaintenance);
+		this.resMaintenanceDao.update(resMaintenance);
+		this.batchUpdateAttachments(resMaintenance);
 	}
 	
 	@Override

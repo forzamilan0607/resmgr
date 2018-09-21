@@ -48,5 +48,9 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
 	public void deleteBatch(Long[] ids){
 		sysAttachmentDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public void updateBatch(List<SysAttachmentEntity> sysAttachments) {
+		this.sysAttachmentDao.updateBatch(sysAttachments);
+	}
 }

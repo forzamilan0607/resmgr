@@ -27,4 +27,6 @@ public interface SysAttachmentService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+    void updateBatch(List<SysAttachmentEntity> sysAttachments);
 }

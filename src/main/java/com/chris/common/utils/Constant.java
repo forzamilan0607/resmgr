@@ -143,4 +143,14 @@ public class Constant {
         String UNDERLINE = "_";
     }
 
+    public interface AttachmentSource {
+        String RES_NAMEPLATE__ATTACHMENTS = "resNameplateAttachments";
+        String CONTRACT_ATTACHMENTS = "contractAttachments";
+        String MAINTAIN_CONTRACT_ATTACHMENTS = "maintainContractAttachments";
+        String RES_INSTRUCTIONS_ATTACHMENTS = "resInstructionsAttachments";
+        String PRECAUTIONS_ATTACHMENTS = "precautionsAttachments";
+        String DRAWING_ATTACHMENTS = "drawingAttachments";
+        String OPERSPEC_ATTACHMENTS = "operSpecAttachments";
+    }
+
 }

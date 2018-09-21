@@ -40,7 +40,7 @@ public class ResPurchaseEntity implements Serializable {
 	private Integer updateUserId;
 
 	//合同附件
-	private List<SysAttachmentEntity> contractAtachments;
+	private List<SysAttachmentEntity> contractAttachments;
 
 	public Long getId() {
 		return id;
@@ -122,11 +122,11 @@ public class ResPurchaseEntity implements Serializable {
 		this.updateUserId = updateUserId;
 	}
 
-	public List<SysAttachmentEntity> getContractAtachments() {
-		return contractAtachments;
+	public List<SysAttachmentEntity> getContractAttachments() {
+		return contractAttachments;
 	}
 
-	public void setContractAtachments(List<SysAttachmentEntity> contractAtachments) {
-		this.contractAtachments = contractAtachments;
+	public void setContractAttachments(List<SysAttachmentEntity> contractAttachments) {
+		this.contractAttachments = contractAttachments;
 	}
 }
