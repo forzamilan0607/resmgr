@@ -1,4 +1,4 @@
-function SelectTree(conf) {
+function TreeSelector(conf) {
     this.treeObj;
     this.srcData;
     this.config = {
@@ -23,7 +23,7 @@ function SelectTree(conf) {
     this.treeId = conf.treeId;
     this.init();
 };
-SelectTree.prototype.init = function () {
+TreeSelector.prototype.init = function () {
     var _this = this;
     var ajaxParam = {
         type: "POST",
@@ -43,6 +43,18 @@ SelectTree.prototype.init = function () {
     };
     $.ajax(ajaxParam);
 };
-SelectTree.prototype. getSelectedNodes = function () {
+TreeSelector.prototype. getSelectedNodes = function () {
     return this.treeObj.getSelectedNodes();
+}
+TreeSelector.prototype.getHierarchyName = function (param) {
+    var treeNodes = this.treeObj.getNodesByParam("id", param.id + "", null);
+    var hierarchyNames = [(treeNodes && treeNodes.length) ? treeNodes[0][param.name] : ""];
+    if (treeNodes && treeNodes[0][param.key]) {
+        hierarchyNames.push(this.getHierarchyName({
+            id: treeNodes[0][param.key],
+            name: param.name,
+            key: param.key
+        }));
+    }
+    return hierarchyNames.reverse().join("\\");
 }

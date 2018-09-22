@@ -1,5 +1,6 @@
 package com.chris.modules.res.entity;
 
+import com.chris.common.model.SysUpdateInfo;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.List;
  * @email 258321511@qq.com
  * @since Aug 28.18
  */
-public class ResBaseInfoEntity implements Serializable {
+public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//资源ID
@@ -45,14 +46,6 @@ public class ResBaseInfoEntity implements Serializable {
 	private String locationCoordinate;
 	//三维图形对象ID
 	private String objId;
-	//创建时间
-	private Date createTime;
-	//创建人
-	private Integer createUserId;
-	//修改时间
-	private Date updateTime;
-	//修改人
-	private Integer updateUserId;
 	//部门ID
 	private Integer deptId;
 	//资源描述
@@ -176,38 +169,6 @@ public class ResBaseInfoEntity implements Serializable {
 
 	public void setObjId(String objId) {
 		this.objId = objId;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Integer getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public Integer getUpdateUserId() {
-		return updateUserId;
-	}
-
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
 	}
 
 	public Integer getDeptId() {

@@ -1,5 +1,6 @@
 package com.chris.modules.res.controller;
 
+import com.chris.common.annotation.SysLog;
 import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
@@ -64,6 +65,7 @@ public class ResMgrController {
     /**
      * 保存
      */
+    @SysLog("添加资源设备")
     @RequestMapping("/save")
     @RequiresPermissions("res:resmgr:save")
     public R save(@RequestBody ResInfoDTO resInfoDTO) {
@@ -74,6 +76,7 @@ public class ResMgrController {
     /**
      * 修改
      */
+    @SysLog("修改资源设备")
     @RequestMapping("/update")
     @RequiresPermissions("res:resmgr:update")
     public R update(@RequestBody ResBaseInfoEntity resBaseInfo) {

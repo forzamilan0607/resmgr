@@ -24,7 +24,8 @@ public interface ResMgrService {
 
 	@Transactional
 	void saveResInfo(ResInfoDTO resInfoDTO);
-	
+
+	@Transactional
 	void updateResInfo(ResInfoDTO resInfoDTO);
 	
 	void deleteResInfoById(Long resId);

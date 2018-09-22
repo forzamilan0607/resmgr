@@ -1,7 +1,7 @@
 package com.chris.common.utils;
 
-import org.springframework.util.StringUtils;
-
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,10 +27,31 @@ public class DateUtils {
             SimpleDateFormat df = new SimpleDateFormat(pattern);
             return df.format(date);
         }
-        return null;
+        return currentDateStr();
     }
 
-    public static String currentDate(String pattern) {
-	    return format(new Date(), StringUtils.isEmpty(pattern) ? DATE_PATTERN : pattern);
+    public static String currentDateStr() {
+	    return currentDateStr(DATE_PATTERN);
+    }
+    public static String currentDateStr(String pattern) {
+	    return format(new Date(), pattern);
+    }
+
+    public static Date currentDate() {
+	    return new Date();
+    }
+
+    public static Date parseDate(String dateStr) {
+	    return parseDate(dateStr, "yyyy-MM-dd HH:mm:ss");
+    }
+    public static Date parseDate(String dateStr, String pattern) {
+
+        DateFormat df = new SimpleDateFormat(pattern);
+        try {
+            return df.parse(dateStr);
+        } catch (ParseException e) {
+
+            throw new RuntimeException("date format error");
+        }
     }
 }

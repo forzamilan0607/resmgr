@@ -15,9 +15,9 @@ $(document).ready(function () {
         selector: "#uploadConcractAttach",
         suffixReg: /^(jpg|jpeg|png|gif|doc|docx|xls|xlsx|csv|pdf)$/,
         msg: "合同附件仅支持图片、office文档、pdf文件上传！",
-        attachmentList: vm.resPurchase.contractAtachments,
+        attachmentList: vm.resPurchase.contractAttachments,
         callback: function (r) {
-            if (vm.resPurchase.contractAtachments.length) {
+            if (vm.resPurchase.contractAttachments.length) {
                 $myValidator.resetBySelector2("#table_contractAttach");
             }
         }
@@ -61,27 +61,34 @@ $(document).ready(function () {
         url: baseURL + 'res/resmgr/list',
         datatype: "json",
         colModel: [
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '序号', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '资源名称', name: 'name', index: 'name', width: 80 },
-			{ label: '资源编码', name: 'code', index: 'code', width: 80 },
-			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 80 },
-			{ label: '品牌', name: 'brand', index: 'brand', width: 80 },
-			{ label: '系列', name: 'series', index: 'series', width: 80 },
-			{ label: '型号', name: 'model', index: 'model', width: 80 },
+			// { label: '资源编码', name: 'code', index: 'code', width: 80 },
+			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 80, formatter: function (value, options, row) {
+                return value ? vm.getDataDictNameById(value) : "";
+            }},
+			{ label: '设备名称', name: 'equipId', index: 'model', width: 80, formatter: function (value, options, row) {
+                return value ? vm.getDataDictNameById(value) : "";
+            }},
+			{ label: '品牌', name: 'brand', index: 'brand', width: 80, formatter: function (value, options, row) {
+                return value ? vm.getDataDictNameById(value) : "";
+            }},
+			{ label: '系列', name: 'series', index: 'series', width: 80, formatter: function (value, options, row) {
+                return value ? vm.getDataDictNameById(value) : "";
+            }},
 			{ label: '出厂时间', name: 'factoryTime', index: 'factory_time', width: 80 },
 			{ label: '整机序列号', name: 'serialNo', index: 'serial_no', width: 80 },
-			{ label: '主要部件信息', name: 'componentInfo', index: 'component_info', width: 80 },
-			{ label: '资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔', name: 'nameplate', index: 'nameplate', width: 80 },
-			{ label: '位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面', name: 'locationId', index: 'location_id', width: 80 },
+			//{ label: '资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔', name: 'nameplate', index: 'nameplate', width: 80 },
+			//{ label: '所属位置', name: 'locationId', index: 'location_id', width: 80 },
 			{ label: '描述性位置', name: 'locationDesc', index: 'location_desc', width: 80 },
-			{ label: '坐标位置，如：F8、H13', name: 'locationCoordinate', index: 'location_coordinate', width: 80 },
-			{ label: '三维图形对象ID', name: 'objId', index: 'obj_id', width: 80 },
+			//{ label: '坐标位置，如：F8、H13', name: 'locationCoordinate', index: 'location_coordinate', width: 80 },
+			//{ label: '三维图形对象ID', name: 'objId', index: 'obj_id', width: 80 },
 			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 },
-			{ label: '创建人', name: 'createUserId', index: 'create_user_id', width: 80 },
+			{ label: '创建人', name: 'createUserName', index: 'create_user_id', width: 80 },
 			{ label: '修改时间', name: 'updateTime', index: 'update_time', width: 80 },
-			{ label: '修改人', name: 'updateUserId', index: 'update_user_id', width: 80 },
-			{ label: '部门ID', name: 'deptId', index: 'dept_id', width: 80 },
-			{ label: '资源描述', name: 'remark', index: 'remark', width: 80 },
+			{ label: '修改人', name: 'updateUserName', index: 'update_user_id', width: 80 },
+			{ label: '部门', name: 'deptId', index: 'dept_id', width: 80 },
+			//{ label: '资源描述', name: 'remark', index: 'remark', width: 80 },
 			{ label: '责任人', name: 'personResponsible', index: 'person_responsible', width: 80 }
         ],
 		viewrecords: true,
@@ -143,7 +150,7 @@ var vm = new Vue({
             resEquipParamList: []
 		},
         resPurchase: {
-            contractAtachments: []
+            contractAttachments: []
 		},
         resMaintenance: {
             maintainContractAttachments: [],
@@ -188,7 +195,7 @@ var vm = new Vue({
 	created: function () {
         this.$token = token;
         this.initQueryDataDictList();
-        this.locationTree = new SelectTree({
+        this.locationTree = new TreeSelector({
             id: "id",
             parentId: "parentLocationId",
             name: "name",
@@ -199,7 +206,7 @@ var vm = new Vue({
                 vm.selectLocation(treeNode);
             }
         });
-        this.deptTree = new SelectTree({
+        this.deptTree = new TreeSelector({
             id: "id",
             parentId: "parentDeptId",
             name: "name",
@@ -220,10 +227,17 @@ var vm = new Vue({
             // 通过正则过滤小数点后两位
             e.target.value = (e.target.value.match(/^\d*(\.?\d{0,1})/g)[0]) || null
         },
+
 	    getDataDictListByParentId: function (parentId, type) {
             return parentId ? $.grep(this.dataDictList, function (item, i) {
                 return type ? item.type == type && item.parentId == parentId : item.parentId == parentId;
             }) : [];
+        },
+        getDataDictNameById: function (id, type) {
+            var dataDictList = $.grep(this.dataDictList, function (item, i) {
+                return type ? item.type == type && item.id == id : item.id == id;
+            }) || [];
+            return dataDictList.length ? id : dataDictList[0].name;
         },
         initQueryDataDictList: function () {
             $.ajax({
@@ -375,6 +389,12 @@ var vm = new Vue({
             if (treeNode.hasChildren == 0) {
                 vm.resBaseInfo.locationId = treeNode.id;
                 vm.resBaseInfo.locationName = treeNode.name;
+                //描述性位置值
+                vm.resBaseInfo.locationDesc = vm.locationTree.getHierarchyName({
+                    id: treeNode.id,
+                    key: "parentLocationId",
+                    name: "name"
+                });
                 layer.close(layer.index);
             } else {
                 alert("不能选择目录!");
@@ -414,7 +434,7 @@ var vm = new Vue({
                     contentType: "application/json",
                     success: function(r){
                         if(r.code == 0){
-                            vm.deleteAttachFromList(vm.resBaseInfo.resNameplateAttachments, attachId) || vm.deleteAttachFromList(vm.resPurchase.contractAtachments, attachId) ||
+                            vm.deleteAttachFromList(vm.resBaseInfo.resNameplateAttachments, attachId) || vm.deleteAttachFromList(vm.resPurchase.contractAttachments, attachId) ||
                             vm.deleteAttachFromList(vm.resMaintenance.maintainContractAttachments, attachId) || vm.deleteAttachFromList(vm.resMaintenance.resInstructionsAttachments, attachId) ||
                             vm.deleteAttachFromList(vm.resMaintenance.resInstructionsAttachments, attachId)  || vm.deleteAttachFromList(vm.resInstallConfig.drawingAttachments, attachId) ||
                             vm.deleteAttachFromList(vm.resInstallConfig.operSpecAttachments, attachId);

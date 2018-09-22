@@ -19,6 +19,14 @@ public final class ValidateUtils {
         return !isEmptyCollection(c);
     }
 
+    public static boolean isEmptyArray(Object[] array) {
+        return array == null || array.length == 0;
+    }
+
+    public static boolean isNotEmptyArray(Object[] array) {
+        return !isEmptyArray(array);
+    }
+
     public static boolean isNotEmpty(Object obj) {
         return !isEmpty(obj);
     }

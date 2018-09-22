@@ -76,17 +76,34 @@ CREATE TABLE `sys_department` (
 
 INSERT INTO `sys_department` (`id`, `name`, `park_id`, `parent_dept_id`, `status`, `create_time`, `create_user_id`, `update_time`, `update_user_id`) VALUES ('100001', '综合部', '1', '-1', '1', CURRENT_TIMESTAMP, '1', CURRENT_TIMESTAMP, NULL);
 
+CREATE TABLE `sys_attachment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '附件ID',
+  `name` varchar(64) NOT NULL COMMENT '附件名称',
+  `url` varchar(255) NOT NULL COMMENT '附件URL',
+  `obj_id` bigint(20) DEFAULT NULL COMMENT '对象ID',
+  `obj_source` varchar(20) DEFAULT NULL COMMENT '对象来源',
+  `size` int(10) DEFAULT NULL COMMENT '附件大小，KB为单位',
+  `suffix_name` varchar(10) DEFAULT NULL COMMENT '文件后缀名',
+  `type` varchar(10) DEFAULT NULL COMMENT '附件类型，如：图片、文档、视频',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user_id` int(10) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_user_id` int(10) DEFAULT NULL COMMENT '修改人',
+  `sort_order` tinyint(3) DEFAULT '0' COMMENT '顺序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='附件信息';
+
 
 -- 资源基本信息
 CREATE TABLE `t_res_base_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '资源ID',
   `name` varchar(128) NOT NULL COMMENT '资源设备名称',
   `equip_id` int(10) NOT NULL COMMENT '设备ID',
-  `code` varchar(128) NOT NULL COMMENT '资源编码',
+  `code` varchar(128) COMMENT '资源编码',
   `res_type_id` int(10) NOT NULL COMMENT '资源类别',
   `brand` int(10) NOT NULL COMMENT '品牌',
   `series` int(10) NOT NULL COMMENT '系列',
-  `model` int(10) NOT NULL COMMENT '型号',
+  `model` int(10) COMMENT '型号',
   `factory_time` date COMMENT '出厂时间',
   `serial_no` varchar(64) NOT NULL COMMENT '整机序列号',
   `location_id` int(10) COMMENT '位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面',

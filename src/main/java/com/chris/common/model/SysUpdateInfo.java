@@ -5,13 +5,16 @@ import java.util.Date;
 public class SysUpdateInfo {
     //创建时间
     private Date createTime;
-    //创建人
+    //创建人ID
     private Integer createUserId;
+    //创建人姓名
+    private String createUserName;
     //修改时间
     private Date updateTime;
-    //修改人
+    //修改人ID
     private Integer updateUserId;
-
+    //修改人姓名
+    private String updateUserName;
     public Date getCreateTime() {
         return createTime;
     }
@@ -42,5 +45,21 @@ public class SysUpdateInfo {
 
     public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
+    public String getUpdateUserName() {
+        return updateUserName;
+    }
+
+    public void setUpdateUserName(String updateUserName) {
+        this.updateUserName = updateUserName;
     }
 }

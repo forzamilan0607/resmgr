@@ -1,31 +1,20 @@
 package com.chris.modules.app.controller;
 
 
-import com.chris.common.utils.CommonUtils;
 import com.chris.common.utils.DateUtils;
 import com.chris.common.utils.R;
-import com.chris.common.validator.Assert;
-import com.chris.modules.app.service.UserService;
-import com.chris.modules.app.utils.JwtUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -50,7 +39,7 @@ public class FileTransferController {
         }
 
         String fileName = file.getOriginalFilename();
-        String path = "E:/files/" + DateUtils.currentDate("yyyyMMdd") + "/";
+        String path = "E:/files/" + DateUtils.currentDateStr("yyyyMMdd") + "/";
         log.info("接收文件保存路径-{}，文件大小为-{}" , path , file .getSize());
         File localFile = new File(path);
 

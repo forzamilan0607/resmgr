@@ -149,10 +149,6 @@
 		</foreach>
 	</update>
 
-	---------------------
-
-	本文来自 浮生未央迹浮萍 的CSDN 博客 ，全文地址请点击：https://blog.csdn.net/xyjawq1/article/details/74129316?utm_source=copy
-
 	<delete id="delete">
 		delete from sys_attachment where id = #{value}
 	</delete>
