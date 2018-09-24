@@ -117,7 +117,7 @@ $(document).ready(function () {
         }
     });
 
-    $("input[id='resBaseInfo.factoryTime']").datetimepicker({
+    $(".myDatetimePicker").datetimepicker({
         format: 'yyyy-mm-dd',
         language: 'zh-CN',
         weekStart: 1,
@@ -166,8 +166,10 @@ var vm = new Vue({
 		},
         dataDictList: null,
         locationTree: null,
+        companyTree: null,
         deptTree: null,
-        empTree: null
+        empTree: null,
+        maintainDeptData: null
 	},
     computed: {
         // 计算属性的 getter
@@ -218,6 +220,21 @@ var vm = new Vue({
             callback: function (event, treeId, treeNode) {
                 vm.resBaseInfo.deptId = treeNode.id;
                 vm.resBaseInfo.deptName = treeNode.name;
+                layer.close(layer.index);
+            }
+        });
+        this.companyTree = new TreeSelector({
+            id: "id",
+            parentId: "parentCompanyId",
+            name: "name",
+            treeId: "companyTree",
+            url: "/resmgr/sys/syscompany/listAll",
+            param: {
+                parkId: 1
+            },
+            callback: function (event, treeId, treeNode) {
+                vm.resMaintenance.maintainCompany = treeNode.id;
+                vm.resMaintenance.maintainCompanyName = treeNode.name;
                 layer.close(layer.index);
             }
         });
@@ -401,6 +418,7 @@ var vm = new Vue({
             }
         },
         showDeptLayer: function(){
+            this.initMaintainDeptTree();
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -415,6 +433,49 @@ var vm = new Vue({
                     var nodes = vm.deptTree.getSelectedNodes();
                     vm.resBaseInfo.deptId = nodes[0].id;
                     vm.resBaseInfo.deptName = nodes[0].name;
+                    layer.close(index);
+                }
+            });
+        },
+        initMaintainDeptTree: function () {
+          if (!this.maintainDeptData) {
+              this.maintainDeptData = this.deptTree.getData();
+          }
+        },
+        showMaintainCompany: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择维保公司",
+                area: ['300px', '300px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#div_companyLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    var nodes = vm.deptTree.getSelectedNodes();
+                    vm.resMaintenance.maintainCompany = nodes[0].id;
+                    vm.resMaintenance.maintainCompanyName = nodes[0].name;
+                    layer.close(index);
+                }
+            });
+        },
+        showMaintainDept: function(){
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择维保部门",
+                area: ['300px', '300px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#div_deptLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    var nodes = vm.deptTree.getSelectedNodes();
+                    vm.resMaintenance.maintainDeptId = nodes[0].id;
+                    vm.resMaintenance.maintainDeptName = nodes[0].name;
                     layer.close(index);
                 }
             });

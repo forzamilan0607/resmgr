@@ -51,7 +51,7 @@ public class SysDepartmentController {
 	@RequestMapping("/listAll")
 	@RequiresPermissions("sys:sysdepartment:list")
 	public CommonResponse listAll(@RequestBody SysDepartmentEntity param){
-		List<SysDepartmentEntity> deptList = sysDepartmentService.queryDepartmentListByCondition(param);
+		List<SysDepartmentEntity> deptList = this.sysDepartmentService.queryDepartmentListByCondition(param);
 		return CommonResponse.getSuccessResponse().setData(deptList);
 	}
 	

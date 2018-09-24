@@ -1,5 +1,6 @@
 package com.chris.modules.res.entity;
 
+import com.chris.common.model.SysUpdateInfo;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
 
 import java.io.Serializable;
@@ -15,14 +16,16 @@ import java.util.List;
  * @email 258321511@qq.com
  * @since Aug 28.18
  */
-public class ResMaintenanceEntity implements Serializable {
+public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //运维ID
     private Long id;
     //资源ID
     private Long resId;
-    //维护单位
+    //维保部门名称
+    private String maintainDeptName;
+    //维护部门ID
     private Integer maintainDeptId;
     //责任人
     private Integer personResponsible;
@@ -30,8 +33,10 @@ public class ResMaintenanceEntity implements Serializable {
     private Date warrantyStartDate;
     //保修结束日期
     private Date warrantyEndDate;
-    //维保单位
-    private String maintainCompany;
+    //维保单位名称
+    private String maintainCompanyName;
+    //维保单位ID
+    private Integer maintainCompany;
     //维保周期
     private Date maintainPeriod;
     //维保价格
@@ -50,14 +55,6 @@ public class ResMaintenanceEntity implements Serializable {
 
     //设备状态,入库/在用/送修/注销
     private Integer resStatus;
-    //创建时间
-    private Date createTime;
-    //创建人
-    private Integer createUserId;
-    //修改时间
-    private Date updateTime;
-    //修改人
-    private Integer updateUserId;
 
     public Long getId() {
         return id;
@@ -73,6 +70,14 @@ public class ResMaintenanceEntity implements Serializable {
 
     public void setResId(Long resId) {
         this.resId = resId;
+    }
+
+    public String getMaintainDeptName() {
+        return maintainDeptName;
+    }
+
+    public void setMaintainDeptName(String maintainDeptName) {
+        this.maintainDeptName = maintainDeptName;
     }
 
     public Integer getMaintainDeptId() {
@@ -107,11 +112,19 @@ public class ResMaintenanceEntity implements Serializable {
         this.warrantyEndDate = warrantyEndDate;
     }
 
-    public String getMaintainCompany() {
+    public String getMaintainCompanyName() {
+        return maintainCompanyName;
+    }
+
+    public void setMaintainCompanyName(String maintainCompanyName) {
+        this.maintainCompanyName = maintainCompanyName;
+    }
+
+    public Integer getMaintainCompany() {
         return maintainCompany;
     }
 
-    public void setMaintainCompany(String maintainCompany) {
+    public void setMaintainCompany(Integer maintainCompany) {
         this.maintainCompany = maintainCompany;
     }
 
@@ -169,37 +182,5 @@ public class ResMaintenanceEntity implements Serializable {
 
     public void setResStatus(Integer resStatus) {
         this.resStatus = resStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Integer updateUserId) {
-        this.updateUserId = updateUserId;
     }
 }

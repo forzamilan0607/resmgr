@@ -432,10 +432,27 @@
                 <div class="tab-pane fade" id="div_resMaintenance">
                     <form id="form_resMaintenance" role="form" class="form-horizontal full-width" method="post">
                         <div class="form-group">
-                            <div class="col-sm-2 control-label">维护单位</div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.maintainDeptId" v-model="resMaintenance.maintainDeptId"
-                                       placeholder="维护单位"/>
+                            <div class="col-sm-2 control-label">维保单位</div>
+                            <div class="input-group col-sm-6">
+                                <input type="hidden" v-model="resMaintenance.maintainCompany" />
+                                <input type="text" class="form-control" id="resMaintenance.maintainCompanyName" v-model="resMaintenance.maintainCompanyName" placeholder="请选择维保单位" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="button" @click="showMaintainCompany">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2 control-label">维护部门</div>
+                            <div class="input-group col-sm-6">
+                                <input type="hidden" v-model="resMaintenance.maintainDeptId" />
+                                <input type="text" class="form-control" id="resMaintenance.maintainDeptName" v-model="resMaintenance.maintainDeptName" placeholder="请选择维保部门" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="button" @click="showMaintainDept">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -448,22 +465,15 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">保修开始日期</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.warrantyStartDate"
+                                <input type="text" class="form-control myDatetimePicker" id="resMaintenance.warrantyStartDate"
                                        v-model="resMaintenance.warrantyStartDate" placeholder="保修开始日期"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">保修结束日期</div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.warrantyEndDate"
+                                <input type="text" class="form-control myDatetimePicker" id="resMaintenance.warrantyEndDate"
                                        v-model="resMaintenance.warrantyEndDate" placeholder="保修结束日期"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-2 control-label">维保单位</div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.maintainCompany"
-                                       v-model="resMaintenance.maintainCompany" placeholder="维保单位"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -752,6 +762,9 @@
 
     <div id="div_locationLayer" style="display: none;padding:10px;">
         <ul id="locationTree" class="ztree"></ul>
+    </div>
+    <div id="div_companyLayer" style="display: none;padding:10px;">
+        <ul id="companyTree" class="ztree"></ul>
     </div>
     <div id="div_deptLayer" style="display: none;padding:10px;">
         <ul id="deptTree" class="ztree"></ul>

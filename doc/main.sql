@@ -60,12 +60,28 @@ CREATE TABLE `sys_data_dict` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典表';
 
 
+-- 公司信息
+CREATE TABLE `sys_company` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '公司ID',
+  `name` varchar(32) NOT NULL COMMENT '公司名称',
+  `park_id` int(10) NOT NULL COMMENT '园区ID',
+  `parent_company_id` int(10) COMMENT '上级公司ID',
+  `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',
+  `address` varchar(128) COMMENT '公司地址',
+	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+	`update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司';
+
 -- 部门信息
 CREATE TABLE `sys_department` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
   `name` varchar(32) NOT NULL COMMENT '部门名称',
+  `company_id` int(10) NOT NULL COMMENT '公司ID',
   `park_id` int(10) NOT NULL COMMENT '园区ID',
-  `parent_dept_id` int(10) NOT NULL COMMENT '上级部门ID',
+  `parent_dept_id` int(10) COMMENT '上级部门ID',
   `status` char(1) NOT NULL DEFAULT 1 COMMENT '状态，1、有效，0、无效',
 	`create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user_id` int(10) COMMENT '创建人',
