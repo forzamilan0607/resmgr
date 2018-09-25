@@ -78,9 +78,8 @@ public class ResMgrController {
     @SysLog("修改资源设备")
     @RequestMapping("/update")
     @RequiresPermissions("res:resmgr:update")
-    public R update(@RequestBody ResBaseInfoEntity resBaseInfo) {
-        resBaseInfoService.update(resBaseInfo);
-
+    public R update(@RequestBody ResInfoDTO resInfoDTO) {
+        this.resMgrService.updateResInfo(resInfoDTO);
         return R.ok();
     }
 

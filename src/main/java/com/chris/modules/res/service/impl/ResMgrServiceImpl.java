@@ -143,8 +143,7 @@ public class ResMgrServiceImpl implements ResMgrService {
         ResMaintenanceEntity resMaintenance = this.resMaintenanceService.queryResMaintenceByResId(id);
         ResInstallConfigEntity resInstallConfig = this.resInstallConfigService.queryResInstallConfigByResId(id);
         List<SysAttachmentEntity> attachments = this.sysAttachmentService.queryAttachmentsByCondition(new SysAttachmentEntity(id));
-        ResInfoDTO resInfoDTO = ResInfoDTO.builder().resBaseInfo(resBaseInfo).resPurchase(resPurchase).
-                resMaintenance(resMaintenance).resInstallConfig(resInstallConfig).build();
+        ResInfoDTO resInfoDTO = new ResInfoDTO(resBaseInfo, resPurchase, resMaintenance, resInstallConfig);
         this.bindAttachments4ResInfo(attachments, resInfoDTO);
         return resInfoDTO;
     }

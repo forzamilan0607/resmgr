@@ -7,7 +7,6 @@ import com.chris.modules.res.entity.ResPurchaseEntity;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 public class ResInfoDTO {
     private ResBaseInfoEntity resBaseInfo;
     private ResPurchaseEntity resPurchase;
@@ -43,6 +42,16 @@ public class ResInfoDTO {
     }
 
     public void setResInstallConfig(ResInstallConfigEntity resInstallConfig) {
+        this.resInstallConfig = resInstallConfig;
+    }
+
+    public ResInfoDTO() {
+    }
+
+    public ResInfoDTO(ResBaseInfoEntity resBaseInfo, ResPurchaseEntity resPurchase, ResMaintenanceEntity resMaintenance, ResInstallConfigEntity resInstallConfig) {
+        this.resBaseInfo = resBaseInfo;
+        this.resPurchase = resPurchase;
+        this.resMaintenance = resMaintenance;
         this.resInstallConfig = resInstallConfig;
     }
 }

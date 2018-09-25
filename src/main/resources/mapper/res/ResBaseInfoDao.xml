@@ -127,8 +127,8 @@
 			<if test="deptId != null">`dept_id` = #{deptId}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="personResponsible != null">`person_responsible` = #{personResponsible},</if>
+			`update_time` = now()
 		</set>
-		`update_time` = now()
 		where id = #{id}
 	</update>
 	
