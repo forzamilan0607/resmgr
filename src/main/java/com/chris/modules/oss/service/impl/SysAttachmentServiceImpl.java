@@ -1,5 +1,6 @@
 package com.chris.modules.oss.service.impl;
 
+import com.chris.common.utils.ValidateUtils;
 import com.chris.modules.oss.dao.SysAttachmentDao;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.oss.service.SysAttachmentService;
@@ -56,6 +57,10 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
 
 	@Override
 	public List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity param) {
-		return this.sysAttachmentDao.queryAttachmentsByCondition(param);
+		List<SysAttachmentEntity> attachments = this.sysAttachmentDao.queryAttachmentsByCondition(param);
+		if (ValidateUtils.isNotEmptyCollection(attachments)) {
+			attachments.forEach(item -> item.generateTempURL());
+		}
+		return attachments;
 	}
 }

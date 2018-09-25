@@ -346,11 +346,11 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resmgr.id == null ? "res/resmgr/save" : "res/resmgr/update";
+			var url = vm.resBaseInfo.id == null ? "res/resmgr/save" : "res/resmgr/update";
 			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase()) {
 			    return;
             }
-            vm.resBaseInfo.name = vm.resName();
+            vm.resBaseInfo.name = vm.resName;
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,

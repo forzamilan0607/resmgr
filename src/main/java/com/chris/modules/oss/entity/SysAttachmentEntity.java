@@ -1,6 +1,8 @@
 package com.chris.modules.oss.entity;
 
 import com.chris.common.model.SysUpdateInfo;
+import com.chris.common.utils.Constant;
+import com.chris.common.utils.ValidateUtils;
 
 import java.io.Serializable;
 
@@ -118,5 +120,11 @@ public class SysAttachmentEntity extends SysUpdateInfo implements Serializable{
     public SysAttachmentEntity(Long objId, String objSource) {
         this.objId = objId;
         this.objSource = objSource;
+    }
+
+    public void generateTempURL() {
+        if (ValidateUtils.isEmptyString(this.tempUrl)) {
+            this.tempUrl = Constant.TEMP_URL.replace("#{fileType}", Constant.FILE_TYPE_MAP.get(this.suffixName));
+        }
     }
 }

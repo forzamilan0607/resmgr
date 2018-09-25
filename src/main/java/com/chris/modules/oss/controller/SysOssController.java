@@ -128,7 +128,7 @@ public class SysOssController {
 		attachmentEntity.setName(file.getOriginalFilename());
 		attachmentEntity.setSuffixName(suffix.substring(1).toLowerCase());
 		attachmentEntity.setType(fileType);
-		attachmentEntity.setTempUrl(this.generateTempUrl(request, attachmentEntity.getSuffixName()));
+		attachmentEntity.generateTempURL();
 		this.sysAttachmentService.save(attachmentEntity);
 
 		return R.ok().put("url", url).put("attachmentObj", attachmentEntity);
@@ -142,10 +142,6 @@ public class SysOssController {
 		response.setCharacterEncoding("gbk");
 		OSSFactory.build().download(attachmentEntity.getUrl(), response);
 		return R.ok();
-	}
-
-	private String generateTempUrl(HttpServletRequest request, String suffixName) {
-		return Constant.TEMP_URL.replace("#{fileType}", Constant.FILE_TYPE_MAP.get(suffixName));
 	}
 
 	private String getFileType(String suffix) {
