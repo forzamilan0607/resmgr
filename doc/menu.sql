@@ -52,7 +52,7 @@ set @parentId = @@identity;
 
 -- 资源设备管理对应按钮SQL
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
-    SELECT @parentId, '查看', null, 'res:resmgr:list,res:resbaseinfo:info', '2', null, '6';
+    SELECT @parentId, '查看', null, 'res:resmgr:list,res:resmgr:info', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
     SELECT @parentId, '新增', null, 'res:resmgr:save', '2', null, '6';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
@@ -75,6 +75,23 @@ INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `or
     SELECT @parentId, '修改', null, 'res:location:update', '2', null, '6',  '1';
 INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`, `status`)
     SELECT @parentId, '删除', null, 'res:location:delete', '2', null, '6',  '1';
+
+-- 菜单SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+VALUES ('1', '公司', 'modules/sys/syscompany.html', NULL, '1', 'fa fa-file-code-o', '6');
+
+-- 按钮父菜单ID
+set @parentId = @@identity;
+
+-- 菜单对应按钮SQL
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '查看', null, 'sys:syscompany:list,sys:syscompany:info', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '新增', null, 'sys:syscompany:save', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '修改', null, 'sys:syscompany:update', '2', null, '6';
+INSERT INTO `sys_menu` (`parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`)
+    SELECT @parentId, '删除', null, 'sys:syscompany:delete', '2', null, '6';
 
 -- ***********************************************************************************************
 -- 菜单SQL

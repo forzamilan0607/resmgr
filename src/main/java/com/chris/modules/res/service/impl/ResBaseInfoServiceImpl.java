@@ -1,9 +1,13 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.Constant;
 import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.oss.service.SysAttachmentService;
 import com.chris.modules.res.service.ResComponentService;
 import com.chris.modules.res.service.ResEquipParamService;
+import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +19,7 @@ import com.chris.modules.res.entity.ResBaseInfoEntity;
 import com.chris.modules.res.service.ResBaseInfoService;
 
 
-
+@Slf4j
 @Service("resBaseInfoService")
 public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	@Autowired
@@ -88,5 +92,17 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 		}
 		//更新资源铭牌信息
 		this.sysAttachmentService.updateBatch(resBaseInfo.getResNameplateAttachments());
+	}
+
+	@Override
+	public ResBaseInfoEntity queryResBaseInfoById(Long id) {
+		ResBaseInfoEntity resBaseInfo = this.resBaseInfoDao.queryObject(id);
+		if (ValidateUtils.isNotEmpty(resBaseInfo)) {
+			resBaseInfo.setResComponentList(this.resComponentService.queryList(ImmutableMap.of("resId", resBaseInfo.getId())));
+			resBaseInfo.setResEquipParamList(this.resEquipParamService.queryList(ImmutableMap.of("resId", resBaseInfo.getId())));
+		} else {
+			log.error("no data found by id[" + id + "]");
+		}
+		return resBaseInfo;
 	}
 }

@@ -53,4 +53,9 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
 	public void updateBatch(List<SysAttachmentEntity> sysAttachments) {
 		this.sysAttachmentDao.updateBatch(sysAttachments);
 	}
+
+	@Override
+	public List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity param) {
+		return this.sysAttachmentDao.queryAttachmentsByCondition(param);
+	}
 }

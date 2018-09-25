@@ -1,7 +1,11 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.Constant;
 import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.oss.service.SysAttachmentService;
+import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +17,7 @@ import com.chris.modules.res.entity.ResPurchaseEntity;
 import com.chris.modules.res.service.ResPurchaseService;
 
 
-
+@Slf4j
 @Service("resPurchaseService")
 public class ResPurchaseServiceImpl implements ResPurchaseService {
 	@Autowired
@@ -64,5 +68,15 @@ public class ResPurchaseServiceImpl implements ResPurchaseService {
 	public void deleteBatch(Long[] ids){
 		resPurchaseDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public ResPurchaseEntity queryResPurchaseByResId(Long resId) {
+		List<ResPurchaseEntity> resPurchaseList = this.resPurchaseDao.queryList(ImmutableMap.of("resId", resId));
+		if (ValidateUtils.isNotEmptyCollection(resPurchaseList)) {
+			ResPurchaseEntity resPurchase = resPurchaseList.get(0);
+			return resPurchase;
+		}
+		log.error("no data found by resId[" + resId + "]");
+		return null;
+	}
 }

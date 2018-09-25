@@ -17,4 +17,6 @@ import java.util.List;
 public interface SysAttachmentDao extends BaseDao<SysAttachmentEntity> {
 
     void updateBatch(List<SysAttachmentEntity> sysAttachments);
+
+    List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity param);
 }

@@ -29,4 +29,6 @@ public interface SysAttachmentService {
 	void deleteBatch(Long[] ids);
 
     void updateBatch(List<SysAttachmentEntity> sysAttachments);
+
+    List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity attachmentEntity);
 }

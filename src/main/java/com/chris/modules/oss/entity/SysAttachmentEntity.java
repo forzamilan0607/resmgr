@@ -107,4 +107,16 @@ public class SysAttachmentEntity extends SysUpdateInfo implements Serializable{
     public void setTempUrl(String tempUrl) {
         this.tempUrl = tempUrl;
     }
+
+    public SysAttachmentEntity() {
+    }
+
+    public SysAttachmentEntity(Long objId) {
+        this.objId = objId;
+    }
+
+    public SysAttachmentEntity(Long objId, String objSource) {
+        this.objId = objId;
+        this.objSource = objSource;
+    }
 }

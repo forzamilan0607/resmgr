@@ -29,4 +29,6 @@ public interface ResBaseInfoService {
 	void deleteBatch(Long[] ids);
 
     void saveOtherObj(ResBaseInfoEntity resBaseInfo);
+
+    ResBaseInfoEntity queryResBaseInfoById(Long id);
 }

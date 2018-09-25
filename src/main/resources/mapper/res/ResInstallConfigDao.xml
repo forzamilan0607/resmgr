@@ -7,8 +7,7 @@
     <resultMap type="com.chris.modules.res.entity.ResInstallConfigEntity" id="resInstallConfigMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="drawing" column="drawing"/>
-        <result property="operationSpecification" column="operation_specification"/>
+        <result property="operationSpecificationText" column="operation_specification_text"/>
         <result property="createTime" column="create_time"/>
         <result property="createUserId" column="create_user_id"/>
         <result property="updateTime" column="update_time"/>
@@ -42,8 +41,7 @@
 		insert into t_res_install_config
 		(
 			`res_id`, 
-			`drawing`, 
-			`operation_specification`,
+			`operation_specification_text`,
 			`create_time`,
 			`create_user_id`, 
 			`update_time`, 
@@ -52,8 +50,7 @@
 		values
 		(
 			#{resId}, 
-			#{drawing}, 
-			#{operationSpecification},
+			#{operationSpecificationText},
 			#{createTime},
 			#{createUserId}, 
 			#{updateTime}, 
@@ -65,12 +62,11 @@
 		update t_res_install_config 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="drawing != null">`drawing` = #{drawing}, </if>
-			<if test="operationSpecification != null">`operation_specification` = #{operationSpecification}, </if>
+			<if test="operationSpecificationText != null">`operationSpecificationText` = #{operationSpecificationText}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			`update_time` = now()
 		</set>
 		where id = #{id}
 	</update>

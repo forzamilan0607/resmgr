@@ -27,4 +27,6 @@ public interface ResMaintenanceService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+    ResMaintenanceEntity queryResMaintenceByResId(Long id);
 }

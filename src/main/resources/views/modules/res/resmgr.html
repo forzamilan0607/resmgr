@@ -280,7 +280,7 @@
                                             </thead>
                                             <tbody id="tbody_resComponent">
                                                 <tr class="template-upload fade in" v-for="(component, index) in resBaseInfo.resComponentList">
-                                                    <td class="pull-center">
+                                                    <td class="input-group pull-center">
                                                         <input type="hidden" v-model="component.dictId" />
                                                         <input type="text" class="form-control" id="component.name" v-model="component.name" />
                                                         <span class="input-group-btn">
@@ -447,7 +447,7 @@
                             <div class="col-sm-2 control-label">维护部门</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resMaintenance.maintainDeptId" />
-                                <input type="text" class="form-control" id="resMaintenance.maintainDeptName" v-model="resMaintenance.maintainDeptName" placeholder="请选择维保部门" />
+                                <input type="text" class="form-control" id="resMaintenance.maintainDeptName" v-model="resMaintenance.maintainDeptName" placeholder="请选择维保部门" :disabled="!resMaintenance.maintainCompanyName" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info" type="button" @click="showMaintainDept">
                                         <span class="glyphicon glyphicon-search"></span>
@@ -457,42 +457,42 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">责任人</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <input type="text" class="form-control" id="resMaintenance.personResponsible"
                                        v-model="resMaintenance.personResponsible" placeholder="责任人"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">保修开始日期</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <input type="text" class="form-control myDatetimePicker" id="resMaintenance.warrantyStartDate"
                                        v-model="resMaintenance.warrantyStartDate" placeholder="保修开始日期"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">保修结束日期</div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control myDatetimePicker" id="resMaintenance.warrantyEndDate"
+                            <div class="input-group col-sm-6">
+                                <input type="input-group text" class="form-control myDatetimePicker" id="resMaintenance.warrantyEndDate"
                                        v-model="resMaintenance.warrantyEndDate" placeholder="保修结束日期"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">维保周期</div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.maintainPeriod" v-model="resMaintenance.maintainPeriod"
+                            <div class="input-group col-sm-6">
+                                <input type="input-group text" class="form-control" id="resMaintenance.maintainPeriod" v-model="resMaintenance.maintainPeriod"
                                        placeholder="维保周期"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">维保价格</div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.maintainPrice" v-model="resMaintenance.maintainPrice"
+                            <div class="input-group col-sm-6">
+                                <input type="text" class="form-control" @keydown="handleDecimal" id="resMaintenance.maintainPrice" v-model="resMaintenance.maintainPrice"
                                        placeholder="维保价格"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">维保合同</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.maintainContract">
                                     <thead>
                                     <tr>
@@ -529,7 +529,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">设备资源说明书</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.resInstructions">
                                     <thead>
                                         <tr>
@@ -566,14 +566,14 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">运维保养注意事项</div>
-                            <div class="col-sm-6">
-                                <textarea type="text" class="form-control" id="resMaintenance.precautionsText"
+                            <div class="input-group col-sm-6">
+                                <textarea type="text" class="form-control" id="resMaintenance.precautionsText" rows="5"
                                           v-model="resMaintenance.precautionsText" placeholder="运维保养特别提示和注意事项（文字）"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">注意事项（附件）</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.precautionsAttach">
                                     <thead>
                                         <tr>
@@ -610,7 +610,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">设备状态</div>
-                            <div class="col-sm-6">
+                            <div class="input-group col-sm-6">
                                 <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus" placeholder="设备状态">
                                     <option value="1">入库</option>
                                     <option value="2">在用</option>
@@ -724,7 +724,7 @@
                                         </thead>
                                         <tbody id="tbody_resEquipParam">
                                             <tr class="template-upload fade in" v-for="(param, index) in resBaseInfo.resEquipParamList">
-                                                <td class="pull-center">
+                                                <td class="input-group pull-center">
                                                     <input type="hidden" v-model="param.dictId" />
                                                     <input type="text" class="form-control" id="param.name" v-model="param.name" />
                                                     <span class="input-group-btn">
@@ -768,6 +768,9 @@
     </div>
     <div id="div_deptLayer" style="display: none;padding:10px;">
         <ul id="deptTree" class="ztree"></ul>
+    </div>
+    <div id="div_maintainDeptLayer" style="display: none;padding:10px;">
+        <ul id="maintainDeptTree" class="ztree"></ul>
     </div>
 </div>
 

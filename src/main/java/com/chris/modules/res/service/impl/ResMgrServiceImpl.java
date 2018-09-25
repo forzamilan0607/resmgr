@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("resMgrService")
@@ -36,10 +37,8 @@ public class ResMgrServiceImpl implements ResMgrService {
     @Autowired
     private ResInstallConfigService resInstallConfigService;
 
-    @Override
-    public ResInfoDTO queryResInfoById(Long resId) {
-        return null;
-    }
+    @Autowired
+    private SysAttachmentService sysAttachmentService;
 
     @Override
     public List<ResBaseInfoEntity> queryList(Map<String, Object> map) {
@@ -135,5 +134,38 @@ public class ResMgrServiceImpl implements ResMgrService {
     @Override
     public void deleteBatchResInfo(Long[] resIds) {
 
+    }
+
+    @Override
+    public ResInfoDTO queryResInfoById(Long id) {
+        ResBaseInfoEntity resBaseInfo = this.resBaseInfoService.queryResBaseInfoById(id);
+        ResPurchaseEntity resPurchase = this.resPurchaseService.queryResPurchaseByResId(id);
+        ResMaintenanceEntity resMaintenance = this.resMaintenanceService.queryResMaintenceByResId(id);
+        ResInstallConfigEntity resInstallConfig = this.resInstallConfigService.queryResInstallConfigByResId(id);
+        List<SysAttachmentEntity> attachments = this.sysAttachmentService.queryAttachmentsByCondition(new SysAttachmentEntity(id));
+        ResInfoDTO resInfoDTO = ResInfoDTO.builder().resBaseInfo(resBaseInfo).resPurchase(resPurchase).
+                resMaintenance(resMaintenance).resInstallConfig(resInstallConfig).build();
+        this.bindAttachments4ResInfo(attachments, resInfoDTO);
+        return resInfoDTO;
+    }
+
+    private void bindAttachments4ResInfo(List<SysAttachmentEntity> attachments, ResInfoDTO resInfoDTO) {
+        if (ValidateUtils.isNotEmptyCollection(attachments)) {
+            if (ValidateUtils.isNotEmpty(resInfoDTO.getResBaseInfo())) {
+                resInfoDTO.getResBaseInfo().setResNameplateAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.RES_NAMEPLATE__ATTACHMENTS)).collect(Collectors.toList()));
+            }
+            if (ValidateUtils.isNotEmpty(resInfoDTO.getResPurchase())) {
+                resInfoDTO.getResPurchase().setContractAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.CONTRACT_ATTACHMENTS)).collect(Collectors.toList()));
+            }
+            if (ValidateUtils.isNotEmpty(resInfoDTO.getResMaintenance())) {
+                resInfoDTO.getResMaintenance().setMaintainContractAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.MAINTAIN_CONTRACT_ATTACHMENTS)).collect(Collectors.toList()));
+                resInfoDTO.getResMaintenance().setResInstructionsAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.RES_INSTRUCTIONS_ATTACHMENTS)).collect(Collectors.toList()));
+                resInfoDTO.getResMaintenance().setPrecautionsAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.PRECAUTIONS_ATTACHMENTS)).collect(Collectors.toList()));
+            }
+            if (ValidateUtils.isNotEmpty(resInfoDTO.getResInstallConfig())) {
+                resInfoDTO.getResInstallConfig().setDrawingAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.DRAWING_ATTACHMENTS)).collect(Collectors.toList()));
+                resInfoDTO.getResInstallConfig().setOperSpecAttachments(attachments.stream().filter(item -> ValidateUtils.equals(item.getObjSource(), Constant.AttachmentSource.OPERSPEC_ATTACHMENTS)).collect(Collectors.toList()));
+            }
+        }
     }
 }

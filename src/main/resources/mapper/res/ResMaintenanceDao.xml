@@ -7,11 +7,13 @@
     <resultMap type="com.chris.modules.res.entity.ResMaintenanceEntity" id="resMaintenanceMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="maintainDeptId" column="maintain_dept_id"/>
         <result property="personResponsible" column="person_responsible"/>
         <result property="warrantyStartDate" column="warranty_start_date"/>
         <result property="warrantyEndDate" column="warranty_end_date"/>
         <result property="maintainCompany" column="maintain_company"/>
+        <result property="maintainCompanyName" column="maintain_company_name"/>
+        <result property="maintainDeptId" column="maintain_dept_id"/>
+        <result property="maintainDeptName" column="maintain_dept_name"/>
         <result property="maintainPeriod" column="maintain_period"/>
         <result property="maintainPrice" column="maintain_price"/>
         <result property="precautionsText" column="precautions_text"/>
@@ -50,11 +52,13 @@
 		(
 			`res_id`, 
 			`maintain_dept_id`, 
-			`person_responsible`, 
+			`maintain_dept_name`,
+			`person_responsible`,
 			`warranty_start_date`, 
 			`warranty_end_date`, 
 			`maintain_company`, 
-			`maintain_period`, 
+			`maintain_company_name`,
+			`maintain_period`,
 			`maintain_price`, 
 			`precautions_text`,
 			`res_status`,
@@ -67,11 +71,13 @@
 		(
 			#{resId}, 
 			#{maintainDeptId}, 
-			#{personResponsible}, 
+			#{maintainDeptName},
+			#{personResponsible},
 			#{warrantyStartDate}, 
 			#{warrantyEndDate}, 
 			#{maintainCompany}, 
-			#{maintainPeriod}, 
+			#{maintainCompanyName},
+			#{maintainPeriod},
 			#{maintainPrice}, 
 			#{precautionsText},
 			#{resStatus},
@@ -87,18 +93,20 @@
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
 			<if test="maintainDeptId != null">`maintain_dept_id` = #{maintainDeptId}, </if>
+			<if test="maintainDeptName != null">`maintain_dept_name` = #{maintainDeptName}, </if>
 			<if test="personResponsible != null">`person_responsible` = #{personResponsible}, </if>
 			<if test="warrantyStartDate != null">`warranty_start_date` = #{warrantyStartDate}, </if>
 			<if test="warrantyEndDate != null">`warranty_end_date` = #{warrantyEndDate}, </if>
 			<if test="maintainCompany != null">`maintain_company` = #{maintainCompany}, </if>
+			<if test="maintainCompanyName != null">`maintain_company_name` = #{maintainCompanyName}, </if>
 			<if test="maintainPeriod != null">`maintain_period` = #{maintainPeriod}, </if>
 			<if test="maintainPrice != null">`maintain_price` = #{maintainPrice}, </if>
 			<if test="precautionsText != null">`precautions_text` = #{precautionsText}, </if>
 			<if test="resStatus != null">`res_status` = #{resStatus}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			`update_time` = now()
 		</set>
 		where id = #{id}
 	</update>

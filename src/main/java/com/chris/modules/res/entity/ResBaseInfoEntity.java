@@ -48,6 +48,8 @@ public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	private String objId;
 	//部门ID
 	private Integer deptId;
+	//部门名称
+	private String deptName;
 	//资源描述
 	private String remark;
 	//责任人
@@ -217,5 +219,13 @@ public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 
 	public void setResEquipParamList(List<ResEquipParamEntity> resEquipParamList) {
 		this.resEquipParamList = resEquipParamList;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 }

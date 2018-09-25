@@ -38,7 +38,7 @@ public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable 
     //维保单位ID
     private Integer maintainCompany;
     //维保周期
-    private Date maintainPeriod;
+    private Integer maintainPeriod;
     //维保价格
     private BigDecimal maintainPrice;
     //维保合同附件列表
@@ -128,11 +128,11 @@ public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable 
         this.maintainCompany = maintainCompany;
     }
 
-    public Date getMaintainPeriod() {
+    public Integer getMaintainPeriod() {
         return maintainPeriod;
     }
 
-    public void setMaintainPeriod(Date maintainPeriod) {
+    public void setMaintainPeriod(Integer maintainPeriod) {
         this.maintainPeriod = maintainPeriod;
     }
 

@@ -57,9 +57,8 @@ public class ResMgrController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("res:resmgr:info")
     public R info(@PathVariable("id") Long id) {
-        ResBaseInfoEntity resBaseInfo = resBaseInfoService.queryObject(id);
-
-        return R.ok().put("resBaseInfo", resBaseInfo);
+        ResInfoDTO resInfoDTO = resMgrService.queryResInfoById(id);
+        return R.ok().put("resInfoDTO", resInfoDTO);
     }
 
     /**

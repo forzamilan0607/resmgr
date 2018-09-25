@@ -3,7 +3,7 @@ function TreeSelector(conf) {
     this.srcData;
     this.config = {
         callback: {
-            onDblClick: conf.callback
+            onDblClick: conf.onDblClick
         },
         data: {
             simpleData: {
@@ -18,9 +18,10 @@ function TreeSelector(conf) {
             }
         }
     };
+    this.callback = conf.callback;
     this.param = conf.param;
     this.url = conf.url;
-    this.url = conf.data;
+    this.data = conf.data;
     this.treeId = conf.treeId;
     this.init();
 };
@@ -28,7 +29,8 @@ TreeSelector.prototype.init = function () {
     var _this = this;
     if (!_this.url && _this.data) {
         _this.srcData = $.extend({}, _this.data);
-        _this.treeObj = $.fn.zTree.init($("#" + _this.treeId), _this.config, _this.data);
+        _this.treeObj && _this.treeObj.destroy();
+        _this.treeObj = $.fn.zTree.init($("#" + _this.treeId), _this.config, _this.srcData);
     } else {
         var ajaxParam = {
             type: "POST",
@@ -40,8 +42,9 @@ TreeSelector.prototype.init = function () {
         }
         ajaxParam.success = function(r){
             if(r.code == $util.HTTP_STATUS.SC_OK){
-                _this.srcData = $.extend({}, r.data);
+                _this.srcData = $.extend([], r.data);
                 _this.treeObj = $.fn.zTree.init($("#" + _this.treeId), _this.config, r.data);
+                _this.callback && _this.callback(r.data);
             }else{
                 alert(r.msg);
             }

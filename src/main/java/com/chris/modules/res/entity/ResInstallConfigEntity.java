@@ -1,5 +1,6 @@
 package com.chris.modules.res.entity;
 
+import com.chris.common.model.SysUpdateInfo;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.List;
  * @email 258321511@qq.com
  * @since Aug 28.18
  */
-public class ResInstallConfigEntity implements Serializable {
+public class ResInstallConfigEntity extends SysUpdateInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//安装配置ID
@@ -24,17 +25,9 @@ public class ResInstallConfigEntity implements Serializable {
 	//图纸附件列表
 	private List<SysAttachmentEntity> drawingAttachments;
 	//操作规范说明
-	private String operationSpecification;
+	private String operationSpecificationText;
 	//操作规范说明附件列表
 	private List<SysAttachmentEntity> operSpecAttachments;
-	//创建时间
-	private Date createTime;
-	//创建人
-	private Integer createUserId;
-	//修改时间
-	private Date updateTime;
-	//修改人
-	private Integer updateUserId;
 
 	public Long getId() {
 		return id;
@@ -60,12 +53,12 @@ public class ResInstallConfigEntity implements Serializable {
 		this.drawingAttachments = drawingAttachments;
 	}
 
-	public String getOperationSpecification() {
-		return operationSpecification;
+	public String getOperationSpecificationText() {
+		return operationSpecificationText;
 	}
 
-	public void setOperationSpecification(String operationSpecification) {
-		this.operationSpecification = operationSpecification;
+	public void setOperationSpecificationText(String operationSpecificationText) {
+		this.operationSpecificationText = operationSpecificationText;
 	}
 
 	public List<SysAttachmentEntity> getOperSpecAttachments() {
@@ -74,37 +67,5 @@ public class ResInstallConfigEntity implements Serializable {
 
 	public void setOperSpecAttachments(List<SysAttachmentEntity> operSpecAttachments) {
 		this.operSpecAttachments = operSpecAttachments;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Integer getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public Integer getUpdateUserId() {
-		return updateUserId;
-	}
-
-	public void setUpdateUserId(Integer updateUserId) {
-		this.updateUserId = updateUserId;
 	}
 }

@@ -4,7 +4,10 @@ import com.chris.modules.res.entity.ResBaseInfoEntity;
 import com.chris.modules.res.entity.ResInstallConfigEntity;
 import com.chris.modules.res.entity.ResMaintenanceEntity;
 import com.chris.modules.res.entity.ResPurchaseEntity;
+import lombok.Builder;
+import lombok.Data;
 
+@Builder
 public class ResInfoDTO {
     private ResBaseInfoEntity resBaseInfo;
     private ResPurchaseEntity resPurchase;

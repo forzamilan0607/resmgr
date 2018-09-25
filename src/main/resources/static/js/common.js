@@ -205,7 +205,6 @@ var $util = function () {
                 onComplete: function (file, r) {
                     $("body").mLoading("hide");
                     if (r.code == $util.HTTP_STATUS.SC_OK) {
-                        conf.attachmentList.push(r.attachmentObj);
                         conf.callback && conf.callback(r);
                     } else {
                         alert(r.msg);

@@ -1,7 +1,11 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.Constant;
 import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.oss.service.SysAttachmentService;
+import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +17,7 @@ import com.chris.modules.res.entity.ResMaintenanceEntity;
 import com.chris.modules.res.service.ResMaintenanceService;
 
 
-
+@Slf4j
 @Service("resMaintenanceService")
 public class ResMaintenanceServiceImpl implements ResMaintenanceService {
 	@Autowired
@@ -70,5 +74,15 @@ public class ResMaintenanceServiceImpl implements ResMaintenanceService {
 	public void deleteBatch(Long[] ids){
 		resMaintenanceDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public ResMaintenanceEntity queryResMaintenceByResId(Long resId) {
+		List<ResMaintenanceEntity> resMaintenanceList = this.resMaintenanceDao.queryList(ImmutableMap.of("resId", resId));
+		if (ValidateUtils.isNotEmptyCollection(resMaintenanceList)) {
+			ResMaintenanceEntity resMaintenance = resMaintenanceList.get(0);
+			return resMaintenance;
+		}
+		log.error("no data found by resId[" + resId + "]");
+		return null;
+	}
 }

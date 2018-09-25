@@ -160,4 +160,23 @@
 		</foreach>
 	</delete>
 
+	<select id="queryAttachmentsByCondition" parameterType="com.chris.modules.oss.entity.SysAttachmentEntity" resultType="com.chris.modules.oss.entity.SysAttachmentEntity">
+		select * from sys_attachment where 1=1
+		<if test="id != null ">
+			AND id = #{id}
+		</if>
+		<if test="name != null and name !='' ">
+			AND name = #{name}
+		</if>
+		<if test="objId != null ">
+			AND obj_id = #{objId}
+		</if>
+		<if test="objSource != null and objSource !='' ">
+			AND obj_source = #{objSource}
+		</if>
+		<if test="url != null and url !='' ">
+			AND url = #{url}
+		</if>
+	</select>
+
 </mapper>
