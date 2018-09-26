@@ -90,6 +90,26 @@ CREATE TABLE `sys_department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
 
+-- 员工信息
+CREATE TABLE `sys_staff` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '员工ID',
+  `name` varchar(10) NOT NULL COMMENT '员工姓名',
+  `work_no` varchar(10) NOT NULL COMMENT '员工工号',
+  `dept_id` int(10) NOT NULL COMMENT '部门ID',
+  `company_id` int(10) NOT NULL COMMENT '公司ID',
+  `park_id` int(10) NOT NULL COMMENT '园区ID',
+  `id_card` varchar(20) COMMENT '身份证',
+  `position` varchar(32) COMMENT '职务',
+  `gender` char(1) DEFAULT 1 COMMENT '性别',
+  `born_date` datetime COMMENT '出生日期',
+  `status` char(1) DEFAULT 1 COMMENT '状态',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工信息';
+
 INSERT INTO `sys_department` (`id`, `name`, `park_id`, `parent_dept_id`, `status`, `create_time`, `create_user_id`, `update_time`, `update_user_id`) VALUES ('100001', '综合部', '1', '-1', '1', CURRENT_TIMESTAMP, '1', CURRENT_TIMESTAMP, NULL);
 
 CREATE TABLE `sys_attachment` (
@@ -238,7 +258,6 @@ CREATE TABLE `t_res_component` (
 CREATE TABLE `t_res_equip_param` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '参数ID',
 	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
-	`attr_id` bigint(10) NOT NULL COMMENT '属性ID',
 	`name` varchar(64) NOT NULL COMMENT '参数名称',
 	`value` varchar(128) COMMENT '参数值',
   `dict_id` int(10) COMMENT '字典ID',

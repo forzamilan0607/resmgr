@@ -129,4 +129,5 @@ public class ResPurchaseEntity implements Serializable {
 	public void setContractAttachments(List<SysAttachmentEntity> contractAttachments) {
 		this.contractAttachments = contractAttachments;
 	}
+
 }

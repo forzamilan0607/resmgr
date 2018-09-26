@@ -39,6 +39,28 @@
 		LEFT JOIN (SELECT id,name FROM sys_department) d ON t.dept_id = d.id
 		LEFT JOIN (SELECT user_id,username from sys_user) u1 ON t.create_user_id = u1.user_id
 		LEFT JOIN (SELECT user_id,username from sys_user) u2 ON t.update_user_id = u2.user_id
+        WHERE 1=1
+        <if test="id != null ">
+            AND t.id = ${id}
+        </if>
+        <if test="name != null and name != '' ">
+            AND INSTR(t.name, ${name}) > 0
+        </if>
+        <if test="resTypeId != null  and resTypeId != '' ">
+            AND t.res_type_id = ${resTypeId}
+        </if>
+        <if test="brand != null  and brand != '' ">
+            AND t.brand = ${brand}
+        </if>
+        <if test="locationId != null  and locationId != '' ">
+            AND t.location_id = ${locationId}
+        </if>
+        <if test="deptId != null  and deptId != '' ">
+            AND t.dept_id = ${deptId}
+        </if>
+		<if test="personResponsible != null  and personResponsible != '' ">
+			AND t.person_responsible = ${personResponsible}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -53,7 +75,29 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from t_res_base_info 
+		select count(1) from t_res_base_info t
+		WHERE 1=1
+		<if test="id != null ">
+			AND t.id = ${id}
+		</if>
+		<if test="name != null and name != '' ">
+			AND INSTR(t.name, ${name}) > 0
+		</if>
+		<if test="resTypeId != null  and resTypeId != '' ">
+			AND t.res_type_id = ${resTypeId}
+		</if>
+		<if test="brand != null  and brand != '' ">
+			AND t.brand = ${brand}
+		</if>
+		<if test="locationId != null  and locationId != '' ">
+			AND t.location_id = ${locationId}
+		</if>
+		<if test="deptId != null  and deptId != '' ">
+			AND t.dept_id = ${deptId}
+		</if>
+		<if test="personResponsible != null  and personResponsible != '' ">
+			AND t.person_responsible = ${personResponsible}
+		</if>
 	</select>
 	 
 	<insert id="save" parameterType="com.chris.modules.res.entity.ResBaseInfoEntity" useGeneratedKeys="true" keyProperty="id">

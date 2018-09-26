@@ -58,15 +58,76 @@
 <body>
 <div id="resMgrApp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
+        <div class="container">
+            <div class="form-group col-sm-3">
+                <div class="input-group col-sm-12">
+                    <input type="hidden" v-model="queryParam.locationId" />
+                    <input type="text" placeholder="位置" readonly="readonly" class="form-control" v-model="queryParam.locationName">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" @click="showLocationLayer(1)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <select placeholder="资源类别" class="form-control" v-model="queryParam.resTypeId">
+                    <option  v-for="resType in resTypeList" :value="resType.id" >{{resType.name}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-3">
+                <input type="text" class="form-control" v-model="queryParam.name" placeholder="设备名称" />
+            </div>
+            <div class="form-group col-sm-3">
+            </div>
+        </div>
+        <div class="container">
+            <div class="form-group col-sm-3">
+                <div class="input-group col-sm-12">
+                    <input type="hidden" v-model="queryParam.deptId" />
+                    <input type="text" placeholder="所属部门" readonly="readonly" class="form-control" v-model="queryParam.deptName">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" @click="showDeptLayer(1)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="input-group col-sm-12">
+                    <input type="hidden" v-model="queryParam.personResponsible" />
+                    <input type="text" placeholder="责任人" readonly="readonly" class="form-control" v-model="queryParam.personResponsibleName">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" @click="showResponsibleLayer(1)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="input-group col-sm-12">
+                    <input type="hidden" v-model="queryParam.maintainCompany" />
+                    <input type="text" placeholder="运维单位" readonly="readonly" class="form-control" v-model="queryParam.maintainCompanyName">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" @click="showMaintainCompany(1)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group col-sm-3 pull-right">
+                <a class="btn btn-primary" @click="reload"><i class="fa fa-trash-o"></i>&nbsp;查询</a>
+            </div>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+        <div class="grid-btn pull-right">
             <a v-if="hasPermission('res:resmgr:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
             <a v-if="hasPermission('res:resmgr:update')" class="btn btn-primary" @click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
             <a v-if="hasPermission('res:resmgr:delete')" class="btn btn-primary" @click="del"><i
                     class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -172,7 +233,7 @@
                                         <input type="hidden" v-model="resBaseInfo.deptId" />
                                         <input type="text" class="form-control" id="resBaseInfo.deptName" v-model="resBaseInfo.deptName" placeholder="请选择部门" readonly />
                                         <span class="input-group-btn">
-                                        <button class="btn btn-info" type="button" @click="showDeptLayer">
+                                        <button class="btn btn-info" type="button" @click="showDeptLayer(2)">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </button>
                                     </span>
@@ -183,13 +244,13 @@
                                         责任人
                                     </div>
                                     <div class="input-group col-sm-8">
-                                        <input type="hidden" v-model="resBaseInfo.responsible" />
-                                        <input type="text" class="form-control" id="resBaseInfo.personResponsible" v-model="resBaseInfo.personResponsible" placeholder="请选择责任人" readonly />
+                                        <input type="hidden" v-model="resBaseInfo.personResponsible" />
+                                        <input type="text" class="form-control" id="resBaseInfo.personResponsibleName" v-model="resBaseInfo.personResponsibleName" placeholder="请选择责任人" readonly />
                                         <span class="input-group-btn">
-                                        <button class="btn btn-info" type="button">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                        </button>
-                                    </span>
+                                            <button class="btn btn-info" type="button" @click="showResponsibleLayer(2)">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +384,7 @@
                                         <input type="hidden" v-model="resBaseInfo.locationId" />
                                         <input type="text" class="form-control" id="resBaseInfo.locationName" v-model="resBaseInfo.locationName" placeholder="请选择位置" readonly />
                                         <span class="input-group-btn">
-                                            <button class="btn btn-info" type="button" @click="showLocationLayer">
+                                            <button class="btn btn-info" type="button" @click="showLocationLayer(2)">
                                                 <span class="glyphicon glyphicon-search"></span>
                                             </button>
                                         </span>
@@ -437,7 +498,7 @@
                                 <input type="hidden" v-model="resMaintenance.maintainCompany" />
                                 <input type="text" class="form-control" id="resMaintenance.maintainCompanyName" v-model="resMaintenance.maintainCompanyName" placeholder="请选择维保单位" />
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info" type="button" @click="showMaintainCompany">
+                                    <button class="btn btn-info" type="button" @click="showMaintainCompany(2)">
                                         <span class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </span>
@@ -458,8 +519,13 @@
                         <div class="form-group">
                             <div class="col-sm-2 control-label">责任人</div>
                             <div class="input-group col-sm-6">
-                                <input type="text" class="form-control" id="resMaintenance.personResponsible"
-                                       v-model="resMaintenance.personResponsible" placeholder="责任人"/>
+                                <input type="hidden" v-model="resMaintenance.personResponsible" />
+                                <input type="text" class="form-control" id="resMaintenance.personResponsibleName" v-model="resMaintenance.personResponsibleName" placeholder="请选择责任人" readonly />
+                                <span class="input-group-btn">
+                                            <button class="btn btn-info" type="button" @click="showResponsibleLayer(3)">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                        </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -771,6 +837,9 @@
     </div>
     <div id="div_maintainDeptLayer" style="display: none;padding:10px;">
         <ul id="maintainDeptTree" class="ztree"></ul>
+    </div>
+    <div id="div_responsibleLayer" style="display: none;padding:10px;">
+        <ul id="responsibleTree" class="ztree"></ul>
     </div>
 </div>
 

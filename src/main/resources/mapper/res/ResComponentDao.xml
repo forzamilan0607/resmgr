@@ -18,8 +18,14 @@
 		select * from t_res_component where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.res.entity.ResComponentEntity">
-		select * from t_res_component
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResComponentEntity" parameterType="java.util.HashMap">
+		select * from t_res_component where 1=1
+		<if test="id != null ">
+			AND id = ${id}
+		</if>
+		<if test="resId != null ">
+			AND res_id = ${resId}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}

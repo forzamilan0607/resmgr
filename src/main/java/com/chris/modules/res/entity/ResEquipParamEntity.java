@@ -18,8 +18,6 @@ public class ResEquipParamEntity implements Serializable {
 	private Long id;
 	//资源ID
 	private Long resId;
-	//属性ID
-	private Long attrId;
 	//参数名称
 	private String name;
 	//参数值
@@ -54,18 +52,6 @@ public class ResEquipParamEntity implements Serializable {
 	 */
 	public Long getResId() {
 		return resId;
-	}
-	/**
-	 * 设置：属性ID
-	 */
-	public void setAttrId(Long attrId) {
-		this.attrId = attrId;
-	}
-	/**
-	 * 获取：属性ID
-	 */
-	public Long getAttrId() {
-		return attrId;
 	}
 	/**
 	 * 设置：参数名称

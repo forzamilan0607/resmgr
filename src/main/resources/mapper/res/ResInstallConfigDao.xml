@@ -19,7 +19,13 @@
 	</select>
 
 	<select id="queryList" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
-		select * from t_res_install_config
+		select * from t_res_install_config WHERE 1=1
+		<if test="id != null ">
+			AND id = ${id}
+		</if>
+		<if test="resId != null ">
+			AND res_id = ${resId}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -62,7 +68,7 @@
 		update t_res_install_config 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="operationSpecificationText != null">`operationSpecificationText` = #{operationSpecificationText}, </if>
+			<if test="operationSpecificationText != null">`operation_specification_text` = #{operationSpecificationText}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
 			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>

@@ -4,6 +4,8 @@ import com.chris.modules.res.entity.ResPurchaseEntity;
 import com.chris.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 资源采购信息
  * 
@@ -13,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ResPurchaseDao extends BaseDao<ResPurchaseEntity> {
-	
+
 }

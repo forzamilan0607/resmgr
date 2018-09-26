@@ -7,7 +7,6 @@
     <resultMap type="com.chris.modules.res.entity.ResEquipParamEntity" id="resEquipParamMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="attrId" column="attr_id"/>
         <result property="name" column="name"/>
         <result property="value" column="value"/>
         <result property="dictId" column="dict_id"/>
@@ -19,8 +18,14 @@
 		select * from t_res_equip_param where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.chris.modules.res.entity.ResEquipParamEntity">
-		select * from t_res_equip_param
+	<select id="queryList" resultType="com.chris.modules.res.entity.ResEquipParamEntity" >
+		select * from t_res_equip_param where 1=1
+		<if test="id != null ">
+			AND id = ${id}
+		</if>
+		<if test="resId != null ">
+			AND res_id = ${resId}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -42,8 +47,7 @@
 		insert into t_res_equip_param
 		(
 			`res_id`, 
-			`attr_id`, 
-			`name`, 
+			`name`,
 			`value`, 
 			`dict_id`, 
 			`create_time`, 
@@ -52,8 +56,7 @@
 		values
 		(
 			#{resId}, 
-			#{attrId}, 
-			#{name}, 
+			#{name},
 			#{value}, 
 			#{dictId}, 
 			#{createTime}, 
@@ -68,7 +71,6 @@
 		insert into t_res_equip_param
 		(
 			`res_id`,
-			`attr_id`,
 			`name`,
 			`value`,
 			`dict_id`,
@@ -79,7 +81,6 @@
 		<foreach collection="list" item="item" index="index" separator=",">
 		  (
 			#{item.resId},
-			#{item.attrId},
 			#{item.name},
 			#{item.value},
 			#{item.dictId},
@@ -93,12 +94,11 @@
 		update t_res_equip_param 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="attrId != null">`attr_id` = #{attrId}, </if>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="value != null">`value` = #{value}, </if>
 			<if test="dictId != null">`dict_id` = #{dictId}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			`update_time` = now()
 		</set>
 		where id = #{id}
 	</update>

@@ -167,8 +167,10 @@ var vm = new Vue({
             resTypeId: null,
             equipId: null,
             brand: null,
-            deptId: 100001,
-            deptName: "综合部",
+            deptId: null,
+            deptName: null,
+            personResponsible: null,
+            personResponsibleName: null,
             factoryTime: null,
             locationId: null,
             locationName: null,
@@ -182,6 +184,8 @@ var vm = new Vue({
         resMaintenance: {
             maintainCompany: null,
             maintainCompanyName: null,
+            personResponsible: null,
+            personResponsibleName: null,
             maintainContractAttachments: [],
             resInstructionsAttachments: [],
             precautionsAttachments: []
@@ -193,12 +197,26 @@ var vm = new Vue({
 		validator: {
 
 		},
+        showLocationValue: null,
+        showDeptValue: null,
+        showCompanyValue: null,
         dataDictList: null,
         locationTree: null,
         companyTree: null,
+        responsibleTree: null,
         deptTree: null,
         empTree: null,
-        maintainDeptTree: null
+        maintainDeptTree: null,
+        queryParam: {
+		    locationId: null,
+		    locationName: null,
+		    name: null,
+		    resTypeId: null,
+            maintainCompany: null,
+		    deptId: null,
+            personResponsible: null,
+            personResponsibleName: null
+        }
 	},
     computed: {
         // 计算属性的 getter
@@ -272,26 +290,35 @@ var vm = new Vue({
                 parkId: 1
             },
             onDblClick: function (event, treeId, treeNode) {
-                vm.resBaseInfo.deptId = treeNode.id;
-                vm.resBaseInfo.deptName = treeNode.name;
-                layer.close(layer.index);
+                vm.selectDept(treeNode);
             },
             callback: function (data) {
-                vm.maintainDeptTree = new TreeSelector({
+                /*vm.maintainDeptTree = new TreeSelector({
                     id: "id",
                     parentId: "parentDeptId",
                     name: "name",
                     treeId: "maintainDeptTree",
                     data: data,
-                   /* param: {
+                   /!* param: {
                         parkId: 1
-                    },*/
+                    },*!/
                     onDblClick: function (event, treeId, treeNode) {
-                        vm.resMaintenance.maintainDeptId = treeNode.id;
-                        vm.resMaintenance.maintainDeptName = treeNode.name;
-                        layer.close(layer.index);
+                        vm.selectDept(treeNode);
                     }
-                })
+                })*/
+            }
+        });
+        this.responsibleTree = new TreeSelector({
+            id: "id",
+            parentId: "parentDeptId",
+            name: "name",
+            treeId: "responsibleTree",
+            url: "/resmgr/sys/sysstaff/getStaffTree",
+            param: {
+                parkId: 1
+            },
+            onDblClick: function (event, treeId, treeNode) {
+                vm.selectResponsible(treeNode);
             }
         });
         this.companyTree = new TreeSelector({
@@ -304,9 +331,7 @@ var vm = new Vue({
                 parkId: 1
             },
             onDblClick: function (event, treeId, treeNode) {
-                vm.resMaintenance.maintainCompany = treeNode.id;
-                vm.resMaintenance.maintainCompanyName = treeNode.name;
-                layer.close(layer.index);
+               vm.selectCompany(treeNode);
             }
         });
     },
@@ -416,11 +441,14 @@ var vm = new Vue({
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+			$("#jqGrid").jqGrid('setGridParam',{
+                datatype: 'json',
+                postData: vm.queryParam,
                 page:page
             }).trigger("reloadGrid");
 		},
-        showLocationLayer: function(){
+        showLocationLayer: function(v){
+            vm.showLocationValue = v;
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -492,20 +520,26 @@ var vm = new Vue({
         },
         selectLocation: function (treeNode) {
             if (treeNode.hasChildren == 0) {
-                vm.resBaseInfo.locationId = treeNode.id;
-                vm.resBaseInfo.locationName = treeNode.name;
-                //描述性位置值
-                vm.resBaseInfo.locationDesc = vm.locationTree.getHierarchyName({
-                    id: treeNode.id,
-                    key: "parentLocationId",
-                    name: "name"
-                });
+                if (vm.showLocationValue == 1) {
+                    vm.queryParam.locationId = treeNode.id;
+                    vm.queryParam.locationName = treeNode.name;
+                } else {
+                    vm.resBaseInfo.locationId = treeNode.id;
+                    vm.resBaseInfo.locationName = treeNode.name;
+                    //描述性位置值
+                    vm.resBaseInfo.locationDesc = vm.locationTree.getHierarchyName({
+                        id: treeNode.id,
+                        key: "parentLocationId",
+                        name: "name"
+                    });
+                }
                 layer.close(layer.index);
             } else {
                 alert("不能选择目录!");
             }
         },
-        showDeptLayer: function(){
+        showDeptLayer: function(v){
+            vm.showDeptValue = v;
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -517,14 +551,63 @@ var vm = new Vue({
                 content: jQuery("#div_deptLayer"),
                 btn: ['保存', '取消'],
                 btn1: function (index) {
-                    var nodes = vm.deptTree.getSelectedNodes();
-                    vm.resBaseInfo.deptId = nodes[0].id;
-                    vm.resBaseInfo.deptName = nodes[0].name;
-                    layer.close(index);
+                    vm.selectDept(vm.deptTree.getSelectedNodes()[0], index);
                 }
             });
         },
-        showMaintainCompany: function(){
+        selectCompany: function (treeNode, index) {
+            if (vm.showCompanyValue == 1) {
+                vm.resMaintenance.maintainCompany = treeNode.id;
+                vm.resMaintenance.maintainCompanyName = treeNode.name;
+            } else {
+                vm.resMaintenance.maintainCompany = treeNode.id;
+                vm.resMaintenance.maintainCompanyName = treeNode.name;
+            }
+            layer.close(index || layer.index);
+        },
+        selectDept: function (treeNode, index) {
+            if (vm.showDeptValue == 1) {
+                vm.queryParam.deptId = treeNode.id;
+                vm.queryParam.deptName = treeNode.name;
+            } else {
+                vm.queryParam.deptId = treeNode.id;
+                vm.queryParam.deptName = treeNode.name;
+            }
+            layer.close(index || layer.index);
+        },
+        showResponsibleLayer: function(v){
+            vm.showResponsibleValue = v;
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择责任人",
+                area: ['300px', '300px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#div_responsibleLayer"),
+                btn: ['保存', '取消'],
+                btn1: function (index) {
+                    var nodes = vm.responsibleTree.getSelectedNodes();
+                    vm.selectResponsible(nodes[0], index)
+                }
+            });
+        },
+        selectResponsible: function (treeNode, index) {
+            if (vm.showResponsibleValue == 1) {
+                vm.queryParam.personResponsible = treeNode.id;
+                vm.queryParam.personResponsibleName = treeNode.name;
+            } else if (vm.showResponsibleValue == 1) {
+                vm.resBaseInfo.personResponsible = treeNode.id;
+                vm.resBaseInfo.personResponsibleName = treeNode.name;
+            } else {
+                vm.resMaintenance.personResponsible = treeNode.id;
+                vm.resMaintenance.personResponsibleName = treeNode.name;
+            }
+            layer.close(index || layer.index);
+        },
+        showMaintainCompany: function(v){
+            vm.showCompanyValue = v;
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -537,9 +620,7 @@ var vm = new Vue({
                 btn: ['保存', '取消'],
                 btn1: function (index) {
                     var nodes = vm.deptTree.getSelectedNodes();
-                    vm.resMaintenance.maintainCompany = nodes[0].id;
-                    vm.resMaintenance.maintainCompanyName = nodes[0].name;
-                    layer.close(index);
+                    vm.selectCompany(nodes[0], index)
                 }
             });
         },
