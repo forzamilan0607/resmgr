@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SaveActionAspect {
 
-    @Before("execution(* com.chris.modules.*.service.impl.save*(..))")
+    @Before("execution(* com.chris.modules.*.service.impl.*(..))")
     public void beforeSave(JoinPoint joinPoint) throws Throwable {
         if (ValidateUtils.isNotEmptyArray(joinPoint.getArgs())) {
             Object obj = joinPoint.getArgs()[0];

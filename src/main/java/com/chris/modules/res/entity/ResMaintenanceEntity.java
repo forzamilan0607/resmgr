@@ -2,6 +2,7 @@ package com.chris.modules.res.entity;
 
 import com.chris.common.model.SysUpdateInfo;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,8 +31,10 @@ public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable 
     //责任人
     private Integer personResponsible;
     //保修开始日期
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date warrantyStartDate;
     //保修结束日期
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date warrantyEndDate;
     //维保单位名称
     private String maintainCompanyName;

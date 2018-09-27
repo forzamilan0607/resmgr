@@ -156,6 +156,8 @@ $(document).ready(function () {
         clearBtn:true,//清除按钮
         forceParse: 0
     });
+
+    $("input[id='resMaintenance.warrantyStartDate'],input[id='resMaintenance.warrantyEndDate']").bind("change", function() {vm.calcMaintainPeriod();});
 });
 var vm = new Vue({
 	el:'#resMgrApp',
@@ -179,11 +181,15 @@ var vm = new Vue({
             resEquipParamList: []
 		},
         resPurchase: {
+            contractCompanyId: null,
+            contractCompanyName: null,
             contractAttachments: []
 		},
         resMaintenance: {
             maintainCompany: null,
             maintainCompanyName: null,
+            maintainDeptId: null,
+            maintainDeptName: null,
             personResponsible: null,
             personResponsibleName: null,
             maintainContractAttachments: [],
@@ -218,6 +224,9 @@ var vm = new Vue({
             personResponsibleName: null
         }
 	},
+    /*components: {
+        vuejsDatepicker
+    },*/
     computed: {
         // 计算属性的 getter
         resTypeList: function () {
@@ -246,101 +255,72 @@ var vm = new Vue({
           })[0].name + "/" + $.grep(this.seriesList, function (item, i) {
               return item.id == vm.resBaseInfo.series;
           })[0].name
-        },
-        maintainDeptData: function () {
-               /*if (this.deptTree && this.deptTree.getData()) {
-                   consoel.log(new Date());
-                   var data = this.deptTree.getData();
-                   this.maintainDeptTree = new TreeSelector({
-                       id: "id",
-                       parentId: "parentDeptId",
-                       name: "name",
-                       treeId: "maintainDeptTree",
-                       data: data,
-                       callback: function (event, treeId, treeNode) {
-                           vm.resBaseInfo.deptId = treeNode.id;
-                           vm.resBaseInfo.deptName = treeNode.name;
-                           layer.close(layer.index);
-                       }
-                   });
-               }*/
-
         }
     },
 	created: function () {
         this.$token = token;
-        this.locationTree = new TreeSelector({
-            id: "id",
-            parentId: "parentLocationId",
-            name: "name",
-            treeId: "locationTree",
-            url: "/resmgr/res/location/queryLocationListByCondition",
-            param: {},
-            onDblClick: function (event, treeId, treeNode) {
-                vm.selectLocation(treeNode);
-            }
-        });
-        this.deptTree = new TreeSelector({
-            id: "id",
-            parentId: "parentDeptId",
-            name: "name",
-            treeId: "deptTree",
-            url: "/resmgr/sys/sysdepartment/listAll",
-            param: {
-                parkId: 1
-            },
-            onDblClick: function (event, treeId, treeNode) {
-                vm.selectDept(treeNode);
-            },
-            callback: function (data) {
-                /*vm.maintainDeptTree = new TreeSelector({
-                    id: "id",
-                    parentId: "parentDeptId",
-                    name: "name",
-                    treeId: "maintainDeptTree",
-                    data: data,
-                   /!* param: {
-                        parkId: 1
-                    },*!/
-                    onDblClick: function (event, treeId, treeNode) {
-                        vm.selectDept(treeNode);
-                    }
-                })*/
-            }
-        });
-        this.responsibleTree = new TreeSelector({
-            id: "id",
-            parentId: "parentDeptId",
-            name: "name",
-            treeId: "responsibleTree",
-            url: "/resmgr/sys/sysstaff/getStaffTree",
-            param: {
-                parkId: 1
-            },
-            onDblClick: function (event, treeId, treeNode) {
-                vm.selectResponsible(treeNode);
-            }
-        });
-        this.companyTree = new TreeSelector({
-            id: "id",
-            parentId: "parentCompanyId",
-            name: "name",
-            treeId: "companyTree",
-            url: "/resmgr/sys/syscompany/listAll",
-            param: {
-                parkId: 1
-            },
-            onDblClick: function (event, treeId, treeNode) {
-               vm.selectCompany(treeNode);
-            }
-        });
+        this.initTrees();
     },
 	methods: {
+	    initTrees: function () {
+            this.locationTree = new TreeSelector({
+                id: "id",
+                parentId: "parentLocationId",
+                name: "name",
+                treeId: "locationTree",
+                url: "/resmgr/res/location/queryLocationListByCondition",
+                param: {},
+                onDblClick: function (event, treeId, treeNode) {
+                    vm.selectLocation(treeNode);
+                }
+            });
+            this.deptTree = new TreeSelector({
+                id: "id",
+                parentId: "parentDeptId",
+                name: "name",
+                treeId: "deptTree",
+                url: "/resmgr/sys/sysdepartment/listAll",
+                param: {
+                    parkId: 1
+                },
+                onDblClick: function (event, treeId, treeNode) {
+                    vm.selectDept(treeNode);
+                }
+            });
+            this.responsibleTree = new TreeSelector({
+                id: "id",
+                parentId: "parentDeptId",
+                name: "name",
+                treeId: "responsibleTree",
+                url: "/resmgr/sys/sysstaff/getStaffTree",
+                param: {
+                    parkId: 1
+                },
+                onDblClick: function (event, treeId, treeNode) {
+                    vm.selectResponsible(treeNode);
+                }
+            });
+            this.companyTree = new TreeSelector({
+                id: "id",
+                parentId: "parentCompanyId",
+                name: "name",
+                treeId: "companyTree",
+                url: "/resmgr/sys/syscompany/listAll",
+                param: {
+                    parkId: 1
+                },
+                onDblClick: function (event, treeId, treeNode) {
+                    vm.selectCompany(treeNode);
+                }
+            });
+        },
         handleDecimal: function (e) {
             // 通过正则过滤小数点后两位
             e.target.value = (e.target.value.match(/^\d*(\.?\d{0,1})/g)[0]) || null
         },
-
+        resetQryCondition: function () {
+            clearObjValue(this.queryParam);
+        },
 	    getDataDictListByParentId: function (parentId, type) {
             return parentId ? $.grep(this.dataDictList, function (item, i) {
                 return type ? item.type == type && item.parentId == parentId : item.parentId == parentId;
@@ -358,7 +338,12 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.resmgr = {};
+			clearObjValue(vm.resBaseInfo);
+			clearObjValue(vm.resPurchase);
+			clearObjValue(vm.resMaintenance);
+			clearObjValue(vm.resInstallConfig);
+            $myValidator.resetAll();
+            $("#link_resBaseInfo").trigger("click");
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -367,15 +352,30 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
-            vm.getInfo(id)
+            vm.getInfo(id);
+            $myValidator.resetAll();
+            $("#link_resBaseInfo").trigger("click");
 		},
+        calcMaintainPeriod: function () {
+	        var startDate = $("input[id='resMaintenance.warrantyStartDate']").val();
+	        var endDate = $("input[id='resMaintenance.warrantyEndDate']").val();
+            if (startDate && endDate) {
+                var startTime = new Date(startDate.replace(/-/g,"/")).getTime();
+                var endTime = new Date(endDate.replace(/-/g,"/")).getTime();
+                var days = Math.abs((endTime - startTime)) / (1000 * 60 * 60 * 24);
+                $("input[id='resMaintenance.maintainPeriod']").val(days);
+            }
+        },
 		saveOrUpdate: function (event) {
 			var url = vm.resBaseInfo.id == null ? "res/resmgr/save" : "res/resmgr/update";
 			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase()) {
 			    return;
             }
             vm.resBaseInfo.name = vm.resName;
+			vm.resMaintenance.warrantyStartDate = $("input[id='resMaintenance.warrantyStartDate']").val();
+			vm.resMaintenance.warrantyEndDate = $("input[id='resMaintenance.warrantyEndDate']").val();
+			vm.resMaintenance.maintainPeriod = vm.maintainPeriod;
+            vm.resBaseInfo.factoryTime = $("input[id='resBaseInfo.factoryTime']").val();
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -557,11 +557,14 @@ var vm = new Vue({
         },
         selectCompany: function (treeNode, index) {
             if (vm.showCompanyValue == 1) {
+                vm.queryParam.maintainCompany = treeNode.id;
+                vm.queryParam.maintainCompanyName = treeNode.name;
+            } else if (vm.showCompanyValue == 2) {
                 vm.resMaintenance.maintainCompany = treeNode.id;
                 vm.resMaintenance.maintainCompanyName = treeNode.name;
             } else {
-                vm.resMaintenance.maintainCompany = treeNode.id;
-                vm.resMaintenance.maintainCompanyName = treeNode.name;
+                vm.resPurchase.contractCompanyId = treeNode.id;
+                vm.resPurchase.contractCompanyName = treeNode.name;
             }
             layer.close(index || layer.index);
         },
@@ -569,9 +572,12 @@ var vm = new Vue({
             if (vm.showDeptValue == 1) {
                 vm.queryParam.deptId = treeNode.id;
                 vm.queryParam.deptName = treeNode.name;
+            } else if (vm.showDeptValue == 2) {
+                vm.resBaseInfo.deptId = treeNode.id;
+                vm.resBaseInfo.deptName = treeNode.name;
             } else {
-                vm.queryParam.deptId = treeNode.id;
-                vm.queryParam.deptName = treeNode.name;
+                vm.resMaintenance.maintainDeptId = treeNode.id;
+                vm.resMaintenance.maintainDeptName = treeNode.name;
             }
             layer.close(index || layer.index);
         },
@@ -597,7 +603,7 @@ var vm = new Vue({
             if (vm.showResponsibleValue == 1) {
                 vm.queryParam.personResponsible = treeNode.id;
                 vm.queryParam.personResponsibleName = treeNode.name;
-            } else if (vm.showResponsibleValue == 1) {
+            } else if (vm.showResponsibleValue == 2) {
                 vm.resBaseInfo.personResponsible = treeNode.id;
                 vm.resBaseInfo.personResponsibleName = treeNode.name;
             } else {
@@ -606,7 +612,7 @@ var vm = new Vue({
             }
             layer.close(index || layer.index);
         },
-        showMaintainCompany: function(v){
+        showCompanyLayer: function(v){
             vm.showCompanyValue = v;
             layer.open({
                 type: 1,
@@ -621,25 +627,6 @@ var vm = new Vue({
                 btn1: function (index) {
                     var nodes = vm.deptTree.getSelectedNodes();
                     vm.selectCompany(nodes[0], index)
-                }
-            });
-        },
-        showMaintainDept: function(){
-            layer.open({
-                type: 1,
-                offset: '50px',
-                skin: 'layui-layer-molv',
-                title: "选择维保部门",
-                area: ['300px', '300px'],
-                shade: 0,
-                shadeClose: false,
-                content: jQuery("#div_maintainDeptLayer"),
-                btn: ['保存', '取消'],
-                btn1: function (index) {
-                    var nodes = vm.deptTree.getSelectedNodes();
-                    vm.resMaintenance.maintainDeptId = nodes[0].id;
-                    vm.resMaintenance.maintainDeptName = nodes[0].name;
-                    layer.close(index);
                 }
             });
         },
@@ -741,7 +728,7 @@ var $myValidator = function () {
             },
             {
                 selector: "input[id='resBaseInfo.factoryTime']",
-                blurs: ["required"],
+                changes: ["required"],
                 validateMethod: {
                     required: {
                         msg: "请输入出厂时间"
@@ -834,6 +821,10 @@ var $myValidator = function () {
         },
         resetBySelector2: function (selector) {
             return _validate4Purchase.resetBySelector(selector);
+        },
+        resetAll: function () {
+            _validate4ResInfo.resetAll();
+            _validate4Purchase.resetAll();
         }
     }
 }();

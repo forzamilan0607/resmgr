@@ -262,6 +262,7 @@ var $validator = function(){
                                 continue;
                             }
                             if (!doValidate(item, eventName)) {
+                                item.hasError = true;
                                 _validateObj.validateResult = false;
                                 break;
                             }
@@ -297,6 +298,14 @@ var $validator = function(){
                 },
                 resetBySelector: function (selector) {
                     removeSpan($(selector).removeClass(getErrorClass()).next("span"));
+                },
+                resetAll: function () {
+                    for (var i = 0; i < _validateObj.config.items.length; i++) {
+                        var item = _validateObj.config.items[i];
+                        if (item.hasError) {
+                            this.resetBySelector(item.selector);
+                        }
+                    }
                 }
             }
         }

@@ -7,7 +7,8 @@
     <resultMap type="com.chris.modules.res.entity.ResPurchaseEntity" id="resPurchaseMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="contractCompany" column="contract_company"/>
+        <result property="contractCompanyId" column="contract_company_id"/>
+        <result property="contractCompanyName" column="contract_company_name"/>
         <result property="contractNo" column="contract_no"/>
         <result property="contractDesc" column="contract_desc"/>
         <result property="price" column="price"/>
@@ -50,8 +51,9 @@
 		insert into t_res_purchase
 		(
 			`res_id`, 
-			`contract_company`, 
-			`contract_no`, 
+			`contract_company_id`,
+			`contract_company_name`,
+			`contract_no`,
 			`contract_desc`,
 			`price`, 
 			`create_time`, 
@@ -62,8 +64,9 @@
 		values
 		(
 			#{resId}, 
-			#{contractCompany}, 
-			#{contractNo}, 
+			#{contractCompanyId},
+			#{contractCompanyName},
+			#{contractNo},
 			#{contractDesc},
 			#{price}, 
 			#{createTime}, 
@@ -77,14 +80,15 @@
 		update t_res_purchase 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="contractCompany != null">`contract_company` = #{contractCompany}, </if>
+			<if test="contractCompanyId != null">`contract_company_id` = #{contractCompanyId}, </if>
+			<if test="contractCompanyName != null">`contract_company_name` = #{contractCompanyName}, </if>
 			<if test="contractNo != null">`contract_no` = #{contractNo}, </if>
 			<if test="contractDesc != null">`contract_desc` = #{contractDesc}, </if>
 			<if test="price != null">`price` = #{price}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
-			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			`update_time` = now()
 		</set>
 		where id = #{id}
 	</update>

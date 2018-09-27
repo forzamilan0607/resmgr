@@ -2,6 +2,7 @@ package com.chris.modules.res.entity;
 
 import com.chris.common.model.SysUpdateInfo;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	//型号
 	private Integer model;
 	//出厂时间
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
 	private Date factoryTime;
 	//整机序列号
 	private String serialNo;

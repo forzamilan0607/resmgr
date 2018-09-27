@@ -122,7 +122,25 @@ function isBlank(value) {
 function clearObjValue(obj) {
     if (obj && typeof obj === "object") {
         for (var attr in obj) {
-            obj[attr] = null;
+            if (obj[attr]) {
+                if (typeof obj[attr] === "object") {
+                    if (obj[attr] instanceof Object) {
+                        clearObjValue(obj[attr]);
+                    } else if (obj[attr] instanceof Array) {
+                        obj[attr].length = 0;
+                        // TODO 数组处理是直接置为 0
+                        /*for (var i = 0; i < obj[attr].length; i++) {
+                            if (obj[attr][i] instanceof Object) {
+                                clearObjValue(obj[attr][i]);
+                            }
+                        }*/
+                    } else {
+                        obj[attr] = null;
+                    }
+                } else {
+                    obj[attr] = null;
+                }
+            }
         }
     }
 }
