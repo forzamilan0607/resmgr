@@ -25,7 +25,7 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
 @RequestMapping("/res/resbaseinfo")
@@ -37,7 +37,7 @@ public class ResBaseInfoController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions(" res:resbaseinfo:list")
+	@RequiresPermissions("res:resbaseinfo:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -54,10 +54,10 @@ public class ResBaseInfoController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{resId}")
-	@RequiresPermissions(" res:resbaseinfo:info")
-	public R info(@PathVariable("resId") Long resId){
-		ResBaseInfoEntity resBaseInfo = resBaseInfoService.queryObject(resId);
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("res:resbaseinfo:info")
+	public R info(@PathVariable("id") Long id){
+		ResBaseInfoEntity resBaseInfo = resBaseInfoService.queryObject(id);
 		
 		return R.ok().put("resBaseInfo", resBaseInfo);
 	}
@@ -66,7 +66,7 @@ public class ResBaseInfoController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions(" res:resbaseinfo:save")
+	@RequiresPermissions("res:resbaseinfo:save")
 	public R save(@RequestBody ResBaseInfoEntity resBaseInfo){
 		resBaseInfoService.save(resBaseInfo);
 		
@@ -77,7 +77,7 @@ public class ResBaseInfoController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions(" res:resbaseinfo:update")
+	@RequiresPermissions("res:resbaseinfo:update")
 	public R update(@RequestBody ResBaseInfoEntity resBaseInfo){
 		resBaseInfoService.update(resBaseInfo);
 		
@@ -88,9 +88,9 @@ public class ResBaseInfoController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions(" res:resbaseinfo:delete")
-	public R delete(@RequestBody Long[] resIds){
-		resBaseInfoService.deleteBatch(resIds);
+	@RequiresPermissions("res:resbaseinfo:delete")
+	public R delete(@RequestBody Long[] ids){
+		resBaseInfoService.deleteBatch(ids);
 		
 		return R.ok();
 	}

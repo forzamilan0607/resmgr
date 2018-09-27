@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @Mapper
 public interface ResMaintenanceDao extends BaseDao<ResMaintenanceEntity> {

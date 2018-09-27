@@ -25,7 +25,7 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
 @RequestMapping("/res/respurchase")
@@ -37,7 +37,7 @@ public class ResPurchaseController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions(" res:respurchase:list")
+	@RequiresPermissions("res:respurchase:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -54,10 +54,10 @@ public class ResPurchaseController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{purchaseId}")
-	@RequiresPermissions(" res:respurchase:info")
-	public R info(@PathVariable("purchaseId") Long purchaseId){
-		ResPurchaseEntity resPurchase = resPurchaseService.queryObject(purchaseId);
+	@RequestMapping("/info/{id}")
+	@RequiresPermissions("res:respurchase:info")
+	public R info(@PathVariable("id") Long id){
+		ResPurchaseEntity resPurchase = resPurchaseService.queryObject(id);
 		
 		return R.ok().put("resPurchase", resPurchase);
 	}
@@ -66,7 +66,7 @@ public class ResPurchaseController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions(" res:respurchase:save")
+	@RequiresPermissions("res:respurchase:save")
 	public R save(@RequestBody ResPurchaseEntity resPurchase){
 		resPurchaseService.save(resPurchase);
 		
@@ -77,7 +77,7 @@ public class ResPurchaseController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions(" res:respurchase:update")
+	@RequiresPermissions("res:respurchase:update")
 	public R update(@RequestBody ResPurchaseEntity resPurchase){
 		resPurchaseService.update(resPurchase);
 		
@@ -88,9 +88,9 @@ public class ResPurchaseController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions(" res:respurchase:delete")
-	public R delete(@RequestBody Long[] purchaseIds){
-		resPurchaseService.deleteBatch(purchaseIds);
+	@RequiresPermissions("res:respurchase:delete")
+	public R delete(@RequestBody Long[] ids){
+		resPurchaseService.deleteBatch(ids);
 		
 		return R.ok();
 	}

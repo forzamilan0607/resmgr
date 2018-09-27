@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.sys.dao.SysCompanyDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.sys.entity.SysCompanyEntity" id="sysCompanyMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parkId" column="park_id"/>
+        <result property="parentCompanyId" column="parent_company_id"/>
+        <result property="status" column="status"/>
+        <result property="address" column="address"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysCompanyEntity">
+		select * from sys_company where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.sys.entity.SysCompanyEntity">
+		select * from sys_company
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_company 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysCompanyEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_company
+		(
+			`name`, 
+			`park_id`, 
+			`parent_company_id`, 
+			`status`, 
+			`address`, 
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
+		)
+		values
+		(
+			#{name}, 
+			#{parkId}, 
+			#{parentCompanyId}, 
+			#{status}, 
+			#{address}, 
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.sys.entity.SysCompanyEntity">
+		update sys_company 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="parkId != null">`park_id` = #{parkId}, </if>
+			<if test="parentCompanyId != null">`parent_company_id` = #{parentCompanyId}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId},</if>
+			`update_time` = now()
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sys_company where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_company where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="queryCompanyListByCondition" parameterType="com.chris.modules.sys.entity.SysCompanyEntity" resultType="com.chris.modules.sys.entity.SysCompanyEntity">
+		select * from sys_company where 1=1
+		<if test="id != null">
+			AND id = #{id}
+		</if>
+		<if test="parkId != null">
+			AND park_id = #{parkId}
+		</if><if test="parentCompanyId != null">
+			AND parent_company_Id = #{parentCompanyId}
+		</if>
+	</select>
+
+</mapper>

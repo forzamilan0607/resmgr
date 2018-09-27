@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.modules.oss.dao.SysAttachmentDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.modules.oss.entity.SysAttachmentEntity" id="sysAttachmentMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <result property="objId" column="obj_id"/>
+        <result property="objSource" column="obj_source"/>
+        <result property="size" column="size"/>
+        <result property="suffixName" column="suffix_name"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="sortOrder" column="sort_order"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.chris.modules.oss.entity.SysAttachmentEntity">
+		select * from sys_attachment where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.modules.oss.entity.SysAttachmentEntity">
+		select * from sys_attachment
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sys_attachment 
+	</select>
+	 
+	<insert id="save" parameterType="com.chris.modules.oss.entity.SysAttachmentEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_attachment
+		(
+			`name`, 
+			`url`, 
+			`obj_id`, 
+			`obj_source`, 
+			`size`, 
+			`suffix_name`, 
+			`type`, 
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`, 
+			`sort_order`
+		)
+		values
+		(
+			#{name}, 
+			#{url}, 
+			#{objId}, 
+			#{objSource}, 
+			#{size}, 
+			#{suffixName}, 
+			#{type}, 
+			now(),
+			#{createUserId}, 
+			now(),
+			#{updateUserId}, 
+			#{sortOrder}
+		)
+	</insert>
+
+	<insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_attachment
+		(
+			`name`,
+			`url`,
+			`obj_id`,
+			`obj_source`,
+			`size`,
+			`suffix_name`,
+			`type`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			`sort_order`
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		  (
+			#{item.name},
+			#{item.url},
+			#{item.objId},
+			#{item.objSource},
+			#{item.size},
+			#{item.suffixName},
+			#{item.type},
+			now(),
+			#{item.createUserId},
+			now(),
+			#{item.updateUserId},
+			#{item.sortOrder}
+		  )
+		</foreach>
+	</insert>
+	 
+	<update id="update" parameterType="com.chris.modules.oss.entity.SysAttachmentEntity">
+		update sys_attachment 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="objId != null">`obj_id` = #{objId}, </if>
+			<if test="objSource != null">`obj_source` = #{objSource}, </if>
+			<if test="size != null">`size` = #{size}, </if>
+			<if test="suffixName != null">`suffix_name` = #{suffixName}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			<if test="sortOrder != null">`sort_order` = #{sortOrder},</if>
+		</set>
+		`update_time` = now()
+		where id = #{id}
+	</update>
+
+	<update id="updateBatch" parameterType="java.util.List">
+		update sys_attachment
+		set  obj_id =
+		<foreach collection="list" item="item" index="index"
+				 separator=" " open="case ID" close="end">
+			when #{item.id} then #{item.objId}
+		</foreach>
+		,obj_source =
+		<foreach collection="list" item="item" index="index"
+				 separator=" " open="case ID" close="end">
+			when #{item.id} then #{item.objSource}
+		</foreach>
+		where id in
+		<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+			#{item.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<delete id="delete">
+		delete from sys_attachment where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sys_attachment where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="queryAttachmentsByCondition" parameterType="com.chris.modules.oss.entity.SysAttachmentEntity" resultType="com.chris.modules.oss.entity.SysAttachmentEntity">
+		select * from sys_attachment where 1=1
+		<if test="id != null ">
+			AND id = #{id}
+		</if>
+		<if test="name != null and name !='' ">
+			AND name = #{name}
+		</if>
+		<if test="objId != null ">
+			AND obj_id = #{objId}
+		</if>
+		<if test="objSource != null and objSource !='' ">
+			AND obj_source = #{objSource}
+		</if>
+		<if test="url != null and url !='' ">
+			AND url = #{url}
+		</if>
+	</select>
+
+</mapper>

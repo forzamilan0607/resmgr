@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface SysAttrService {
 	
-	SysAttrEntity queryObject(Integer attrId);
+	SysAttrEntity queryObject(Integer id);
 	
 	List<SysAttrEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,7 @@ public interface SysAttrService {
 	
 	void update(SysAttrEntity sysAttr);
 	
-	void delete(Integer attrId);
+	void delete(Integer id);
 	
-	void deleteBatch(Integer[] attrIds);
+	void deleteBatch(Integer[] ids);
 }

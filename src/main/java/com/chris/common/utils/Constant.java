@@ -1,5 +1,10 @@
 package com.chris.common.utils;
 
+import com.google.common.collect.ImmutableMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 常量
  * 
@@ -10,6 +15,25 @@ package com.chris.common.utils;
 public class Constant {
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;
+
+	public static final String TEMP_URL = "/resmgr/img/#{fileType}";
+
+    public static final Map<String, String> FILE_TYPE_MAP = new HashMap<>();
+
+    static {
+        FILE_TYPE_MAP.put("doc", "word.png");
+        FILE_TYPE_MAP.put("docx", "word.png");
+        FILE_TYPE_MAP.put("xls", "excel.png");
+        FILE_TYPE_MAP.put("xlsx", "excel.png");
+        FILE_TYPE_MAP.put("csv", "excel.png");
+        FILE_TYPE_MAP.put("jpg", "image2.png");
+        FILE_TYPE_MAP.put("jpeg", "image2.png");
+        FILE_TYPE_MAP.put("gif", "image2.png");
+        FILE_TYPE_MAP.put("png", "image2.png");
+        FILE_TYPE_MAP.put("pdf", "pdf.png");
+        FILE_TYPE_MAP.put("mp4", "video3.png");
+        FILE_TYPE_MAP.put("avi", "video3.png");
+    }
 
 	/**
 	 * 菜单类型
@@ -97,6 +121,36 @@ public class Constant {
         public int getValue() {
             return value;
         }
+    }
+
+    public enum FileType {
+        DOCUMENT("文档"),IMAGE("图片"),VIDEO("视频");
+
+        private String value;
+
+        FileType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    public interface Symbol {
+        String SLASH = "/";
+        String DOT = ".";
+        String UNDERLINE = "_";
+    }
+
+    public interface AttachmentSource {
+        String RES_NAMEPLATE__ATTACHMENTS = "resNameplateAttachments";
+        String CONTRACT_ATTACHMENTS = "contractAttachments";
+        String MAINTAIN_CONTRACT_ATTACHMENTS = "maintainContractAttachments";
+        String RES_INSTRUCTIONS_ATTACHMENTS = "resInstructionsAttachments";
+        String PRECAUTIONS_ATTACHMENTS = "precautionsAttachments";
+        String DRAWING_ATTACHMENTS = "drawingAttachments";
+        String OPERSPEC_ATTACHMENTS = "operSpecAttachments";
     }
 
 }

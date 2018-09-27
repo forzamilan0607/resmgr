@@ -15,6 +15,9 @@
 
 package com.chris.modules.sys.form;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
 /**
  * 登录表单
  *
@@ -22,8 +25,11 @@ package com.chris.modules.sys.form;
  * @since 1.4.0 2018-01-25
  */
 public class LoginForm {
+    @NotBlank(message = "用户名不能为空")
     private String username;
+    @NotBlank(message = "密码不能为空")
     private String password;
+    @NotBlank(message = "验证码不能为空")
     private String captcha;
 
     public String getUsername() {

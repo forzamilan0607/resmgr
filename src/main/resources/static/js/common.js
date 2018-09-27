@@ -5,11 +5,7 @@ $.jgrid.defaults.styleUI = 'Bootstrap';
 
 //工具集合Tools
 window.T = {};
-$(document).bind("ajaxSend", function () {
-    $("body").mLoading();
-}).bind("ajaxComplete", function () {
-    $("body").mLoading("hide");
-});
+
 // 获取请求参数
 // 使用示例
 // location.href = http://localhost/index.html?id=123
@@ -78,12 +74,14 @@ window.alert = function(msg, callback){
 
 //重写confirm式样框
 window.confirm = function(msg, callback){
-	parent.layer.confirm(msg, {btn: ['确定','取消']},
-	function(){//确定事件
-		if(typeof(callback) === "function"){
-			callback("ok");
-		}
-	});
+	parent.layer.confirm(msg, {btn: ['确定','取消'],
+        btn1: function (index, layero) {
+            if (callback && typeof(callback) === "function") {
+                callback();
+                parent.layer.close(index);
+            }
+        }}
+	);
 }
 
 //选择一条记录
@@ -156,6 +154,23 @@ var $myMsg = function(){
 }();
 var $util = function () {
     return {
+        HTTP_STATUS: {
+            SC_OK: 200,
+            SC_NOT_FOUND: 404,
+            SC_INTERNAL_SERVER_ERROR: 500
+        },
+        copyProps: function (src, target, attrList) {
+            if (attrList) {
+                for (var i = 0; i < attrList.length; i++) {
+                    var attr = attrList[i];
+                    target[attr] = src[attr];
+                }
+            } else {
+                for (var attr in src) {
+                    target[attr] = src[attr];
+                }
+            }
+        },
         isValueInArray: function (k, v, array) {
             for (var i = 0; i < array.length; i++) {
                 if (array[i][k] == v) {
@@ -163,6 +178,48 @@ var $util = function () {
                 }
             }
             return false;
+        },
+        isObjAttrEquals: function (objA, objB, attrList) {
+            for (var i = 0; i < attrList.length; i++) {
+                var attr = attrList[i];
+                if (objA[attr] != objB[attr]) {
+                    return false;
+                }
+            }
+            return true;
+        },
+        upload: function (conf) {
+            new AjaxUpload(conf.selector, {
+                action: baseURL + 'sys/oss/upload?token=' + token,
+                name: 'file',
+                autoSubmit: true,
+                responseType: "json",
+                onChange: function (file, extension) {
+                    // alert(file);
+                },
+                onSubmit: function (file, extension) {
+                    if (!extension || !conf.suffixReg.test(extension.toLowerCase())) {
+                        alert(conf.msg ? conf.msg : "不支持的文件格式！");
+                        return false;
+                    }
+                    $("body").mLoading();
+                },
+                onComplete: function (file, r) {
+                    $("body").mLoading("hide");
+                    if (r.code == $util.HTTP_STATUS.SC_OK) {
+                        conf.callback && conf.callback(r);
+                    } else {
+                        alert(r.msg);
+                    }
+                }
+            });
         }
     }
 }();
+setTimeout(function () {
+    $(document).bind("ajaxSend", function () {
+        $("body").mLoading();
+    }).bind("ajaxComplete", function () {
+        $("body").mLoading("hide");
+    });
+}, 500);

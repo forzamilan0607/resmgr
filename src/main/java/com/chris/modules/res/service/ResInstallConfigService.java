@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResInstallConfigService {
 	
-	ResInstallConfigEntity queryObject(Long configId);
+	ResInstallConfigEntity queryObject(Long id);
 	
 	List<ResInstallConfigEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,9 @@ public interface ResInstallConfigService {
 	
 	void update(ResInstallConfigEntity resInstallConfig);
 	
-	void delete(Long configId);
+	void delete(Long id);
 	
-	void deleteBatch(Long[] configIds);
+	void deleteBatch(Long[] ids);
+
+	ResInstallConfigEntity queryResInstallConfigByResId(Long resId);
 }

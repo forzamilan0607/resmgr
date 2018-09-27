@@ -10,11 +10,11 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResPurchaseService {
 	
-	ResPurchaseEntity queryObject(Long purchaseId);
+	ResPurchaseEntity queryObject(Long id);
 	
 	List<ResPurchaseEntity> queryList(Map<String, Object> map);
 	
@@ -24,7 +24,9 @@ public interface ResPurchaseService {
 	
 	void update(ResPurchaseEntity resPurchase);
 	
-	void delete(Long purchaseId);
+	void delete(Long id);
 	
-	void deleteBatch(Long[] purchaseIds);
+	void deleteBatch(Long[] ids);
+
+    ResPurchaseEntity queryResPurchaseByResId(Long resId);
 }

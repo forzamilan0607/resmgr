@@ -18,8 +18,8 @@ public class SysAttrValueServiceImpl implements SysAttrValueService {
 	private SysAttrValueDao sysAttrValueDao;
 	
 	@Override
-	public SysAttrValueEntity queryObject(Integer attrValueId){
-		return sysAttrValueDao.queryObject(attrValueId);
+	public SysAttrValueEntity queryObject(Integer id){
+		return sysAttrValueDao.queryObject(id);
 	}
 	
 	@Override
@@ -43,13 +43,13 @@ public class SysAttrValueServiceImpl implements SysAttrValueService {
 	}
 	
 	@Override
-	public void delete(Integer attrValueId){
-		sysAttrValueDao.delete(attrValueId);
+	public void delete(Integer id){
+		sysAttrValueDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Integer[] attrValueIds){
-		sysAttrValueDao.deleteBatch(attrValueIds);
+	public void deleteBatch(Integer[] ids){
+		sysAttrValueDao.deleteBatch(ids);
 	}
 	
 }

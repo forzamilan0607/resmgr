@@ -3,6 +3,7 @@ package com.chris.modules.sys.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.chris.common.utils.CommonResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,15 +18,12 @@ import com.chris.common.utils.PageUtils;
 import com.chris.common.utils.Query;
 import com.chris.common.utils.R;
 
-
-
-
 /**
  * 部门
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
 @RequestMapping("/sys/sysdepartment")
@@ -49,15 +47,22 @@ public class SysDepartmentController {
 		
 		return R.ok().put("page", pageUtil);
 	}
+
+	@RequestMapping("/listAll")
+	@RequiresPermissions("sys:sysdepartment:list")
+	public CommonResponse listAll(@RequestBody SysDepartmentEntity param){
+		List<SysDepartmentEntity> deptList = this.sysDepartmentService.queryDepartmentListByCondition(param);
+		return CommonResponse.getSuccessResponse().setData(deptList);
+	}
 	
 	
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{deptId}")
+	@RequestMapping("/info/{id}")
 	@RequiresPermissions("sys:sysdepartment:info")
-	public R info(@PathVariable("deptId") Integer deptId){
-		SysDepartmentEntity sysDepartment = sysDepartmentService.queryObject(deptId);
+	public R info(@PathVariable("id") Integer id){
+		SysDepartmentEntity sysDepartment = sysDepartmentService.queryObject(id);
 		
 		return R.ok().put("sysDepartment", sysDepartment);
 	}
@@ -89,8 +94,8 @@ public class SysDepartmentController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:sysdepartment:delete")
-	public R delete(@RequestBody Integer[] deptIds){
-		sysDepartmentService.deleteBatch(deptIds);
+	public R delete(@RequestBody Integer[] ids){
+		sysDepartmentService.deleteBatch(ids);
 		
 		return R.ok();
 	}

@@ -7,10 +7,12 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../plugins/jqmloading/jquery.mloading.css">
 <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" href="../../css/main.css">
 <script src="../../libs/jquery.min.js"></script>
+<script src="../../plugins/jqmloading/jquery.mloading.js"></script>
 <script src="../../plugins/layer/layer.js"></script>
 <script src="../../libs/bootstrap.min.js"></script>
 <script src="../../libs/vue.min.js"></script>
@@ -18,14 +20,15 @@
 <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 <script src="../../js/common.js"></script>
+<script src="../../js/validator.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
-			<a v-if="hasPermission('generator:resbaseinfo:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			<a v-if="hasPermission('generator:resbaseinfo:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<a v-if="hasPermission('generator:resbaseinfo:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			<a v-if="hasPermission('res:resbaseinfo:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('res:resbaseinfo:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('res:resbaseinfo:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
@@ -35,111 +38,129 @@
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
 											<div class="form-group">
+			   	<div class="col-sm-2 control-label">资源名称</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="name" v-model="resBaseInfo.name" placeholder="资源名称"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">资源编码</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="code" v-model="resBaseInfo.code" placeholder="资源编码"/>
+			    </div>
+			</div>
+									<div class="form-group">
 			   	<div class="col-sm-2 control-label">资源类别</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.resType" placeholder="资源类别"/>
+			      <input type="text" class="form-control" id="resTypeId" v-model="resBaseInfo.resTypeId" placeholder="资源类别"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">品牌</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.brand" placeholder="品牌"/>
+			      <input type="text" class="form-control" id="brand" v-model="resBaseInfo.brand" placeholder="品牌"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">系列</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.series" placeholder="系列"/>
+			      <input type="text" class="form-control" id="series" v-model="resBaseInfo.series" placeholder="系列"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">型号</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.model" placeholder="型号"/>
+			      <input type="text" class="form-control" id="model" v-model="resBaseInfo.model" placeholder="型号"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">出厂时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.factoryTime" placeholder="出厂时间"/>
+			      <input type="text" class="form-control" id="factoryTime" v-model="resBaseInfo.factoryTime" placeholder="出厂时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">整机序列号</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.serialNo" placeholder="整机序列号"/>
+			      <input type="text" class="form-control" id="serialNo" v-model="resBaseInfo.serialNo" placeholder="整机序列号"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">主要部件信息</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.componentInfo" placeholder="主要部件信息"/>
+			      <input type="text" class="form-control" id="componentInfo" v-model="resBaseInfo.componentInfo" placeholder="主要部件信息"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.resNameplate" placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
+			      <input type="text" class="form-control" id="nameplate" v-model="resBaseInfo.nameplate" placeholder="资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔"/>
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label">描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面</div>
+			   	<div class="col-sm-2 control-label">位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.positionDesc" placeholder="描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面"/>
+			      <input type="text" class="form-control" id="locationId" v-model="resBaseInfo.locationId" placeholder="位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">描述性位置</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="locationDesc" v-model="resBaseInfo.locationDesc" placeholder="描述性位置"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">坐标位置，如：F8、H13</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.positionCoordinate" placeholder="坐标位置，如：F8、H13"/>
+			      <input type="text" class="form-control" id="locationCoordinate" v-model="resBaseInfo.locationCoordinate" placeholder="坐标位置，如：F8、H13"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">三维图形对象ID</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.objId" placeholder="三维图形对象ID"/>
+			      <input type="text" class="form-control" id="objId" v-model="resBaseInfo.objId" placeholder="三维图形对象ID"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">创建时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.createTime" placeholder="创建时间"/>
+			      <input type="text" class="form-control" id="createTime" v-model="resBaseInfo.createTime" placeholder="创建时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">创建人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.createUserId" placeholder="创建人"/>
+			      <input type="text" class="form-control" id="createUserId" v-model="resBaseInfo.createUserId" placeholder="创建人"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">修改时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.modifyTime" placeholder="修改时间"/>
+			      <input type="text" class="form-control" id="updateTime" v-model="resBaseInfo.updateTime" placeholder="修改时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">修改人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.modifyUserId" placeholder="修改人"/>
+			      <input type="text" class="form-control" id="updateUserId" v-model="resBaseInfo.updateUserId" placeholder="修改人"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">部门ID</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.deptId" placeholder="部门ID"/>
+			      <input type="text" class="form-control" id="deptId" v-model="resBaseInfo.deptId" placeholder="部门ID"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">资源描述</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="remark" v-model="resBaseInfo.remark" placeholder="资源描述"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">责任人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.personResponsible" placeholder="责任人"/>
-			    </div>
-			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">是否同步，1、是，0、否</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="resBaseInfo.isSync" placeholder="是否同步，1、是，0、否"/>
+			      <input type="text" class="form-control" id="personResponsible" v-model="resBaseInfo.personResponsible" placeholder="责任人"/>
 			    </div>
 			</div>
 							<div class="form-group">

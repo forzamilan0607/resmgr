@@ -5,25 +5,28 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.chris.modules.sys.entity.SysAttrValueEntity" id="sysAttrValueMap">
-        <result property="attrValueId" column="attr_value_id"/>
+        <result property="id" column="id"/>
         <result property="attrId" column="attr_id"/>
-        <result property="attrValue" column="attr_value"/>
+        <result property="value" column="value"/>
         <result property="sortOrder" column="sort_order"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.sys.entity.SysAttrValueEntity">
-		select * from sys_attr_value where attr_value_id = #{value}
+		select * from sys_attr_value where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysAttrValueEntity">
 		select * from sys_attr_value
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${sortOrder}
+                order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by attr_value_id desc
+                order by id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -35,20 +38,26 @@
 		select count(*) from sys_attr_value 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.sys.entity.SysAttrValueEntity" useGeneratedKeys="true" keyProperty="attrValueId">
+	<insert id="save" parameterType="com.chris.modules.sys.entity.SysAttrValueEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_attr_value
 		(
 			`attr_id`, 
-			`attr_value`, 
-			`sort_order`,
-			`is_sync`
+			`value`, 
+			`sort_order`, 
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
 			#{attrId}, 
-			#{attrValue}, 
-			#{sortOrder},
-			#{isSync}
+			#{value}, 
+			#{sortOrder}, 
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
 	</insert>
 	 
@@ -56,21 +65,24 @@
 		update sys_attr_value 
 		<set>
 			<if test="attrId != null">`attr_id` = #{attrId}, </if>
-			<if test="attrValue != null">`attr_value` = #{attrValue}, </if>
+			<if test="value != null">`value` = #{value}, </if>
 			<if test="sortOrder != null">`sort_order` = #{sortOrder}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}</if>
 		</set>
-		where attr_value_id = #{attrValueId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from sys_attr_value where attr_value_id = #{value}
+		delete from sys_attr_value where id = #{value}
 	</delete>
 	
 	<delete id="deleteBatch">
-		delete from sys_attr_value where attr_value_id in 
-		<foreach item="attrValueId" collection="array" open="(" separator="," close=")">
-			#{attrValueId}
+		delete from sys_attr_value where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

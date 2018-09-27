@@ -10,7 +10,7 @@ import java.util.Map;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 public interface ResMaintenanceService {
 	
@@ -27,4 +27,6 @@ public interface ResMaintenanceService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+    ResMaintenanceEntity queryResMaintenceByResId(Long id);
 }
