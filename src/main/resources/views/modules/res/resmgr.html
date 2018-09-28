@@ -26,6 +26,9 @@
             margin-top: 5px;
             margin-right: 5px;
         }
+        #div_resPurchase div.row, #div_resMaintenance div.row, #div_resInstallConfig div.row {
+            margin-bottom: 10px;
+        }
     </style>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
@@ -432,7 +435,7 @@
                 </div>
                 <div class="tab-pane fade" id="div_resPurchase">
                     <form id="form_resPurchase" role="form" class="form-horizontal full-width" method="post">
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">合同单位</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resPurchase.contractCompanyId" />
@@ -444,7 +447,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">
                                 <span class="required">*</span>合同编号
                             </div>
@@ -452,7 +455,7 @@
                                 <input type="text" class="form-control" id="resPurchase.contractNo" v-model="resPurchase.contractNo" placeholder="合同编号"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">
                                 <span class="required">*</span>合同附件
                             </div>
@@ -491,7 +494,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">
                                 <span class="required">*</span>采购价格
                             </div>
@@ -499,7 +502,7 @@
                                 <input type="text" class="form-control" @keydown="handleDecimal" id="resPurchase.price" v-model="resPurchase.price" placeholder="采购价格"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">合同描述</div>
                             <div class="input-group col-sm-6">
                                 <textarea type="text" class="form-control" id="resPurchase.contractDesc" v-model="resPurchase.contractDesc" rows="5"
@@ -510,7 +513,7 @@
                 </div>
                 <div class="tab-pane fade" id="div_resMaintenance">
                     <form id="form_resMaintenance" role="form" class="form-horizontal full-width" method="post">
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">维保单位</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resMaintenance.maintainCompany" />
@@ -522,7 +525,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">维保部门</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resMaintenance.maintainDeptId" />
@@ -534,7 +537,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">责任人</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resMaintenance.personResponsible" />
@@ -546,7 +549,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">保修开始日期</div>
                             <div class="input-group col-sm-6">
                                 <!--<vuejs-datepicker></vuejs-datepicker>-->
@@ -558,7 +561,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">保修结束日期</div>
                             <div class="input-group col-sm-6">
                                 <input type="input-group text" class="form-control myDatetimePicker" id="resMaintenance.warrantyEndDate"  placeholder="保修结束日期"/>
@@ -569,20 +572,20 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">维保周期</div>
                             <div class="input-group col-sm-6">
                                 <input type="input-group text" class="form-control" id="resMaintenance.maintainPeriod" v-model="resMaintenance.maintainPeriod" placeholder="维保周期" readonly />
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">维保价格</div>
                             <div class="input-group col-sm-6">
                                 <input type="text" class="form-control" @keydown="handleDecimal" id="resMaintenance.maintainPrice" v-model="resMaintenance.maintainPrice"
                                        placeholder="维保价格"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">维保合同</div>
                             <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.maintainContract">
@@ -619,7 +622,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">设备资源说明书</div>
                             <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.resInstructions">
@@ -656,14 +659,14 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">运维保养注意事项</div>
                             <div class="input-group col-sm-6">
                                 <textarea type="text" class="form-control" id="resMaintenance.precautionsText" rows="5"
                                           v-model="resMaintenance.precautionsText" placeholder="运维保养特别提示和注意事项（文字）"></textarea>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">注意事项（附件）</div>
                             <div class="input-group col-sm-6">
                                 <table role="presentation" class="table table-bordered" id="resMaintenance.precautionsAttach">
@@ -700,7 +703,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
                             <div class="col-sm-2 control-label">设备状态</div>
                             <div class="input-group col-sm-6">
                                 <select type="text" class="form-control" id="resMaintenance.resStatus" v-model="resMaintenance.resStatus" placeholder="设备状态">
@@ -717,7 +720,7 @@
                     <form id="form_resInstallConfig" role="form" class="form-horizontal full-width" method="post">
                         <fieldset>
                             <legend>安装信息</legend>
-                            <div class="form-group">
+                            <div class="row">
                                 <div class="col-sm-2 control-label">图纸</div>
                                 <div class="col-sm-6">
                                     <table role="presentation" class="table table-bordered" id="resInstallConfig.drawing">
@@ -754,14 +757,14 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="row">
                                 <div class="col-sm-2 control-label">操作规范说明</div>
                                 <div class="col-sm-6">
                                     <textarea type="text" class="form-control" id="resInstallConfig.operationSpecificationText" rows="5"
                                               v-model="resInstallConfig.operationSpecificationText" placeholder="操作规范说明"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="row">
                                 <div class="col-sm-2 control-label">操作规范说明（附件）</div>
                                 <div class="col-sm-6">
                                     <table role="presentation" class="table table-bordered" id="resInstallConfig.operationSpecificationAttach">
@@ -801,7 +804,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>参数配置</legend>
-                            <div class="form-group">
+                            <div class="row">
                                 <div class="col-sm-2 control-label">参数列表</div>
                                 <div class="col-sm-6">
                                     <table role="presentation" class="table table-bordered" id="table_resEquipParam">

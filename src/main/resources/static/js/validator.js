@@ -95,6 +95,9 @@ var $validator = function(){
                 if (item.validateMethod[eventName].childSelector) {
                     validateItem.childSelector = item.validateMethod[eventName].childSelector;
                 }
+                if (item.validateMethod[eventName].mode) {
+                    validateItem.mode = item.validateMethod[eventName].mode;
+                }
                 return validateItem;
             };
             function getErrorClass() {
@@ -159,6 +162,21 @@ var $validator = function(){
                     notEqualsTo: function (validateItem) {
                         var value = validateItem.value instanceof jQuery ? validateItem.value.val(): validateItem.value;
                         return validateItem.jqObj.val() != value;
+                    },
+                    compareDate: function (validateItem) {
+                        var value = validateItem.value instanceof jQuery ? validateItem.value.val(): validateItem.value;
+                        if (validateItem.jqObj.val() && value) {
+                            var datetime1 = new Date(validateItem.jqObj.val()).getTime();
+                            var datetime2 = validateItem.mode == 3 ? new Date().getTime() : new Date(value).getTime();
+                            switch (validateItem.mode) {
+                                case 1://datetime1 不能大于 datetime2
+                                case 3:
+                                    return !(datetime1 > datetime2);
+                                case 2: //datetime1 不能小于 datetime2
+                                    return !(datetime2 > datetime1);
+                            }
+                        }
+                        return true;
                     },
                     checkReg: function (validateItem) {
                         if (!validateItem.jqObj.val()) {

@@ -89,34 +89,34 @@ $(document).ready(function () {
         datatype: "json",
         colModel: [
 			// { label: '序号', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '资源名称', name: 'name', index: 'name', width: 100 },
+			{ label: '资源名称', name: 'name', index: 'name', width: 180 },
 			// { label: '资源编码', name: 'code', index: 'code', width: 80 },
-			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 80, formatter: function (value, options, row) {
+			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 120, formatter: function (value, options, row) {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
-			{ label: '设备名称', name: 'equipId', index: 'model', width: 80, formatter: function (value, options, row) {
+			{ label: '设备名称', name: 'equipId', index: 'model', width: 120, formatter: function (value, options, row) {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
-			{ label: '品牌', name: 'brand', index: 'brand', width: 80, formatter: function (value, options, row) {
+			{ label: '品牌', name: 'brand', index: 'brand', width: 100, formatter: function (value, options, row) {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
-			{ label: '系列', name: 'series', index: 'series', width: 80, formatter: function (value, options, row) {
+			{ label: '系列', name: 'series', index: 'series', width: 100, formatter: function (value, options, row) {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
 			{ label: '出厂时间', name: 'factoryTime', index: 'factory_time', width: 80 },
-			{ label: '整机序列号', name: 'serialNo', index: 'serial_no', width: 80 },
+			// { label: '整机序列号', name: 'serialNo', index: 'serial_no', width: 80 },
 			//{ label: '资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔', name: 'nameplate', index: 'nameplate', width: 80 },
 			//{ label: '所属位置', name: 'locationId', index: 'location_id', width: 80 },
-			{ label: '描述性位置', name: 'locationDesc', index: 'location_desc', width: 130 },
+			{ label: '描述性位置', name: 'locationDesc', index: 'location_desc', width: 230 },
 			//{ label: '坐标位置，如：F8、H13', name: 'locationCoordinate', index: 'location_coordinate', width: 80 },
 			//{ label: '三维图形对象ID', name: 'objId', index: 'obj_id', width: 80 },
-			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 },
+			/*{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 },
 			{ label: '创建人', name: 'createUserName', index: 'create_user_id', width: 60 },
 			{ label: '修改时间', name: 'updateTime', index: 'update_time', width: 80 },
-			{ label: '修改人', name: 'updateUserName', index: 'update_user_id', width: 60 },
+			{ label: '修改人', name: 'updateUserName', index: 'update_user_id', width: 60 },*/
 			{ label: '部门', name: 'deptName', index: 'dept_id', width: 80 },
 			//{ label: '资源描述', name: 'remark', index: 'remark', width: 80 },
-			{ label: '责任人', name: 'responsibleName', index: 'person_responsible', width: 80 }
+			{ label: '责任人', name: 'responsibleName', index: 'person_responsible', width: 60 }
         ],
 		viewrecords: true,
         height: 385,
@@ -380,7 +380,7 @@ var vm = new Vue({
         },
 		saveOrUpdate: function (event) {
 			var url = vm.resBaseInfo.id == null ? "res/resmgr/save" : "res/resmgr/update";
-			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase()) {
+			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase() || !$myValidator.validateMaintenance()) {
 			    return;
             }
             vm.resBaseInfo.name = vm.resName;
@@ -754,6 +754,18 @@ var $myValidator = function () {
                 tabId: "link_resBaseInfo"
             },
             {
+                selector: "input[id='resBaseInfo.factoryTime']",
+                changes: ["compareDate"],
+                validateMethod: {
+                    compareDate: {
+                        msg: "出厂时间不能大于当前时间",
+                        value: "demo",
+                        mode: 3
+                    }
+                },
+                tabId: "link_resBaseInfo"
+            },
+            {
                 selector: "input[id='resBaseInfo.serialNo']",
                 blurs: ["required"],
                 validateMethod: {
@@ -826,12 +838,44 @@ var $myValidator = function () {
             }
         ]
     });
+    var _validate4Maintenance = $validator.build({
+        allPassRequired: true,
+        items:[
+            {
+                selector: "input[id='resMaintenance.warrantyStartDate']",
+                changes: ["compareDate"],
+                validateMethod: {
+                    compareDate: {
+                        msg: "保修开始时间不能大于保修结束时间",
+                        value: $("input[id='resMaintenance.warrantyEndDate']"),
+                        mode: 1
+                    }
+                },
+                tabId: "link_resMaintenance"
+            },
+            {
+                selector: "input[id='resMaintenance.warrantyEndDate']",
+                changes: ["compareDate"],
+                validateMethod: {
+                    compareDate: {
+                        msg: "保修结束时间不能小于保修开始时间",
+                        value: $("input[id='resMaintenance.warrantyStartDate']"),
+                        mode: 2
+                    }
+                },
+                tabId: "link_resMaintenance"
+            }
+        ]
+    });
 	return {
 	    validateResInfo: function () {
             return _validate4ResInfo.validate();
         },
         validatePurchase: function () {
             return _validate4Purchase.validate();
+        },
+        validateMaintenance: function () {
+            return _validate4Maintenance.validate();
         },
         resetBySelector: function (selector) {
             return _validate4ResInfo.resetBySelector(selector);
@@ -842,6 +886,7 @@ var $myValidator = function () {
         resetAll: function () {
             _validate4ResInfo.resetAll();
             _validate4Purchase.resetAll();
+            _validate4Maintenance.resetAll();
         }
     }
 }();
