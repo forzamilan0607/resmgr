@@ -3,13 +3,19 @@ DROP TABLE IF EXISTS sys_attr_value;
 DROP TABLE IF EXISTS sys_data_dict;
 DROP TABLE IF EXISTS sys_department;
 DROP TABLE IF EXISTS t_res_base_info;
+DROP TABLE IF EXISTS t_res_base_info_his;
 DROP TABLE IF EXISTS t_res_type;
 DROP TABLE IF EXISTS t_res_location;
 DROP TABLE IF EXISTS t_res_purchase;
+DROP TABLE IF EXISTS t_res_purchase_his;
 DROP TABLE IF EXISTS t_res_maintenance;
+DROP TABLE IF EXISTS t_res_maintenance_his;
 DROP TABLE IF EXISTS t_res_install_config;
+DROP TABLE IF EXISTS t_res_install_config_his;
 DROP TABLE IF EXISTS t_res_component;
+DROP TABLE IF EXISTS t_res_component_his;
 DROP TABLE IF EXISTS t_res_equip_param;
+DROP TABLE IF EXISTS t_res_equip_param_his;
 
 
 -- 属性定义
@@ -126,6 +132,7 @@ CREATE TABLE `sys_attachment` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `update_user_id` int(10) DEFAULT NULL COMMENT '修改人',
   `sort_order` tinyint(3) DEFAULT '0' COMMENT '顺序',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态，1：有效 0：无效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='附件信息';
 
@@ -155,6 +162,33 @@ CREATE TABLE `t_res_base_info` (
   `person_responsible` int(10) COMMENT '责任人',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源基本信息';
+
+-- 资源基本信息历史
+CREATE TABLE `t_res_base_info_his` (
+  `id` bigint(20) NOT NULL COMMENT '资源ID',
+  `name` varchar(128) NOT NULL COMMENT '资源设备名称',
+  `equip_id` int(10) NOT NULL COMMENT '设备ID',
+  `code` varchar(128) COMMENT '资源编码',
+  `res_type_id` int(10) NOT NULL COMMENT '资源类别',
+  `brand` int(10) NOT NULL COMMENT '品牌',
+  `series` int(10) NOT NULL COMMENT '系列',
+  `model` int(10) COMMENT '型号',
+  `factory_time` date COMMENT '出厂时间',
+  `serial_no` varchar(64) NOT NULL COMMENT '整机序列号',
+  `location_id` int(10) COMMENT '位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面',
+  `location_desc` varchar(255) COMMENT '描述性位置',
+  `location_coordinate` varchar(20) COMMENT '坐标位置，如：F8、H13',
+  `obj_id` varchar(32) COMMENT '三维图形对象ID',
+  `create_time` datetime COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+	`update_time` datetime COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  `dept_id` int(10) COMMENT '部门ID',
+  `remark` varchar(512) COMMENT '资源描述',
+  `person_responsible` int(10) COMMENT '责任人',
+	`delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源基本信息历史';
 
 -- 资源类别
 CREATE TABLE `t_res_type` (
@@ -195,7 +229,8 @@ CREATE TABLE `t_location` (
 CREATE TABLE `t_res_purchase` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '采购ID',
 	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
-  `contract_company` varchar(50) COMMENT '合同单位',
+	`contract_company_id` int(10) COMMENT '合同单位ID',
+  `contract_company_name` varchar(128) COMMENT '合同单位名称',
   `contract_no` varchar(50) COMMENT '合同编号',
   `contract_attach` varchar(255) COMMENT '合同附件，多个附件ID以逗号分隔',
   `contract_desc` varchar(512) COMMENT '合同描述',
@@ -207,12 +242,31 @@ CREATE TABLE `t_res_purchase` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源采购信息';
 
+-- 资源采购信息历史
+CREATE TABLE `t_res_purchase_his` (
+  `id` bigint(20) NOT NULL COMMENT '采购ID',
+	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
+  `contract_company_id` int(10) COMMENT '合同单位ID',
+  `contract_company_name` varchar(128) COMMENT '合同单位名称',
+  `contract_no` varchar(50) COMMENT '合同编号',
+  `contract_attach` varchar(255) COMMENT '合同附件，多个附件ID以逗号分隔',
+  `contract_desc` varchar(512) COMMENT '合同描述',
+	`price` decimal(10,2) COMMENT '采购价格',
+	`create_time` datetime COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+	`update_time` datetime COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  `delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源采购信息历史';
+
 
 -- 资源运维信息
 CREATE TABLE `t_res_maintenance` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '运维ID',
 	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
-  `person_responsible` int(10) COMMENT '责任人',
+  `person_responsible` int(10) COMMENT '责任人ID',
+  `responsible_name` varchar(10) COMMENT '责任人姓名',
   `warranty_start_date` date COMMENT '保修开始日期',
   `warranty_end_date` date COMMENT '保修结束日期',
   `maintain_company` int(10) COMMENT '维保单位ID',
@@ -230,6 +284,30 @@ CREATE TABLE `t_res_maintenance` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源运维信息';
 
+-- 资源运维信息历史
+CREATE TABLE `t_res_maintenance_his` (
+  `id` bigint(20) NOT NULL COMMENT '运维ID',
+  `res_id` bigint(20) NOT NULL COMMENT '资源ID',
+  `person_responsible` int(10) COMMENT '责任人ID',
+  `responsible_name` varchar(10) COMMENT '责任人姓名',
+  `warranty_start_date` date COMMENT '保修开始日期',
+  `warranty_end_date` date COMMENT '保修结束日期',
+  `maintain_company` int(10) COMMENT '维保单位ID',
+  `maintain_company_name` varchar(64) COMMENT '维保单位名称',
+  `maintain_dept_id` int(10) COMMENT '维护部门ID',
+  `maintain_dept_name` varchar(64) COMMENT '维保部门名称',
+  `maintain_period` int(5) COMMENT '维保周期',
+  `maintain_price` decimal(10,2) COMMENT '维保价格',
+  `precautions_text` varchar(1000) COMMENT '运维或保养特别提示、注意事项（文字）',
+  `res_status` int(10) COMMENT '设备状态,入库/在用/送修/注销',
+  `create_time` datetime COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+  `update_time` datetime COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  `delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源运维信息历史';
+
 -- 资源安装/配置信息
 CREATE TABLE `t_res_install_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '安装配置ID',
@@ -241,6 +319,19 @@ CREATE TABLE `t_res_install_config` (
   `update_user_id` int(10) COMMENT '修改人',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源安装/配置信息';
+
+-- 资源安装/配置信息历史
+CREATE TABLE `t_res_install_config_his` (
+  `id` bigint(20) NOT NULL COMMENT '安装配置ID',
+  `res_id` bigint(20) NOT NULL COMMENT '资源ID',
+  `operation_specification_text` varchar(3000) COMMENT '操作规范说明',
+  `create_time` datetime COMMENT '创建时间',
+  `create_user_id` int(10) COMMENT '创建人',
+  `update_time` datetime COMMENT '修改时间',
+  `update_user_id` int(10) COMMENT '修改人',
+  `delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源安装/配置信息历史';
 
 -- 设备部件信息
 CREATE TABLE `t_res_component` (
@@ -254,6 +345,19 @@ CREATE TABLE `t_res_component` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备部件信息';
 
+-- 设备部件信息历史
+CREATE TABLE `t_res_component_his` (
+  `id` bigint(20) NOT NULL COMMENT '部件ID',
+  `res_id` bigint(20) NOT NULL COMMENT '资源ID',
+  `name` varchar(64) NOT NULL COMMENT '部件名称',
+  `serial_no` varchar(64) NOT NULL COMMENT '序列号',
+  `dict_id` int(10) COMMENT '字典ID',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '修改时间',
+  `delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备部件信息历史';
+
 -- 资源设备参数信息
 CREATE TABLE `t_res_equip_param` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '参数ID',
@@ -265,4 +369,17 @@ CREATE TABLE `t_res_equip_param` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源设备参数信息';
+
+-- 资源设备参数信息历史
+CREATE TABLE `t_res_equip_param_his` (
+  `id` bigint(20) NOT NULL COMMENT '参数ID',
+	`res_id` bigint(20) NOT NULL COMMENT '资源ID',
+	`name` varchar(64) NOT NULL COMMENT '参数名称',
+	`value` varchar(128) COMMENT '参数值',
+  `dict_id` int(10) COMMENT '字典ID',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '修改时间',
+  `delete_time` datetime COMMENT '删除时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源设备参数信息历史';
 

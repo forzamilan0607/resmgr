@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ResComponentDao extends BaseDao<ResComponentEntity> {
 
     void deleteByResId(Long resId);
+
+    void save2His(Long resId);
 }

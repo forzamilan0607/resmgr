@@ -64,6 +64,31 @@
 		)
 	</insert>
 
+	<insert id="save2His" parameterType="java.lang.Long" >
+		insert into t_res_component_his
+		(
+			`id`,
+			`res_id`,
+			`name`,
+			`serial_no`,
+			`dict_id`,
+			`create_time`,
+			`update_time`,
+			`delete_time`
+		)
+		SELECT
+			`id`,
+			`res_id`,
+			`name`,
+			`serial_no`,
+			`dict_id`,
+			`create_time`,
+			`update_time`,
+			 now()
+		FROM t_res_component
+		WHERE res_id = #{resId}
+	</insert>
+
 	<insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true">
 		<selectKey resultType="long" keyProperty="id" order="AFTER">
 			SELECT

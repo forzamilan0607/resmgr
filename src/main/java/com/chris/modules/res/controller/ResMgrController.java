@@ -86,11 +86,11 @@ public class ResMgrController {
     /**
      * 删除
      */
+    @SysLog("批量删除资源设备")
     @RequestMapping("/delete")
     @RequiresPermissions("res:resmgr:delete")
     public R delete(@RequestBody Long[] ids) {
-        resBaseInfoService.deleteBatch(ids);
-
+        this.resMgrService.deleteBatchResInfo(ids);
         return R.ok();
     }
 

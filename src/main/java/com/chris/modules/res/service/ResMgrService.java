@@ -29,6 +29,7 @@ public interface ResMgrService {
 	void updateResInfo(ResInfoDTO resInfoDTO);
 	
 	void deleteResInfoById(Long resId);
-	
+
+	@Transactional
 	void deleteBatchResInfo(Long[] resIds);
 }

@@ -19,4 +19,6 @@ public interface SysAttachmentDao extends BaseDao<SysAttachmentEntity> {
     void updateBatch(List<SysAttachmentEntity> sysAttachments);
 
     List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity param);
+
+    void updateAttachmentsStatus2DeletedByObjId(Long resId);
 }

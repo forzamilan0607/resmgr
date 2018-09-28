@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
         <result property="personResponsible" column="person_responsible"/>
+        <result property="responsibleName" column="responsible_name"/>
         <result property="warrantyStartDate" column="warranty_start_date"/>
         <result property="warrantyEndDate" column="warranty_end_date"/>
         <result property="maintainCompany" column="maintain_company"/>
@@ -60,7 +61,8 @@
 			`maintain_dept_id`, 
 			`maintain_dept_name`,
 			`person_responsible`,
-			`warranty_start_date`, 
+			`responsible_name`,
+			`warranty_start_date`,
 			`warranty_end_date`, 
 			`maintain_company`, 
 			`maintain_company_name`,
@@ -79,7 +81,8 @@
 			#{maintainDeptId}, 
 			#{maintainDeptName},
 			#{personResponsible},
-			#{warrantyStartDate}, 
+			#{responsibleName},
+			#{warrantyStartDate},
 			#{warrantyEndDate}, 
 			#{maintainCompany}, 
 			#{maintainCompanyName},
@@ -93,6 +96,53 @@
 			#{updateUserId}
 		)
 	</insert>
+
+	<insert id="save2His" parameterType="java.lang.Long">
+		insert into t_res_maintenance_his
+		(
+			`id`,
+			`res_id`,
+			`maintain_dept_id`,
+			`maintain_dept_name`,
+			`person_responsible`,
+			`responsible_name`,
+			`warranty_start_date`,
+			`warranty_end_date`,
+			`maintain_company`,
+			`maintain_company_name`,
+			`maintain_period`,
+			`maintain_price`,
+			`precautions_text`,
+			`res_status`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			`delete_time`
+		)
+		SELECT
+			`id`,
+			`res_id`,
+			`maintain_dept_id`,
+			`maintain_dept_name`,
+			`person_responsible`,
+			`responsible_name`,
+			`warranty_start_date`,
+			`warranty_end_date`,
+			`maintain_company`,
+			`maintain_company_name`,
+			`maintain_period`,
+			`maintain_price`,
+			`precautions_text`,
+			`res_status`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			now()
+		FROM t_res_maintenance
+		WHERE res_id = #{resId}
+	</insert>
 	 
 	<update id="update" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity">
 		update t_res_maintenance 
@@ -101,6 +151,7 @@
 			<if test="maintainDeptId != null">`maintain_dept_id` = #{maintainDeptId}, </if>
 			<if test="maintainDeptName != null">`maintain_dept_name` = #{maintainDeptName}, </if>
 			<if test="personResponsible != null">`person_responsible` = #{personResponsible}, </if>
+			<if test="responsibleName != null">`responsible_name` = #{responsibleName}, </if>
 			<if test="warrantyStartDate != null">`warranty_start_date` = #{warrantyStartDate}, </if>
 			<if test="warrantyEndDate != null">`warranty_end_date` = #{warrantyEndDate}, </if>
 			<if test="maintainCompany != null">`maintain_company` = #{maintainCompany}, </if>
@@ -119,6 +170,10 @@
 	
 	<delete id="delete">
 		delete from t_res_maintenance where id = #{value}
+	</delete>
+
+	<delete id="deleteByResId" parameterType="java.lang.Long">
+		delete from t_res_maintenance where res_id = #{resId}
 	</delete>
 	
 	<delete id="deleteBatch">

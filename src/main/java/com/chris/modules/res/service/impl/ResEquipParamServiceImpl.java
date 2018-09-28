@@ -59,6 +59,7 @@ public class ResEquipParamServiceImpl implements ResEquipParamService {
 
 	@Override
 	public void deleteByResId(Long resId) {
+		this.resEquipParamDao.save2His(resId);
 		this.resEquipParamDao.deleteByResId(resId);
 	}
 }

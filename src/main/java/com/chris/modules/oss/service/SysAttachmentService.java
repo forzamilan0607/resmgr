@@ -31,4 +31,6 @@ public interface SysAttachmentService {
     void updateBatch(List<SysAttachmentEntity> sysAttachments);
 
     List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity attachmentEntity);
+
+    void updateAttachmentsStatus2DeletedByResIds(Long[] resIds);
 }

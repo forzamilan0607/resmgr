@@ -76,14 +76,16 @@
                 </div>
             </div>
             <div class="form-group col-sm-3">
-                <select placeholder="资源类别" class="form-control" v-model="queryParam.resTypeId">
-                    <option  v-for="resType in resTypeList" :value="resType.id" >{{resType.name}}</option>
+                <select placeholder="资源类别" class="form-control" v-model="queryParam.resTypeId" >
+                    <option  v-for="(resType,index) in resTypeList" :value="resType.id" :disabled="index == 0">{{resType.name}}</option>
                 </select>
             </div>
             <div class="form-group col-sm-3">
                 <input type="text" class="form-control" v-model="queryParam.name" placeholder="设备名称" />
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-3 pull-right">
+                <a class="btn btn-primary" @click="reload"><i class="fa fa-trash-o"></i>&nbsp;查询</a>
+                <a class="btn btn-primary" @click="resetQryCondition"><i class="fa fa-trash-o"></i>&nbsp;重置</a>
             </div>
         </div>
         <div class="container">
@@ -101,7 +103,7 @@
             <div class="form-group col-sm-3">
                 <div class="input-group col-sm-12">
                     <input type="hidden" v-model="queryParam.personResponsible" />
-                    <input type="text" placeholder="责任人" readonly="readonly" class="form-control" v-model="queryParam.personResponsibleName">
+                    <input type="text" placeholder="责任人" readonly="readonly" class="form-control" v-model="queryParam.responsibleName">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-info" @click="showResponsibleLayer(1)">
                             <span class="glyphicon glyphicon-search"></span>
@@ -121,19 +123,18 @@
                 </div>
             </div>
             <div class="form-group col-sm-3 pull-right">
-                <a class="btn btn-primary" @click="reload"><i class="fa fa-trash-o"></i>&nbsp;查询</a>
-                <a class="btn btn-primary" @click="resetQryCondition"><i class="fa fa-trash-o"></i>&nbsp;重置</a>
+                <a v-if="hasPermission('res:resmgr:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+                <a v-if="hasPermission('res:resmgr:update')" class="btn btn-primary" @click="update"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+                <a v-if="hasPermission('res:resmgr:delete')" class="btn btn-primary" @click="del"><i
+                        class="fa fa-trash-o"></i>&nbsp;删除</a>
             </div>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
-        <div class="grid-btn pull-right">
-            <a v-if="hasPermission('res:resmgr:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-            <a v-if="hasPermission('res:resmgr:update')" class="btn btn-primary" @click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('res:resmgr:delete')" class="btn btn-primary" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;删除</a>
-        </div>
+        <!--<div class="grid-btn pull-right">
+
+        </div>-->
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -174,7 +175,7 @@
                                     </div>
                                     <div class="col-sm-10">
                                         <select type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId" placeholder="资源类别" >
-                                            <option  v-for="resType in resTypeList" :value="resType.id" >{{resType.name}}</option>
+                                            <option  v-for="(resType, index) in resTypeList" :value="resType.id" v-if="index != 0">{{resType.name}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -251,7 +252,7 @@
                                     </div>
                                     <div class="input-group col-sm-8">
                                         <input type="hidden" v-model="resBaseInfo.personResponsible" />
-                                        <input type="text" class="form-control" id="resBaseInfo.personResponsibleName" v-model="resBaseInfo.personResponsibleName" placeholder="请选择责任人" readonly />
+                                        <input type="text" class="form-control" id="resBaseInfo.responsibleName" v-model="resBaseInfo.responsibleName" placeholder="请选择责任人" readonly />
                                         <span class="input-group-btn">
                                             <button class="btn btn-info" type="button" @click="showResponsibleLayer(2)">
                                                 <span class="glyphicon glyphicon-search"></span>
@@ -277,8 +278,13 @@
                                     <div class="col-sm-2 control-label">
                                         <span class="required">*</span>出厂时间
                                     </div>
-                                    <div class="col-sm-10">
+                                    <div class="input-group col-sm-8">
                                         <input type="text" class="form-control myDatetimePicker" id="resBaseInfo.factoryTime" placeholder="出厂时间" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info btn-datetime">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6">
@@ -338,7 +344,7 @@
                                         <table role="presentation" class="table table-bordered" id="table_resComponent">
                                             <thead>
                                             <tr>
-                                                <th scope="col" class="col-sm-4 pull-center">部件名称</th>
+                                                <th scope="col" class="col-sm-5 pull-center">部件名称</th>
                                                 <th scope="col" class="col-sm-4 pull-center">序列号</th>
                                                 <th scope="col" class="pull-center">
                                                     <a class="btn btn-success" @click="addResComponent"><i class="fa fa-plus"></i>&nbsp;添加</a>
@@ -359,7 +365,7 @@
                                                     <td class="pull-center">
                                                         <input type="text" class="form-control" v-model="component.serialNo" />
                                                     </td>
-                                                    <td>
+                                                    <td class="pull-center">
                                                         <a class="btn btn-danger cancel" @click="deleteResComponent(component, index)">
                                                             <i class="fa fa-trash-o"></i>
                                                             <span>删除</span>
@@ -532,7 +538,7 @@
                             <div class="col-sm-2 control-label">责任人</div>
                             <div class="input-group col-sm-6">
                                 <input type="hidden" v-model="resMaintenance.personResponsible" />
-                                <input type="text" class="form-control" id="resMaintenance.personResponsibleName" v-model="resMaintenance.personResponsibleName" placeholder="请选择责任人" :disabled="!resMaintenance.maintainDeptName" />
+                                <input type="text" class="form-control" id="resMaintenance.responsibleName" v-model="resMaintenance.responsibleName" placeholder="请选择责任人" :disabled="!resMaintenance.maintainDeptName" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info" type="button" @click="showResponsibleLayer(3)" :disabled="!resMaintenance.maintainDeptName">
                                         <span class="glyphicon glyphicon-search"></span>
@@ -545,12 +551,22 @@
                             <div class="input-group col-sm-6">
                                 <!--<vuejs-datepicker></vuejs-datepicker>-->
                                 <input type="text" class="form-control myDatetimePicker" id="resMaintenance.warrantyStartDate" placeholder="保修开始日期"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-datetime">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 control-label">保修结束日期</div>
                             <div class="input-group col-sm-6">
                                 <input type="input-group text" class="form-control myDatetimePicker" id="resMaintenance.warrantyEndDate"  placeholder="保修结束日期"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info btn-datetime">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -791,7 +807,7 @@
                                     <table role="presentation" class="table table-bordered" id="table_resEquipParam">
                                         <thead>
                                         <tr>
-                                            <th scope="col" class="col-sm-4 pull-center">参数名称</th>
+                                            <th scope="col" class="col-sm-5 pull-center">参数名称</th>
                                             <th scope="col" class="col-sm-4 pull-center">参数值</th>
                                             <th scope="col" class="pull-center">
                                                 <a class="btn btn-success" @click="addResEquipParam"><i class="fa fa-plus"></i>&nbsp;添加</a>

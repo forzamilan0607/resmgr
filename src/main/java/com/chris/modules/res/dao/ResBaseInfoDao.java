@@ -13,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ResBaseInfoDao extends BaseDao<ResBaseInfoEntity> {
-	
+	void save2His(ResBaseInfoEntity param);
 }

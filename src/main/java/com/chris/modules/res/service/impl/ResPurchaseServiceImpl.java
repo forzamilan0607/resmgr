@@ -79,4 +79,12 @@ public class ResPurchaseServiceImpl implements ResPurchaseService {
 		log.error("no data found by resId[" + resId + "]");
 		return null;
 	}
+
+	@Override
+	public void deleteBatchByResIds(Long[] resIds) {
+		for (int i = 0; i < resIds.length; i++) {
+			this.resPurchaseDao.save2His(resIds[i]);
+			this.resPurchaseDao.deleteByResId(resIds[i]);
+		}
+	}
 }

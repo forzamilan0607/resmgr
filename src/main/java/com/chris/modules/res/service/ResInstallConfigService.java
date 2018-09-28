@@ -29,4 +29,6 @@ public interface ResInstallConfigService {
 	void deleteBatch(Long[] ids);
 
 	ResInstallConfigEntity queryResInstallConfigByResId(Long resId);
+
+	void deleteBatchByResIds(Long[] resIds);
 }

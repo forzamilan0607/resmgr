@@ -82,4 +82,12 @@ public class ResInstallConfigServiceImpl implements ResInstallConfigService {
 		log.error("no data found by resId[" + resId + "]");
 		return null;
 	}
+
+	@Override
+	public void deleteBatchByResIds(Long[] resIds) {
+		for (int i = 0; i < resIds.length; i++) {
+			this.resInstallConfigDao.save2His(resIds[i]);
+			this.resInstallConfigDao.deleteByResId(resIds[i]);
+		}
+	}
 }

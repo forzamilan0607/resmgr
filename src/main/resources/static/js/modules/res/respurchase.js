@@ -11,7 +11,7 @@ $(function () {
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '资源ID', name: 'resId', index: 'res_id', width: 80 }, 			
-			{ label: '合同单位', name: 'contractCompany', index: 'contract_company', width: 80 }, 			
+			{ label: '合同单位', name: 'contractCompanyName', index: 'contract_company_name', width: 80 },
 			{ label: '合同编号', name: 'contractNo', index: 'contract_no', width: 80 }, 			
 			{ label: '合同附件，多个附件ID以逗号分隔', name: 'contractAttach', index: 'contract_attach', width: 80 }, 			
 			{ label: '合同描述', name: 'contractDesc', index: 'contract_desc', width: 80 }, 			

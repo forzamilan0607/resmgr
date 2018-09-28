@@ -13,5 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ResInstallConfigDao extends BaseDao<ResInstallConfigEntity> {
-	
+
+    void save2His(Long resId);
+
+    void deleteByResId(Long resId);
 }

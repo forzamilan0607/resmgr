@@ -85,4 +85,12 @@ public class ResMaintenanceServiceImpl implements ResMaintenanceService {
 		log.error("no data found by resId[" + resId + "]");
 		return null;
 	}
+
+	@Override
+	public void deleteBatchByResIds(Long[] resIds) {
+		for (int i = 0; i < resIds.length; i++) {
+			this.resMaintenanceDao.save2His(resIds[i]);
+			this.resMaintenanceDao.deleteByResId(resIds[i]);
+		}
+	}
 }

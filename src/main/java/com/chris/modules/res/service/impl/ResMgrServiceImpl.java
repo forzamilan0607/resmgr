@@ -131,8 +131,20 @@ public class ResMgrServiceImpl implements ResMgrService {
 
     }
 
+    /**
+     * 批量删除资源并入历史
+     * @param resIds
+     */
     @Override
     public void deleteBatchResInfo(Long[] resIds) {
+        logger.error("deleteBatchResInfo start, resIds = " + resIds);
+        this.resBaseInfoService.deleteBatch(resIds);
+        this.resPurchaseService.deleteBatchByResIds(resIds);
+        this.resMaintenanceService.deleteBatchByResIds(resIds);
+        this.resInstallConfigService.deleteBatchByResIds(resIds);
+        //更新附件状态
+        this.sysAttachmentService.updateAttachmentsStatus2DeletedByResIds(resIds);
+        logger.error("deleteBatchResInfo end.");
 
     }
 

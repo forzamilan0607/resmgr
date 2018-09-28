@@ -28,8 +28,10 @@ public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable 
     private String maintainDeptName;
     //维护部门ID
     private Integer maintainDeptId;
-    //责任人
+    //责任人ID
     private Integer personResponsible;
+    //责任人姓名
+    private String responsibleName;
     //保修开始日期
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date warrantyStartDate;
@@ -185,5 +187,13 @@ public class ResMaintenanceEntity extends SysUpdateInfo implements Serializable 
 
     public void setResStatus(Integer resStatus) {
         this.resStatus = resStatus;
+    }
+
+    public String getResponsibleName() {
+        return responsibleName;
+    }
+
+    public void setResponsibleName(String responsibleName) {
+        this.responsibleName = responsibleName;
     }
 }

@@ -116,7 +116,7 @@ $(document).ready(function () {
 			{ label: '修改人', name: 'updateUserName', index: 'update_user_id', width: 60 },
 			{ label: '部门', name: 'deptName', index: 'dept_id', width: 80 },
 			//{ label: '资源描述', name: 'remark', index: 'remark', width: 80 },
-			{ label: '责任人', name: 'personResponsible', index: 'person_responsible', width: 80 }
+			{ label: '责任人', name: 'responsibleName', index: 'person_responsible', width: 80 }
         ],
 		viewrecords: true,
         height: 385,
@@ -144,7 +144,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".myDatetimePicker").datetimepicker({
+    $(".myDatetimePicker").prop("readonly", true).datetimepicker({
         format: 'yyyy-mm-dd',
         language: 'zh-CN',
         weekStart: 1,
@@ -155,6 +155,10 @@ $(document).ready(function () {
         minView: 2,  //Number, String. 默认值：0, 'hour'，日期时间选择器所能够提供的最精确的时间选择视图。
         clearBtn:true,//清除按钮
         forceParse: 0
+    });
+
+    $("button.btn-datetime").bind("click", function () {
+       $(this).parent("span").prev(".myDatetimePicker").trigger("focus");
     });
 
     $("input[id='resMaintenance.warrantyStartDate'],input[id='resMaintenance.warrantyEndDate']").bind("change", function() {vm.calcMaintainPeriod();});
@@ -172,7 +176,7 @@ var vm = new Vue({
             deptId: null,
             deptName: null,
             personResponsible: null,
-            personResponsibleName: null,
+            responsibleName: null,
             factoryTime: null,
             locationId: null,
             locationName: null,
@@ -191,7 +195,7 @@ var vm = new Vue({
             maintainDeptId: null,
             maintainDeptName: null,
             personResponsible: null,
-            personResponsibleName: null,
+            responsibleName: null,
             maintainContractAttachments: [],
             resInstructionsAttachments: [],
             precautionsAttachments: []
@@ -221,7 +225,7 @@ var vm = new Vue({
             maintainCompany: null,
 		    deptId: null,
             personResponsible: null,
-            personResponsibleName: null
+            responsibleName: null
         }
 	},
     /*components: {
@@ -230,15 +234,22 @@ var vm = new Vue({
     computed: {
         // 计算属性的 getter
         resTypeList: function () {
+            var data = [{
+                id: null,
+                name: "请选择资源类别"
+            }];
             if (this.dataDictList && this.dataDictList.length) {
-                return $.grep(this.dataDictList, function (item, i) {
+                this.resBaseInfo.brand = null;
+                this.resBaseInfo.series = null;
+                return data.concat($.grep(this.dataDictList, function (item, i) {
                     return item.type == 'RES_TYPE'
-                });
+                }));
             }
-            return [];
+            return data;
         },
         equipList: function () {
-            return this.getDataDictListByParentId(this.resBaseInfo.resTypeId, "SUB_SYSTEM");
+            var data = this.getDataDictListByParentId(this.resBaseInfo.resTypeId, "SUB_SYSTEM");
+            return data;
         },
         brandList: function () {
             var id = this.resBaseInfo.equipId;
@@ -364,6 +375,7 @@ var vm = new Vue({
                 var endTime = new Date(endDate.replace(/-/g,"/")).getTime();
                 var days = Math.abs((endTime - startTime)) / (1000 * 60 * 60 * 24);
                 $("input[id='resMaintenance.maintainPeriod']").val(days);
+                vm.resMaintenance.maintainPeriod = days;
             }
         },
 		saveOrUpdate: function (event) {
@@ -374,7 +386,6 @@ var vm = new Vue({
             vm.resBaseInfo.name = vm.resName;
 			vm.resMaintenance.warrantyStartDate = $("input[id='resMaintenance.warrantyStartDate']").val();
 			vm.resMaintenance.warrantyEndDate = $("input[id='resMaintenance.warrantyEndDate']").val();
-			vm.resMaintenance.maintainPeriod = vm.maintainPeriod;
             vm.resBaseInfo.factoryTime = $("input[id='resBaseInfo.factoryTime']").val();
 			$.ajax({
 				type: "POST",
@@ -409,7 +420,7 @@ var vm = new Vue({
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == $util.HTTP_STATUS.SC_OK){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -424,9 +435,15 @@ var vm = new Vue({
 			$.get(baseURL + "res/resmgr/info/"+id, function(r){
                 if(r.code === $util.HTTP_STATUS.SC_OK){
                     vm.resBaseInfo = r.resInfoDTO.resBaseInfo;
-                    vm.resPurchase = r.resInfoDTO.resPurchase;
-                    vm.resMaintenance = r.resInfoDTO.resMaintenance;
-                    vm.resInstallConfig = r.resInfoDTO.resInstallConfig;
+                    if (r.resInfoDTO.resPurchase) {
+                        vm.resPurchase = r.resInfoDTO.resPurchase;
+                    }
+                    if (r.resInfoDTO.resMaintenance) {
+                        vm.resMaintenance = r.resInfoDTO.resMaintenance;
+                    }
+                    if (r.resInfoDTO.resInstallConfig) {
+                        vm.resInstallConfig = r.resInfoDTO.resInstallConfig;
+                    }
                     vm.setLocationValue();
                 }else{
                     alert(r.msg);
@@ -602,13 +619,13 @@ var vm = new Vue({
         selectResponsible: function (treeNode, index) {
             if (vm.showResponsibleValue == 1) {
                 vm.queryParam.personResponsible = treeNode.id;
-                vm.queryParam.personResponsibleName = treeNode.name;
+                vm.queryParam.responsibleName = treeNode.name;
             } else if (vm.showResponsibleValue == 2) {
                 vm.resBaseInfo.personResponsible = treeNode.id;
-                vm.resBaseInfo.personResponsibleName = treeNode.name;
+                vm.resBaseInfo.responsibleName = treeNode.name;
             } else {
                 vm.resMaintenance.personResponsible = treeNode.id;
-                vm.resMaintenance.personResponsibleName = treeNode.name;
+                vm.resMaintenance.responsibleName = treeNode.name;
             }
             layer.close(index || layer.index);
         },

@@ -77,6 +77,14 @@ public class ResBaseInfoServiceImpl implements ResBaseInfoService {
 	
 	@Override
 	public void deleteBatch(Long[] ids){
+		//删除资源部件和参数信息
+		//首先入历史表
+		for (int i = 0; i < ids.length; i++) {
+			this.resComponentService.deleteByResId(ids[i]);
+			this.resEquipParamService.deleteByResId(ids[i]);
+			this.resBaseInfoDao.save2His(new ResBaseInfoEntity(ids[i]));
+		}
+		//然后删除
 		resBaseInfoDao.deleteBatch(ids);
 	}
 

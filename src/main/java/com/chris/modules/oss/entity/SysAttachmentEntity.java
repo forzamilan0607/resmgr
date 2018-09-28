@@ -30,6 +30,8 @@ public class SysAttachmentEntity extends SysUpdateInfo implements Serializable{
 
     private String tempUrl;
 
+    private Integer status;
+
     public Long getId() {
         return id;
     }
@@ -108,6 +110,14 @@ public class SysAttachmentEntity extends SysUpdateInfo implements Serializable{
 
     public void setTempUrl(String tempUrl) {
         this.tempUrl = tempUrl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public SysAttachmentEntity() {

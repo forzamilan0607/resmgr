@@ -29,4 +29,6 @@ public interface ResPurchaseService {
 	void deleteBatch(Long[] ids);
 
     ResPurchaseEntity queryResPurchaseByResId(Long resId);
+
+    void deleteBatchByResIds(Long[] resIds);
 }

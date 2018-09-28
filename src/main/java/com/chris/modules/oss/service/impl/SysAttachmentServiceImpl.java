@@ -63,4 +63,11 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
 		}
 		return attachments;
 	}
+
+	@Override
+	public void updateAttachmentsStatus2DeletedByResIds(Long[] resIds) {
+		for (int i = 0; i < resIds.length; i++) {
+			this.sysAttachmentDao.updateAttachmentsStatus2DeletedByObjId(resIds[i]);
+		}
+	}
 }

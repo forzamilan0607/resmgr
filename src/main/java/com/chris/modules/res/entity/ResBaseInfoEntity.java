@@ -54,8 +54,10 @@ public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	private String deptName;
 	//资源描述
 	private String remark;
-	//责任人
+	//责任人ID
 	private Integer personResponsible;
+	//责任人名称
+	private String responsibleName;
 
 	private List<SysAttachmentEntity> resNameplateAttachments;
 
@@ -230,4 +232,19 @@ public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
+
+	public String getResponsibleName() {
+		return responsibleName;
+	}
+
+	public void setResponsibleName(String responsibleName) {
+		this.responsibleName = responsibleName;
+	}
+
+	public ResBaseInfoEntity() {
+    }
+
+    public ResBaseInfoEntity(Long id) {
+        this.id = id;
+    }
 }

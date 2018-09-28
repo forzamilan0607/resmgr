@@ -179,4 +179,8 @@
 		</if>
 	</select>
 
+	<update id="updateAttachmentsStatus2DeletedByObjId" parameterType="java.lang.Long">
+		UPDATE sys_attachment SET status = 0 WHERE obj_id = #{objId}
+	</update>
+
 </mapper>

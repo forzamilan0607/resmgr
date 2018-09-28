@@ -16,4 +16,7 @@ import java.util.List;
 @Mapper
 public interface ResPurchaseDao extends BaseDao<ResPurchaseEntity> {
 
+    void save2His(Long resId);
+
+    void deleteByResId(Long resId);
 }

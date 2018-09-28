@@ -59,6 +59,8 @@ public class ResComponentServiceImpl implements ResComponentService {
 
 	@Override
 	public void deleteByResId(Long resId) {
+		//首先入历史表
+		this.resComponentDao.save2His(resId);
 		this.resComponentDao.deleteByResId(resId);
 	}
 }
