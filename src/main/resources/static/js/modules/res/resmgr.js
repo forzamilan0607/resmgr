@@ -239,8 +239,8 @@ var vm = new Vue({
                 name: "请选择资源类别"
             }];
             if (this.dataDictList && this.dataDictList.length) {
-                this.resBaseInfo.brand = null;
-                this.resBaseInfo.series = null;
+                // this.resBaseInfo.brand = null;
+                // this.resBaseInfo.series = null;
                 return data.concat($.grep(this.dataDictList, function (item, i) {
                     return item.type == 'RES_TYPE'
                 }));
