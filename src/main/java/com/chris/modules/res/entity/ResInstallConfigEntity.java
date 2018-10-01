@@ -1,7 +1,11 @@
 package com.chris.modules.res.entity;
 
+import com.chris.common.model.SysUpdateInfo;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -9,94 +13,59 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
-public class ResInstallConfigEntity implements Serializable {
+public class ResInstallConfigEntity extends SysUpdateInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//安装配置ID
-	private Long configId;
+	private Long id;
 	//资源ID
 	private Long resId;
-	//图纸，多个附件ID以逗号分隔
-	private String drawing;
+	//图纸附件列表
+	private List<SysAttachmentEntity> drawingAttachments;
 	//操作规范说明
 	private String operationSpecificationText;
-	//操作规范说明（附件），多个附件ID以逗号分隔
-	private String operationSpecificationAttach;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//操作规范说明附件列表
+	private List<SysAttachmentEntity> operSpecAttachments;
 
-	/**
-	 * 设置：安装配置ID
-	 */
-	public void setConfigId(Long configId) {
-		this.configId = configId;
+	public Long getId() {
+		return id;
 	}
-	/**
-	 * 获取：安装配置ID
-	 */
-	public Long getConfigId() {
-		return configId;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	/**
-	 * 设置：资源ID
-	 */
-	public void setResId(Long resId) {
-		this.resId = resId;
-	}
-	/**
-	 * 获取：资源ID
-	 */
+
 	public Long getResId() {
 		return resId;
 	}
-	/**
-	 * 设置：图纸，多个附件ID以逗号分隔
-	 */
-	public void setDrawing(String drawing) {
-		this.drawing = drawing;
+
+	public void setResId(Long resId) {
+		this.resId = resId;
 	}
-	/**
-	 * 获取：图纸，多个附件ID以逗号分隔
-	 */
-	public String getDrawing() {
-		return drawing;
+
+	public List<SysAttachmentEntity> getDrawingAttachments() {
+		return drawingAttachments;
 	}
-	/**
-	 * 设置：操作规范说明
-	 */
-	public void setOperationSpecificationText(String operationSpecificationText) {
-		this.operationSpecificationText = operationSpecificationText;
+
+	public void setDrawingAttachments(List<SysAttachmentEntity> drawingAttachments) {
+		this.drawingAttachments = drawingAttachments;
 	}
-	/**
-	 * 获取：操作规范说明
-	 */
+
 	public String getOperationSpecificationText() {
 		return operationSpecificationText;
 	}
-	/**
-	 * 设置：操作规范说明（附件），多个附件ID以逗号分隔
-	 */
-	public void setOperationSpecificationAttach(String operationSpecificationAttach) {
-		this.operationSpecificationAttach = operationSpecificationAttach;
+
+	public void setOperationSpecificationText(String operationSpecificationText) {
+		this.operationSpecificationText = operationSpecificationText;
 	}
-	/**
-	 * 获取：操作规范说明（附件），多个附件ID以逗号分隔
-	 */
-	public String getOperationSpecificationAttach() {
-		return operationSpecificationAttach;
+
+	public List<SysAttachmentEntity> getOperSpecAttachments() {
+		return operSpecAttachments;
 	}
-	/**
-	 * 设置：是否同步，1、是，0、否
-	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
-	}
-	/**
-	 * 获取：是否同步，1、是，0、否
-	 */
-	public String getIsSync() {
-		return isSync;
+
+	public void setOperSpecAttachments(List<SysAttachmentEntity> operSpecAttachments) {
+		this.operSpecAttachments = operSpecAttachments;
 	}
 }

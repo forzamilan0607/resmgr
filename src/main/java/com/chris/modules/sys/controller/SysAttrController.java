@@ -25,7 +25,7 @@ import com.chris.common.utils.R;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
 @RestController
 @RequestMapping("/sys/sysattr")
@@ -54,10 +54,10 @@ public class SysAttrController {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{attrId}")
+	@RequestMapping("/info/{id}")
 	@RequiresPermissions("sys:sysattr:info")
-	public R info(@PathVariable("attrId") Integer attrId){
-		SysAttrEntity sysAttr = sysAttrService.queryObject(attrId);
+	public R info(@PathVariable("id") Integer id){
+		SysAttrEntity sysAttr = sysAttrService.queryObject(id);
 		
 		return R.ok().put("sysAttr", sysAttr);
 	}
@@ -89,8 +89,8 @@ public class SysAttrController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:sysattr:delete")
-	public R delete(@RequestBody Integer[] attrIds){
-		sysAttrService.deleteBatch(attrIds);
+	public R delete(@RequestBody Integer[] ids){
+		sysAttrService.deleteBatch(ids);
 		
 		return R.ok();
 	}

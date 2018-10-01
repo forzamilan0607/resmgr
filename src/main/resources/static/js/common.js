@@ -74,12 +74,14 @@ window.alert = function(msg, callback){
 
 //重写confirm式样框
 window.confirm = function(msg, callback){
-	parent.layer.confirm(msg, {btn: ['确定','取消']},
-	function(){//确定事件
-		if(typeof(callback) === "function"){
-			callback("ok");
-		}
-	});
+	parent.layer.confirm(msg, {btn: ['确定','取消'],
+        btn1: function (index, layero) {
+            if (callback && typeof(callback) === "function") {
+                callback();
+                parent.layer.close(index);
+            }
+        }}
+	);
 }
 
 //选择一条记录
@@ -111,10 +113,34 @@ function getSelectedRows() {
     
     return grid.getGridParam("selarrrow");
 }
+
+//判断是否为空
+function isBlank(value) {
+    return !value || !/\S/.test(value)
+}
+
 function clearObjValue(obj) {
     if (obj && typeof obj === "object") {
         for (var attr in obj) {
-            obj[attr] = null;
+            if (obj[attr]) {
+                if (typeof obj[attr] === "object") {
+                    if (obj[attr] instanceof Object) {
+                        clearObjValue(obj[attr]);
+                    } else if (obj[attr] instanceof Array) {
+                        obj[attr].length = 0;
+                        // TODO 数组处理是直接置为 0
+                        /*for (var i = 0; i < obj[attr].length; i++) {
+                            if (obj[attr][i] instanceof Object) {
+                                clearObjValue(obj[attr][i]);
+                            }
+                        }*/
+                    } else {
+                        obj[attr] = null;
+                    }
+                } else {
+                    obj[attr] = null;
+                }
+            }
         }
     }
 }
@@ -179,6 +205,32 @@ var $util = function () {
                 }
             }
             return true;
+        },
+        upload: function (conf) {
+            new AjaxUpload(conf.selector, {
+                action: baseURL + 'sys/oss/upload?token=' + token,
+                name: 'file',
+                autoSubmit: true,
+                responseType: "json",
+                onChange: function (file, extension) {
+                    // alert(file);
+                },
+                onSubmit: function (file, extension) {
+                    if (!extension || !conf.suffixReg.test(extension.toLowerCase())) {
+                        alert(conf.msg ? conf.msg : "不支持的文件格式！");
+                        return false;
+                    }
+                    $("body").mLoading();
+                },
+                onComplete: function (file, r) {
+                    $("body").mLoading("hide");
+                    if (r.code == $util.HTTP_STATUS.SC_OK) {
+                        conf.callback && conf.callback(r);
+                    } else {
+                        alert(r.msg);
+                    }
+                }
+            });
         }
     }
 }();

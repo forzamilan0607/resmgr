@@ -1,7 +1,12 @@
 package com.chris.modules.res.entity;
 
+import com.chris.common.model.SysUpdateInfo;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -9,15 +14,21 @@ import java.util.Date;
  * 
  * @author chris
  * @email 258321511@qq.com
- * @since Mar 22.18
+ * @since Aug 28.18
  */
-public class ResBaseInfoEntity implements Serializable {
+public class ResBaseInfoEntity extends SysUpdateInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//资源ID
-	private Long resId;
+	private Long id;
+	//资源设备名称
+	private String name;
+	//设备ID
+	private Integer equipId;
+	//资源编码
+	private String code;
 	//资源类别
-	private Integer resType;
+	private Integer resTypeId;
 	//品牌
 	private Integer brand;
 	//系列
@@ -25,260 +36,215 @@ public class ResBaseInfoEntity implements Serializable {
 	//型号
 	private Integer model;
 	//出厂时间
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
 	private Date factoryTime;
 	//整机序列号
 	private String serialNo;
-	//主要部件信息
-	private Long componentInfo;
-	//资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	private String resNameplate;
-	//描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	private Integer positionDesc;
+	//位置ID，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
+	private Integer locationId;
+	//描述性位置
+	private String locationDesc;
 	//坐标位置，如：F8、H13
-	private String positionCoordinate;
+	private String locationCoordinate;
 	//三维图形对象ID
 	private String objId;
-	//创建时间
-	private Date createTime;
-	//创建人
-	private Integer createUserId;
-	//修改时间
-	private Date modifyTime;
-	//修改人
-	private Integer modifyUserId;
 	//部门ID
 	private Integer deptId;
-	//责任人
+	//部门名称
+	private String deptName;
+	//资源描述
+	private String remark;
+	//责任人ID
 	private Integer personResponsible;
-	//是否同步，1、是，0、否
-	private String isSync;
+	//责任人名称
+	private String responsibleName;
 
-	/**
-	 * 设置：资源ID
-	 */
-	public void setResId(Long resId) {
-		this.resId = resId;
+	private List<SysAttachmentEntity> resNameplateAttachments;
+
+	private List<ResComponentEntity> resComponentList;
+
+	private List<ResEquipParamEntity> resEquipParamList;
+
+	public Long getId() {
+		return id;
 	}
-	/**
-	 * 获取：资源ID
-	 */
-	public Long getResId() {
-		return resId;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	/**
-	 * 设置：资源类别
-	 */
-	public void setResType(Integer resType) {
-		this.resType = resType;
+
+	public String getName() {
+		return name;
 	}
-	/**
-	 * 获取：资源类别
-	 */
-	public Integer getResType() {
-		return resType;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	/**
-	 * 设置：品牌
-	 */
-	public void setBrand(Integer brand) {
-		this.brand = brand;
+
+	public Integer getEquipId() {
+		return equipId;
 	}
-	/**
-	 * 获取：品牌
-	 */
+
+	public void setEquipId(Integer equipId) {
+		this.equipId = equipId;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Integer getResTypeId() {
+		return resTypeId;
+	}
+
+	public void setResTypeId(Integer resTypeId) {
+		this.resTypeId = resTypeId;
+	}
+
 	public Integer getBrand() {
 		return brand;
 	}
-	/**
-	 * 设置：系列
-	 */
-	public void setSeries(Integer series) {
-		this.series = series;
+
+	public void setBrand(Integer brand) {
+		this.brand = brand;
 	}
-	/**
-	 * 获取：系列
-	 */
+
 	public Integer getSeries() {
 		return series;
 	}
-	/**
-	 * 设置：型号
-	 */
-	public void setModel(Integer model) {
-		this.model = model;
+
+	public void setSeries(Integer series) {
+		this.series = series;
 	}
-	/**
-	 * 获取：型号
-	 */
+
 	public Integer getModel() {
 		return model;
 	}
-	/**
-	 * 设置：出厂时间
-	 */
-	public void setFactoryTime(Date factoryTime) {
-		this.factoryTime = factoryTime;
+
+	public void setModel(Integer model) {
+		this.model = model;
 	}
-	/**
-	 * 获取：出厂时间
-	 */
+
 	public Date getFactoryTime() {
 		return factoryTime;
 	}
-	/**
-	 * 设置：整机序列号
-	 */
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
+
+	public void setFactoryTime(Date factoryTime) {
+		this.factoryTime = factoryTime;
 	}
-	/**
-	 * 获取：整机序列号
-	 */
+
 	public String getSerialNo() {
 		return serialNo;
 	}
-	/**
-	 * 设置：主要部件信息
-	 */
-	public void setComponentInfo(Long componentInfo) {
-		this.componentInfo = componentInfo;
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
 	}
-	/**
-	 * 获取：主要部件信息
-	 */
-	public Long getComponentInfo() {
-		return componentInfo;
+
+	public Integer getLocationId() {
+		return locationId;
 	}
-	/**
-	 * 设置：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	 */
-	public void setResNameplate(String resNameplate) {
-		this.resNameplate = resNameplate;
+
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
 	}
-	/**
-	 * 获取：资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔
-	 */
-	public String getResNameplate() {
-		return resNameplate;
+
+	public String getLocationDesc() {
+		return locationDesc;
 	}
-	/**
-	 * 设置：描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	 */
-	public void setPositionDesc(Integer positionDesc) {
-		this.positionDesc = positionDesc;
+
+	public void setLocationDesc(String locationDesc) {
+		this.locationDesc = locationDesc;
 	}
-	/**
-	 * 获取：描述性位置，如：调度大楼/中栋/3层/310房/东头/上方；附属楼/主楼/2层/走廊/西头/地面
-	 */
-	public Integer getPositionDesc() {
-		return positionDesc;
+
+	public String getLocationCoordinate() {
+		return locationCoordinate;
 	}
-	/**
-	 * 设置：坐标位置，如：F8、H13
-	 */
-	public void setPositionCoordinate(String positionCoordinate) {
-		this.positionCoordinate = positionCoordinate;
+
+	public void setLocationCoordinate(String locationCoordinate) {
+		this.locationCoordinate = locationCoordinate;
 	}
-	/**
-	 * 获取：坐标位置，如：F8、H13
-	 */
-	public String getPositionCoordinate() {
-		return positionCoordinate;
-	}
-	/**
-	 * 设置：三维图形对象ID
-	 */
-	public void setObjId(String objId) {
-		this.objId = objId;
-	}
-	/**
-	 * 获取：三维图形对象ID
-	 */
+
 	public String getObjId() {
 		return objId;
 	}
-	/**
-	 * 设置：创建时间
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+
+	public void setObjId(String objId) {
+		this.objId = objId;
 	}
-	/**
-	 * 获取：创建时间
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-	/**
-	 * 设置：创建人
-	 */
-	public void setCreateUserId(Integer createUserId) {
-		this.createUserId = createUserId;
-	}
-	/**
-	 * 获取：创建人
-	 */
-	public Integer getCreateUserId() {
-		return createUserId;
-	}
-	/**
-	 * 设置：修改时间
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-	/**
-	 * 获取：修改时间
-	 */
-	public Date getModifyTime() {
-		return modifyTime;
-	}
-	/**
-	 * 设置：修改人
-	 */
-	public void setModifyUserId(Integer modifyUserId) {
-		this.modifyUserId = modifyUserId;
-	}
-	/**
-	 * 获取：修改人
-	 */
-	public Integer getModifyUserId() {
-		return modifyUserId;
-	}
-	/**
-	 * 设置：部门ID
-	 */
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
-	}
-	/**
-	 * 获取：部门ID
-	 */
+
 	public Integer getDeptId() {
 		return deptId;
 	}
-	/**
-	 * 设置：责任人
-	 */
-	public void setPersonResponsible(Integer personResponsible) {
-		this.personResponsible = personResponsible;
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
-	/**
-	 * 获取：责任人
-	 */
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public Integer getPersonResponsible() {
 		return personResponsible;
 	}
-	/**
-	 * 设置：是否同步，1、是，0、否
-	 */
-	public void setIsSync(String isSync) {
-		this.isSync = isSync;
+
+	public void setPersonResponsible(Integer personResponsible) {
+		this.personResponsible = personResponsible;
 	}
-	/**
-	 * 获取：是否同步，1、是，0、否
-	 */
-	public String getIsSync() {
-		return isSync;
+
+	public List<SysAttachmentEntity> getResNameplateAttachments() {
+		return resNameplateAttachments;
 	}
+
+	public void setResNameplateAttachments(List<SysAttachmentEntity> resNameplateAttachments) {
+		this.resNameplateAttachments = resNameplateAttachments;
+	}
+
+	public List<ResComponentEntity> getResComponentList() {
+		return resComponentList;
+	}
+
+	public void setResComponentList(List<ResComponentEntity> resComponentList) {
+		this.resComponentList = resComponentList;
+	}
+
+	public List<ResEquipParamEntity> getResEquipParamList() {
+		return resEquipParamList;
+	}
+
+	public void setResEquipParamList(List<ResEquipParamEntity> resEquipParamList) {
+		this.resEquipParamList = resEquipParamList;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getResponsibleName() {
+		return responsibleName;
+	}
+
+	public void setResponsibleName(String responsibleName) {
+		this.responsibleName = responsibleName;
+	}
+
+	public ResBaseInfoEntity() {
+    }
+
+    public ResBaseInfoEntity(Long id) {
+        this.id = id;
+    }
 }

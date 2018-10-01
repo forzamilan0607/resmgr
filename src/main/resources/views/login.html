@@ -14,7 +14,21 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="css/all-skins.min.css">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/jquery.mloading.css">
+  <!--<link rel="stylesheet" href="css/jquery.mloading.css">-->
+  <link rel="stylesheet" href="plugins/jqmloading/jquery.mloading.css">
+  <style>
+      .login-bg {
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          content: "";
+          background-image: url('img/login_bg.jpg');
+          background-size: cover;
+      }
+  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -22,10 +36,10 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page">
+<body class="login-bg">
 <div class="login-box" id="rrapp" v-cloak>
   <div class="login-logo">
-    <b>Resources Management</b>
+    <b style="color:#5a5a8a">资源设备管理系统</b>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -72,7 +86,8 @@
 <script src="libs/vue.min.js"></script>
 <script src="libs/bootstrap.min.js"></script>
 <script src="libs/app.js"></script>
-<script src="libs/jquery.mloading.js"></script>
+<script src="plugins/jqmloading/jquery.mloading.js"></script>
+<!--<script src="libs/jquery.mloading.js"></script>-->
 <script src="js/common.js"></script>
 <script type="text/javascript">
     var vm = new Vue({

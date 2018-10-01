@@ -7,10 +7,12 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../plugins/jqmloading/jquery.mloading.css">
 <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" href="../../css/main.css">
 <script src="../../libs/jquery.min.js"></script>
+<script src="../../plugins/jqmloading/jquery.mloading.js"></script>
 <script src="../../plugins/layer/layer.js"></script>
 <script src="../../libs/bootstrap.min.js"></script>
 <script src="../../libs/vue.min.js"></script>
@@ -18,6 +20,7 @@
 <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 <script src="../../js/common.js"></script>
+<script src="../../js/validator.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -37,49 +40,49 @@
 											<div class="form-group">
 			   	<div class="col-sm-2 control-label">部门名称</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.deptName" placeholder="部门名称"/>
+			      <input type="text" class="form-control" id="name" v-model="sysDepartment.name" placeholder="部门名称"/>
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label">公司ID</div>
+			   	<div class="col-sm-2 control-label">园区ID</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.companyId" placeholder="公司ID"/>
+			      <input type="text" class="form-control" id="parkId" v-model="sysDepartment.parkId" placeholder="园区ID"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<div class="col-sm-2 control-label">上级部门ID</div>
+			   	<div class="col-sm-10">
+			      <input type="text" class="form-control" id="parentDeptId" v-model="sysDepartment.parentDeptId" placeholder="上级部门ID"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">状态，1、有效，0、无效</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.status" placeholder="状态，1、有效，0、无效"/>
+			      <input type="text" class="form-control" id="status" v-model="sysDepartment.status" placeholder="状态，1、有效，0、无效"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">创建时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.createTime" placeholder="创建时间"/>
+			      <input type="text" class="form-control" id="createTime" v-model="sysDepartment.createTime" placeholder="创建时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">创建人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.createUserId" placeholder="创建人"/>
+			      <input type="text" class="form-control" id="createUserId" v-model="sysDepartment.createUserId" placeholder="创建人"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">修改时间</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.modifyTime" placeholder="修改时间"/>
+			      <input type="text" class="form-control" id="updateTime" v-model="sysDepartment.updateTime" placeholder="修改时间"/>
 			    </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">修改人</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.modifyUserId" placeholder="修改人"/>
-			    </div>
-			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">是否同步，1、是，0、否</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="sysDepartment.isSync" placeholder="是否同步，1、是，0、否"/>
+			      <input type="text" class="form-control" id="updateUserId" v-model="sysDepartment.updateUserId" placeholder="修改人"/>
 			    </div>
 			</div>
 							<div class="form-group">

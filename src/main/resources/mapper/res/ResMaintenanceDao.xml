@@ -7,19 +7,22 @@
     <resultMap type="com.chris.modules.res.entity.ResMaintenanceEntity" id="resMaintenanceMap">
         <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="maintainDept" column="maintain_dept"/>
         <result property="personResponsible" column="person_responsible"/>
+        <result property="responsibleName" column="responsible_name"/>
         <result property="warrantyStartDate" column="warranty_start_date"/>
         <result property="warrantyEndDate" column="warranty_end_date"/>
         <result property="maintainCompany" column="maintain_company"/>
+        <result property="maintainCompanyName" column="maintain_company_name"/>
+        <result property="maintainDeptId" column="maintain_dept_id"/>
+        <result property="maintainDeptName" column="maintain_dept_name"/>
         <result property="maintainPeriod" column="maintain_period"/>
         <result property="maintainPrice" column="maintain_price"/>
-        <result property="maintainContract" column="maintain_contract"/>
-        <result property="resInstructions" column="res_instructions"/>
         <result property="precautionsText" column="precautions_text"/>
-        <result property="precautionsAttach" column="precautions_attach"/>
         <result property="resStatus" column="res_status"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
@@ -27,7 +30,13 @@
 	</select>
 
 	<select id="queryList" resultType="com.chris.modules.res.entity.ResMaintenanceEntity">
-		select * from t_res_maintenance
+		select * from t_res_maintenance where 1=1
+		<if test="id != null ">
+			AND id = ${id}
+		</if>
+		<if test="resId != null ">
+			AND res_id = ${resId}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -49,62 +58,122 @@
 		insert into t_res_maintenance
 		(
 			`res_id`, 
-			`maintain_dept`, 
-			`person_responsible`, 
-			`warranty_start_date`, 
+			`maintain_dept_id`, 
+			`maintain_dept_name`,
+			`person_responsible`,
+			`responsible_name`,
+			`warranty_start_date`,
 			`warranty_end_date`, 
 			`maintain_company`, 
-			`maintain_period`, 
+			`maintain_company_name`,
+			`maintain_period`,
 			`maintain_price`, 
-			`maintain_contract`, 
-			`res_instructions`, 
-			`precautions_text`, 
-			`precautions_attach`, 
-			`res_status`, 
-			`is_sync`
+			`precautions_text`,
+			`res_status`,
+			`create_time`, 
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
 			#{resId}, 
-			#{maintainDept}, 
-			#{personResponsible}, 
-			#{warrantyStartDate}, 
+			#{maintainDeptId}, 
+			#{maintainDeptName},
+			#{personResponsible},
+			#{responsibleName},
+			#{warrantyStartDate},
 			#{warrantyEndDate}, 
 			#{maintainCompany}, 
-			#{maintainPeriod}, 
+			#{maintainCompanyName},
+			#{maintainPeriod},
 			#{maintainPrice}, 
-			#{maintainContract}, 
-			#{resInstructions}, 
-			#{precautionsText}, 
-			#{precautionsAttach}, 
-			#{resStatus}, 
-			#{isSync}
+			#{precautionsText},
+			#{resStatus},
+			#{createTime}, 
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
+	</insert>
+
+	<insert id="save2His" parameterType="java.lang.Long">
+		insert into t_res_maintenance_his
+		(
+			`id`,
+			`res_id`,
+			`maintain_dept_id`,
+			`maintain_dept_name`,
+			`person_responsible`,
+			`responsible_name`,
+			`warranty_start_date`,
+			`warranty_end_date`,
+			`maintain_company`,
+			`maintain_company_name`,
+			`maintain_period`,
+			`maintain_price`,
+			`precautions_text`,
+			`res_status`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			`delete_time`
+		)
+		SELECT
+			`id`,
+			`res_id`,
+			`maintain_dept_id`,
+			`maintain_dept_name`,
+			`person_responsible`,
+			`responsible_name`,
+			`warranty_start_date`,
+			`warranty_end_date`,
+			`maintain_company`,
+			`maintain_company_name`,
+			`maintain_period`,
+			`maintain_price`,
+			`precautions_text`,
+			`res_status`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			now()
+		FROM t_res_maintenance
+		WHERE res_id = #{resId}
 	</insert>
 	 
 	<update id="update" parameterType="com.chris.modules.res.entity.ResMaintenanceEntity">
 		update t_res_maintenance 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="maintainDept != null">`maintain_dept` = #{maintainDept}, </if>
+			<if test="maintainDeptId != null">`maintain_dept_id` = #{maintainDeptId}, </if>
+			<if test="maintainDeptName != null">`maintain_dept_name` = #{maintainDeptName}, </if>
 			<if test="personResponsible != null">`person_responsible` = #{personResponsible}, </if>
+			<if test="responsibleName != null">`responsible_name` = #{responsibleName}, </if>
 			<if test="warrantyStartDate != null">`warranty_start_date` = #{warrantyStartDate}, </if>
 			<if test="warrantyEndDate != null">`warranty_end_date` = #{warrantyEndDate}, </if>
 			<if test="maintainCompany != null">`maintain_company` = #{maintainCompany}, </if>
+			<if test="maintainCompanyName != null">`maintain_company_name` = #{maintainCompanyName}, </if>
 			<if test="maintainPeriod != null">`maintain_period` = #{maintainPeriod}, </if>
 			<if test="maintainPrice != null">`maintain_price` = #{maintainPrice}, </if>
-			<if test="maintainContract != null">`maintain_contract` = #{maintainContract}, </if>
-			<if test="resInstructions != null">`res_instructions` = #{resInstructions}, </if>
 			<if test="precautionsText != null">`precautions_text` = #{precautionsText}, </if>
-			<if test="precautionsAttach != null">`precautions_attach` = #{precautionsAttach}, </if>
 			<if test="resStatus != null">`res_status` = #{resStatus}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			`update_time` = now()
 		</set>
 		where id = #{id}
 	</update>
 	
 	<delete id="delete">
 		delete from t_res_maintenance where id = #{value}
+	</delete>
+
+	<delete id="deleteByResId" parameterType="java.lang.Long">
+		delete from t_res_maintenance where res_id = #{resId}
 	</delete>
 	
 	<delete id="deleteBatch">

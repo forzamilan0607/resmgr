@@ -1,17 +1,23 @@
+var $myValidator = null;
+function initValidator() {
+    return {
+
+	};
+}
 $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + 'sys/sysdepartment/list',
         datatype: "json",
         colModel: [			
-			{ label: 'deptId', name: 'deptId', index: 'dept_id', width: 50, key: true },
-			{ label: '部门名称', name: 'deptName', index: 'dept_name', width: 80 }, 			
-			{ label: '公司ID', name: 'companyId', index: 'company_id', width: 80 }, 			
+			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '部门名称', name: 'name', index: 'name', width: 80 }, 			
+			{ label: '园区ID', name: 'parkId', index: 'park_id', width: 80 }, 			
+			{ label: '上级部门ID', name: 'parentDeptId', index: 'parent_dept_id', width: 80 }, 			
 			{ label: '状态，1、有效，0、无效', name: 'status', index: 'status', width: 80 }, 			
 			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }, 			
 			{ label: '创建人', name: 'createUserId', index: 'create_user_id', width: 80 }, 			
-			{ label: '修改时间', name: 'modifyTime', index: 'modify_time', width: 80 }, 			
-			{ label: '修改人', name: 'modifyUserId', index: 'modify_user_id', width: 80 }, 			
-			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
+			{ label: '修改时间', name: 'updateTime', index: 'update_time', width: 80 }, 			
+			{ label: '修改人', name: 'updateUserId', index: 'update_user_id', width: 80 }			
         ],
 		viewrecords: true,
         height: 385,
@@ -57,24 +63,24 @@ var vm = new Vue({
 			vm.sysDepartment = {};
 		},
 		update: function (event) {
-			var deptId = getSelectedRow();
-			if(deptId == null){
+			var id = getSelectedRow();
+			if(id == null){
 				return ;
 			}
 			vm.showList = false;
             vm.title = "修改";
             
-            vm.getInfo(deptId)
+            vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysDepartment.deptId == null ? "sys/sysdepartment/save" : "sys/sysdepartment/update";
+			var url = vm.sysDepartment.id == null ? "sys/sysdepartment/save" : "sys/sysdepartment/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysDepartment),
 			    success: function(r){
-			    	if(r.code == $util.HTTP_STATUS.SC_OK){
+			    	if(r.code === 0){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -85,8 +91,8 @@ var vm = new Vue({
 			});
 		},
 		del: function (event) {
-			var deptIds = getSelectedRows();
-			if(deptIds == null){
+			var ids = getSelectedRows();
+			if(ids == null){
 				return ;
 			}
 			
@@ -95,9 +101,9 @@ var vm = new Vue({
 					type: "POST",
 				    url: baseURL + "sys/sysdepartment/delete",
                     contentType: "application/json",
-				    data: JSON.stringify(deptIds),
+				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == $util.HTTP_STATUS.SC_OK){
+						if(r.code == 0){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -108,8 +114,8 @@ var vm = new Vue({
 				});
 			});
 		},
-		getInfo: function(deptId){
-			$.get(baseURL + "sys/sysdepartment/info/"+deptId, function(r){
+		getInfo: function(id){
+			$.get(baseURL + "sys/sysdepartment/info/"+id, function(r){
                 vm.sysDepartment = r.sysDepartment;
             });
 		},

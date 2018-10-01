@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("scheduleJobService")
 public class ScheduleJobServiceImpl implements ScheduleJobService {
-	@Autowired
-    private Scheduler scheduler;
+	/*@Autowired
+    private Scheduler scheduler;*/
 	@Autowired
 	private ScheduleJobDao schedulerJobDao;
 	
@@ -31,7 +31,8 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	 */
 	@PostConstruct
 	public void init(){
-		List<ScheduleJobEntity> scheduleJobList = schedulerJobDao.queryList(new HashMap<>());
+		// TODO 暂时不需要定时任务功能
+		/*List<ScheduleJobEntity> scheduleJobList = schedulerJobDao.queryList(new HashMap<>());
 		for(ScheduleJobEntity scheduleJob : scheduleJobList){
 			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建
@@ -40,7 +41,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
             }else {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
-		}
+		}*/
 	}
 	
 	@Override
@@ -65,13 +66,13 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 		scheduleJob.setStatus(ScheduleStatus.NORMAL.getValue());
         schedulerJobDao.save(scheduleJob);
         
-        ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
+        //ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
     }
 	
 	@Override
 	@Transactional
 	public void update(ScheduleJobEntity scheduleJob) {
-        ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
+        //ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
                 
         schedulerJobDao.update(scheduleJob);
     }
@@ -80,7 +81,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Transactional
     public void deleteBatch(Long[] jobIds) {
     	for(Long jobId : jobIds){
-    		ScheduleUtils.deleteScheduleJob(scheduler, jobId);
+    		//ScheduleUtils.deleteScheduleJob(scheduler, jobId);
     	}
     	
     	//删除数据
@@ -99,7 +100,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Transactional
     public void run(Long[] jobIds) {
     	for(Long jobId : jobIds){
-    		ScheduleUtils.run(scheduler, queryObject(jobId));
+    		//ScheduleUtils.run(scheduler, queryObject(jobId));
     	}
     }
 
@@ -107,7 +108,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Transactional
     public void pause(Long[] jobIds) {
         for(Long jobId : jobIds){
-    		ScheduleUtils.pauseJob(scheduler, jobId);
+    		//ScheduleUtils.pauseJob(scheduler, jobId);
     	}
         
     	updateBatch(jobIds, ScheduleStatus.PAUSE.getValue());
@@ -117,7 +118,7 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Transactional
     public void resume(Long[] jobIds) {
     	for(Long jobId : jobIds){
-    		ScheduleUtils.resumeJob(scheduler, jobId);
+    		//ScheduleUtils.resumeJob(scheduler, jobId);
     	}
 
     	updateBatch(jobIds, ScheduleStatus.NORMAL.getValue());

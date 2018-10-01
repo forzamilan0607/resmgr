@@ -82,7 +82,7 @@ var $validator = function(){
         build: function (validateObj) {
             function buildValidateItem(item, eventName) {
                 var validateItem = {
-                    jqObj: $("#" + item.id),
+                    jqObj: $(item.selector),
                     value: item.validateMethod[eventName].value,
                     msg: item.validateMethod[eventName].msg
                 }
@@ -95,6 +95,9 @@ var $validator = function(){
                 if (item.validateMethod[eventName].childSelector) {
                     validateItem.childSelector = item.validateMethod[eventName].childSelector;
                 }
+                if (item.validateMethod[eventName].mode) {
+                    validateItem.mode = item.validateMethod[eventName].mode;
+                }
                 return validateItem;
             };
             function getErrorClass() {
@@ -103,18 +106,31 @@ var $validator = function(){
             /*function getSuccessClass() {
                 return _validateObj.config.successClass || "validate-success";
             };*/
+            function removeSpan(jqSpan) {
+                if (jqSpan.hasClass("input-group-btn")) {
+                    jqSpan.next("span").remove();
+                    return false;
+                } else {
+                    jqSpan.remove();
+                    return true;
+                }
+            }
             function validateOK(validateItem) {
                 // validateItem.jqObj.removeClass('has-error').addClass("has-feedback has-success")
                 validateItem.jqObj.removeClass(getErrorClass());
-                validateItem.jqObj.next("span").remove();
+                var jqSpan = validateItem.jqObj.next("span");
+                removeSpan(jqSpan);
                 return true;
             };
             function validateFail(validateItem) {
                 // validateItem.jqObj.removeClass("has-success").addClass("has-error has-feedback");
                 validateItem.jqObj.addClass(getErrorClass());
-                validateItem.jqObj.next("span").remove();
-                // validateItem.jqObj.after("<span>" + validateItem.msg + "</span>");
-                validateItem.jqObj.after('<span class="glyphicon glyphicon-remove" style="color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                var jqSpan =validateItem.jqObj.next("span");
+                if (removeSpan(jqSpan)) {
+                    validateItem.jqObj.after('<span class="glyphicon glyphicon-remove" style="color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                } else {
+                    jqSpan.after('<span class="glyphicon glyphicon-remove" style="position: absolute; top: 40px; left: 0px;color: #a94442">&nbsp;' + validateItem.msg + '</span>');
+                }
                 return false;
             };
             function getEvents(validateItems){
@@ -146,6 +162,21 @@ var $validator = function(){
                     notEqualsTo: function (validateItem) {
                         var value = validateItem.value instanceof jQuery ? validateItem.value.val(): validateItem.value;
                         return validateItem.jqObj.val() != value;
+                    },
+                    compareDate: function (validateItem) {
+                        var value = validateItem.value instanceof jQuery ? validateItem.value.val(): validateItem.value;
+                        if (validateItem.jqObj.val() && value) {
+                            var datetime1 = new Date(validateItem.jqObj.val()).getTime();
+                            var datetime2 = validateItem.mode == 3 ? new Date().getTime() : new Date(value).getTime();
+                            switch (validateItem.mode) {
+                                case 1://datetime1 不能大于 datetime2
+                                case 3:
+                                    return !(datetime1 > datetime2);
+                                case 2: //datetime1 不能小于 datetime2
+                                    return !(datetime2 > datetime1);
+                            }
+                        }
+                        return true;
                     },
                     checkReg: function (validateItem) {
                         if (!validateItem.jqObj.val()) {
@@ -201,7 +232,7 @@ var $validator = function(){
             };
             function dynamicBindEvent(item, triggerEventNames, eventName) {
                 if (item[triggerEventNames] && item[triggerEventNames].length) {
-                    $("#" + item.id).unbind(eventName).bind(eventName, function () {
+                    $(item.selector).unbind(eventName).bind(eventName, function () {
                         $.each(item[triggerEventNames], function (index, eventItem) {
                             if (!doValidate(item, eventItem)) {
                                 return false;
@@ -210,12 +241,30 @@ var $validator = function(){
                     });
                 }
             }
+            function resetSelector(items) {
+                $.each(items, function (index, item) {
+                    if (item.id && !item.selector) {
+                        item.selector = "#" + item.id;
+                    }
+                });
+            };
+            function scroll2Dom(item) {
+                if (item.tabId && !$("#" + item.tabId).parent("li").hasClass("active")) {
+                    $("#" + item.tabId).click();
+                    setTimeout(function () {
+                        $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
+                    }, 500)
+                } else {
+                    $("html,body").animate({scrollTop: $(item.selector).offset().top}, 500);
+                }
+            }
             var _validateObj = {
                 config: validateObj,
                 events: getEvents(validateObj.items),
                 validateResult: true,
                 remoteResult: {}
             };
+            resetSelector(_validateObj.config.items);
             //初始化绑定blur事件
             $.each(_validateObj.config.items, function (index, item) {
                 dynamicBindEvent(item, "blurs", "blur");
@@ -225,18 +274,20 @@ var $validator = function(){
                 validate: function () {
                     _validateObj.validateResult = true;
                     $.each(_validateObj.config.items, function(index, item) {
-                        if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
-                            return false;
-                        }
                         for (var eventName in item.validateMethod) {
                             //不需要在提交时再触发的事件
                             if (item.noTriggerEvents && $.inArray(eventName, item.noTriggerEvents) >= 0) {
                                 continue;
                             }
                             if (!doValidate(item, eventName)) {
+                                item.hasError = true;
                                 _validateObj.validateResult = false;
                                 break;
                             }
+                        }
+                        if (_validateObj.config.allPassRequired && !_validateObj.validateResult) {
+                            scroll2Dom(item);
+                            return false;
                         }
                     });
                     //如果存在remote服务错误
@@ -255,13 +306,24 @@ var $validator = function(){
                 },
                 reset: function () {                    
                     var jqIds = $.map(_validateObj.config.items, function (item, index) {
-                        return "#" + item.id;
+                        return item.selector;
                     }).join(",");
                     $(jqIds).removeClass(getErrorClass()).next("span").remove();
                     _validateObj.validateResult = true;
                 },
                 resetById: function (id) {
-                    $("#"+ id).removeClass(getErrorClass()).next("span").remove();
+                    removeSpan($("#"+ id).removeClass(getErrorClass()).next("span"));
+                },
+                resetBySelector: function (selector) {
+                    removeSpan($(selector).removeClass(getErrorClass()).next("span"));
+                },
+                resetAll: function () {
+                    for (var i = 0; i < _validateObj.config.items.length; i++) {
+                        var item = _validateObj.config.items[i];
+                        if (item.hasError) {
+                            this.resetBySelector(item.selector);
+                        }
+                    }
                 }
             }
         }

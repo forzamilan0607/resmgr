@@ -1,11 +1,17 @@
+var $myValidator = null;
+function initValidator() {
+    return {
+
+	};
+}
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + ' res/resmaintenance/list',
+        url: baseURL + 'res/resmaintenance/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '资源ID', name: 'resId', index: 'res_id', width: 80 }, 			
-			{ label: '维护单位', name: 'maintainDept', index: 'maintain_dept', width: 80 }, 			
+			{ label: '维护单位', name: 'maintainDeptId', index: 'maintain_dept_id', width: 80 }, 			
 			{ label: '责任人', name: 'personResponsible', index: 'person_responsible', width: 80 }, 			
 			{ label: '保修开始日期', name: 'warrantyStartDate', index: 'warranty_start_date', width: 80 }, 			
 			{ label: '保修结束日期', name: 'warrantyEndDate', index: 'warranty_end_date', width: 80 }, 			
@@ -17,7 +23,10 @@ $(function () {
 			{ label: '运维或保养特别提示、注意事项（文字）', name: 'precautionsText', index: 'precautions_text', width: 80 }, 			
 			{ label: '运维或保养特别提示、注意事项（附件）', name: 'precautionsAttach', index: 'precautions_attach', width: 80 }, 			
 			{ label: '设备状态,入库/在用/送修/注销', name: 'resStatus', index: 'res_status', width: 80 }, 			
-			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
+			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }, 			
+			{ label: '创建人', name: 'createUserId', index: 'create_user_id', width: 80 }, 			
+			{ label: '修改时间', name: 'updateTime', index: 'update_time', width: 80 }, 			
+			{ label: '修改人', name: 'updateUserId', index: 'update_user_id', width: 80 }			
         ],
 		viewrecords: true,
         height: 385,
@@ -73,14 +82,14 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.resMaintenance.id == null ? " res/resmaintenance/save" : " res/resmaintenance/update";
+			var url = vm.resMaintenance.id == null ? "res/resmaintenance/save" : "res/resmaintenance/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.resMaintenance),
 			    success: function(r){
-			    	if(r.code == $util.HTTP_STATUS.SC_OK){
+			    	if(r.code === 0){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -99,11 +108,11 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + " res/resmaintenance/delete",
+				    url: baseURL + "res/resmaintenance/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == $util.HTTP_STATUS.SC_OK){
+						if(r.code == 0){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
@@ -115,7 +124,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get(baseURL + " res/resmaintenance/info/"+id, function(r){
+			$.get(baseURL + "res/resmaintenance/info/"+id, function(r){
                 vm.resMaintenance = r.resMaintenance;
             });
 		},

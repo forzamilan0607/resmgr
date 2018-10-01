@@ -5,26 +5,33 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.chris.modules.res.entity.ResInstallConfigEntity" id="resInstallConfigMap">
-        <result property="configId" column="config_id"/>
+        <result property="id" column="id"/>
         <result property="resId" column="res_id"/>
-        <result property="drawing" column="drawing"/>
         <result property="operationSpecificationText" column="operation_specification_text"/>
-        <result property="operationSpecificationAttach" column="operation_specification_attach"/>
-        <result property="isSync" column="is_sync"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateUserId" column="update_user_id"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
-		select * from t_res_install_config where config_id = #{value}
+		select * from t_res_install_config where id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.chris.modules.res.entity.ResInstallConfigEntity">
-		select * from t_res_install_config
+		select * from t_res_install_config WHERE 1=1
+		<if test="id != null ">
+			AND id = ${id}
+		</if>
+		<if test="resId != null ">
+			AND res_id = ${resId}
+		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by config_id desc
+                order by id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -36,45 +43,77 @@
 		select count(*) from t_res_install_config 
 	</select>
 	 
-	<insert id="save" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity" useGeneratedKeys="true" keyProperty="configId">
+	<insert id="save" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_res_install_config
 		(
 			`res_id`, 
-			`drawing`, 
-			`operation_specification_text`, 
-			`operation_specification_attach`, 
-			`is_sync`
+			`operation_specification_text`,
+			`create_time`,
+			`create_user_id`, 
+			`update_time`, 
+			`update_user_id`
 		)
 		values
 		(
 			#{resId}, 
-			#{drawing}, 
-			#{operationSpecificationText}, 
-			#{operationSpecificationAttach}, 
-			#{isSync}
+			#{operationSpecificationText},
+			#{createTime},
+			#{createUserId}, 
+			#{updateTime}, 
+			#{updateUserId}
 		)
+	</insert>
+
+	<insert id="save2His" parameterType="java.lang.Long">
+		insert into t_res_install_config_his
+		(
+			`id`,
+			`res_id`,
+			`operation_specification_text`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			`delete_time`
+		)
+		SELECT
+			`id`,
+			`res_id`,
+			`operation_specification_text`,
+			`create_time`,
+			`create_user_id`,
+			`update_time`,
+			`update_user_id`,
+			now()
+		FROM t_res_install_config
+		WHERE res_id = #{resId}
 	</insert>
 	 
 	<update id="update" parameterType="com.chris.modules.res.entity.ResInstallConfigEntity">
 		update t_res_install_config 
 		<set>
 			<if test="resId != null">`res_id` = #{resId}, </if>
-			<if test="drawing != null">`drawing` = #{drawing}, </if>
 			<if test="operationSpecificationText != null">`operation_specification_text` = #{operationSpecificationText}, </if>
-			<if test="operationSpecificationAttach != null">`operation_specification_attach` = #{operationSpecificationAttach}, </if>
-			<if test="isSync != null">`is_sync` = #{isSync}</if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
+			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
+			`update_time` = now()
 		</set>
-		where config_id = #{configId}
+		where id = #{id}
 	</update>
 	
 	<delete id="delete">
-		delete from t_res_install_config where config_id = #{value}
+		delete from t_res_install_config where id = #{value}
 	</delete>
-	
+
+	<delete id="deleteByResId" parameterType="java.lang.Long">
+		delete from t_res_install_config where res_id = #{resId}
+	</delete>
+
 	<delete id="deleteBatch">
-		delete from t_res_install_config where config_id in 
-		<foreach item="configId" collection="array" open="(" separator="," close=")">
-			#{configId}
+		delete from t_res_install_config where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</delete>
 

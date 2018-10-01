@@ -1,5 +1,11 @@
 package com.chris.modules.res.service.impl;
 
+import com.chris.common.utils.Constant;
+import com.chris.common.utils.ValidateUtils;
+import com.chris.modules.oss.entity.SysAttachmentEntity;
+import com.chris.modules.oss.service.SysAttachmentService;
+import com.google.common.collect.ImmutableMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +17,18 @@ import com.chris.modules.res.entity.ResPurchaseEntity;
 import com.chris.modules.res.service.ResPurchaseService;
 
 
-
+@Slf4j
 @Service("resPurchaseService")
 public class ResPurchaseServiceImpl implements ResPurchaseService {
 	@Autowired
 	private ResPurchaseDao resPurchaseDao;
+
+	@Autowired
+	private SysAttachmentService sysAttachmentService;
 	
 	@Override
-	public ResPurchaseEntity queryObject(Long purchaseId){
-		return resPurchaseDao.queryObject(purchaseId);
+	public ResPurchaseEntity queryObject(Long id){
+		return resPurchaseDao.queryObject(id);
 	}
 	
 	@Override
@@ -34,22 +43,48 @@ public class ResPurchaseServiceImpl implements ResPurchaseService {
 	
 	@Override
 	public void save(ResPurchaseEntity resPurchase){
-		resPurchaseDao.save(resPurchase);
+		this.resPurchaseDao.save(resPurchase);
+		this.updateAttachments(resPurchase);
 	}
 	
 	@Override
 	public void update(ResPurchaseEntity resPurchase){
-		resPurchaseDao.update(resPurchase);
+		this.resPurchaseDao.update(resPurchase);
+		this.updateAttachments(resPurchase);
+	}
+
+	private void updateAttachments(ResPurchaseEntity resPurchase) {
+		if (ValidateUtils.isNotEmptyCollection(resPurchase.getContractAttachments())) {
+			this.sysAttachmentService.updateBatch(resPurchase.getContractAttachments());
+		}
+	}
+
+	@Override
+	public void delete(Long id){
+		resPurchaseDao.delete(id);
 	}
 	
 	@Override
-	public void delete(Long purchaseId){
-		resPurchaseDao.delete(purchaseId);
+	public void deleteBatch(Long[] ids){
+		resPurchaseDao.deleteBatch(ids);
 	}
-	
+
 	@Override
-	public void deleteBatch(Long[] purchaseIds){
-		resPurchaseDao.deleteBatch(purchaseIds);
+	public ResPurchaseEntity queryResPurchaseByResId(Long resId) {
+		List<ResPurchaseEntity> resPurchaseList = this.resPurchaseDao.queryList(ImmutableMap.of("resId", resId));
+		if (ValidateUtils.isNotEmptyCollection(resPurchaseList)) {
+			ResPurchaseEntity resPurchase = resPurchaseList.get(0);
+			return resPurchase;
+		}
+		log.error("no data found by resId[" + resId + "]");
+		return null;
 	}
-	
+
+	@Override
+	public void deleteBatchByResIds(Long[] resIds) {
+		for (int i = 0; i < resIds.length; i++) {
+			this.resPurchaseDao.save2His(resIds[i]);
+			this.resPurchaseDao.deleteByResId(resIds[i]);
+		}
+	}
 }

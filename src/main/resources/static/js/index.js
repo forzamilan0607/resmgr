@@ -42,7 +42,7 @@ var vm = new Vue({
             password:'',
             newPassword:''
 		},
-        navTitle:"欢迎页"
+        navTitle:"Welcome"
 	},
 	methods: {
 		getMenuList: function () {
@@ -97,16 +97,6 @@ var vm = new Vue({
                     //跳转到登录页面
                     location.href = baseURL + 'login.html';
                 }
-            });
-        },
-        donate: function () {
-            layer.open({
-                type: 2,
-                title: false,
-                area: ['806px', '467px'],
-                closeBtn: 1,
-                shadeClose: false,
-                content: ['http://cdn.renren.io/donate.jpg', 'no']
             });
         }
 	},
