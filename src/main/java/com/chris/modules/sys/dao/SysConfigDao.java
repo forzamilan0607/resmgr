@@ -4,6 +4,9 @@ import com.chris.modules.sys.entity.SysConfigEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 系统配置信息
  * 
@@ -18,7 +21,9 @@ public interface SysConfigDao extends BaseDao<SysConfigEntity> {
 	 * 根据key，查询value
 	 */
 	SysConfigEntity queryByKey(String paramKey);
-	
+
+	List<SysConfigEntity> queryAll();
+
 	/**
 	 * 根据key，更新value
 	 */

@@ -58,5 +58,7 @@ public interface SysConfigService {
 	 * @param clazz  Object对象
 	 */
 	public <T> T getConfigObject(String key, Class<T> clazz);
+
+	List<SysConfigEntity> queryAll();
 	
 }

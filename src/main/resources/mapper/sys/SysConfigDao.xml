@@ -14,6 +14,10 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
+
+	<select id="queryAll"  resultType="com.chris.modules.sys.entity.SysConfigEntity">
+		select * from sys_config
+	</select>
 	
 	<select id="queryTotal" parameterType="map" resultType="int">
 		select count(*) from sys_config where status = 1 

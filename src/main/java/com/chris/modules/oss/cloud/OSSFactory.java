@@ -22,8 +22,6 @@ public final class OSSFactory {
         OSSFactory.sysConfigService = (SysConfigService) SpringContextUtils.getBean("sysConfigService");
         //获取云存储配置信息
         config = sysConfigService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
-
-
     }
 
     public static CloudStorageService build(){

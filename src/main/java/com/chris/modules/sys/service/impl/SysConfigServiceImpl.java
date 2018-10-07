@@ -92,4 +92,9 @@ public class SysConfigServiceImpl implements SysConfigService {
 			throw new CommonException("获取参数失败");
 		}
 	}
+
+	@Override
+	public List<SysConfigEntity> queryAll() {
+		return this.sysConfigDao.queryAll();
+	}
 }

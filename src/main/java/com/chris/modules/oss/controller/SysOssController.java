@@ -1,7 +1,10 @@
 package com.chris.modules.oss.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.chris.modules.oss.cloud.FileSizeConfig;
 import com.chris.modules.oss.entity.SysAttachmentEntity;
 import com.chris.modules.oss.service.SysAttachmentService;
+import com.chris.modules.sys.entity.SysConfigEntity;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
@@ -120,6 +123,8 @@ public class SysOssController {
 		//上传文件
 		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 		String fileType = this.getFileType(suffix.substring(1));
+		//校验文件大小
+		this.verifyFileSize(file.getSize() / 1024, fileType);
 		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
 
 		//保存文件信息
@@ -129,9 +134,20 @@ public class SysOssController {
 		attachmentEntity.setSuffixName(suffix.substring(1).toLowerCase());
 		attachmentEntity.setType(fileType);
 		attachmentEntity.generateTempURL();
+		attachmentEntity.setSize(file.getSize() + "");
 		this.sysAttachmentService.save(attachmentEntity);
 
 		return R.ok().put("url", url).put("attachmentObj", attachmentEntity);
+	}
+
+	private void verifyFileSize(long fileSize, String fileType) {
+		SysConfigEntity config = GlobalDataUtils.getConfigList().stream().filter(item -> ValidateUtils.equals(item.getKey(), "FILE_UPLOAD_SIZE_LIMIT")).findFirst().get();
+		if (ValidateUtils.isNotEmpty(config)) {
+			FileSizeConfig fileSizeConfig = new Gson().fromJson(config.getValue(), FileSizeConfig.class);
+			if (!fileSizeConfig.isFileSizeOK(fileSize, fileType)) {
+				throw new CommonException(fileType + "文件大小不能超过" + fileSizeConfig.getMaxSize() + "KB");
+			}
+		}
 	}
 
 	@RequestMapping("/downLoad")
