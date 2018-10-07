@@ -112,7 +112,7 @@ public class SysUserController extends AbstractController {
 	public R save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
 		
-		user.setCreateUserId(getUserId());
+		user.setCreateUserId(Integer.valueOf(getUserId() + ""));
 		sysUserService.save(user);
 		
 		return R.ok();
@@ -127,7 +127,7 @@ public class SysUserController extends AbstractController {
 	public R update(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
 		
-		user.setCreateUserId(getUserId());
+		user.setCreateUserId(Integer.valueOf(getUserId() + ""));
 		sysUserService.update(user);
 		
 		return R.ok();
