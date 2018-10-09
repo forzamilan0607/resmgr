@@ -32,6 +32,7 @@
         .table>thead>tr>th, .table>tbody>tr>td {
             vertical-align: middle;
             text-align: center;
+            padding: 5px;
         }
     </style>
     <script src="../../libs/jquery.min.js"></script>
@@ -314,7 +315,7 @@
                                             <tr>
                                                 <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                                 <th scope="col">
-                                                    <a class="btn btn-success" id="uploadResNameplate"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                    添加附件&nbsp;&nbsp;<a class="btn-sm btn-success" id="uploadResNameplate"><i class="fa fa-plus"></i></a>
                                                 </th>
                                             </tr>
                                             </thead>
@@ -329,11 +330,11 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                        <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                             <i class="glyphicon glyphicon-upload"></i>
                                                             <span>预览</span>
                                                         </a>
-                                                        <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                        <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                             <i class="fa fa-trash-o"></i>
                                                             <span>删除</span>
                                                         </a>
@@ -354,7 +355,7 @@
                                                 <th scope="col" class="col-sm-5 pull-center">部件名称</th>
                                                 <th scope="col" class="col-sm-4 pull-center">序列号</th>
                                                 <th scope="col" class="pull-center">
-                                                    <a class="btn btn-success" @click="addResComponent"><i class="fa fa-plus"></i>&nbsp;添加</a>
+                                                    添加&nbsp;&nbsp;<a class="btn-sm btn-success" @click="addResComponent"><i class="fa fa-plus"></i></a>
                                                 </th>
                                             </tr>
                                             </thead>
@@ -373,7 +374,7 @@
                                                         <input type="text" class="form-control" v-model="component.serialNo" />
                                                     </td>
                                                     <td class="pull-center">
-                                                        <a class="btn btn-danger cancel" @click="deleteResComponent(component, index)">
+                                                        <a class="btn-sm btn-danger cancel" @click="deleteResComponent(component, index)">
                                                             <i class="fa fa-trash-o"></i>
                                                             <span>删除</span>
                                                         </a>
@@ -469,7 +470,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload" id="uploadConcractAttach"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadConcractAttach"><i class="fa fa-plus"></i></a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -484,11 +485,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </a>
-                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
                                                 </a>
@@ -597,7 +598,7 @@
                                     <tr>
                                         <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                         <th scope="col">
-                                            <a class="btn btn-success upload" id="uploadMaintainContract"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                            添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadMaintainContract"><i class="fa fa-plus"></i></a>
                                         </th>
                                     </tr>
                                     </thead>
@@ -612,11 +613,11 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                            <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                 <i class="glyphicon glyphicon-upload"></i>
                                                 <span>预览</span>
                                             </a>
-                                            <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                            <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                 <i class="fa fa-trash-o"></i>
                                                 <span>删除</span>
                                             </a>
@@ -634,7 +635,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload" id="uploadInstructions"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadInstructions"><i class="fa fa-plus"></i></a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -649,11 +650,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </a>
-                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
                                                 </a>
@@ -678,7 +679,7 @@
                                         <tr>
                                             <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                             <th scope="col">
-                                                <a class="btn btn-success upload" id="uploadPrecautions"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadPrecautions"><i class="fa fa-plus"></i></a>
                                             </th>
                                         </tr>
                                     </thead>
@@ -693,11 +694,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                     <i class="glyphicon glyphicon-upload"></i>
                                                     <span>预览</span>
                                                 </a>
-                                                <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                     <i class="fa fa-trash-o"></i>
                                                     <span>删除</span>
                                                 </a>
@@ -732,7 +733,7 @@
                                             <tr>
                                                 <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                                 <th scope="col">
-                                                    <a class="btn btn-success upload" id="uploadDrawing"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                    添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadDrawing"><i class="fa fa-plus"></i></a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -747,11 +748,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                    <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                         <i class="glyphicon glyphicon-upload"></i>
                                                         <span>预览</span>
                                                     </a>
-                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                    <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                         <i class="fa fa-trash-o"></i>
                                                         <span>删除</span>
                                                     </a>
@@ -776,7 +777,7 @@
                                             <tr>
                                                 <th scope="col" class="col-sm-7 pull-center">附件名称</th>
                                                 <th scope="col">
-                                                    <a class="btn btn-success upload" id="uploadOperationSpecification"><i class="fa fa-plus"></i>&nbsp;添加附件</a>
+                                                    添加附件&nbsp;&nbsp;<a class="btn-sm btn-success upload" id="uploadOperationSpecification"><i class="fa fa-plus"></i></a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -791,11 +792,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-primary start" :href="attach.url" target="_blank">
+                                                    <a class="btn-sm btn-primary start" :href="attach.url" target="_blank">
                                                         <i class="glyphicon glyphicon-upload"></i>
                                                         <span>预览</span>
                                                     </a>
-                                                    <a class="btn btn-danger cancel" @click="deleteAttach(attach)">
+                                                    <a class="btn-sm btn-danger cancel" @click="deleteAttach(attach)">
                                                         <i class="fa fa-trash-o"></i>
                                                         <span>删除</span>
                                                     </a>
@@ -817,7 +818,7 @@
                                             <th scope="col" class="col-sm-5 pull-center">参数名称</th>
                                             <th scope="col" class="col-sm-4 pull-center">参数值</th>
                                             <th scope="col" class="pull-center">
-                                                <a class="btn btn-success" @click="addResEquipParam"><i class="fa fa-plus"></i>&nbsp;添加</a>
+                                                添加&nbsp;&nbsp;<a class="btn-sm btn-success" @click="addResEquipParam"><i class="fa fa-plus"></i></a>
                                             </th>
                                         </tr>
                                         </thead>
@@ -836,7 +837,7 @@
                                                     <input type="text" class="form-control" v-model="param.value" />
                                                 </td>
                                                 <td class="pull-center">
-                                                    <a class="btn btn-danger cancel" @click="deleteResEquipParam(param, index)">
+                                                    <a class="btn-sm btn-danger cancel" @click="deleteResEquipParam(param, index)">
                                                         <i class="fa fa-trash-o"></i>
                                                         <span>删除</span>
                                                     </a>

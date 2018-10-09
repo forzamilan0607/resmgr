@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.chris.common.utils.GlobalDataUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class SysDataDictController {
      * 获取所有数据字典列表
      */
     @RequestMapping("/listAll")
-    @RequiresPermissions("sys:sysdatadict:list")
+    @RequiresPermissions(value = {"sys:sysdatadict:list", "res:resmgr:save"},logical= Logical.OR)
     public R listAll() {
 
         List<SysDataDictEntity> dataDictList = GlobalDataUtils.getDataDictList();

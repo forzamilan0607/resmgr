@@ -19,6 +19,7 @@ import com.chris.modules.oss.cloud.OSSFactory;
 import com.chris.modules.oss.entity.SysOssEntity;
 import com.chris.modules.oss.service.SysOssService;
 import com.chris.modules.sys.service.SysConfigService;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
@@ -115,7 +116,7 @@ public class SysOssController {
 	 * 上传文件
 	 */
 	@RequestMapping("/upload")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions(value = {"sys:oss:all", "res:resmgr:save"},logical= Logical.OR)
 	public R upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 		if (file.isEmpty()) {
 			throw new CommonException("上传文件不能为空");
@@ -181,7 +182,7 @@ public class SysOssController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("sys:oss:all")
+	@RequiresPermissions(value = {"sys:oss:all", "res:resmgr:save"},logical= Logical.OR)
 	public R delete(Long id){
 		this.sysAttachmentService.delete(id);
 		return R.ok();

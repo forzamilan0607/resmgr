@@ -51,9 +51,97 @@ var vm = new Vue({
 		title:null,
 		roleList:{},
 		user:{
-			status:1,
-			roleIdList:[]
-		}
+			password: null,
+			status: 1,
+			roleIdList: []
+		},
+		validator: null
+	},
+	created: function () {
+        this.validator = $validator.build({
+            allPassRequired: true,
+            items:[
+                {
+                    selector: "input[id='user.username']",
+                    blurs: ["required", "range", "remote"],
+                    validateMethod: {
+                        required: {
+                            value: true,
+                            msg: "请输入用户名"
+                        },
+                        range: {
+                            value: [2, 30],
+                            msg: "用户名长度范围只能是2-30位之间"
+                        },
+                        remote: {
+                            url : baseURL + 'sys/commoncheck/checkName',
+                            value: {
+                                elements: ["input[id='user.userId']", "input[id='user.username']"],
+                                keys: ["userId", "realUsername"],
+                                id: "userId",
+                                daoName: "sysUserDao"
+                            },
+                            msg: "用户名已存在！",
+                            callback: null
+                        }
+                    }
+                },
+				{
+                    selector: "input[id='user.password']",
+                    blurs: ["required"],
+                    validateMethod: {
+                        required: {
+                            value: true,
+                            msg: "请输入密码"
+                        },
+                        minLength: {
+                            value: 6,
+                            msg: "密码长度不能小于6位"
+                        }
+                    }
+                },
+				{
+                    selector: "input[id='user.confirmPwd']",
+                    blurs: ["required", "notEqualsTo"],
+                    validateMethod: {
+                        required: {
+                            value: true,
+                            msg: "请输入确认密码"
+                        },
+                        notEqualsTo: {
+                            value: $("input[id='user.password']"),
+                            msg: "密码输入不一致"
+                        }
+                    }
+                },
+                {
+                    selector: "input[id='user.email']",
+                    blurs: ["required", "checkEmail"],
+                    validateMethod: {
+                        required: {
+                            value: true,
+                            msg: "请输入邮箱地址"
+                        },
+                        checkEmail: {
+                            msg: "邮箱地址格式不正确"
+                        }
+                    }
+                },
+                {
+                    selector: "input[id='user.mobile']",
+                    blurs: ["required", "checkMobile"],
+                    validateMethod: {
+                        required: {
+                            value: true,
+                            msg: "请输入手机号码"
+                        },
+                        checkMobile: {
+                            msg: "手机号码格式不正确"
+                        }
+                    }
+                }
+            ]
+        });
 	},
 	methods: {
 		query: function () {
@@ -106,17 +194,16 @@ var vm = new Vue({
 			});
 		},
 		saveOrUpdate: function () {
-            if(vm.validator()){
+            if(!vm.validator.validate()){
                 return ;
             }
-
 			var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.user),
-			    success: function(r){
+			    success: function (r) {
 			    	if(r.code == $util.HTTP_STATUS.SC_OK){
 						alert('操作成功', function(){
 							vm.reload();
@@ -146,7 +233,7 @@ var vm = new Vue({
                 page:page
             }).trigger("reloadGrid");
 		},
-        validator: function () {
+        validator2: function () {
             if(isBlank(vm.user.username)){
                 alert("用户名不能为空");
                 return true;

@@ -21,7 +21,7 @@ CREATE TABLE `sys_user` (
   `email` varchar(100) COMMENT '邮箱',
   `mobile` varchar(100) COMMENT '手机号',
   `status` tinyint COMMENT '状态  0：禁用   1：正常',
-  `dept_id` int(10) NOT NULL COMMENT '部门ID',
+  `dept_id` int(10) COMMENT '部门ID',
   `create_user_id` bigint(20) COMMENT '创建者ID',
   `create_time` datetime COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',

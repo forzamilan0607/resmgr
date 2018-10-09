@@ -7,15 +7,19 @@
 	</select>
 	
 	<select id="queryList" resultType="com.chris.modules.sys.entity.SysUserEntity">
-		select * from sys_user 
-		<where>
-			<if test="createUserId != null">
-				and `create_user_id` = #{createUserId} 
-			</if>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%') 
-			</if>
-		</where>
+		select * from sys_user where 1=1
+		<if test="userId != null and userId !='' ">
+			AND user_id = #{userId}
+		</if>
+		<if test="realUsername != null and realUsername !='' ">
+			AND username = #{username}
+		</if>
+		<if test="createUserId != null">
+			and `create_user_id` = #{createUserId}
+		</if>
+		<if test="username != null and username.trim() != ''">
+			and `username` like concat('%',#{username},'%')
+		</if>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
 				order by ${sidx} ${order}

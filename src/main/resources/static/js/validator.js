@@ -20,15 +20,15 @@ var $validator = function(){
             }
         },
         checkEmail: function (email) {
-            if (!email || email.search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) !== -1) {
-                return {
-                    msg: "EMAIL格式不正确",
-                    result: false
-                };
-            } else {
+            if (email && /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(email)) {
                 return {
                     msg: "SUCCESS",
                     result: true
+                };
+            } else {
+                return {
+                    msg: "EMAIL格式不正确",
+                    result: false
                 };
             }
         },
@@ -186,14 +186,32 @@ var $validator = function(){
                         alert(result + "=" + validateItem.jqObj.val());
                         return result;
                     },
+                    checkEmail: function (validateItem) {
+                        var validResult = $validator.checkEmail(validateItem.jqObj.val());
+                        return validResult.result;
+                    },
+                    checkMobile: function (validateItem) {
+                        var validResult = $validator.checkMobile(validateItem.jqObj.val());
+                        return validResult.result;
+                    },
                     remote: function (validateItem) {
-                        var param = {};
-                        if ($.isArray(validateItem.value)) {
-                            $.each(validateItem.value, function (index, item) {
-                                param[item] = $("#" + item).val();
-                            })
-                        } else {
-                            param = validateItem.value;
+                        var param = {
+                            daoName: validateItem.value.daoName,
+                            condition: {}
+                        };
+                        var action = 2;
+                        var idValue;
+                        for (var i = 0; i < validateItem.value.elements.length; i++) {
+                            var elem = validateItem.value.elements[i];
+                            var key = validateItem.value.keys[i];
+                            if (key == validateItem.value.id) {
+                                idValue = $(elem).val();
+                                if (!idValue) {
+                                    action = 1;
+                                    continue;
+                                }
+                            }
+                            param.condition[key] = $.trim($(elem).val());
                         }
                         $.ajax({
                             type: "POST",
@@ -201,9 +219,17 @@ var $validator = function(){
                             contentType: "application/json",
                             data: JSON.stringify(param),
                             success: function(r) {
-                                if ((r && r.code == 200) || r) {//validate ok
+                                if (action == 1 && r.data.length == 0) {//validate ok
                                     validateOK(validateItem);
                                     _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: true}
+                                } else if (action ==2) {
+                                    if (r.data.length == 0 || r.data[0][validateItem.value.id] == idValue) {
+                                        validateOK(validateItem);
+                                        _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: true}
+                                    } else {
+                                        validateFail(validateItem);
+                                        _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: false, msg: validateItem.msg};
+                                    }
                                 } else {
                                     validateFail(validateItem);
                                     _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: false, msg: validateItem.msg};
