@@ -208,8 +208,8 @@ var $validator = function(){
                                 idValue = $(elem).val();
                                 if (!idValue) {
                                     action = 1;
-                                    continue;
                                 }
+                                continue;
                             }
                             param.condition[key] = $.trim($(elem).val());
                         }

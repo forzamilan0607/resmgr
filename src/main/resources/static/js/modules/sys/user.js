@@ -132,7 +132,8 @@ var vm = new Vue({
 		getUser: function(userId){
 			$.get(baseURL + "sys/user/info/"+userId, function(r){
 				vm.user = r.user;
-				vm.user.password = null;
+                vm.user.password = r.user.password.substring(0,6);
+                vm.user.confirmPwd = vm.user.password;
 			});
 		},
 		getRoleList: function(){
