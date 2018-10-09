@@ -56,7 +56,7 @@
 					<span class="required">*</span>密码
 				</div>
 			   	<div class="col-sm-10">
-			      <input type="password" class="form-control" v-model="user.password" id="user.password" placeholder="请输入6-12位密码" :disabled="!user.userId"/>
+			      <input type="password" class="form-control" v-model="user.password" id="user.password" placeholder="请输入6-12位密码" :disabled="user.userId"/>
 			    </div>
 			</div>
 			<div class="form-group">
@@ -64,7 +64,7 @@
 					<span class="required">*</span>确认密码
 				</div>
 			   	<div class="col-sm-10">
-			      <input type="password" class="form-control" v-model="user.confirmPwd" id="user.confirmPwd" placeholder="请输入确认密码" :disabled="!user.userId"/>
+			      <input type="password" class="form-control" v-model="user.confirmPwd" id="user.confirmPwd" placeholder="请输入确认密码" :disabled="user.userId"/>
 			    </div>
 			</div>
 			<div class="form-group">
