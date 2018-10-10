@@ -236,8 +236,11 @@ var $util = function () {
 }();
 setTimeout(function () {
     $(document).bind("ajaxSend", function () {
-        $("body").mLoading();
+        if (!globalCloseLoading) {
+            $("body").mLoading();
+        }
     }).bind("ajaxComplete", function () {
         $("body").mLoading("hide");
     });
 }, 500);
+var globalCloseLoading = false;

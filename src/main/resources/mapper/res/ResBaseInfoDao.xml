@@ -43,28 +43,31 @@
 		LEFT JOIN (SELECT id,name from sys_staff) s ON t.person_responsible = s.id
         WHERE 1=1
         <if test="id != null ">
-            AND t.id = ${id}
+            AND t.id = #{id}
         </if>
         <if test="name != null and name != '' ">
             AND INSTR(t.name, #{name}) > 0
         </if>
         <if test="resTypeId != null  and resTypeId != '' ">
-            AND t.res_type_id = ${resTypeId}
+            AND t.res_type_id = #{resTypeId}
         </if>
         <if test="brand != null  and brand != '' ">
-            AND t.brand = ${brand}
+            AND t.brand = #{brand}
         </if>
         <if test="locationId != null  and locationId != '' ">
-            AND t.location_id = ${locationId}
+            AND t.location_id = #{locationId}
         </if>
         <if test="deptId != null  and deptId != '' ">
-            AND t.dept_id = ${deptId}
+            AND t.dept_id = #{deptId}
+        </if>
+		<if test="objId != null  and objId != '' ">
+            AND t.obj_id = #{objId}
         </if>
 		<if test="personResponsible != null  and personResponsible != '' ">
-			AND t.person_responsible = ${personResponsible}
+			AND t.person_responsible = #{personResponsible}
 		</if>
         <if test="maintainCompany != null  and maintainCompany != '' ">
-            AND EXISTS (SELECT 1 FROM t_res_maintenance where maintain_company = ${maintainCompany})
+            AND EXISTS (SELECT 1 FROM t_res_maintenance where maintain_company = #{maintainCompany})
         </if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -83,28 +86,31 @@
 		select count(1) from t_res_base_info t
 		WHERE 1=1
 		<if test="id != null ">
-			AND t.id = ${id}
+			AND t.id = #{id}
 		</if>
 		<if test="name != null and name != '' ">
 			AND INSTR(t.name, #{name}) > 0
 		</if>
 		<if test="resTypeId != null  and resTypeId != '' ">
-			AND t.res_type_id = ${resTypeId}
+			AND t.res_type_id = #{resTypeId}
 		</if>
 		<if test="brand != null  and brand != '' ">
-			AND t.brand = ${brand}
+			AND t.brand = #{brand}
 		</if>
 		<if test="locationId != null  and locationId != '' ">
-			AND t.location_id = ${locationId}
+			AND t.location_id = #{locationId}
 		</if>
 		<if test="deptId != null  and deptId != '' ">
-			AND t.dept_id = ${deptId}
+			AND t.dept_id = #{deptId}
+		</if>
+		<if test="objId != null  and objId != '' ">
+			AND t.obj_id = #{objId}
 		</if>
 		<if test="personResponsible != null  and personResponsible != '' ">
-			AND t.person_responsible = ${personResponsible}
+			AND t.person_responsible = #{personResponsible}
 		</if>
-        <if test="maintainCompany != null  and maintainCompany != '' ">
-            AND EXISTS (SELECT 1 FROM t_res_maintenance where maintain_company = ${maintainCompany})
+		<if test="maintainCompany != null  and maintainCompany != '' ">
+			AND EXISTS (SELECT 1 FROM t_res_maintenance where maintain_company = #{maintainCompany})
 		</if>
 	</select>
 	 

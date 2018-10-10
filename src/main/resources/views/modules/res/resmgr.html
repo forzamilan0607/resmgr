@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../plugins/jqmloading/jquery.mloading.css">
     <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
-    <!--<link rel="stylesheet" href="../../plugins/jqdatetimepicker/jquery.datetimepicker.min.css">-->
     <link rel="stylesheet" href="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload.css">
     <link rel="stylesheet" href="../../plugins/jqfileupload/css/jquery.fileupload-ui.css">
@@ -22,10 +21,6 @@
         fieldset legend {
             font-size: 14px;
         }
-        .grid-btn {
-            margin-top: 5px;
-            margin-right: 5px;
-        }
         #div_resPurchase div.row, #div_resMaintenance div.row, #div_resInstallConfig div.row {
             margin-bottom: 10px;
         }
@@ -33,39 +28,26 @@
             vertical-align: middle;
             text-align: center;
             padding: 5px;
+            word-break: break-all;
         }
         .row {
             padding-top: 15px;
         }
+        .btn-sm {
+            cursor: pointer;
+        }
     </style>
     <script src="../../libs/jquery.min.js"></script>
     <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
-    <!--<script src="../../plugins/jqdatetimepicker/jquery.datetimepicker.full.js"></script>-->
     <script src="../../plugins/layer/layer.js"></script>
     <script src="../../libs/bootstrap.min.js"></script>
     <script src="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.js"></script>
     <script src="../../plugins/bootdatetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../../libs/vue.min.js"></script>
-    <script src="../../libs/vuejs-datepicker.min.js"></script>
     <script src="../../libs/ajaxupload.js"></script>
     <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
     <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
-    <script src="../../plugins/jqfileupload/js/vendor/jquery.ui.widget.js"></script>
-    <script src="../../plugins/jqfileupload/js/jquery.iframe-transport.js"></script>
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload.js"></script>
-    <!-- The File Upload processing plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-process.js"></script>
-    <!-- The File Upload image preview & resize plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-image.js"></script>
-    <!-- The File Upload audio preview plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-audio.js"></script>
-    <!-- The File Upload video preview plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-video.js"></script>
-    <!-- The File Upload validation plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-validate.js"></script>
-    <!-- The File Upload user interface plugin -->
-    <script src="../../plugins/jqfileupload/js/jquery.fileupload-ui.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/validator.js"></script>
     <script src="../../js/selectLocation.js"></script>
@@ -143,9 +125,6 @@
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
-        <!--<div class="grid-btn pull-right">
-
-        </div>-->
     </div>
 
     <div v-show="!showList" class="panel panel-default">
@@ -185,6 +164,7 @@
                                         资源类别
                                     </div>
                                     <div class="col-sm-10">
+                                        <input type="hidden" id="resBaseInfo.id" v-model="resBaseInfo.id" />
                                         <select type="text" class="form-control" id="resBaseInfo.resTypeId" v-model="resBaseInfo.resTypeId" placeholder="资源类别" >
                                             <option  v-for="(resType, index) in resTypeList" :value="resType.id" v-if="index != 0">{{resType.name}}</option>
                                         </select>
@@ -366,7 +346,7 @@
                                                 <tr class="template-upload fade in" v-for="(component, index) in resBaseInfo.resComponentList">
                                                     <td class="input-group pull-center">
                                                         <input type="hidden" v-model="component.dictId" />
-                                                        <input type="text" class="form-control" id="component.name" v-model="component.name" />
+                                                        <input type="text" class="form-control" name="component.name" v-model="component.name" />
                                                         <span class="input-group-btn">
                                                         <button class="btn btn-info" type="button" @click="showComponentLayer">
                                                             <span class="glyphicon glyphicon-search"></span>
@@ -829,7 +809,7 @@
                                             <tr class="template-upload fade in" v-for="(param, index) in resBaseInfo.resEquipParamList">
                                                 <td class="input-group pull-center">
                                                     <input type="hidden" v-model="param.dictId" />
-                                                    <input type="text" class="form-control" id="param.name" v-model="param.name" />
+                                                    <input type="text" class="form-control" name="param.name" v-model="param.name" />
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-info" type="button" @click="showParamLayer">
                                                             <span class="glyphicon glyphicon-search"></span>

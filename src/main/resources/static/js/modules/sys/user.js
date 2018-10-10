@@ -180,6 +180,7 @@ function initValidator() {
             {
                 selector: "input[id='user.username']",
                 blurs: ["required", "range", "remote"],
+                noTriggerEvents: ["remote"],
                 validateMethod: {
                     required: {
                         value: true,

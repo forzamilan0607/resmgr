@@ -86,11 +86,9 @@ $(document).ready(function () {
 
     $("#jqGrid").jqGrid({
         url: baseURL + 'res/resmgr/list',
-        datatype: "json",
+        datatype: "local",
         colModel: [
-			// { label: '序号', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '资源名称', name: 'name', index: 'name', width: 180 },
-			// { label: '资源编码', name: 'code', index: 'code', width: 80 },
 			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 120, formatter: function (value, options, row) {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
@@ -104,18 +102,8 @@ $(document).ready(function () {
                 return value ? vm.getDataDictNameById(value) : "";
             }},
 			{ label: '出厂时间', name: 'factoryTime', index: 'factory_time', width: 80 },
-			// { label: '整机序列号', name: 'serialNo', index: 'serial_no', width: 80 },
-			//{ label: '资源铭牌，用于上传照片或其他附件，多个附件ID以逗号分隔', name: 'nameplate', index: 'nameplate', width: 80 },
-			//{ label: '所属位置', name: 'locationId', index: 'location_id', width: 80 },
 			{ label: '描述性位置', name: 'locationDesc', index: 'location_desc', width: 230 },
-			//{ label: '坐标位置，如：F8、H13', name: 'locationCoordinate', index: 'location_coordinate', width: 80 },
-			//{ label: '三维图形对象ID', name: 'objId', index: 'obj_id', width: 80 },
-			/*{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 },
-			{ label: '创建人', name: 'createUserName', index: 'create_user_id', width: 60 },
-			{ label: '修改时间', name: 'updateTime', index: 'update_time', width: 80 },
-			{ label: '修改人', name: 'updateUserName', index: 'update_user_id', width: 60 },*/
 			{ label: '部门', name: 'deptName', index: 'dept_id', width: 80 },
-			//{ label: '资源描述', name: 'remark', index: 'remark', width: 80 },
 			{ label: '责任人', name: 'responsibleName', index: 'person_responsible', width: 60 }
         ],
 		viewrecords: true,
@@ -383,6 +371,27 @@ var vm = new Vue({
 			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase() || !$myValidator.validateMaintenance()) {
 			    return;
             }
+            if (!vm.checkResComponent()  || !vm.checkResEquipParam()) {
+			    return;
+            }
+            var repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resComponentList);
+            if (repeatedKeyIndex > 0) {
+                $("#link_resBaseInfo").click();
+                $("html,body").animate({scrollTop: $("#table_resComponent").offset().top}, 500);
+                alert("部件列表中存在相同的部件名称", function () {
+                    $("input[name='component.name']")[repeatedKeyIndex].select();
+                });
+			    return;
+            }
+            repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resEquipParamList);
+            if (repeatedKeyIndex > 0) {
+                $("#link_resInstallConfig").click();
+                $("html,body").animate({scrollTop: $("#table_resEquipParam").offset().top}, 500);
+                alert("参数列表中存在相同的参数名称", function () {
+                    $("input[name='param.name']")[repeatedKeyIndex].select();
+                });
+                return;
+            }
             vm.resBaseInfo.name = vm.resName;
 			vm.resMaintenance.warrantyStartDate = $("input[id='resMaintenance.warrantyStartDate']").val();
 			vm.resMaintenance.warrantyEndDate = $("input[id='resMaintenance.warrantyEndDate']").val();
@@ -445,6 +454,9 @@ var vm = new Vue({
                         vm.resInstallConfig = r.resInfoDTO.resInstallConfig;
                     }
                     vm.setLocationValue();
+                    $("input[id='resBaseInfo.factoryTime']").val(vm.resBaseInfo.factoryTime);
+                    $("input[id='resMaintenance.warrantyStartDate']").val(vm.resMaintenance.warrantyStartDate);
+                    $("input[id='resMaintenance.warrantyEndDate']").val(vm.resMaintenance.warrantyEndDate);
                 }else{
                     alert(r.msg);
                 }
@@ -482,19 +494,34 @@ var vm = new Vue({
             });
         },
         addResComponent: function () {
-            if (this.resBaseInfo.resComponentList.length) {
-                var component = this.resBaseInfo.resComponentList[this.resBaseInfo.resComponentList.length - 1];
-                if (!component.name || !$.trim(component.name)) {
-                    alert("请输入部件名称");
-                    return;
-                }
-                if (!component.serialNo || !$.trim(component.serialNo)) {
-                    alert("请输入序列号");
+            if (vm.resBaseInfo.resComponentList.length) {
+                if (!vm.checkResComponent()) {
                     return;
                 }
             }
-            this.resBaseInfo.resComponentList.push({});
+            vm.resBaseInfo.resComponentList.push({});
             $myValidator.resetBySelector("#table_resComponent");
+        },
+        checkResComponent: function () {
+            var component = vm.resBaseInfo.resComponentList[vm.resBaseInfo.resComponentList.length - 1];
+            if (!component.name || !$.trim(component.name)) {
+                alert("请输入部件名称");
+                return false;
+            }
+            if (!component.serialNo || !$.trim(component.serialNo)) {
+                alert("请输入序列号");
+                return false;
+            }
+            return true;
+        },
+        getRepeatedKeyIndex: function (key, data) {
+            var firstValue = data[0][key];
+            for (var i = 1; i < data.length; i++) {
+               if (firstValue == data[i][key]) {
+                   return i;
+               }
+            }
+            return 0;
         },
         deleteResComponent: function (component, index) {
             if (!component.id && !component.name && !component.serialNo) {
@@ -510,18 +537,24 @@ var vm = new Vue({
         },
         addResEquipParam: function (param) {
             if (this.resBaseInfo.resEquipParamList.length) {
-                var equipParam = this.resBaseInfo.resEquipParamList[this.resBaseInfo.resEquipParamList.length - 1];
-                if (!equipParam.name || !$.trim(equipParam.name)) {
-                    alert("请输入参数名称");
-                    return;
-                }
-                if (!equipParam.value || !$.trim(equipParam.value)) {
-                    alert("请输入参数值");
+                if (!this.checkResEquipParam()) {
                     return;
                 }
             }
             this.resBaseInfo.resEquipParamList.push({});
             //$myValidator.resetBySelector("#table_resComponent");
+        },
+        checkResEquipParam: function () {
+            var equipParam = vm.resBaseInfo.resEquipParamList[vm.resBaseInfo.resEquipParamList.length - 1];
+            if (!equipParam.name || !$.trim(equipParam.name)) {
+                alert("请输入参数名称");
+                return false;
+            }
+            if (!equipParam.value || !$.trim(equipParam.value)) {
+                alert("请输入参数值");
+                return false;
+            }
+            return true;
         },
         deleteResEquipParam: function (equipParam, index) {
             if (!equipParam.id && !equipParam.name && !equipParam.value) {
@@ -794,6 +827,27 @@ var $myValidator = function () {
                         childSelector: "#tbody_resComponent tr",
                         value: 1,
                         msg: "请添加部件信息"
+                    }
+                },
+                tabId: "link_resBaseInfo"
+            },
+            {
+                selector: "input[id='resBaseInfo.objId']",
+                blurs: ["remote"],
+                noTriggerEvents: ["remote"],
+                validateMethod: {
+                    remote: {
+                        url : baseURL + 'sys/commoncheck/checkName',
+                        value: {
+                            elements: ["input[id='resBaseInfo.id']", "input[id='resBaseInfo.objId']"],
+                            keys: ["id", "objId"],
+                            id: "id",
+                            name: "objId",
+                            daoName: "resBaseInfoDao",
+                            noCheckWhenValueEmpty: true
+                        },
+                        msg: "三维图形对象ID已存在！",
+                        callback: null
                     }
                 },
                 tabId: "link_resBaseInfo"

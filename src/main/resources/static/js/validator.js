@@ -195,16 +195,17 @@ var $validator = function(){
                         return validResult.result;
                     },
                     remote: function (validateItem) {
+                        var checkParam = validateItem.value;
                         var param = {
-                            daoName: validateItem.value.daoName,
+                            daoName: checkParam.daoName,
                             condition: {}
                         };
                         var action = 2;
                         var idValue;
-                        for (var i = 0; i < validateItem.value.elements.length; i++) {
-                            var elem = validateItem.value.elements[i];
-                            var key = validateItem.value.keys[i];
-                            if (key == validateItem.value.id) {
+                        for (var i = 0; i < checkParam.elements.length; i++) {
+                            var elem = checkParam.elements[i];
+                            var key = checkParam.keys[i];
+                            if (key == checkParam.id) {
                                 idValue = $(elem).val();
                                 if (!idValue) {
                                     action = 1;
@@ -213,17 +214,22 @@ var $validator = function(){
                             }
                             param.condition[key] = $.trim($(elem).val());
                         }
+                        if (checkParam.noCheckWhenValueEmpty && !param.condition[checkParam.name]) {
+                            return true;
+                        }
+                        globalCloseLoading = true;
                         $.ajax({
                             type: "POST",
                             url: validateItem.url,
                             contentType: "application/json",
                             data: JSON.stringify(param),
                             success: function(r) {
+                                globalCloseLoading = false;
                                 if (action == 1 && r.data.length == 0) {//validate ok
                                     validateOK(validateItem);
                                     _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: true}
-                                } else if (action ==2) {
-                                    if (r.data.length == 0 || r.data[0][validateItem.value.id] == idValue) {
+                                } else if (action == 2) {
+                                    if (r.data.length == 0 || r.data[0][checkParam.id] == idValue) {
                                         validateOK(validateItem);
                                         _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: true}
                                     } else {
@@ -235,6 +241,9 @@ var $validator = function(){
                                     _validateObj.remoteResult[validateItem.jqObj.prop("id")] = {result: false, msg: validateItem.msg};
                                 }
                                 validateItem.callback && validateItem.callback(r);
+                            },
+                            error: function () {
+                                globalCloseLoading = false;
                             }
                         });
                         return true;
