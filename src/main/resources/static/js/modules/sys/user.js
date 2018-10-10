@@ -67,7 +67,7 @@ var vm = new Vue({
 			vm.title = "新增";
 			vm.roleList = {};
 			vm.user = {status:1,roleIdList:[]};
-			
+            _validator.resetAll();
 			//获取角色信息
 			this.getRoleList();
 		},
@@ -76,7 +76,7 @@ var vm = new Vue({
 			if(userId == null){
 				return ;
 			}
-			
+            _validator.resetAll();
 			vm.showList = false;
             vm.title = "修改";
 			

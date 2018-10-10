@@ -283,6 +283,11 @@ var $validator = function(){
                     }
                 });
             };
+            function getValidateItemById(id) {
+                return $.grep(_validateObj.config.items, function (item, i) {
+                    return $(item.selector).prop("id") == id;
+                })[0];
+            }
             function scroll2Dom(item) {
                 if (item.tabId && !$("#" + item.tabId).parent("li").hasClass("active")) {
                     $("#" + item.tabId).click();
@@ -334,9 +339,7 @@ var $validator = function(){
                                     jqObj: id.indexOf(".") > 0 ? $("input[id='" + id + "']") : $("#" + id),
                                     msg: _validateObj.remoteResult[id].msg
                                 });
-                                scroll2Dom($.grep(_validateObj.config.items, function (item, i) {
-                                    return $(item.selector).prop("id") == id;
-                                })[0]);
+                                scroll2Dom(getValidateItemById(id));
                                 return false;
                             }
                         }
@@ -361,6 +364,14 @@ var $validator = function(){
                         var item = _validateObj.config.items[i];
                         if (item.hasError) {
                             this.resetBySelector(item.selector);
+                        }
+                    }
+                    if (_validateObj.remoteResult) {
+                        for (var id in _validateObj.remoteResult) {
+                            if (!_validateObj.remoteResult[id].result) {
+                                var item = getValidateItemById(id);
+                                this.resetBySelector(item.selector);
+                            }
                         }
                     }
                 }
