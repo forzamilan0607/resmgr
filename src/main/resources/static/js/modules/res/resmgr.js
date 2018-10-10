@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     $("#jqGrid").jqGrid({
         url: baseURL + 'res/resmgr/list',
-        datatype: "local",
+        datatype: "json",
         colModel: [
 			{ label: '资源名称', name: 'name', index: 'name', width: 180 },
 			{ label: '资源类别', name: 'resTypeId', index: 'res_type_id', width: 120, formatter: function (value, options, row) {
@@ -503,16 +503,31 @@ var vm = new Vue({
             $myValidator.resetBySelector("#table_resComponent");
         },
         checkResComponent: function () {
-            var component = vm.resBaseInfo.resComponentList[vm.resBaseInfo.resComponentList.length - 1];
+	        var index = vm.resBaseInfo.resComponentList.length - 1;
+            var component = vm.resBaseInfo.resComponentList[index];
             if (!component.name || !$.trim(component.name)) {
-                alert("请输入部件名称");
+                vm.showResComponentErrorMsg("请输入部件名称", index, 1);
                 return false;
             }
             if (!component.serialNo || !$.trim(component.serialNo)) {
-                alert("请输入序列号");
+                vm.showResComponentErrorMsg("请输入序列号", index, 2);
                 return false;
             }
             return true;
+        },
+        showResComponentErrorMsg: function (errMsg, index, type) {
+            $("#link_resBaseInfo").click();
+            $("html,body").animate({scrollTop: $("#table_resComponent").offset().top}, 500);
+            alert(errMsg, function () {
+                $(type == 1 ? "input[name='component.name']" : "input[name='component.serialNo']")[index].focus();
+            });
+        },
+        showResEquipParamErrorMsg: function (errMsg, index, type) {
+            $("#link_resInstallConfig").click();
+            $("html,body").animate({scrollTop: $("#table_resEquipParam").offset().top}, 500);
+            alert(errMsg, function () {
+                $(type == 1 ? "input[name='param.name']" : "input[name='param.value']")[index].focus();
+            });
         },
         getRepeatedKeyIndex: function (key, data) {
             var firstValue = data[0][key];
@@ -545,13 +560,14 @@ var vm = new Vue({
             //$myValidator.resetBySelector("#table_resComponent");
         },
         checkResEquipParam: function () {
-            var equipParam = vm.resBaseInfo.resEquipParamList[vm.resBaseInfo.resEquipParamList.length - 1];
+	        var index = vm.resBaseInfo.resEquipParamList.length - 1;
+            var equipParam = vm.resBaseInfo.resEquipParamList[index];
             if (!equipParam.name || !$.trim(equipParam.name)) {
-                alert("请输入参数名称");
+                vm.showResEquipParamErrorMsg("请输入参数名称", index, 1);
                 return false;
             }
             if (!equipParam.value || !$.trim(equipParam.value)) {
-                alert("请输入参数值");
+                vm.showResEquipParamErrorMsg("请输入参数值", index, 1);
                 return false;
             }
             return true;
