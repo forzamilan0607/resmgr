@@ -330,10 +330,14 @@ var $validator = function(){
                     if (_validateObj.remoteResult) {
                         for (var id in _validateObj.remoteResult) {
                             if (!_validateObj.remoteResult[id].result) {
-                                _validateObj.validateResult = validateFail({
-                                    jqObj: $("#" + id),
+                                validateFail({
+                                    jqObj: id.indexOf(".") > 0 ? $("input[id='" + id + "']") : $("#" + id),
                                     msg: _validateObj.remoteResult[id].msg
-                                })
+                                });
+                                scroll2Dom($.grep(_validateObj.config.items, function (item, i) {
+                                    return $(item.selector).prop("id") == id;
+                                })[0]);
+                                return false;
                             }
                         }
                     }
