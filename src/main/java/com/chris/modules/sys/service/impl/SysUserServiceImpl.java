@@ -88,11 +88,11 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	@Transactional
 	public void update(SysUserEntity user) {
-		if(StringUtils.isBlank(user.getPassword())){
+		/*if(StringUtils.isBlank(user.getPassword())){
 			user.setPassword(null);
 		}else{
 			user.setPassword(new Sha256Hash(user.getPassword(), user.getSalt()).toHex());
-		}
+		}*/
 		sysUserDao.update(user);
 		
 		//检查角色是否越权

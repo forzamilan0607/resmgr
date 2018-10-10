@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.chris.common.utils.*;
 import com.chris.modules.res.dto.LocationParamDTO;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -49,7 +50,7 @@ public class LocationController {
 	}
 
 	@RequestMapping("/queryLocationListByCondition")
-	@RequiresPermissions("res:location:list")
+	@RequiresPermissions(value = {"res:location:list", "res:resmgr:save"},logical= Logical.OR)
 	public CommonResponse queryLocationListByCondition(@RequestBody LocationParamDTO param){
 	    if (StringUtils.isEmpty(param.getDeptId())) {
             param.setDeptId(ShiroUtils.getUserEntity().getDeptId());

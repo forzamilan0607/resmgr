@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.chris.common.utils.CommonResponse;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class SysStaffController {
 	}
 
 	@RequestMapping("/getStaffTree")
-	@RequiresPermissions("sys:sysstaff:list")
+	@RequiresPermissions(value = {"sys:sysstaff:list", "res:resmgr:save"},logical= Logical.OR)
 	public CommonResponse getStaffTree(@RequestParam Map<String, Object> params){
        return CommonResponse.getSuccessResponse().setData(this.sysStaffService.queryList(new HashMap<>()));
 	}

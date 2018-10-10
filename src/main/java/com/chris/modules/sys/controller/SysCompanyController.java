@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.chris.common.utils.CommonResponse;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class SysCompanyController {
 	 * 列表
 	 */
 	@RequestMapping("/listAll")
-	@RequiresPermissions("sys:syscompany:list")
+	@RequiresPermissions(value = {"sys:syscompany:list", "res:resmgr:save"},logical= Logical.OR)
 	public CommonResponse listAll(@RequestBody SysCompanyEntity param){
 		List<SysCompanyEntity> companyList = this.sysCompanyService.queryCompanyListByCondition(param);
 		return CommonResponse.getSuccessResponse().setData(companyList);
