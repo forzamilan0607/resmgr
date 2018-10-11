@@ -231,7 +231,7 @@ var vm = new Vue({
                 // this.resBaseInfo.series = null;
                 return data.concat($.grep(this.dataDictList, function (item, i) {
                     return item.type == 'RES_TYPE'
-                }));
+                })).sort((a,b) => a.sortOrder - b.sortOrder);
             }
             return data;
         },
