@@ -341,12 +341,13 @@ var vm = new Vue({
 			clearObjValue(vm.resPurchase);
 			clearObjValue(vm.resMaintenance);
 			clearObjValue(vm.resInstallConfig);
-            $("div.panel-body").find("table.table-bordered").each(function() {console.log($(this).find("tbody").children("tr").remove())});
             $("input[id='resBaseInfo.factoryTime']").val("");
             $("input[id='resMaintenance.warrantyStartDate']").val("");
             $("input[id='resMaintenance.warrantyEndDate']").val("");
-            $myValidator.resetAll();
             $("#link_resBaseInfo").trigger("click");
+            setTimeout(function () {
+                $myValidator.resetAll();
+            }, 300);
 		},
 		update: function (event) {
 			var id = getSelectedRow();

@@ -124,9 +124,7 @@ function clearObjValue(obj) {
         for (var attr in obj) {
             if (obj[attr]) {
                 if (typeof obj[attr] === "object") {
-                    if (obj[attr] instanceof Object) {
-                        clearObjValue(obj[attr]);
-                    } else if (obj[attr] instanceof Array) {
+                    if (obj[attr] instanceof Array) {
                         obj[attr].length = 0;
                         // TODO 数组处理是直接置为 0
                         /*for (var i = 0; i < obj[attr].length; i++) {
@@ -134,6 +132,8 @@ function clearObjValue(obj) {
                                 clearObjValue(obj[attr][i]);
                             }
                         }*/
+                    } else if (obj[attr] instanceof Object) {
+                        clearObjValue(obj[attr]);
                     } else {
                         obj[attr] = null;
                     }

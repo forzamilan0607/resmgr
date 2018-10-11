@@ -270,6 +270,7 @@ var $validator = function(){
                     $(item.selector).unbind(eventName).bind(eventName, function () {
                         $.each(item[triggerEventNames], function (index, eventItem) {
                             if (!doValidate(item, eventItem)) {
+                                item.hasError = true;
                                 return false;
                             }
                         });
@@ -364,6 +365,7 @@ var $validator = function(){
                         var item = _validateObj.config.items[i];
                         if (item.hasError) {
                             this.resetBySelector(item.selector);
+                            item.hasError = false;
                         }
                     }
                     if (_validateObj.remoteResult) {
@@ -371,6 +373,7 @@ var $validator = function(){
                             if (!_validateObj.remoteResult[id].result) {
                                 var item = getValidateItemById(id);
                                 this.resetBySelector(item.selector);
+                                item.hasError = false;
                             }
                         }
                     }
