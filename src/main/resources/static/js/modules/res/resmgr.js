@@ -376,8 +376,13 @@ var vm = new Vue({
 			if (!$myValidator.validateResInfo() || !$myValidator.validatePurchase() || !$myValidator.validateMaintenance()) {
 			    return;
             }
-            if (!vm.checkResComponent()  || !vm.checkResEquipParam()) {
+            if (!vm.checkResComponent()) {
 			    return;
+            }
+            if (vm.resBaseInfo.resEquipParamList && vm.resBaseInfo.resEquipParamList.length) {
+			    if (!vm.checkResEquipParam()) {
+			        return;
+                }
             }
             var repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resComponentList);
             if (repeatedKeyIndex > 0) {
