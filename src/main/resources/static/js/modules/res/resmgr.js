@@ -379,11 +379,6 @@ var vm = new Vue({
             if (!vm.checkResComponent()) {
 			    return;
             }
-            if (vm.resBaseInfo.resEquipParamList && vm.resBaseInfo.resEquipParamList.length) {
-			    if (!vm.checkResEquipParam()) {
-			        return;
-                }
-            }
             var repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resComponentList);
             if (repeatedKeyIndex > 0) {
                 $("#link_resBaseInfo").click();
@@ -393,14 +388,19 @@ var vm = new Vue({
                 });
 			    return;
             }
-            repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resEquipParamList);
-            if (repeatedKeyIndex > 0) {
-                $("#link_resInstallConfig").click();
-                $("html,body").animate({scrollTop: $("#table_resEquipParam").offset().top}, 500);
-                alert("参数列表中存在相同的参数名称", function () {
-                    $("input[name='param.name']")[repeatedKeyIndex].select();
-                });
-                return;
+            if (vm.resBaseInfo.resEquipParamList && vm.resBaseInfo.resEquipParamList.length) {
+			    if (!vm.checkResEquipParam()) {
+			        return;
+                }
+                repeatedKeyIndex = vm.getRepeatedKeyIndex("name", vm.resBaseInfo.resEquipParamList);
+                if (repeatedKeyIndex > 0) {
+                    $("#link_resInstallConfig").click();
+                    $("html,body").animate({scrollTop: $("#table_resEquipParam").offset().top}, 500);
+                    alert("参数列表中存在相同的参数名称", function () {
+                        $("input[name='param.name']")[repeatedKeyIndex].select();
+                    });
+                    return;
+                }
             }
             vm.resBaseInfo.name = vm.resName;
 			vm.resMaintenance.warrantyStartDate = $("input[id='resMaintenance.warrantyStartDate']").val();
