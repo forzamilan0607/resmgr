@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Resources Management</title>
+  <title>资源设备管理系统</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
@@ -26,7 +26,20 @@
           height: 100%;
           content: "";
           background-image: url('img/login_bg.jpg');
-          background-size: cover;
+          background-size: 100% 100%;
+          -moz-background-size: 100% 100%
+      }
+      .login-box {
+          width: 27%;
+          margin: 7% auto auto 70%;
+      }
+      .login-box-body, .register-box-body {
+          background: #2520204a;
+          color: #666;
+      }
+      .login-box-msg {
+          font-size: 18px;
+          color: #f3eaeaa6;
       }
   </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,49 +49,48 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="login-bg">
-<div class="login-box" id="rrapp" v-cloak>
-  <div class="login-logo">
-    <b style="color:#5a5a8a">资源设备管理系统</b>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-      <p class="login-box-msg">管理员登录</p>
-      <div v-if="error" class="alert alert-danger alert-dismissible">
-        <h4 style="margin-bottom: 0px;" v-html="errorMsg"><i class="fa fa-exclamation-circle"></i> </h4>
-      </div>
-      <div class="form-group has-feedback">
-          <input type="text" class="form-control" v-model="form.username" placeholder="账号">
-          <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-          <input type="password" class="form-control" v-model="form.password" placeholder="密码">
-          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-          <input type="text" class="form-control" v-model="form.captcha" @keyup.enter="login" placeholder="验证码">
-          <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-          <img alt="如果看不清楚，请单击图片刷新！" class="pointer" :src="src" @click="refreshCode">
-          &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="refreshCode">点击刷新</a>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
+<body>
+<div class="login-bg">
+    <div class="login-box" id="rrapp" v-cloak>
+      <!-- /.login-logo -->
+      <div class="login-box-body">
+          <p class="login-box-msg">管理员登录</p>
+          <div v-if="error" class="alert alert-danger alert-dismissible">
+            <h4 style="margin-bottom: 0px;" v-html="errorMsg"><i class="fa fa-exclamation-circle"></i> </h4>
           </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="button" class="btn btn-primary btn-block btn-flat" @click="login">登录</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    <!-- /.social-auth-links -->
+          <div class="form-group has-feedback">
+              <input type="text" class="form-control" v-model="form.username" placeholder="账号">
+              <span class="glyphicon glyphicon-user form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+              <input type="password" class="form-control" v-model="form.password" placeholder="密码">
+              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+              <input type="text" class="form-control" v-model="form.captcha" @keyup.enter="login" placeholder="验证码">
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+              <img alt="如果看不清楚，请单击图片刷新！" class="pointer" style="width: 65%;" :src="src" @click="refreshCode">
+              &nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" @click="refreshCode">点击刷新</a>
+          </div>
 
-  </div>
-  <!-- /.login-box-body -->
+          <div class="row">
+            <div class="col-md-8">
+              <div class="checkbox icheck">
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary btn-block btn-flat" @click="login">登录</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        <!-- /.social-auth-links -->
+
+      </div>
+      <!-- /.login-box-body -->
+    </div>
 </div>
 <!-- /.login-box -->
 <script src="libs/jquery.min.js"></script>
