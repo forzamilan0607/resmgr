@@ -22,7 +22,7 @@ $(function () {
 			{ label: '修改人', name: 'updateUserId', index: 'update_user_id', width: 80 }			
         ],
 		viewrecords: true,
-        height: 385,
+        height: 370,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 

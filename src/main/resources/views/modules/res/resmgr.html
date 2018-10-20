@@ -57,7 +57,7 @@
 <div id="resMgrApp" v-cloak>
     <div v-show="showList">
         <div class="container">
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <div class="input-group col-sm-12">
                     <input type="hidden" v-model="queryParam.locationId" />
                     <input type="text" placeholder="位置" readonly="readonly" class="form-control" v-model="queryParam.locationName">
@@ -68,12 +68,12 @@
                     </span>
                 </div>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <select placeholder="资源类别" class="form-control" v-model="queryParam.resTypeId" >
                     <option  v-for="(resType,index) in resTypeList" :value="resType.id" :disabled="index == 0">{{resType.name}}</option>
                 </select>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <input type="text" class="form-control" v-model="queryParam.name" placeholder="设备名称" />
             </div>
             <div class="form-group">
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <div class="input-group col-sm-12">
                     <input type="hidden" v-model="queryParam.deptId" />
                     <input type="text" placeholder="所属部门" readonly="readonly" class="form-control" v-model="queryParam.deptName">
@@ -93,7 +93,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <div class="input-group col-sm-12">
                     <input type="hidden" v-model="queryParam.personResponsible" />
                     <input type="text" placeholder="责任人" readonly="readonly" class="form-control" v-model="queryParam.responsibleName">
@@ -104,7 +104,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-xs-3">
                 <div class="input-group col-sm-12">
                     <input type="hidden" v-model="queryParam.maintainCompany" />
                     <input type="text" placeholder="运维单位" readonly="readonly" class="form-control" v-model="queryParam.maintainCompanyName">

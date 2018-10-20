@@ -107,7 +107,7 @@ $(document).ready(function () {
 			{ label: '责任人', name: 'responsibleName', index: 'person_responsible', width: 60 }
         ],
 		viewrecords: true,
-        height: 385,
+        height: 320,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true,

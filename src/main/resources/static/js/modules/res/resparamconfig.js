@@ -9,7 +9,7 @@ $(function () {
 			{ label: '是否同步，1、是，0、否', name: 'isSync', index: 'is_sync', width: 80 }			
         ],
 		viewrecords: true,
-        height: 385,
+        height: 370,
         rowNum: 10,
 		rowList : [10,30,50],
         rownumbers: true, 

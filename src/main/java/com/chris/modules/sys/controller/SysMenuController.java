@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 系统菜单
@@ -51,8 +52,10 @@ public class SysMenuController extends AbstractController {
 	@RequiresPermissions("sys:menu:list")
 	public List<SysMenuEntity> list(){
 		List<SysMenuEntity> menuList = sysMenuService.queryList(new HashMap<String, Object>());
-
-		return menuList;
+		List<Long> allMenuIds = menuList.stream().map(menu -> menu.getMenuId()).collect(Collectors.toList());
+		// 过滤掉父级 ID 不存在的菜单项
+		List<SysMenuEntity> resultMenuList = menuList.stream().filter(menu -> menu.getType() != 2 || allMenuIds.contains(menu.getParentId())).collect(Collectors.toList());
+		return resultMenuList;
 	}
 	
 	/**
