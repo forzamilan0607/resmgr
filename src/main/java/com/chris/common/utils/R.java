@@ -1,5 +1,6 @@
 package com.chris.common.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -54,5 +55,9 @@ public class R extends HashMap<String, Object> {
 	public R put(String key, Object value) {
 		super.put(key, value);
 		return this;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(JSONObject.toJSONString(R.ok().put("aa", "chris")));
 	}
 }
